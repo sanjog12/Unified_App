@@ -1,0 +1,346 @@
+
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:unified_reminder/models/UpComingComplianceObject.dart';
+import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
+import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
+import 'package:unified_reminder/styles/colors.dart';
+import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/validators.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
+
+class GSTPayment extends StatefulWidget {
+  final Client client;
+  final UpComingComplianceObject upComingComplianceObject;
+  const GSTPayment({Key key, this.upComingComplianceObject, this.client}) : super(key: key);
+  
+  @override
+  State<StatefulWidget> createState() {
+    return StateGSTRPayment();
+  }
+  
+}
+
+class StateGSTRPayment extends State<GSTPayment>{
+
+  
+  String selectedSection ;
+  String showDateOfPaymentDB = ' ';
+  String _showDateOfPayment = 'Select Date';
+  String nameOfFile='no file selected';
+  
+  File file;
+  
+  bool loadingSave = false;
+  
+  DateTime selectedDateOfPayment = DateTime.now();
+  
+  GSTPaymentObject gstPaymentObject = GSTPaymentObject();
+  
+  GlobalKey<FormState> key = GlobalKey<FormState>();
+
+
+
+  Future<Null> selectDateTime(BuildContext context) async{
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDateOfPayment,
+        firstDate: DateTime(2019),
+        lastDate: DateTime(2021)
+    );
+  
+    if(picked != null && picked != selectedDateOfPayment){
+      setState(() {
+        selectedDateOfPayment= picked;
+        print(picked);
+        showDateOfPaymentDB = DateFormat('dd-MM-yyyy').format(picked);
+        gstPaymentObject.dueDate = showDateOfPaymentDB;
+        _showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
+      });
+    }
+  }
+  
+  
+  @override
+  Widget build(BuildContext context) {
+    
+    final ThemeData _theme = Theme.of(context);
+    
+    return Scaffold(
+      
+        appBar: AppBar(
+          title: Text("GST Payment"),
+        ),
+        
+        
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(24.0),
+            child: Form(
+              key: key,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text('GST',style: _theme.textTheme.headline.merge(TextStyle(
+                      fontSize: 28
+                  )
+                  ),),
+                  SizedBox(height: 10,),
+                  Text('Enter your details to make payment for GST',style: _theme.textTheme.subhead.merge(TextStyle(
+                    fontSize: 15
+                  )),),
+                  
+                  SizedBox(height: 50,),
+                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text('Constitution',style: TextStyle(
+                      ),),
+                      SizedBox(height: 10,),
+                      Container(
+                        child: DropdownButtonFormField(
+                          isExpanded: true,
+                          hint: Text('Section'),
+                          validator: (String value){
+                            return requiredField(value, 'Constitution');
+                          },
+      
+                          decoration: buildCustomInput(),
+                          items: [
+                            DropdownMenuItem(
+                              child: Text('GSTR 3B'),
+                              value: 'GSTR 3B',
+                            ),
+          
+                            DropdownMenuItem(
+                              child: Text('GSTR 1'),
+                              value: 'GSTR 1',
+                            ),
+          
+                            DropdownMenuItem(
+                              child: Text('GST RET-1'),
+                              value: 'GST RET-1',
+                            ),
+          
+                            DropdownMenuItem(
+                              child: Text('ANX-1'),
+                              value: 'ANX-1',
+                            ),
+                            DropdownMenuItem(
+                              child: Text('ANX-2'),
+                              value: 'ANX-2',
+                            ),
+                            DropdownMenuItem(
+                              child: Text('GST RET-2'),
+                              value: 'GST RET-2',
+                            ),
+          
+                            DropdownMenuItem(
+                              child: Text('GST RET-3'),
+                              value: 'GST RET-3',
+                            ),
+                          ],
+                          value: selectedSection,
+                          onChanged: (String value){
+                            gstPaymentObject.section = value;
+                            setState(() {
+                              selectedSection= value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+
+                  
+                  SizedBox(height: 30,),
+                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text('Challan Number'),
+                      SizedBox(height: 10,),
+                      
+                      TextFormField(
+                        decoration: buildCustomInput(hintText: 'Challan Number'),
+                        validator:(String value)=>requiredField(value, 'Challan Number'),
+                        onSaved: (String value){
+                          gstPaymentObject.challanNumber= value;
+                        },
+                      )
+                    ],
+                  ),
+                  
+                  SizedBox(height: 30,),
+                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text('Amount of Payment'),
+                      SizedBox(height: 10,),
+                      TextFormField(
+                        decoration: buildCustomInput(hintText: 'Amount of Payment'),
+                        validator: (String value){
+                          return requiredField(value, 'Amount of Payment');
+                        },
+                        onSaved: (String value){
+                          gstPaymentObject.amountOfPayment = value;
+                        },
+                      )
+                    ],
+                  ),
+                  
+                  SizedBox(height: 30,),
+                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text('Date of Payment'),
+                      SizedBox(height: 10,),
+                      Container(
+                        decoration: roundedCornerButton,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              '$_showDateOfPayment',
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                selectDateTime(context);
+                              },
+                              child: Icon(Icons.date_range),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30,),
+                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text('Add Attachment'),
+                      SizedBox(height: 10,),
+                      Container(
+                        decoration: roundedCornerButton,
+                        height: 50,
+                        child: FlatButton(
+                          onPressed: () async{
+                            file = await FilePicker.getFile();
+                            List<String> temp = file.path.split('/');
+                            print(temp.last);
+                            setState(() {
+                              nameOfFile = temp.last;
+                            });
+                            gstPaymentObject.addAttachment = nameOfFile;
+                          },
+      
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.attach_file),
+                              SizedBox(width: 6),
+                              Text(nameOfFile),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                      
+                      SizedBox(height: 50,),
+                      Container(
+                        decoration: roundedCornerButton,
+                        height: 50.0,
+                        child: loadingSave? Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>
+                              (Colors.white70),
+                          ),
+                        ):FlatButton(
+                          child: Text("Save Record"),
+                          onPressed: () {
+                            savePayment();
+                          },
+                        ),
+                      ),
+                  SizedBox(height: 20,),
+                  helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+    );
+  }
+  
+  
+  Future<void> savePayment() async{
+    print('1');
+    try{
+    if(key.currentState.validate()){
+      print('2');
+      key.currentState.save();
+      setState(() {
+        loadingSave= true;
+      });
+      print('3');
+      await PaymentRecordToDataBase().AddGSTPayment(gstPaymentObject, widget.client, file);
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+          msg: "Date has Been Recorded",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+          backgroundColor: Color(0xff666666),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      
+      
+    }else{
+      print('Something in GSTRPayment Screen wrong with SavePayment ');
+    }
+    }on PlatformException catch(e){
+      print('here');
+      Fluttertoast.showToast(
+          msg: e.message,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+          backgroundColor: Color(0xff666666),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      setState(() {
+        loadingSave=false;
+      });
+    }catch(e){
+      print(e);
+      Fluttertoast.showToast(
+          msg: e.message,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+          backgroundColor: Color(0xff666666),
+          textColor: Colors.white,
+          fontSize: 16.0);
+      setState(() {
+        loadingSave=false;
+      });
+    }
+  }
+}

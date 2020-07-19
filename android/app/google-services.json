@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "853552960661",
+    "firebase_url": "https://unified-reminder-995d3.firebaseio.com",
+    "project_id": "unified-reminder-995d3",
+    "storage_bucket": "unified-reminder-995d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853552960661:android:9d87929a99587f9914379c",
+        "android_client_info": {
+          "package_name": "com.unifiedsolutions.reminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853552960661-v2rfh38vdt2ikhd845qk86i8oj1i2nl9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unifiedsolutions.reminder",
+            "certificate_hash": "16c5d4f592264320c61d5be0b9c0adf5da86886d"
+          }
+        },
+        {
+          "client_id": "853552960661-1dkt6hl09kje4dkv30totgg1ef78b3bm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwAu_GlhgP7Ll0YVBNk_-4C9NWz7Ld6A4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "853552960661-1dkt6hl09kje4dkv30totgg1ef78b3bm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-4569649492742996~2564391573"
+    }
+  ],
+  "configuration_version": "1"
+}
