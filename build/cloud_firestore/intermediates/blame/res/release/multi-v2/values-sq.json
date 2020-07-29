@@ -4,24 +4,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\cloud_firestore\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-sq\\values-sq.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\59c9f96d7f9edfdb0eca1a9021802f93\\jetified-play-services-basement-17.0.0\\res\\values-sq\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "187",
-                        "endOffsets": "434"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1324",
-                        "endColumns": "187",
-                        "endOffsets": "1507"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\25f737908970f0e5f2feb2f6dabea9da\\core-1.1.0\\res\\values-sq\\values-sq.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\26083f5b35ad786b658dd26ac3ec1001\\core-1.1.0\\res\\values-sq\\values-sq.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\0a1c6e39a59ef8b02c44a12546b4d193\\jetified-play-services-base-17.0.0\\res\\values-sq\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ecb082be72bad0592949f79346c0cbf9\\jetified-play-services-base-17.0.0\\res\\values-sq\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -52,6 +35,23 @@
                         "startOffsets": "105,214,419,558,667,887,1023,1179,1512,1741,1851,2057,2197,2425,2639,2734,2831",
                         "endColumns": "108,204,138,108,219,135,155,144,228,109,205,139,227,213,94,96,110",
                         "endOffsets": "209,414,553,662,882,1018,1174,1319,1736,1846,2052,2192,2420,2634,2729,2826,2937"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ad70940fe2fd311bc544a90c642c477f\\jetified-play-services-basement-17.0.0\\res\\values-sq\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "187",
+                        "endOffsets": "434"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1324",
+                        "endColumns": "187",
+                        "endOffsets": "1507"
                     }
                 }
             ]
@@ -60,24 +60,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\cloud_firestore\\intermediates\\res\\merged\\release\\values-sq\\values-sq.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\59c9f96d7f9edfdb0eca1a9021802f93\\jetified-play-services-basement-17.0.0\\res\\values-sq\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "187",
-                        "endOffsets": "434"
-                    },
-                    "to": {
-                        "startLines": "10",
-                        "startColumns": "4",
-                        "startOffsets": "1324",
-                        "endColumns": "187",
-                        "endOffsets": "1507"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\25f737908970f0e5f2feb2f6dabea9da\\core-1.1.0\\res\\values-sq\\values-sq.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\26083f5b35ad786b658dd26ac3ec1001\\core-1.1.0\\res\\values-sq\\values-sq.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -94,7 +77,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\0a1c6e39a59ef8b02c44a12546b4d193\\jetified-play-services-base-17.0.0\\res\\values-sq\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ecb082be72bad0592949f79346c0cbf9\\jetified-play-services-base-17.0.0\\res\\values-sq\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -108,6 +91,23 @@
                         "startOffsets": "105,214,419,558,667,887,1023,1179,1512,1741,1851,2057,2197,2425,2639,2734,2831",
                         "endColumns": "108,204,138,108,219,135,155,144,228,109,205,139,227,213,94,96,110",
                         "endOffsets": "209,414,553,662,882,1018,1174,1319,1736,1846,2052,2192,2420,2634,2729,2826,2937"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ad70940fe2fd311bc544a90c642c477f\\jetified-play-services-basement-17.0.0\\res\\values-sq\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "187",
+                        "endOffsets": "434"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "1324",
+                        "endColumns": "187",
+                        "endOffsets": "1507"
                     }
                 }
             ]

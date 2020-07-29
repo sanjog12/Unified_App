@@ -61,59 +61,29 @@ class FirestoreService {
     });
     return clientsData;
   }
-
-//
-//  Stream getUserCompliances(String firebaseUserId) {
-//    dbf = firebaseDatabase
-//        .reference()
-//        .child(FsUserCompliances)
-//        .child(firebaseUserId)
-//        .child('compliances');
-//
-//    dbf.once().then((DataSnapshot snapshot) {
-//      Map<dynamic, dynamic> values = snapshot.value;
-//      values.forEach((key, values) {
-//        print(values["name"]);
-//      });
-//    });
-
-//    return _firestore
-//        .collection(FsUserCompliances)
-//        .document(firebaseUserId)
-//        .snapshots();
-//  }
-
-//  Future<dynamic> getClints() async {
-//    String userFirebaseId = await SharedPrefs.getStringPreference("uid");
-//
-//    return _firestore
-//        .collection(FsUserClients)
-//        .document(userFirebaseId)
-//        .snapshots();
-//  }
-
-//  Future<dynamic> getClientsData(String firebaseUserId) {
-//    dbf = firebaseDatabase
-//        .reference()
-//        .child(FsUserClients)
-//        .child(firebaseUserId)
-//        .child('clients');
-////    Stream data = dbf.onValue;
-//    dbf.once().then((DataSnapshot snapshot) {
-//      Map<dynamic, dynamic> values = snapshot.value;
-//      values.forEach((key, values) {
-//        print(values["name"]);
-//      });
-//    });
-//  }
-
-//  Stream getClients(String firebaseUserId) {
-////    return _firestore
-////        .collection(FsUserClients)
-////        .document(firebaseUserId)
-////        .collection('clients')
-////        .snapshots();
-//  }
+  
+  editClientData(Client client,String firebaseUID){
+    
+    try {
+      dbf = firebaseDatabase.reference();
+  
+      dbf
+          .child(FsUserClients)
+          .child(firebaseUID)
+          .child('clients')
+          .child(client.key)
+          .update({
+        'name': client.name,
+        'constitution': client.constitution,
+        'company': client.company,
+        'natureOfBusiness': client.natureOfBusiness,
+        'email': client.email,
+        'phone': client.phone
+      });
+    }catch(e){
+      print(e);
+    }
+  }
 
   String getUserProgress(String firebaseUserId) {
     return _firestore
@@ -124,11 +94,7 @@ class FirestoreService {
   }
 
   dynamic getUserDetails(firebaseUserId) {
-//    print(_firestore
-//        .collection(FsUsersPath)
-//        .document(firebaseUserId)
-//        .snapshots()
-//        .toString());
+
     return _firestore
         .collection(FsUsersPath)
         .document('firebaseUserId')
@@ -140,14 +106,7 @@ class FirestoreService {
   Future<bool> addClient(Client client, List<Compliance> compliances) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
-
-//    List _clients = clients.map<Client>((client) {
-//      return client["client"];
-//    }).toList();
-//    List _compliances = client.map((compliance) {
-//      return (compliance["compliances"]
-//          .where((Compliance comp) => comp.checked)).toList();
-//    }).toList();
+    
     List mails = [];
     try {
       Map<String, String> clientData = {
@@ -158,6 +117,7 @@ class FirestoreService {
         'email': client.email,
         'phone': client.phone
       };
+      
       String clientEmail = client.email.replaceAll('.', ',');
       print(clientEmail);
       dbf
@@ -174,6 +134,7 @@ class FirestoreService {
             'title': items.title,
             'value': items.value
           };
+          
           dbf
               .child(FsUserCompliances)
               .child(firebaseUserId)
@@ -181,30 +142,8 @@ class FirestoreService {
               .child(clientEmail)
               .push()
               .set(clientCompliances);
-//          _firestore
-//              .collection(FsUserCompliances)
-//              .document(firebaseUserId)
-//              .collection('compliances')
-//              .add(clientCompliances);
         }
       }
-
-//          .collection(FsUserClients)
-//          .document(firebaseUserId)
-//          .collection('clients')
-//          .add(clientData);
-//          .({"clients": Client.clientListToMap(_clients)});
-
-//      for (int j = 0; j < _compliances.length; j++) {
-//        mails.add(_clients[j].email);
-//      }
-//      _firestore
-//          .collection(FsUserCompliances)
-//          .document(firebaseUserId)
-//          .collection("compliances")
-//          .add();
-//              {"compliances": Compliance.complianceToMap(_compliances, mails)});
-//              {"compliances": Compliance.complianceToMap(_compliances, mails)});
       return true;
     } catch (e) {
       print("Here");
@@ -212,34 +151,4 @@ class FirestoreService {
       return false;
     }
   }
-//
-//  Future<bool> saveClients(List clients) async {
-//    // String firebaseUserId = await SharedPrefs.getStringPreference("uid");
-//    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
-//    List _clients = clients.map<Client>((client) {
-//      return client["client"];
-//    }).toList();
-//    List _compliances = clients.map((compliance) {
-//      return (compliance["compliances"]
-//          .where((Compliance comp) => comp.checked)).toList();
-//    }).toList();
-//    List mails = [];
-//    try {
-//      _firestore
-//          .collection(FsUserClients)
-//          .document(firebaseUserId)
-//          .setData({"clients": Client.clientListToMap(_clients)});
-//
-//      for (int j = 0; j < _compliances.length; j++) {
-//        mails.add(_clients[j].email);
-//      }
-//      _firestore.collection(FsUserCompliances).document(firebaseUserId).setData(
-//          {"compliances": Compliance.complianceToMap(_compliances, mails)});
-//      return true;
-//    } catch (e) {
-//      print("Here");
-//      print(e);
-//      return false;
-//    }
-//  }
 }

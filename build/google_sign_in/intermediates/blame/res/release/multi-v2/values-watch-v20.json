@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\google_sign_in\\intermediates\\res\\merged\\release\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\690147f983194aec8cf1a20c41009de7\\jetified-play-services-auth-16.0.1\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\8d4f4785b1c95710e09d9634463b0dee\\jetified-play-services-auth-16.0.1\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
@@ -26,7 +26,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\google_sign_in\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\690147f983194aec8cf1a20c41009de7\\jetified-play-services-auth-16.0.1\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\8d4f4785b1c95710e09d9634463b0dee\\jetified-play-services-auth-16.0.1\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",

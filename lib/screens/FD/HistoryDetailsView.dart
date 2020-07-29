@@ -9,6 +9,8 @@ import 'package:unified_reminder/models/payment/FDRecordObject.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
+import 'package:unified_reminder/utils/validators.dart';
 
 class FDPaymentRecordHistoryDetailsView extends StatefulWidget {
   final Client client;
@@ -426,7 +428,18 @@ class _FDPaymentRecordHistoryDetailsViewState
                         child: FlatButton(
                           child: Text("Delete Record"),
                           onPressed: () async{
-                            await showConfirmation(context);
+                            print("called");
+                            loadingDelete = true;
+                            bool t = false;
+                            t=await showConfirmationDialog(context);
+                            print("got");
+                            print(t);
+                            setState(() {
+                              t=t;
+                            });
+                            if(t){
+                              await deleteRecord();
+                            }
                           },
                         ),
                       ),
@@ -471,14 +484,7 @@ class _FDPaymentRecordHistoryDetailsViewState
        'termOfInvestment' : _fdRecordObject.termOfInvestment,
          });
     
-      Fluttertoast.showToast(
-          msg: "Changes Saved",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      recordEditToast();
     
     }on PlatformException catch(e){
       Fluttertoast.showToast(
@@ -563,15 +569,16 @@ class _FDPaymentRecordHistoryDetailsViewState
           .child(widget.client.email)
           .child(widget.keyDB)
           .remove();
-    
-      Fluttertoast.showToast(
-          msg: "Record Deleted",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      recordDeletedToast();
+      Navigator.pop(context);
+      Navigator.pop(context);
+//      Navigator.push(context,
+//          MaterialPageRoute(
+//              builder: (context) => HistoryForFD(
+//                client: widget.client,
+//              )
+//          )
+//      );
     
     }on PlatformException catch(e){
       Fluttertoast.showToast(

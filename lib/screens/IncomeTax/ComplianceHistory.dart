@@ -55,51 +55,55 @@ class _ComplianceHistoryForIncomeTaxState
                             child: Container(
                               decoration: roundedCornerButton,
                               margin: EdgeInsets.symmetric(vertical: 10.0),
-                              child: ListTile(
-                                title: Text(snapshot.data[index].date),
-                                subtitle: Column(
-                                  children: <Widget>[
-                                    Text(snapshot.data[index].type),
-                                    snapshot.data[index].type ==
-                                        'INCOME_TAX_Return' ?
-                                    Text("Tap to see uploaded challan if any",
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),) : Text(
-                                        ""),
-                                  ],
+                              child: Container(
+                                padding: EdgeInsets.all(05),
+                                child: ListTile(
+                                  title: Text(snapshot.data[index].date),
+                                  subtitle: Column(
+                                    children: <Widget>[
+                                      Text(snapshot.data[index].type),
+                                      snapshot.data[index].type ==
+                                          'INCOME_TAX_Return' ?
+                                      Text("Tap to see uploaded challan if any",
+                                        style: TextStyle(
+                                            fontStyle: FontStyle.italic),) : Text(
+                                          ""),
+                                    ],
+                                  ),
+                                  trailing:
+                                  Text(snapshot.data[index].type ==
+                                      'INCOME_TAX_Return'? " " :(snapshot.data[index].date=='Record Not found'?" ":"INR ${snapshot
+                                      .data[index].amount}")),
+                                  onTap: () {
+                                    if (snapshot.data[index].type ==
+                                        'INCOME_TAX') {
+                                      _getHistoryDetails(snapshot.data[index].key);
+                                    }
+                                    else
+                                      if (snapshot.data[index].type ==
+                                        'INCOME_TAX_Return') {
+                                      if (snapshot.data[index].amount != 'null') {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) => PDFViewer(
+                                                      pdf: snapshot.data[index].amount,
+                                                    )
+                                            )
+                                        );
+                                      }
+                                      else {
+                                        Fluttertoast.showToast(
+                                            msg: "No File Were Uploaded",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIos: 1,
+                                            backgroundColor: Color(0xff666666),
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      }
+                                    }
+                                  },
                                 ),
-                                trailing:
-                                Text(snapshot.data[index].type ==
-                                    'INCOME_TAX_Return' ? "" : "INR ${snapshot
-                                    .data[index].amount}"),
-                                onTap: () {
-                                  if (snapshot.data[index].type ==
-                                      'INCOME_TAX') {
-                                    _getHistoryDetails(snapshot.data[index].key);
-                                  }
-                                  else if (snapshot.data[index].type ==
-                                      'INCOME_TAX_Return') {
-                                    if (snapshot.data[index].amount != 'null') {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(
-                                              builder: (context) => PDFViewer(
-                                                    pdf: snapshot.data[index].amount,
-                                                  )
-                                          )
-                                      );
-                                    }
-                                    else {
-                                      Fluttertoast.showToast(
-                                          msg: "No File Were Uploaded",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIos: 1,
-                                          backgroundColor: Color(0xff666666),
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
-                                    }
-                                  }
-                                },
                               ),
                             ),
                           );
@@ -108,10 +112,15 @@ class _ComplianceHistoryForIncomeTaxState
                     }
                     else{
                       return Container(
-                        decoration: roundedCornerButton,
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        child: ListTile(
-                          title: Text("No Record Found"),
+                        height: 50,
+                        padding: EdgeInsets.all(15),
+                        child: Container(
+                          decoration: roundedCornerButton,
+                          height: 50,
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: ListTile(
+                            title: Text("No Record Found"),
+                          ),
                         ),
                       );
                     }

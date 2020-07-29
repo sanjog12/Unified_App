@@ -225,44 +225,52 @@ class _DashboardState extends State<Dashboard> {
                     shrinkWrap: true,
                     itemCount: upComingCompliancesList.length,
                   itemBuilder: (BuildContext context,int index){
-                    return upComingCompliancesList[index].label != " "?Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 10.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.0,
-                          )
-                        ),
-                        child: ListTile(
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              SizedBox(height: 10,),
-                              Text(upComingCompliancesList[index].name !=null ? upComingCompliancesList[index].name :' ',style: TextStyle(
-                                fontSize: 15,
-                              )),
-                              
-                              Divider(
-                                thickness: 1.5,
+                      if(upComingCompliancesList.length != 0){
+                        return upComingCompliancesList[index].label != " "?Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                )
+                            ),
+                            child: ListTile(
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  SizedBox(height: 10,),
+                                  Text(upComingCompliancesList[index].name !=null ? upComingCompliancesList[index].name :' ',style: TextStyle(
+                                    fontSize: 15,
+                                  )),
+                                  
+                                  Divider(
+                                    thickness: 1.5,
+                                  ),
+                                  
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
                               ),
                               
-                              SizedBox(
-                                height: 10,
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Text(' - ${upComingCompliancesList[index].label} due on ${upComingCompliancesList[index].date}  ${DateFormat("MMMM").format(DateTime.now())}'),
+                                  SizedBox(height: 10,)
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Text('${upComingCompliancesList[index].label} due on ${upComingCompliancesList[index].date}  ${DateFormat("MMMM").format(DateTime.now())}'),
-                              SizedBox(height: 10,)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ):Container();
+                        ):Container();
+                      }
+                      else{
+                        return Container(
+                          child: Text("Add Client First"),
+                        );
+                      }
                   },
               )
                 : Container(
@@ -274,7 +282,7 @@ class _DashboardState extends State<Dashboard> {
             SizedBox(height: 30,),
             
             ExpansionTile(
-              title: Text("Client"),
+              title: Text("Clients"),
               children:<Widget>[
                 clientLoad ?Container(
                   padding: EdgeInsets.all(15),

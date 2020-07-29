@@ -8,7 +8,7 @@ import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/widgets/ListView.dart';
 
-const String testDevice = 'Mobile_Id';
+const String testDevice = 'FDB28FC6E21EA8FD4E1EAB3899FBD45C';
 
 class ApplicableCompliances extends StatefulWidget {
   final Client client;
@@ -72,8 +72,6 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
     testDevices: testDevice != null ?<String>[testDevice] : null,
     nonPersonalizedAds: true,
-    contentUrl: 'https://flutter.io',
-    childDirected: false,
     keywords: <String>['game','mario'],
   );
 
@@ -83,7 +81,6 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
       firebaseUserId = _firebaseUserId;
     });
   }
-
   Future<List<Compliance>> _getUserCompliances() async {
     List<Compliance> clientsData = [];
     String clientEmail = widget.client.email.replaceAll('.', ',');
@@ -112,7 +109,11 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   @override
   void dispose() {
     super.dispose();
-    createBannerAd().dispose();
+    try {
+      createBannerAd().dispose();
+    }catch(e){
+      print(e);
+    }
   }
   
   @override

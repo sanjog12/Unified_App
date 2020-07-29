@@ -1,7 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Clients.dart';
-import 'package:unified_reminder/screens/ProUserProfileScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/ProUserProfileScreen.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
@@ -17,7 +19,18 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(height: 170.0, color: buttonColor),
+          Container(
+            height: 170.0,
+            decoration: BoxDecoration(
+              color: buttonColor,
+              image: DecorationImage(
+                image: AssetImage(
+                  "assets/images/splash_us_white.png"
+                )
+              ),
+            ),
+            child:Text("v1.0.0",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 14),textAlign: TextAlign.end,)
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(

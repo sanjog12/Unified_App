@@ -422,6 +422,4 @@ class _TDSPaymentState extends State<TDSPayment>{
           fontSize: 16.0);
     }
   }
-  
-  
 }

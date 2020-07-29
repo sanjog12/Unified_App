@@ -6,6 +6,7 @@ import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage>{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(
-                height: 70.0,
+                height: 50.0,
               ),
               Text(
                 "Welcome Back, ",
@@ -148,6 +149,10 @@ class _LoginPageState extends State<LoginPage>{
                     ),
 	                  
 	                  SizedBox(height:30),
+	                  Text("OR",textAlign: TextAlign.center,),
+	                  SizedBox(
+                      height: 20,
+                    ),
 	
 	                  Container(
                       decoration: roundedCornerButton,
@@ -186,23 +191,9 @@ class _LoginPageState extends State<LoginPage>{
                                   DashboardRoute);
                             } else {}
                           }on PlatformException catch (e) {
-                            Fluttertoast.showToast(
-                                msg: e.message,
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIos: 1,
-                                backgroundColor: Color(0xff666666),
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            flutterToast(message: "Something went Wrong");
                           } catch(e){
-                            Fluttertoast.showToast(
-                                msg: "Unable to login at this moment",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIos: 1,
-                                backgroundColor: Color(0xff666666),
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            flutterToast(message: "Can't Sign In at this Moment");
                           } finally {
                             this.setState(() {
                               gButtonLoading = false;

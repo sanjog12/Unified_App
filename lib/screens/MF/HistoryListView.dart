@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
+import 'package:unified_reminder/screens/MF/HistoryTrial.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
@@ -679,6 +680,15 @@ class _HistoryViewState extends State<HistoryView> {
 					backgroundColor: Color(0xff666666),
 					textColor: Colors.white,
 					fontSize: 16.0);
+			Navigator.pop(context);
+			Navigator.pop(context);
+//			Navigator.push(context,
+//				MaterialPageRoute(
+//					builder: (context)=> HistoryMFTry(
+//						client: widget.client,
+//					)
+//				)
+//			);
 			
 		}on PlatformException catch(e){
 			Fluttertoast.showToast(

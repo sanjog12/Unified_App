@@ -1,11 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/clientOptedCompliances.dart';
-import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
-import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';

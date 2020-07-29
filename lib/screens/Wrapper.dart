@@ -7,7 +7,6 @@ import 'package:unified_reminder/screens/LoginPage.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/LocalNotificationServices.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 
 
 
@@ -78,7 +77,7 @@ class _WrapperState extends State<Wrapper> {
     super.initState();
     message();
     getUserFirebaseId();
-    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
+//    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
   }
 
   Future<String> getUserFirebaseId() async {

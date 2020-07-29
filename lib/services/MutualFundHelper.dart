@@ -75,7 +75,6 @@ class MutualFundHelper {
       }
       mutualFundDetailObject = await MutualFundHelper().getMutualFundNAV(
           code, checkDate, checkDate);
-      print(" "+mutualFundDetailObject.date);
       checkDate = DateChange.addDayToDate(checkDate, -1);
     }
     print(d.date);

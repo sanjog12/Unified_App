@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
+import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -467,6 +468,15 @@ class _EPFRecordHistoryDetailsViewState2
 					backgroundColor: Color(0xff666666),
 					textColor: Colors.white,
 					fontSize: 16.0);
+			Navigator.pop(context);
+			Navigator.pop(context);
+			Navigator.push(context,
+				MaterialPageRoute(
+					builder: (context)=> ComplianceHistoryForEPF(
+						client: widget.client,
+					)
+				)
+			);
 			
 		}on PlatformException catch(e){
 			Fluttertoast.showToast(
@@ -540,7 +550,7 @@ class _EPFRecordHistoryDetailsViewState2
 													.update({
 												'addAttachment': 'null',
 											});
-											Navigator.of(context).pop();
+											Navigator.pop(context);
 											Navigator.pop(context);
 											Fluttertoast.showToast(
 													msg: "PDF Deleted",

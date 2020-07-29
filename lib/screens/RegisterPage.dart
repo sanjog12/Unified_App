@@ -4,6 +4,7 @@ import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -91,7 +92,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
       
                         TextFormField(
+                          maxLength: 10,
                           validator: (String value) {
+                            if(value.length<10){
+                              return "Invalid length";
+                            }
                             return requiredField(value, "Mobile number");
                           },
                           onSaved: (String value) =>
@@ -204,6 +209,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     
                     SizedBox(
                       height: 30,
+                    ),
+                    Text("OR",textAlign: TextAlign.center),
+                    SizedBox(
+                      height: 20,
                     ),
   
                     Container(
@@ -367,6 +376,9 @@ class _RegisterPageState extends State<RegisterPage> {
       AuthService _authService = AuthService();
       
       UserBasic user = await _authService.registerProUser(_userBasic);
+      
+      flutterToast(message: "Log in Successful");
+      
       this.setState(() {
         submitButtonLoading = false;
       });
@@ -396,6 +408,7 @@ class _RegisterPageState extends State<RegisterPage> {
     this.setState(() {
       googleSignInButton = false;
     });
+    
 
     if (googleUser != null) {
      

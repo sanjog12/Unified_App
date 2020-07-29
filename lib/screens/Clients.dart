@@ -1,14 +1,16 @@
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/AddSingleClient.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
+import 'package:unified_reminder/utils/validators.dart';
 
 class Clients extends StatefulWidget {
   @override
@@ -18,8 +20,6 @@ class Clients extends StatefulWidget {
 class _ClientsState extends State<Clients> {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
-
-  final FirestoreService _firestoreService = FirestoreService();
 
   StreamController _userController;
 
@@ -63,6 +63,7 @@ class _ClientsState extends State<Clients> {
             ),
           );
         },
+        
         backgroundColor: textboxColor,
         child: Icon(
           Icons.add,
@@ -96,9 +97,10 @@ class _ClientsState extends State<Clients> {
                             itemCount: snapshot.data.length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
-//                              return SingeleMessage(snapshot.data[index]);
                               return GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border(
@@ -116,11 +118,22 @@ class _ClientsState extends State<Clients> {
                                           snapshot.data[index].name,
                                           style: TextStyle(color: whiteColor),
                                         ),
-//                                        GestureDetector(child: Icon(Icons.delete,color: Colors.red,),onTap: (){
-//
-//                                        },)
+                                        SizedBox(width: 90,),
+                                        GestureDetector(child: Icon(Icons.edit),onTap: (){
+                                          showDetails(context,snapshot.data[index],false);
+                                        },),
+                                        GestureDetector(child: Icon(Icons.delete,color: Colors.red,),onTap: () async{
+                                          bool confirm = false;
+                                          confirm = await showConfirmationDialog(context);
+                                          if(confirm){
+                                            deleteClient(snapshot.data[index].key,snapshot.data[index].email);
+                                          }
+                                        },),
                                       ],
                                     ),
+                                    onTap: (){
+                                      showDetails(context,snapshot.data[index],true);
+                                    },
                                   ),
                                 ),
                               );
@@ -137,49 +150,6 @@ class _ClientsState extends State<Clients> {
                     }
                   },
                 ),
-//                child: FutureBuilder<List<Client>>(
-//                  future: FirestoreService().getClients(firebaseUserId),
-//                  builder: (BuildContext context,
-//                      AsyncSnapshot<List<Client>> snapshot) {
-//                    if (snapshot.data == null) {
-//                      return Center(
-//                        child: Container(
-//                          width: 50.0,
-//                          height: 50.0,
-//                          child: CircularProgressIndicator(),
-//                        ),
-//                      );
-//                    } else {
-//                      return Container(
-//                        child: ListView.builder(
-//                          itemCount: snapshot.data.length,
-//                          scrollDirection: Axis.vertical,
-//                          itemBuilder: (BuildContext context, int index) {
-//                            return GestureDetector(
-//                              onTap: () {},
-//                              child: Container(
-//                                decoration: BoxDecoration(
-//                                  border: Border(
-//                                    bottom: BorderSide(
-//                                      color: Color(0xff7C7C7C),
-//                                    ),
-//                                  ),
-//                                ),
-//                                margin: EdgeInsets.symmetric(vertical: 10.0),
-//                                child: ListTile(
-//                                  title: Text(
-//                                    snapshot.data[index].name,
-//                                    style: TextStyle(color: whiteColor),
-//                                  ),
-//                                ),
-//                              ),
-//                            );
-//                          },
-//                        ),
-//                      );
-//                    }
-//                  },
-//                ),
               ),
             ),
           ],
@@ -187,121 +157,169 @@ class _ClientsState extends State<Clients> {
       ),
     );
   }
-}
 
-//              child: StreamBuilder(
-//
-//
-////                  stream: FirestoreService().getClientsData(firebaseUserId),
-//                  builder: dbf .once() .then(BuildContext context, snapshot) {
-////                    print('hey Helloooooo${snapshot.data.toString()}');
-//                    if (snapshot.hasData &&
-//                        !snapshot.hasError &&
-//                        snapshot.data.snapshot.value != null) {
-//
-////taking the data snapshot.
-//                      DataSnapshot snapshot1 = snapshot.data.snapshot;
-//                      List item = [];
-//                      List _list = [];
-////it gives all the documents in this list.
-//                      _list = snapshot1.value;
-////Now we're just checking if document is not null then add it to another list called "item".
-////I faced this problem it works fine without null check until you remove a document and then your stream reads data including the removed one with a null value(if you have some better approach let me know).
-//                      _list.forEach((f) {
-//                        if (f != null) {
-//                          item.add(f);
-//                        }
-//                      });
-//                      return snapshot.data.snapshot.value == null
-////return sizedbox if there's nothing in database.
-//                          ? SizedBox()
-////otherwise return a list of widgets.
-//                          : ListView.builder(
-//                              scrollDirection: Axis.horizontal,
-//                              itemCount: item.length,
-//                              itemBuilder: (context, index) {
-//                                return Container();
-//                              },
-//                            );
-//                    } else {
-//                      return Center(child: CircularProgressIndicator());
-////
-////                    if (snapshot.hasData) {
-////                      DataSnapshot snapshot1
-////                      return ListView(
-////                          children:
-////                              snapshot.data["clients"].map<Widget>((client) {
-////                        return GestureDetector(
-////                          onTap: () {
-//////                    print(client.toString());
-//////                    Navigator.of(context).pushNamed(
-//////                        getRoute(widget.arguments["path"]),
-//////                        arguments: {"client": client});
-//////                              OpenScreen(widget.arguments['path'], client);
-////                          },
-////                          child: Container(
-////                            decoration: BoxDecoration(
-////                              border: Border(
-////                                bottom: BorderSide(
-////                                  color: Color(0xff7C7C7C),
-////                                ),
-////                              ),
-////                            ),
-////                            margin: EdgeInsets.symmetric(vertical: 10.0),
-////                            child: ListTile(
-////                              title: Text(client["name"]),
-////                            ),
-////                          ),
-////                        );
-////                      }).toList());
-////                    } else
-////                      return Center(
-////                        child: Container(
-////                          width: 50.0,
-////                          height: 50.0,
-////                          child: CircularProgressIndicator(),
-////                        ),
-////                      );
-//                    }
-////                builder: (BuildContext context, snapshot) {
-////                  if (snapshot.hasData) {
-////                    print(snapshot.data.toString());
-////
-//////                    return ListView(
-//////                        children:
-//////                            snapshot.data["clients"].map<Widget>((client) {
-//////                      return GestureDetector(
-//////                        onTap: () {
-////////                    print(client.toString());
-////////                    Navigator.of(context).pushNamed(
-////////                        getRoute(widget.arguments["path"]),
-////////                        arguments: {"client": client});
-////////                              OpenScreen(widget.arguments['path'], client);
-//////                        },
-//////                        child: Container(
-//////                          decoration: BoxDecoration(
-//////                            border: Border(
-//////                              bottom: BorderSide(
-//////                                color: Color(0xff7C7C7C),
-//////                              ),
-//////                            ),
-//////                          ),
-//////                          margin: EdgeInsets.symmetric(vertical: 10.0),
-//////                          child: ListTile(
-//////                            title: Text(client["name"]),
-//////                          ),
-//////                        ),
-//////                      );
-//////                    }).toList());
-////                  } else if (snapshot.error) {
-////                    return Center(
-////                      child: Container(
-////                        width: 50.0,
-////                        height: 50.0,
-////                        child: CircularProgressIndicator(),
-////                      ),
-////                    );
-////                  }
-////                },
-//                  }),
+  Future<void> showDetails(BuildContext context,details,bool edit) async{
+    Client clientEdit = details;
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: Column(
+              children: <Widget>[
+                Text("Details"),
+                Divider(thickness: 1.0,)
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Name:-"),
+                      edit?Text('${details.name}',style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),):Container(
+                        width: 100,
+                        child: TextFormField(
+                          initialValue: details.name,
+                          onChanged: (value){
+                            clientEdit.name = value;
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Phone:-"),
+                      edit?Text('${details.phone}',style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),):Container(
+                        width: 100,
+                        child: TextFormField(
+                          initialValue: details.phone,
+                          onChanged: (value){
+                            clientEdit.phone = value;
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Email:-"),
+                      edit?Text('${details.email}',style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),):Container(
+                        width: 100,
+                        child: TextFormField(
+                          initialValue: details.email,
+                          onChanged: (value){
+                            clientEdit.email = value;
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Company:-"),
+                      edit?Text('${details.company}',style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),):Container(
+                        width: 100,
+                        child: TextFormField(
+                          initialValue: details.company,
+                          onChanged: (value){
+                            clientEdit.company = value;
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Constitution:-"),
+                      edit?Text('${details.constitution}',style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),):Container(
+                        width: 100,
+                        child: TextFormField(
+                          initialValue: details.constitution,
+                          onChanged: (value){
+                            clientEdit.constitution = value;
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Nature Of Business:-"),
+                      edit?Text('${details.natureOfBusiness}',style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),):Container(
+                        width: 100,
+                        child: TextFormField(
+                          initialValue: details.natureOfBusiness,
+                          onChanged: (value){
+                            clientEdit.natureOfBusiness = value;
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(child: Text('Save',textAlign: TextAlign.center,),onPressed: () async{
+                print(clientEdit.name);
+                await FirestoreService().editClientData(clientEdit, firebaseUserId);
+                recordEditToast();
+                Navigator.pop(context);
+              },)
+            ],
+          );
+        }
+    );
+  }
+  
+  Future<void> deleteClient(String key,String email) async{
+    dbf = firebaseDatabase.reference();
+    try {
+      await dbf
+          .child(FsUserClients)
+          .child(firebaseUserId)
+          .child('clients')
+          .child(key)
+          .remove();
+      dbf = firebaseDatabase.reference();
+      await dbf.child("user_compliances")
+            .child(firebaseUserId)
+            .child('compliances')
+            .child(email)
+            .remove();
+      recordDeletedToast();
+      Navigator.pop(context);
+    }catch(e){
+      print(e);
+    }
+  }
+}
 

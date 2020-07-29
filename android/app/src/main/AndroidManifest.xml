@@ -11,9 +11,13 @@
 
     <application
         android:name=".Application"
-        android:label="unified_reminder"
+        android:label="Unified Reminder"
         android:icon="@drawable/logo_black"
-        android:fullBackupContent="@xml/backup_descriptor">
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:allowBackup="true">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4569649492742996~2564391573"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -35,9 +39,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4569649492742996~2564391573"/>
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED">

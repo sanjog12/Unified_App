@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\cloud_firestore\\intermediates\\res\\merged\\release\\values-ky\\values-ky.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\0a1c6e39a59ef8b02c44a12546b4d193\\jetified-play-services-base-17.0.0\\res\\values-ky\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ecb082be72bad0592949f79346c0cbf9\\jetified-play-services-base-17.0.0\\res\\values-ky\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\59c9f96d7f9edfdb0eca1a9021802f93\\jetified-play-services-basement-17.0.0\\res\\values-ky\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ad70940fe2fd311bc544a90c642c477f\\jetified-play-services-basement-17.0.0\\res\\values-ky\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\25f737908970f0e5f2feb2f6dabea9da\\core-1.1.0\\res\\values-ky\\values-ky.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\26083f5b35ad786b658dd26ac3ec1001\\core-1.1.0\\res\\values-ky\\values-ky.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -60,7 +60,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\cloud_firestore\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-ky\\values-ky.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\0a1c6e39a59ef8b02c44a12546b4d193\\jetified-play-services-base-17.0.0\\res\\values-ky\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ecb082be72bad0592949f79346c0cbf9\\jetified-play-services-base-17.0.0\\res\\values-ky\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -77,7 +77,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\59c9f96d7f9edfdb0eca1a9021802f93\\jetified-play-services-basement-17.0.0\\res\\values-ky\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\ad70940fe2fd311bc544a90c642c477f\\jetified-play-services-basement-17.0.0\\res\\values-ky\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -94,7 +94,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\25f737908970f0e5f2feb2f6dabea9da\\core-1.1.0\\res\\values-ky\\values-ky.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\26083f5b35ad786b658dd26ac3ec1001\\core-1.1.0\\res\\values-ky\\values-ky.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

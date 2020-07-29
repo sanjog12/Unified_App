@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 String requiredField(dynamic value, String fieldName) {
   if (value == null || value.isEmpty) {
     return "$fieldName cannot be empty";
@@ -29,4 +31,57 @@ String validatePasswordLength(String value) {
 
 String validatePasswordMatch(String pass1, String pass2) {
   return pass1 != pass2 ? "Passwords do not match" : null;
+}
+
+Future<bool> showConfirmationDialog(BuildContext context) async{
+  bool r ;
+  await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text('Confirm',textAlign: TextAlign.center,style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),),
+          
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          
+          content: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 10,),
+                Text("Sure Want to Delete ?",style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),),
+              ],
+            ),
+          ),
+          
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Confirm'),
+              onPressed: () async{
+                Navigator.of(context).pop();
+                r =true;
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: (){
+                Navigator.of(context).pop();
+                r =false;
+              },
+            )
+          ],
+        );
+      }
+  );
+  
+  if(r){
+    return true;
+  }
+  else{
+    return false;
+  }
 }

@@ -16,6 +16,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class HistoryTDS extends StatefulWidget {
 	final Client client ;
@@ -61,10 +62,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 											    if (snapshot.data[index].amount != '26Q' &&
 													    snapshot.data[index].amount != '24Q') {
 												    return Container(
-													    decoration: BoxDecoration(
-														    borderRadius: BorderRadiusDirectional.circular(10),
-														    color: buttonColor,
-													    ),
+													    decoration: roundedCornerButton,
 													    margin: EdgeInsets.symmetric(vertical: 10.0),
 													    child: ListTile(
 														    title: Text(
@@ -141,9 +139,18 @@ class _HistoryTDSState extends State<HistoryTDS> {
 										    },
 									    );
 								    }else{
-						    			return ListTile(
-										      title: Text('No Saved Records ',textAlign: TextAlign.center,),
-									      );
+						    			return Column(
+										    crossAxisAlignment: CrossAxisAlignment.stretch,
+						    			  children: <Widget>[
+						    			    Container(
+										    decoration: roundedCornerButton,
+						    			      margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+						    			      child: ListTile(
+										      title: Text('No Saved Records '),
+									      ),
+						    			    ),
+						    			  ],
+						    			);
 								    }
 							    }
 						    	else{
@@ -325,14 +332,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 											  'acknowledgementNo':formNumber,
 										  });
 										  Navigator.of(context).pop();
-										  Fluttertoast.showToast(
-												  msg: 'Successfully Updated',
-												  toastLength: Toast.LENGTH_SHORT,
-												  gravity: ToastGravity.BOTTOM,
-												  timeInSecForIos: 1,
-												  backgroundColor: Color(0xff666666),
-												  textColor: Colors.white,
-												  fontSize: 16.0);
+										  recordEditToast();
 									  },
 								  )
 							  ],
@@ -370,7 +370,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 					
 					  actions: <Widget>[
 						  FlatButton(
-							  child: Text('Confirm'),
+							  child: Text('Yes'),
 							  onPressed: () async{
 								  Navigator.of(context).pop();
 								  await deleteRecord(key);
@@ -379,7 +379,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 						  ),
 						
 						  FlatButton(
-							  child: Text('Cancel'),
+							  child: Text('No'),
 							  onPressed: (){
 								  Navigator.of(context).pop();
 							  },
@@ -392,6 +392,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 
 
   Future<void> deleteRecord(key) async{
+		
 	  dbf = firebaseDatabase.reference();
 	  await fireUser();
 	  print(firebaseUserId);
@@ -405,14 +406,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 					.child(widget.client.email)
 		      .child(key)
 				  .remove();
-		  Fluttertoast.showToast(
-				  msg: "Record Deleted",
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  recordDeletedToast();
 		
 	  }on PlatformException catch(e){
 		  Fluttertoast.showToast(
@@ -424,6 +418,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 				  textColor: Colors.white,
 				  fontSize: 16.0);
 	  }catch(e){
+	  	print(e);
 		  Fluttertoast.showToast(
 				  msg: e.message.toString(),
 				  toastLength: Toast.LENGTH_SHORT,

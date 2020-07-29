@@ -12,6 +12,7 @@ import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -35,6 +36,7 @@ class AuthService {
 		  SharedPrefs.setStringPreference("uid",null);
 		  print("done");
 	  }catch(e){
+  	  print("error");
   		print(e);
 	  }
   }
@@ -43,24 +45,12 @@ class AuthService {
   Future<void> resetPassword(st,context) async{
     try {
       await _auth.sendPasswordResetEmail(email: st);
-      Fluttertoast.showToast(
-          msg: "A link has been sent your registered email Id ",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 2,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "A link has been sent to your registered Email id for resetting your password");
       Navigator.pop(context);
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 2,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print("error");
+      print(e.toString());
+      flutterToast(message: "Looks like something went wrong.\nTry Again");
     }
   }
 
@@ -73,6 +63,7 @@ class AuthService {
       AuthResult newUser = await _auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
       await newUser.user.sendEmailVerification();
+      flutterToast(message: "A verification link has been send to your Entered mail");
       _firestore.collection(FsUsersPath).document(newUser.user.uid).setData({
         "fullname": user.fullName,
         "phone": user.phoneNumber,
@@ -131,26 +122,13 @@ class AuthService {
       fullName: loginUser.user.displayName,);
   	}
   	on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: 'Google Sign In failed',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return UserBasic();
+      flutterToast(message: 'Google Sign In failed');
+      return null;
     }
     catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return UserBasic();
+  	  print(e);
+      flutterToast(message: "Something went wrong");
+      return null;
     }
   }
   
@@ -190,25 +168,27 @@ class AuthService {
       AuthCredential authCredential = GoogleAuthProvider.getCredential(idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken);
 
-
       AuthResult loginUser = await _auth.signInWithCredential(authCredential);
       print(loginUser.user.uid);
+      bool temp = loginUser.additionalUserInfo.isNewUser;
+      if(temp){
+        _firestore.collection(FsUsersPath).document(loginUser.user.uid).setData({
+          "fullname": loginUser.user.displayName,
+          "phone": loginUser.user.phoneNumber,
+          "password": "gooogle user",
+          "progress": 1,
+        });
+      }
       SharedPrefs.setStringPreference("uid", loginUser.user.uid);
       return UserBasic(
         email: loginUser.user.email,
         uid: loginUser.user.uid,
+        fullName: loginUser.user.displayName,
       );
     }
-    catch(e){
+    catch(e) {
       print(e);
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Something went Wrong");
     }
   }
 

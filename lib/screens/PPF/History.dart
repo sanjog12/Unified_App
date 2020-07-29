@@ -6,7 +6,6 @@ import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
 import 'package:unified_reminder/screens/PPF/HistoryDetailsView.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
 class HistoryForPPF extends StatefulWidget {
@@ -85,7 +84,6 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
           .getPPFHistoryDetails(widget.client, key);
 
       if (ppfRecordObject != null) {
-//      print(ppfRecordObject.accountNumber);
         Navigator.push(
           context,
           MaterialPageRoute(

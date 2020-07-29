@@ -68,6 +68,16 @@ class HistoriesDatabaseHelper {
         });
       }
     });
+    
+    if(complinceData.length == 0){
+      HistoryComplinceObjectForIncomeTax historyComplinceObject =
+      HistoryComplinceObjectForIncomeTax(
+        date: "Record Not found",
+        amount: " ",
+        type: ' ',
+      );
+      complinceData.add(historyComplinceObject);
+    }
     return complinceData;
   }
   
@@ -214,7 +224,7 @@ class HistoriesDatabaseHelper {
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No history founded', amount: ' ', type: ''));
       }
     });
     return complinceData;

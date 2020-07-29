@@ -10,11 +10,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
+import 'package:unified_reminder/screens/GST/HistoryGST.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
+import 'package:unified_reminder/utils/validators.dart';
 
 class DetailedHistoryGst extends StatefulWidget {
 	
@@ -318,8 +321,12 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 									    )
 											    :Text("Delete"),
 									    onPressed: () async{
-										    await showConfirmation(context);
-										    Navigator.pop(context);
+										    loadingDelete = true;
+										    bool temp = false;
+										    temp = await showConfirmationDialog(context);
+										    if(temp){
+										    	await deleteRecord();
+										    }
 									    },
 								    ),
 							    ),
@@ -379,14 +386,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 			 'section' : _gstPaymentObject.section,
 			});
 			Navigator.pop(context);
-			Fluttertoast.showToast(
-					msg: "Changes Saved",
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			recordEditToast();
 			
 		}on PlatformException catch(e){
 			Fluttertoast.showToast(
@@ -494,15 +494,16 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 					.child('GST')
 					.child(section)
 					.set(null);
-			Fluttertoast.showToast(
-					msg: "Record Deleted",
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			recordDeletedToast();
 			Navigator.pop(context);
+			Navigator.pop(context);
+//			Navigator.push(context,
+//				MaterialPageRoute(
+//					builder: (context) => HistoryGST(
+//						client: widget.client,
+//					)
+//				)
+//			);
 			
 		}on PlatformException catch(e){
 			Fluttertoast.showToast(

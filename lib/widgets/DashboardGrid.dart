@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
 import 'package:unified_reminder/router.dart';
-import 'package:unified_reminder/screens/EPFScreen.dart';
-import 'package:unified_reminder/screens/ESIScreen.dart';
-import 'package:unified_reminder/screens/FDScreen.dart';
-import 'package:unified_reminder/screens/GSTScreen.dart';
-import 'package:unified_reminder/screens/IncomeTaxScreen.dart';
-import 'package:unified_reminder/screens/LICScreen.dart';
-import 'package:unified_reminder/screens/MFScreen.dart';
-import 'package:unified_reminder/screens/ManageClients.dart';
-import 'package:unified_reminder/screens/PPFScreen.dart';
-import 'package:unified_reminder/screens/ROCScreen.dart';
-import 'package:unified_reminder/screens/TDSScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/EPFScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/ESIScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/FDScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/GSTScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/IncomeTaxScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/LICScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/MFScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/ManageClients.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/PPFScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/ROCScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/TDSScreen.dart';
 
 class DashboardGrid extends StatelessWidget {
   final Compliance compliance;

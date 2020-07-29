@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/history/HistoryComplinceObjectForIncomeTax.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/FDRecordObject.dart';
 import 'package:unified_reminder/screens/FD/HistoryDetailsView.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
 class HistoryForFD extends StatefulWidget {

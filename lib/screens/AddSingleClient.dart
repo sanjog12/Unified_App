@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
@@ -7,8 +8,6 @@ import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
-
-import '../router.dart';
 
 class AddSingleClient extends StatefulWidget {
   final Map arguments;
@@ -20,41 +19,31 @@ class AddSingleClient extends StatefulWidget {
 
 class _AddSingleClientState extends State<AddSingleClient> {
   String _constitution;
-  FirestoreService _firestoreService = FirestoreService();
+  FirestoreService fireStoreService = FirestoreService();
   bool buttonLoading = false;
   GlobalKey<FormState> _clientsFormKey = GlobalKey<FormState>();
   Client _client = Client('', '', '', '', '', '', '');
   List<Compliance> _compliances = [];
-
-//  Map _clients = {
-//    "client": Client(),
-//    "compliances": [
-//      Compliance(title: "Income Tax", value: "income_tax", checked: false),
-//      Compliance(title: "TDS", value: "tds", checked: false),
-//      Compliance(title: "GST", value: "gst", checked: false),
-//      Compliance(title: "EPF", value: "epf", checked: false),
-//      Compliance(title: "ESI", value: "esi", checked: false),
-//      Compliance(title: "PTAX", value: "ptax", checked: false),
-//      Compliance(title: "ROC", value: "roc", checked: false),
-//    ]
-//  };
-
-//  void changeCompliance(clientIndex, index) {
-//    this.setState(() {
-//      _clients[clientIndex]["compliances"][index].checked =
-//          !_clients[clientIndex]["compliances"][index].checked;
-//    });
-//  }
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  
+  
+  Future<void> subscribeTopic(String compliance, bool subscribe) async{
+    if(subscribe){
+      firebaseMessaging.subscribeToTopic(compliance.replaceAll(' ', '_f'));
+    }
+    else if(subscribe){
+      firebaseMessaging.unsubscribeFromTopic(compliance);
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {
-    _compliances.add(
-        Compliance(title: "Income Tax", value: "income_tax", checked: false));
+    _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: false));
     _compliances.add(Compliance(title: "TDS", value: "tds", checked: false));
     _compliances.add(Compliance(title: "GST", value: "gst", checked: false));
     _compliances.add(Compliance(title: "EPF", value: "epf", checked: false));
     _compliances.add(Compliance(title: "ESI", value: "esi", checked: false));
-//    _compliances.add(Compliance(title: "PTAX", value: "ptax", checked: false));
     _compliances.add(Compliance(title: "ROC", value: "roc", checked: false));
     _compliances.add(Compliance(title: "LIC", value: "lic", checked: false));
     _compliances.add(Compliance(title: "PPF", value: "ppf", checked: false));
@@ -66,7 +55,8 @@ class _AddSingleClientState extends State<AddSingleClient> {
       appBar: AppBar(
         title: Text('Add Client'),
       ),
-      body: (Container(
+      body: Container(
+        padding: EdgeInsets.all(15),
         color: backgroundColor,
         child: Form(
           key: _clientsFormKey,
@@ -82,19 +72,15 @@ class _AddSingleClientState extends State<AddSingleClient> {
                   height: 10.0,
                 ),
                 Container(
-                  height: 50.0,
+                  decoration: roundedCornerButton,
                   child: FlatButton(
                     child: buttonLoading
-                        ? Container(
-                            height: 30.0,
-                            width: 30.0,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3.0,
-                              valueColor: AlwaysStoppedAnimation(
-                                Colors.white,
-                              ),
-                            ),
-                          )
+                        ? CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                          valueColor: AlwaysStoppedAnimation(
+                            Colors.white,
+                          ),
+                        )
                         : Text("Save"),
                     onPressed: () {
                       saveClients(_client, _compliances);
@@ -106,7 +92,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 
@@ -127,7 +113,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
           });
 
           bool savedClients =
-              await _firestoreService.addClient(clients, compliances);
+              await fireStoreService.addClient(clients, compliances);
           this.setState(() {
             buttonLoading = false;
           });
@@ -318,6 +304,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[0].checked = value;
                     });
+                    subscribeTopic(_compliances[0].title, value);
                   },
                   value: _compliances[0].checked,
                 ),
@@ -332,6 +319,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[1].checked = value;
                     });
+                    subscribeTopic(_compliances[1].title, value);
                   },
                   value: _compliances[1].checked,
                 ),
@@ -346,6 +334,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[2].checked = value;
                     });
+                    subscribeTopic(_compliances[2].title, value);
                   },
                   value: _compliances[2].checked,
                 ),
@@ -360,6 +349,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[3].checked = value;
                     });
+                    subscribeTopic(_compliances[3].title, value);
                   },
                   value: _compliances[3].checked,
                 ),
@@ -374,6 +364,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[4].checked = value;
                     });
+                    subscribeTopic(_compliances[4].title, value);
                   },
                   value: _compliances[4].checked,
                 ),
@@ -388,6 +379,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[5].checked = value;
                     });
+                    subscribeTopic(_compliances[5].title, value);
                   },
                   value: _compliances[5].checked,
                 ),
@@ -402,6 +394,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[6].checked = value;
                     });
+                    subscribeTopic(_compliances[6].title, value);
                   },
                   value: _compliances[6].checked,
                 ),
@@ -416,6 +409,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[7].checked = value;
                     });
+                    subscribeTopic(_compliances[7].title, value);
                   },
                   value: _compliances[7].checked,
                 ),
@@ -430,6 +424,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[8].checked = value;
                     });
+                    subscribeTopic(_compliances[8].title, value);
                   },
                   value: _compliances[8].checked,
                 ),
@@ -444,6 +439,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
                     setState(() {
                       _compliances[9].checked = value;
                     });
+                    subscribeTopic(_compliances[9].title, value);
                   },
                   value: _compliances[9].checked,
                 ),
@@ -451,21 +447,6 @@ class _AddSingleClientState extends State<AddSingleClient> {
               ],
             ),
           ],
-//          children: compliances.map<Widget>((compliance) {
-//            return Wrap(
-//              crossAxisAlignment: WrapCrossAlignment.center,
-//              children: <Widget>[
-//                Checkbox(
-//                  onChanged: (bool value) {
-//                    int selectedIndex = compliances.indexOf(compliance);
-//                    changeCompliance(clientId, selectedIndex);
-//                  },
-//                  value: compliance.checked,
-//                ),
-//                Text(compliance.title),
-//              ],
-//            );
-//          }).toList(),
         ),
       ],
     );

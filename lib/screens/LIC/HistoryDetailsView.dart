@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:unified_reminder/screens/LIC/ComplianceHistoryForTDS.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +23,8 @@ class LICPaymentRecordHistoryDetailsView extends StatefulWidget {
   final LICPaymentObject licPaymentObject;
   final String keyDB;
 
-  const LICPaymentRecordHistoryDetailsView({
-    this.client,
-    this.licPaymentObject,
-    this.keyDB,
-  });
+  const LICPaymentRecordHistoryDetailsView({Key key, this.client, this.licPaymentObject, this.keyDB}) : super(key: key);
+  
 
   @override
   _LICPaymentRecordHistoryDetailsViewState createState() =>
@@ -162,8 +161,8 @@ class _LICPaymentRecordHistoryDetailsViewState
                       :Container(
                     padding: EdgeInsets.all(15),
                     decoration: fieldsDecoration,
-                    child: Text(
-                      widget.licPaymentObject.comanyName,
+                    child: Text(widget.licPaymentObject.comanyName != null?
+                      widget.licPaymentObject.comanyName:" ",
                       style: TextStyle(
                         color: whiteColor,
                       ),
@@ -729,8 +728,12 @@ class _LICPaymentRecordHistoryDetailsViewState
                   )
                       :Text("Delete"),
                   onPressed: () async{
-                    await showConfirmation(context);
-                    Navigator.pop(context);
+                    loadingDelete = true;
+                    bool temp = false;
+                    temp = await showConfirmationDialog(context);
+                    if(temp){
+                      deleteRecord();
+                    }
                     },
                 ),
               ),
@@ -783,15 +786,7 @@ class _LICPaymentRecordHistoryDetailsViewState
           .child(widget.keyDB)
           .update({
           });
-    
-      Fluttertoast.showToast(
-          msg: "Changes Saved",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      recordEditToast();
     
     }on PlatformException catch(e){
       Fluttertoast.showToast(
@@ -887,15 +882,17 @@ class _LICPaymentRecordHistoryDetailsViewState
           .child(widget.client.email)
           .child(widget.keyDB)
           .remove();
-    
-      Fluttertoast.showToast(
-          msg: "Record Deleted",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      
+      recordDeletedToast();
+      Navigator.pop(context);
+      Navigator.pop(context);
+//      Navigator.push(context,
+//        MaterialPageRoute(
+//          builder: (context)=>ComplianceHistoryForLIC(
+//            client: widget.client,
+//          )
+//        )
+//      );
     
     }on PlatformException catch(e){
       Fluttertoast.showToast(
@@ -907,8 +904,9 @@ class _LICPaymentRecordHistoryDetailsViewState
           textColor: Colors.white,
           fontSize: 16.0);
     }catch(e){
+      print(e);
       Fluttertoast.showToast(
-          msg: e.message.toString(),
+          msg: e.toString(),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 1,

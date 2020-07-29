@@ -4,24 +4,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\firebase_core\\intermediates\\res\\merged\\release\\values-bn\\values-bn.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\25f737908970f0e5f2feb2f6dabea9da\\core-1.1.0\\res\\values-bn\\values-bn.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "316",
-                        "endColumns": "100",
-                        "endOffsets": "412"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\8f8f3ed96aff02385de098041f611af4\\jetified-play-services-basement-16.0.1\\res\\values-bn\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\1837fd6a7f6419f2607bbc8590daef6d\\jetified-play-services-basement-16.0.1\\res\\values-bn\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -35,6 +18,23 @@
                         "startOffsets": "105",
                         "endColumns": "210",
                         "endOffsets": "311"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\26083f5b35ad786b658dd26ac3ec1001\\core-1.1.0\\res\\values-bn\\values-bn.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "316",
+                        "endColumns": "100",
+                        "endOffsets": "412"
                     }
                 }
             ]
@@ -43,24 +43,7 @@
             "outputFile": "C:\\Users\\sanjo\\OneDrive\\Desktop\\unified_reminder\\build\\firebase_core\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-bn\\values-bn.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\25f737908970f0e5f2feb2f6dabea9da\\core-1.1.0\\res\\values-bn\\values-bn.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "316",
-                        "endColumns": "100",
-                        "endOffsets": "412"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\8f8f3ed96aff02385de098041f611af4\\jetified-play-services-basement-16.0.1\\res\\values-bn\\values.xml",
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\1837fd6a7f6419f2607bbc8590daef6d\\jetified-play-services-basement-16.0.1\\res\\values-bn\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -74,6 +57,23 @@
                         "startOffsets": "105",
                         "endColumns": "210",
                         "endOffsets": "311"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\sanjo\\.gradle\\caches\\transforms-2\\files-2.1\\26083f5b35ad786b658dd26ac3ec1001\\core-1.1.0\\res\\values-bn\\values-bn.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "316",
+                        "endColumns": "100",
+                        "endOffsets": "412"
                     }
                 }
             ]

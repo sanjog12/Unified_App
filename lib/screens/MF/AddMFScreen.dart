@@ -12,10 +12,8 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/services/LocalNotificationServices.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class AddMFScreen extends StatefulWidget {
@@ -85,15 +83,15 @@ class _AddMFScreenState extends State<AddMFScreen> {
     List<MutualFundObject> mutualFunds = [];
     var fundsData = jsonResult['mutual_fund_names'];
     for (var item in fundsData) {
-      String fudnName, fundCode, searchText;
-      fudnName = item['name'].toString().toUpperCase();
+      String fundName, fundCode, searchText;
+      fundName = item['name'].toString().toUpperCase();
       fundCode = item['code'];
       searchText = _searchText.toUpperCase();
 
-      List<String> fundNameList = fudnName.split(searchText);
+      List<String> fundNameList = fundName.split(searchText);
       if (fundNameList.length > 1) {
         MutualFundObject mutualFundObject =
-            MutualFundObject(name: fudnName, code: fundCode);
+            MutualFundObject(name: fundName, code: fundCode);
         mutualFunds.add(mutualFundObject);
       }
     }

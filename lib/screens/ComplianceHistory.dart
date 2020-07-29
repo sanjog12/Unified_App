@@ -13,6 +13,7 @@ class ComplianceHistory extends StatefulWidget {
 }
 
 class _ComplianceHistoryState extends State<ComplianceHistory> {
+  
   @override
   void initState() {
     HistoriesDatabaseHelper().getComplincesHistoryOfIncomeTax(widget.client);

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "853552960661-vvj0nf3u1qgeto85agh85j9q1v4jmq74.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unifiedsolutions.reminder",
+            "certificate_hash": "b2a94bca3cb4f365be0789431028d92c70a9048b"
+          }
+        },
+        {
           "client_id": "853552960661-v2rfh38vdt2ikhd845qk86i8oj1i2nl9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

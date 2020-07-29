@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
+import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -20,11 +21,8 @@ class EPFRecordHistoryDetailsView extends StatefulWidget {
   final EPFMonthlyContributionObejct epfMonthlyContributionObejct;
   final String keyDB;
 
-  const EPFRecordHistoryDetailsView({
-    this.client,
-    this.epfMonthlyContributionObejct,
-    this.keyDB
-  });
+  const EPFRecordHistoryDetailsView({Key key, this.client, this.epfMonthlyContributionObejct, this.keyDB}) : super(key: key);
+  
 
   @override
   _EPFRecordHistoryDetailsViewState createState() =>
@@ -446,6 +444,7 @@ class _EPFRecordHistoryDetailsViewState
         await firebaseStorage.ref().child(path).delete().then((_) =>
             print("Done Task"));
       }
+      
       await dbf
           .child('complinces')
           .child('MonthlyContributionPayments')
@@ -462,6 +461,15 @@ class _EPFRecordHistoryDetailsViewState
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);
+      Navigator.pop(context);
+      Navigator.pop(context);
+//      Navigator.push(context,
+//        MaterialPageRoute(
+//            builder: (context)=>ComplianceHistoryForEPF(
+//              client: widget.client,
+//            )
+//        )
+//      );
     
     }on PlatformException catch(e){
       Fluttertoast.showToast(
