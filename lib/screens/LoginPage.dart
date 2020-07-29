@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/router.dart';
+import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -24,6 +25,7 @@ class _LoginPageState extends State<LoginPage>{
   UserAuth userAuth = UserAuth();
   GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _loginScaffold = GlobalKey<ScaffoldState>();
+  bool obscureText = true;
   
   
   @override
@@ -98,8 +100,32 @@ class _LoginPageState extends State<LoginPage>{
                         TextFormField(
                           validator: (value) => validatePasswordLength(value),
                           onSaved: (value) => userAuth.password = value,
-                          obscureText: true,
-                          decoration: buildCustomInput(hintText: "Password"),
+                          obscureText: obscureText,
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            suffixIcon: GestureDetector(child: Icon(Icons.remove_red_eye,color: Colors.white,),onTap: (){
+                              setState(() {
+                                obscureText = !obscureText;
+                              });
+                            },),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.0,
+                              horizontal: 16.0,
+                            ),
+  
+                            fillColor: textboxColor,
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 0.0,
+                                style: BorderStyle.none,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            filled: true,
+                          ),
                         ),
                       ],
                     ),
@@ -186,9 +212,16 @@ class _LoginPageState extends State<LoginPage>{
                               gButtonLoading = true;
                             });
                             UserBasic userBasic = await _auth.googleLogIn();
+                            print("userbasic check" +userBasic.email);
                             if (userBasic != null) {
-                              Navigator.of(context).pushReplacementNamed(
-                                  DashboardRoute);
+                              Navigator.pop(context);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context)=> Dashboard(
+                                    userBasic: userBasic,
+                                  )
+                                )
+                              );
                             } else {}
                           }on PlatformException catch (e) {
                             flutterToast(message: "Something went Wrong");
@@ -332,9 +365,16 @@ class _LoginPageState extends State<LoginPage>{
         });
 
         UserBasic userBasic = await _auth.loginUser(authDetails);
-
+        print(userBasic.fullName);
         if (userBasic != null) {
-          Navigator.of(context).pushReplacementNamed(DashboardRoute);
+          Navigator.pop(context);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Dashboard(
+                userBasic: userBasic,
+              )
+            )
+          );
         } else {}
       }
     } on PlatformException catch (e) {
@@ -347,14 +387,7 @@ class _LoginPageState extends State<LoginPage>{
           textColor: Colors.white,
           fontSize: 16.0);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: "Unable to login at the moment",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Unable to login at the moment");
     } finally {
       this.setState(() {
         buttonLoading = false;

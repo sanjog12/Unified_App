@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/router.dart';
+import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -384,9 +385,14 @@ class _RegisterPageState extends State<RegisterPage> {
       });
       if (user != null) {
           print(user);
-          Navigator.pushNamed(
+          Navigator.pop(context);
+          Navigator.push(
             context,
-            DashboardRoute,
+            MaterialPageRoute(
+              builder: (context)=>Dashboard(
+                userBasic: user,
+              )
+            )
           );
 
 //        Navigator.of(context).pushReplacementNamed(PersonalInfoRoute);
@@ -413,9 +419,14 @@ class _RegisterPageState extends State<RegisterPage> {
     if (googleUser != null) {
      
         print(googleUser);
-        Navigator.pushNamed(
+        Navigator.pop(context);
+        Navigator.push(
           context,
-          DashboardRoute,
+          MaterialPageRoute(
+            builder: (context)=> Dashboard(
+              userBasic: googleUser,
+            )
+          ),
         );
     }
   }

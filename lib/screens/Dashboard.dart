@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/ApplicableCompliances.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -17,6 +18,9 @@ import 'AddSingleClient.dart';
 
 const String testDevice = 'Mobile_Id';
 class Dashboard extends StatefulWidget {
+  final UserBasic userBasic;
+
+  const Dashboard({Key key, this.userBasic}) : super(key: key);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -116,6 +120,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+//    print("user check"+widget.userBasic.fullName);
     getUserId();
     _userController = StreamController();
     temp().whenComplete(() async{
@@ -163,10 +168,13 @@ class _DashboardState extends State<Dashboard> {
     
     return Scaffold(
       drawer: Drawer(
+        
         child: Container(
           width: MediaQuery.of(context).size.width * 0.8,
           child: SafeArea(
-            child: AppDrawer(),
+            child: AppDrawer(
+              userBasic: widget.userBasic,
+            ),
           ),
         ),
       ),

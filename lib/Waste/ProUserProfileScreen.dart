@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
 class ProUserProfileScreen extends StatefulWidget {
+  final UserBasic userBasic;
+
+  const ProUserProfileScreen({Key key, this.userBasic}) : super(key: key);
   @override
   _ProUserProfileScreenState createState() => _ProUserProfileScreenState();
 }
@@ -23,26 +27,42 @@ class _ProUserProfileScreenState extends State<ProUserProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(height: 30,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text("Terms of Investment"),
-                  SizedBox(
-                    height: 10.0,
+              Container(
+                padding: EdgeInsets.all(15),
+                decoration: fieldsDecoration,
+                child: Text(
+                  widget.userBasic.fullName != null ?widget.userBasic.fullName:"Google user",
+                  style: TextStyle(
+                    color: whiteColor,
                   ),
-                  Container(
-                    padding: EdgeInsets.all(15),
-                    decoration: fieldsDecoration,
-                    child: Text(
-                      "",
-                      style: TextStyle(
-                        color: whiteColor,
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
               
+              SizedBox(height: 20),
+  
+              Container(
+                padding: EdgeInsets.all(15),
+                decoration: fieldsDecoration,
+                child: Text(
+                  widget.userBasic.phoneNumber != null ? widget.userBasic.phoneNumber:"Google user",
+                  style: TextStyle(
+                    color: whiteColor,
+                  ),
+                ),
+              ),
+              
+              SizedBox(height: 20),
+  
+              Container(
+                padding: EdgeInsets.all(15),
+                decoration: fieldsDecoration,
+                child: Text(
+                  widget.userBasic.email,
+                  style: TextStyle(
+                    color: whiteColor,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

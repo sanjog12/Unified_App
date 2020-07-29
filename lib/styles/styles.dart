@@ -8,6 +8,7 @@ InputDecoration buildCustomInput({String hintText}) {
       vertical: 0.0,
       horizontal: 16.0,
     ),
+    
     fillColor: textboxColor,
     hintText: hintText,
     labelStyle: TextStyle(

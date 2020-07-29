@@ -94,11 +94,11 @@ class FirestoreService {
   }
 
   dynamic getUserDetails(firebaseUserId) {
-
     return _firestore
         .collection(FsUsersPath)
         .document('firebaseUserId')
         .snapshots();
+    
   }
 
 //  Future<bool> addClientRecord(Client )

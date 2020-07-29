@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ class Clients extends StatefulWidget {
 class _ClientsState extends State<Clients> {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   StreamController _userController;
 
@@ -174,117 +174,135 @@ class _ClientsState extends State<Clients> {
               ],
             ),
             content: SingleChildScrollView(
-              child: Column(
+              child: Form(
+                key: formKey,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Name:-"),
-                      edit?Text('${details.name}',style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),):Container(
-                        width: 100,
-                        child: TextFormField(
-                          initialValue: details.name,
-                          onChanged: (value){
-                            clientEdit.name = value;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Phone:-"),
-                      edit?Text('${details.phone}',style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),):Container(
-                        width: 100,
-                        child: TextFormField(
-                          initialValue: details.phone,
-                          onChanged: (value){
-                            clientEdit.phone = value;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Email:-"),
-                      edit?Text('${details.email}',style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),):Container(
-                        width: 100,
-                        child: TextFormField(
-                          initialValue: details.email,
-                          onChanged: (value){
-                            clientEdit.email = value;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Company:-"),
-                      edit?Text('${details.company}',style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),):Container(
-                        width: 100,
-                        child: TextFormField(
-                          initialValue: details.company,
-                          onChanged: (value){
-                            clientEdit.company = value;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Constitution:-"),
-                      edit?Text('${details.constitution}',style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),):Container(
-                        width: 100,
-                        child: TextFormField(
-                          initialValue: details.constitution,
-                          onChanged: (value){
-                            clientEdit.constitution = value;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 5,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Nature Of Business:-"),
-                      edit?Text('${details.natureOfBusiness}',style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),):Container(
-                        width: 100,
-                        child: TextFormField(
-                          initialValue: details.natureOfBusiness,
-                          onChanged: (value){
-                            clientEdit.natureOfBusiness = value;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Name:-"),
+                        edit?Text('${details.name}',style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),overflow: TextOverflow.clip):Container(
+                          width: 100,
+                          child: TextFormField(
+                            initialValue: details.name,
+                            onChanged: (value){
+                              clientEdit.name = value;
+                            },
+                            validator: (value){
+                              return requiredField(value, "Name");
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Phone:-"),
+                        edit?Text('${details.phone}',style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),):Container(
+                          width: 100,
+                          child: TextFormField(
+                            initialValue: details.phone,
+                            onChanged: (value){
+                              clientEdit.phone = value;
+                            },
+                            validator: (value){
+                              if(value.length != 10){
+                                return "Enter Correct Number";
+                              }
+                              return requiredField(value,"Phone");
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Email:-"),
+                        edit?Text('${details.email}',style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),overflow: TextOverflow.clip):Container(
+                          width: 100,
+                          child: TextFormField(
+                            initialValue: details.email,
+                            onChanged: (value){
+                              clientEdit.email = value;
+                            },
+                            validator: (value){
+                              if(value.length == 0){
+                                return requiredField(value, "Email");
+                              }
+                              return validateEmail(value);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Company:-"),
+                        edit?Text('${details.company}',style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),overflow: TextOverflow.clip):Container(
+                          width: 100,
+                          child: TextFormField(
+                            initialValue: details.company,
+                            onChanged: (value){
+                              clientEdit.company = value;
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Constitution:-"),
+                        edit?Text('${details.constitution}',style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),overflow: TextOverflow.clip):Container(
+                          width: 100,
+                          child: TextFormField(
+                            initialValue: details.constitution,
+                            onChanged: (value){
+                              clientEdit.constitution = value;
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 5,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Nature Of\n Business:-  "),
+                        edit?Text('${details.natureOfBusiness}',style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),overflow: TextOverflow.clip,):Container(
+                          width: 100,
+                          child: TextFormField(
+                            initialValue: details.natureOfBusiness,
+                            onChanged: (value){
+                              clientEdit.natureOfBusiness = value;
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             actions: <Widget>[
@@ -301,8 +319,8 @@ class _ClientsState extends State<Clients> {
   }
   
   Future<void> deleteClient(String key,String email) async{
-    dbf = firebaseDatabase.reference();
     try {
+      dbf = firebaseDatabase.reference();
       await dbf
           .child(FsUserClients)
           .child(firebaseUserId)
@@ -318,6 +336,7 @@ class _ClientsState extends State<Clients> {
       recordDeletedToast();
       Navigator.pop(context);
     }catch(e){
+      flutterToast(message: "Something went wrong try latter");
       print(e);
     }
   }

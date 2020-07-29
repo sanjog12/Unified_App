@@ -5,7 +5,6 @@ import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class PersonalInfo extends StatefulWidget {

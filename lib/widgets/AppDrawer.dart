@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Clients.dart';
 import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/ProUserProfileScreen.dart';
@@ -9,7 +10,10 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
 class AppDrawer extends StatelessWidget {
-  final List<Map> listItems = [
+  final UserBasic userBasic;
+  AppDrawer({Key key, this.userBasic}) : super(key: key);
+  
+  List<Map> listItems = [
     {"title": "Profile"},
     {"title": "Manage Clients"}
   ];
@@ -36,16 +40,18 @@ class AppDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProUserProfileScreen(),
-                          ),
-                        );
-                      },
-                      child: singleDrawItem('Profile')),
+//                  GestureDetector(
+//                      onTap: () {
+//                        Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                            builder: (context) => ProUserProfileScreen(
+//                              userBasic: userBasic,
+//                            ),
+//                          ),
+//                        );
+//                      },
+//                      child: singleDrawItem('Profile')),
                   SizedBox(
                     height: 10,
                   ),

@@ -4,12 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/FDRecordObject.dart';
-import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
-import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
-import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -111,6 +106,7 @@ class _FDRecordState extends State<FDRecord> {
                             height: 10.0,
                           ),
                           TextFormField(
+                            keyboardType: TextInputType.number,
                             decoration: buildCustomInput(
                                 hintText: "Fixed Deposit Number"),
                             validator: (value) =>
@@ -131,6 +127,7 @@ class _FDRecordState extends State<FDRecord> {
                             height: 10.0,
                           ),
                           TextFormField(
+                            keyboardType: TextInputType.number,
                             decoration:
                                 buildCustomInput(hintText: "Principal Amount"),
                             validator: (value) =>
@@ -181,6 +178,7 @@ class _FDRecordState extends State<FDRecord> {
                             height: 10.0,
                           ),
                           TextFormField(
+                            keyboardType: TextInputType.numberWithOptions(decimal: true),
                             decoration:
                                 buildCustomInput(hintText: "Maturity Amount"),
                             validator: (value) =>
@@ -222,7 +220,8 @@ class _FDRecordState extends State<FDRecord> {
                           ),
                           TextFormField(
                             decoration: buildCustomInput(
-                                hintText: "Term Of Investment"),
+                              hintText: "Term Of Investment",
+                            ),
                             validator: (value) =>
                                 requiredField(value, 'Term Of Investment(in months)'),
                             onChanged: (value) =>
