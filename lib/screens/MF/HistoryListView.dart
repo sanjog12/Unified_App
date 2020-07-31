@@ -17,6 +17,7 @@ import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 
 class HistoryView extends StatefulWidget {
@@ -435,7 +436,7 @@ class _HistoryViewState extends State<HistoryView> {
 												    		'${widget.currentValue}'
 												    ),
 													  SizedBox(width: 10,),
-													  Text(double.parse(widget.currentValue)-double.parse(widget.totalInvestment) <0 ?'-':'+',style: TextStyle(
+													  Text(double.parse(widget.currentValue)-double.parse(widget.totalInvestment) <0 ?'':'+',style: TextStyle(
 														  fontSize: 12,
 														  color: double.parse(widget.currentValue)-double.parse(widget.totalInvestment) <0 ?Colors.red:Colors.green,
 													  ),),
@@ -627,7 +628,6 @@ class _HistoryViewState extends State<HistoryView> {
 									await deletePortfolio();
 									Navigator.of(context).pop();
 									Navigator.pop(context);
-									Navigator.pop(context);
 								},
 							),
 							
@@ -672,16 +672,9 @@ class _HistoryViewState extends State<HistoryView> {
 					.child(widget.historyForMF.key)
 					.remove();
 			
-			Fluttertoast.showToast(
-					msg: "Record Deleted",
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			recordDeletedToast();
 			Navigator.pop(context);
-			Navigator.pop(context);
+//			Navigator.pop(context);
 //			Navigator.push(context,
 //				MaterialPageRoute(
 //					builder: (context)=> HistoryMFTry(

@@ -14,6 +14,7 @@ import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class HistoryMFTry extends StatefulWidget {
 	final Client client;
@@ -77,7 +78,6 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 				});
 			}
 		}
-		print("outside for loop");
 	}
 	
 	Future<void> getObject() async{
@@ -118,8 +118,8 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
     	print("1");
     	period = List.filled(history.length, null);
     	print("2");
-		    totalUnitsCalculate();
-		    print("back");
+    	totalUnitsCalculate();
+    	print("back");
     });
   }
   
@@ -224,9 +224,10 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 												      ),
 												      SizedBox(width: 7,),
 												      listOfTotalUnits[index] != 'null'?Text((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
-														      period[index]<0?("-"):("+")+
-														      ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
-																      period[index]).toStringAsFixed(3),
+														      period[index]<0 ?
+												      ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))- period[index]).toStringAsFixed(3)
+														      :"+"+ ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav)) - period[index]).toStringAsFixed(3),
+													      
 													      style: TextStyle(color: (double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
 															      period[index] <0?Colors.red:Colors.green,fontSize: 12),
 													      textAlign: TextAlign.end,
@@ -238,6 +239,10 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 									      ],
 								      ),
 									    onTap: (){
+									    	if(period[index] == null){
+									    		flutterToast(message: "Your portfolio is being calculated ... please wait");
+									    		return null;
+										    }
 									    	Navigator.push(context,
 											    MaterialPageRoute(
 												    builder:(context)=> HistoryView(
@@ -280,8 +285,7 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 	
 	
 	
-	Future<List<MutualFundDetailObject>> getNAV(String code,
-			String startDate, int i, List<String> deletedList) async {
+	Future<List<MutualFundDetailObject>> getNAV(String code, String startDate, int i, List<String> deletedList) async {
 		String tempDate;
 		List<MutualFundDetailObject> mutualFundDetailObject = [];
 		MutualFundDetailObject mutualFundDetailObject2 = MutualFundDetailObject();

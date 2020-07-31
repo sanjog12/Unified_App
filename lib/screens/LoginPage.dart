@@ -364,7 +364,7 @@ class _LoginPageState extends State<LoginPage>{
           buttonLoading = true;
         });
 
-        UserBasic userBasic = await _auth.loginUser(authDetails);
+        UserBasic userBasic = await _auth.loginUser(authDetails,context);
         print(userBasic.fullName);
         if (userBasic != null) {
           Navigator.pop(context);

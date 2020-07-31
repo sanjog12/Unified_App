@@ -9,11 +9,19 @@ import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/ApplicableCompliances.dart';
+import 'package:unified_reminder/screens/EPF/UpcomingCompliancesEPF.dart';
+import 'package:unified_reminder/screens/ESIC/Upcomingcompliances2.dart';
+import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';
+import 'package:unified_reminder/screens/IncomeTax/UpComingComliancesScreen.dart';
+import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
+import 'package:unified_reminder/screens/ROC/UpComingCompliancesScreen.dart';
+import 'package:unified_reminder/screens/TDS/UpcommingCompliances2.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/widgets/AppDrawer.dart';
+import 'package:unified_reminder/widgets/ListView.dart';
 import 'AddSingleClient.dart';
 
 const String testDevice = 'Mobile_Id';
@@ -270,6 +278,61 @@ class _DashboardState extends State<Dashboard> {
                                   SizedBox(height: 10,)
                                 ],
                               ),
+                              
+                              onLongPress: (){
+                                print(upComingCompliancesList[index].key);
+                                if(upComingCompliancesList[index].key == "TDS"){
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => UpcomingCompliancesTDS(
+                                      client: clientList.firstWhere((element){
+                                        return element.name == upComingCompliancesList[index].name;
+                                      }),)));
+                                }
+                                
+                                else if(upComingCompliancesList[index].key == "LIC"){
+                                  Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => UpCommingComliancesScreenForLIC(
+                                      client: clientList.firstWhere((element){
+                                        return element.name == upComingCompliancesList[index].name;
+                                      }),
+                                  )));
+                                }
+                                
+                                else if(upComingCompliancesList[index].key == "Income Tax"){
+                                  Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=>UpComingComliancesScreenForIncomeTax(
+                                    client: clientList.firstWhere((element){
+                                      return element.name == upComingCompliancesList[index].name;
+                                    })
+                                  )));
+                                }
+                                
+                                else if(upComingCompliancesList[index].key == "GST"){
+                                  Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => UpcomingCompliancesGST(
+                                    client: clientList.firstWhere((element){
+                                  return element.name == upComingCompliancesList[index].name;
+                                  }),
+                                  )));
+                                }
+                                
+                                else if(upComingCompliancesList[index].key =="EPF"){
+                                  Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=> UpcomingCompliancesEPF(
+                                    client: clientList.firstWhere((element){
+                                      return element.name == upComingCompliancesList[index].name;
+                                    }),
+                                  )));
+                                }
+                                
+                                else if(upComingCompliancesList[index].key == 'ESI'){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> UpcomingCompliancesESI(
+                                    client: clientList.firstWhere((element){
+                                      return element.name == upComingCompliancesList[index].name;
+                                    }),
+                                  )));
+                                }
+                              },
                             ),
                           ),
                         ):Container();

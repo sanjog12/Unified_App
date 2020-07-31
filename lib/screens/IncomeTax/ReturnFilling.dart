@@ -7,9 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class IncomeTaxReturnFilling extends StatefulWidget {
   final Client client;
@@ -186,35 +185,14 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                 incomeTaxReturnFillingsObject, widget.client,file);
 
         if (done) {
-          Fluttertoast.showToast(
-              msg: "Successfully Recorded",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos: 1,
-              backgroundColor: Color(0xff666666),
-              textColor: Colors.white,
-              fontSize: 16.0);
+          flutterToast(message: "Successfully Recorded");
           Navigator.pop(context);
         }
       }
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: e.message);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Payment Not Saved This Time',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Payment Not Saved This Time");
     } finally {
       this.setState(() {
         buttonLoading = false;

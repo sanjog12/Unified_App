@@ -7,9 +7,7 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/doneComplianceObject.dart';
 import 'package:unified_reminder/screens/LIC/Payment.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UpCommingComliancesScreenForLIC extends StatefulWidget {
   final Client client;

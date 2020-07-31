@@ -13,6 +13,7 @@ import 'package:unified_reminder/services/LocalNotificationServices.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 
@@ -544,49 +545,21 @@ class _AddMFScreenState extends State<AddMFScreen> {
                     mutualFundDetailObject: mutualFundDetailObject);
             bool done = await PaymentRecordToDataBase()
                 .AddMFRecord(mutualFundRecordObject, widget.client);
-
+            flutterToast(message: "Portfolio has been created Successfully");
             if (done) {
               Navigator.pop(context);
             }
           } else {
-            Fluttertoast.showToast(
-                msg: 'Scheme Not More Available!',
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIos: 1,
-                backgroundColor: Color(0xff666666),
-                textColor: Colors.white,
-                fontSize: 16.0);
+            flutterToast(message: 'Scheme No More Available!');
           }
         }
       } else {
-        Fluttertoast.showToast(
-            msg: 'Scheme Not Selected',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 1,
-            backgroundColor: Color(0xff666666),
-            textColor: Colors.white,
-            fontSize: 16.0);
+        flutterToast(message: 'Scheme Not Selected');
       }
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: e.message);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Payment Not Saved This Time',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: 'Something went wrong');
     } finally {
       this.setState(() {
         buttonLoading = false;
