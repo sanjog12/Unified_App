@@ -9,7 +9,7 @@ import 'package:unified_reminder/screens/TDS/History.dart';
 //import 'package:unified_reminder/screens/TDS/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
-import '../screens/TDS/UpcomingCompliances.dart';
+import 'UpcomingCompliances.dart';
 
 class TDSScreen extends StatefulWidget {
   final Client client;

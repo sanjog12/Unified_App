@@ -24,14 +24,6 @@ class UpcomingCompliancesESI extends StatefulWidget {
 
 class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 	
-	List<UpComingComplianceObject> t1 = [];
-	List<doneComplianceObject> t2 = [];
-	
-	Future<List<UpComingComplianceObject>> getUpcoming() async{
-		t1=await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfGST(widget.client);
-//		t2 = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(widget.client.email, todayDate, snapshotKey)
-	}
-	
 	
 	@override
 	Widget build(BuildContext context) {
@@ -54,6 +46,18 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 								
 								builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 									if(snapshot.hasData){
+										if(snapshot.data.length == 0){
+											return ListView(
+											  children:<Widget>[
+												  Container(
+													  decoration: roundedCornerButton,
+													  child: ListTile(
+														  title: Text("No Upcoming Compliances"),
+													  ),
+												  ),
+											  ],
+											);
+										}
 										return ListView.builder(
 											itemCount: snapshot.data.length,
 											itemBuilder: (BuildContext context, int index){

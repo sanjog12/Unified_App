@@ -31,10 +31,22 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
 				    children: <Widget>[
 					    Expanded(
 						    child: FutureBuilder<List<UpComingComplianceObject>>(
-							    future: UpComingComplianceDatabaseHelper().getUpcomingCompliancesForMonthEPF(),
-							
+							    future: UpComingComplianceDatabaseHelper().getUpcomingCompliancesForMonthEPF(widget.client),
 							    builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 								    if(snapshot.hasData){
+								    	if(snapshot.data.length == 0){
+								    		return ListView(
+											    children: <Widget>[
+											    	Container(
+													    margin: EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+													    decoration: roundedCornerButton,
+													    child: ListTile(
+														    title: Text("No Upcoming compliances"),
+													    ),
+												    ),
+											    ],
+										    );
+									    }
 									    return ListView.builder(
 										    itemCount: snapshot.data.length,
 										    itemBuilder: (BuildContext context, int index){
@@ -60,11 +72,8 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
 														    	else if(snapshot.data[index].label.split(" ")[1] == "Detailed"){
 																    Navigator.push(context,
 																		    MaterialPageRoute(
-																				    builder: (context) =>
-																						    DetailsOfContribution(
-																							    client: widget.client,)));
-														    	}
-														    	
+																				    builder: (context) => DetailsOfContribution(
+																							    client: widget.client,)));}
 														    	},
 													    ),
 												    );
@@ -80,7 +89,6 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
 										    },
 									    );
 								    }else{
-								    	print('here');
 									    return  Container(
 										    child: Center(
 											    child: CircularProgressIndicator(

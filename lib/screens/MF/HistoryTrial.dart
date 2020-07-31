@@ -224,7 +224,7 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 												      ),
 												      SizedBox(width: 7,),
 												      listOfTotalUnits[index] != 'null'?Text((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
-														      period[index]<0?"-":"+"+
+														      period[index]<0?("-"):("+")+
 														      ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
 																      period[index]).toStringAsFixed(3),
 													      style: TextStyle(color: (double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-

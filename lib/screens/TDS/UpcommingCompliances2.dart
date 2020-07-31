@@ -41,7 +41,7 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 		List<UpComingComplianceObject> compliancesForListView = [];
 		List<UpComingComplianceObject> compliances =
 		await UpComingComplianceDatabaseHelper()
-				.getUpComingComplincesForMonthOfTDS();
+				.getUpComingComplincesForMonthOfTDS(widget.client);
 		
 		String clientEmail = widget.client.email.replaceAll('.', ',');
 		
@@ -103,11 +103,24 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 			      children: <Widget>[
 			      	Expanded(
 			      	  child: FutureBuilder<List<UpComingComplianceObject>>(
-					      future: _getUpComings(),
+					      future: UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfTDS(widget.client),
 					      builder: (BuildContext context,AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 					      	if(snapshot.hasData){
+							      if(snapshot.data.length == 0){
+								      return ListView(
+								        children :<Widget>[
+									        Container(
+										        decoration: roundedCornerButton,
+										        child: ListTile(
+											        title: Text("No Upcoming Compliances"),
+										        ),
+									        ),
+								        ],
+								      );
+							      }
+					      		print(snapshot.data.length);
 					      		return ListView.builder(
-									          itemCount: snapshot.data.length,
+									          itemCount: snapshot.data.length ,
 									          itemBuilder: (BuildContext context, int index){
 									          	return Container(
 											          padding: EdgeInsets.all(15),
@@ -157,7 +170,7 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 						      }
 					      },
 				      ),
-			      	)
+				      )
 			      ],
 		      ),
 	    ),

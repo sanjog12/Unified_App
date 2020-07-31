@@ -7,9 +7,7 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/screens/GST/GSTRPayment.dart';
 import 'package:unified_reminder/screens/GST/ReturnFillingGST.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UpcomingCompliancesGST extends StatefulWidget {
 	
@@ -53,6 +51,18 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 							    
 							    builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 							    	if(snapshot.hasData){
+							    		if(snapshot.data.length == 0){
+							    			return ListView(
+											    children: <Widget>[
+											    	Container(
+													    decoration: roundedCornerButton,
+													    child: ListTile(
+														    title: Text("No Upcoming Compliances"),
+													    ),
+												    )
+											    ],
+										    );
+									    }
 							    		return ListView.builder(
 										    itemCount: snapshot.data.length,
 											  itemBuilder: (BuildContext context, int index){

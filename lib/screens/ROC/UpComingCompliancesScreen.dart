@@ -246,8 +246,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								      makeWidget("Form AOC-4(XBRL)", 30),
 							      ],
 							    ):Container(),
-							
-							   
+							    
 							
 							    mgt_7?Column(
 							      children: <Widget>[
@@ -255,8 +254,6 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								      makeWidget("Form MGT-7", 60),
 							      ],
 							    ):Container(),
-							    
-							    
 							
 							    cra_4?Column(
 							      children: <Widget>[
@@ -264,8 +261,6 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								      makeWidget("Form CRA-4", 30),
 							      ],
 							    ):Container(),
-							    
-							    
 							
 							    mgt_14?Column(
 							      children: <Widget>[
@@ -300,17 +295,13 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 							    )
 						    ],
 					    ),
-				    )
-						    
-						    
-						    :Column(
+				    ) :Column(
 					    crossAxisAlignment: CrossAxisAlignment.stretch,
 					    children: <Widget>[
 						    Text("AGM Submission date"),
 						    SizedBox(
 							    height: 10.0,
 						    ),
-						    
 						    Container(
 							    padding: EdgeInsets.symmetric(horizontal: 10),
 							    decoration: fieldsDecoration,
@@ -329,7 +320,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								    ],
 							    ),
 						    ),
-						
+						    
 						    SizedBox(
 							    height: 30.0,
 						    ),
@@ -345,7 +336,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 										    valueColor: AlwaysStoppedAnimation<Color>
 											    (Colors.white70),
 									    ),
-								    ) :Text("Save AGM Date"),
+								    ) :Text("Save Details"),
 								    onPressed: () {
 								    	showConfirmation(context, _selectedDateOfAgm);
 								    },

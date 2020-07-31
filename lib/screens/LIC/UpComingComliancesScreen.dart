@@ -132,7 +132,7 @@ class _UpCommingComliancesScreenForLICState
                             margin: EdgeInsets.symmetric(vertical: 10.0),
                             child: ListTile(
                               title: Text(
-                                  '${snapshot.data[index].label} fir ${snapshot.data[index].name} '
+                                  '${snapshot.data[index].label} for ${snapshot.data[index].name} '
                                       '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
                             ),
                           ),
