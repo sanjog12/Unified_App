@@ -25,6 +25,7 @@ dependencies:
   provider:
   shared_preferences: ^0.5.8
   firebase_admob: ^0.9.3+2
+  showcaseview: ^0.1.5
   firebase_auth:
   cloud_firestore:
   fluttertoast:

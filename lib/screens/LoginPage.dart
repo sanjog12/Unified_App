@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/router.dart';
@@ -217,9 +218,11 @@ class _LoginPageState extends State<LoginPage>{
                               Navigator.pop(context);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context)=> Dashboard(
-                                    userBasic: userBasic,
-                                  )
+                                  builder: (context)=> ShowCaseWidget(
+                                    builder: Builder(
+                                      builder: (context)=>Dashboard(),
+                                    ),
+                                  ),
                                 )
                               );
                             } else {}
@@ -370,9 +373,11 @@ class _LoginPageState extends State<LoginPage>{
           Navigator.pop(context);
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => Dashboard(
-                userBasic: userBasic,
-              )
+              builder: (context) => ShowCaseWidget(
+                builder: Builder(
+                  builder: (context)=>Dashboard(),
+                ),
+              ),
             )
           );
         } else {}

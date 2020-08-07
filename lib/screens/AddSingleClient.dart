@@ -9,6 +9,7 @@ import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
+
 class AddSingleClient extends StatefulWidget {
   final Map arguments;
 
@@ -17,7 +18,7 @@ class AddSingleClient extends StatefulWidget {
   _AddSingleClientState createState() => _AddSingleClientState();
 }
 
-class _AddSingleClientState extends State<AddSingleClient> {
+class _AddSingleClientState extends State<AddSingleClient>{
   String _constitution;
   FirestoreService fireStoreService = FirestoreService();
   bool buttonLoading = false;
@@ -47,10 +48,8 @@ class _AddSingleClientState extends State<AddSingleClient> {
     _compliances.add(Compliance(title: "ROC", value: "roc", checked: false));
     _compliances.add(Compliance(title: "LIC", value: "lic", checked: false));
     _compliances.add(Compliance(title: "PPF", value: "ppf", checked: false));
-    _compliances
-        .add(Compliance(title: "MUTUAL FUND", value: "mf", checked: false));
-    _compliances
-        .add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false));
+    _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: false));
+    _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false));
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Client'),
