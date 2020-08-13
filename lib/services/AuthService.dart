@@ -135,20 +135,21 @@ class AuthService {
 
   Future<UserBasic> loginUser(UserAuth authDetails, BuildContext context) async {
     try {
-      
       AuthResult user = await _auth.signInWithEmailAndPassword(
           email: authDetails.email, password: authDetails.password);
       bool temp = user.user.isEmailVerified;
       if(!temp){
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text("Your account has not been verified. Verify your account using a link sent to your given email address"),
-          action: SnackBarAction(
-            label: "Ok",
-            onPressed: (){
-              Scaffold.of(context).hideCurrentSnackBar();
-            },
-          ),
-        ));
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Your account has not been verified. Verify your account using a link sent to your given email address"),
+              action: SnackBarAction(
+                label: "Ok",
+                onPressed: (){
+                  Scaffold.of(context).hideCurrentSnackBar();
+                  },
+              ),
+            )
+        );
         return null;
       }
       SharedPrefs.setStringPreference("uid", user.user.uid);
@@ -196,7 +197,7 @@ class AuthService {
       return UserBasic(
         email: loginUser.user.email,
         uid: loginUser.user.uid,
-        fullName: loginUser.user.displayName,
+//        fullName: loginUser.user.displayName,
       );
     }
     catch(e) {

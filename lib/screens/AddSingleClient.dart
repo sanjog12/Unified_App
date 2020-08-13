@@ -1,24 +1,34 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
+import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
+import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 
 class AddSingleClient extends StatefulWidget {
+  
   final Map arguments;
-
-  const AddSingleClient({this.arguments});
+  final UserBasic userBasic;
+  final List<Client> clientList;
+  
+  const AddSingleClient({this.arguments, this.userBasic, this.clientList});
   @override
   _AddSingleClientState createState() => _AddSingleClientState();
 }
 
 class _AddSingleClientState extends State<AddSingleClient>{
+  
   String _constitution;
   FirestoreService fireStoreService = FirestoreService();
   bool buttonLoading = false;
@@ -26,15 +36,99 @@ class _AddSingleClientState extends State<AddSingleClient>{
   Client _client = Client('', '', '', '', '', '', '');
   List<Compliance> _compliances = [];
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  Razorpay _razorpay;
+  bool willPop = true;
+  
   
   
   Future<void> subscribeTopic(String compliance, bool subscribe) async{
+    
     if(subscribe){
       firebaseMessaging.subscribeToTopic(compliance.replaceAll(' ', '_f'));
     }
     else if(subscribe){
       firebaseMessaging.unsubscribeFromTopic(compliance);
     }
+  }
+  
+  Future<bool> onWillPop() async{
+      return await showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text("Warning"),
+            content: Text("You cant go back from this page after making payment"),
+            actions: [
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: (){
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              
+              FlatButton(
+                child: Text("Exit"),
+                onPressed: (){
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        }
+      )??false;
+  }
+  
+  
+
+  void openCheckout() async {
+    var options = {
+      'key': 'rzp_test_YHXEshy02jkv2N',
+      'amount': 2500,
+      'name': 'Tax Reminder',
+      'description': 'Fee for adding further clients',
+//      'prefill': {'Unique Id': uid},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+  
+    try {
+      _razorpay.open(options);
+    } catch (e){
+      debugPrint(e);
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    PaymentRecordToDataBase().savePaymentDetails(response);
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId, timeInSecForIos: 10);
+    willPop = false;
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(
+        msg: response.message ,
+        timeInSecForIos: 10);
+    Navigator.pop(context);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIos: 10);
+    Navigator.pop(context);
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    if(widget.clientList.length >= 5){
+      openCheckout();
+    }
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
   
 
@@ -50,44 +144,48 @@ class _AddSingleClientState extends State<AddSingleClient>{
     _compliances.add(Compliance(title: "PPF", value: "ppf", checked: false));
     _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: false));
     _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false));
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Client'),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(15),
-        color: backgroundColor,
-        child: Form(
-          key: _clientsFormKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(15),
-                  child: clientForm(),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Container(
-                  decoration: roundedCornerButton,
-                  child: FlatButton(
-                    child: buttonLoading
-                        ? CircularProgressIndicator(
-                          strokeWidth: 3.0,
-                          valueColor: AlwaysStoppedAnimation(
-                            Colors.white,
-                          ),
-                        )
-                        : Text("Save"),
-                    onPressed: () {
-                      saveClients(_client, _compliances);
-                    },
-                    color: buttonColor,
+    
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Add Client'),
+        ),
+        body: Container(
+          padding: EdgeInsets.all(15),
+          color: backgroundColor,
+          child: Form(
+            key: _clientsFormKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    child: clientForm(),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    decoration: roundedCornerButton,
+                    child: FlatButton(
+                      child: buttonLoading
+                          ? CircularProgressIndicator(
+                            strokeWidth: 3.0,
+                            valueColor: AlwaysStoppedAnimation(
+                              Colors.white,
+                            ),
+                          )
+                          : Text("Save"),
+                      onPressed: () {
+                        saveClients(_client, _compliances);
+                      },
+                      color: buttonColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -95,6 +193,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
     );
   }
 
+  
   Future<void> saveClients(Client clients, List<Compliance> compliances) async {
     print(clients.toString());
     if (_clientsFormKey.currentState.validate()) {
@@ -119,7 +218,11 @@ class _AddSingleClientState extends State<AddSingleClient>{
           if (savedClients) {
             Navigator.pop(context);
             Navigator.push(context, MaterialPageRoute(
-                builder: (context)=>Dashboard()
+                builder: (context)=>ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context)=>Dashboard(),
+                  ),
+                )
             ));
           } else {}
         }
@@ -127,7 +230,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
         print(e);
         print(stack);
       }
-//        bool savedClients = await _firestoreService.saveClients(clients);
+      
       this.setState(() {
         buttonLoading = false;
       });
@@ -139,15 +242,6 @@ class _AddSingleClientState extends State<AddSingleClient>{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-//      Padding(
-//        padding: const EdgeInsets.only(bottom: 24.0),
-//        child: Text(
-//          clientId == -1 ? '' : "Client #${clientId + 1}",
-//          style: TextStyle(
-//            fontSize: 18.0,
-//          ),
-//        ),
-//      ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

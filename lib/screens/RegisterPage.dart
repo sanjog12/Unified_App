@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/userbasic.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/styles/colors.dart';
@@ -392,7 +391,9 @@ class _RegisterPageState extends State<RegisterPage> {
             MaterialPageRoute(
               builder: (context)=>ShowCaseWidget(
                 builder: Builder(
-                  builder: (context)=>Dashboard(),
+                  builder: (context)=>Dashboard(
+                    userBasic: user,
+                  ),
                 ),
               ),
             )
@@ -428,7 +429,9 @@ class _RegisterPageState extends State<RegisterPage> {
           MaterialPageRoute(
             builder: (context)=> ShowCaseWidget(
               builder: Builder(
-                builder: (context)=>Dashboard(),
+                builder: (context)=>Dashboard(
+                  userBasic: googleUser,
+                ),
               ),
             ),
           ),

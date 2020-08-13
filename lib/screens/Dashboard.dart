@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,17 +15,16 @@ import 'package:unified_reminder/screens/ESIC/Upcomingcompliances2.dart';
 import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';
 import 'package:unified_reminder/screens/IncomeTax/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
-import 'package:unified_reminder/screens/ROC/UpComingCompliancesScreen.dart';
 import 'package:unified_reminder/screens/TDS/UpcommingCompliances2.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/widgets/AppDrawer.dart';
-import 'package:unified_reminder/widgets/ListView.dart';
 import 'AddSingleClient.dart';
 
 const String testDevice = 'Mobile_Id';
+
 class Dashboard extends StatefulWidget {
   final UserBasic userBasic;
 
@@ -80,6 +78,7 @@ class _DashboardState extends State<Dashboard> {
     return clientsData;
   }
 
+  
   Future<void> temp() async{
     firebaseUID = await SharedPrefs.getStringPreference('uid');
     dbf = firebaseDatabase
@@ -90,8 +89,8 @@ class _DashboardState extends State<Dashboard> {
     
     print(firebaseUID);
   
-    await dbf.once().then((DataSnapshot snapshot){
-      Map<dynamic,dynamic> map = snapshot.value;
+    await dbf.once().then((DataSnapshot snapshot) async{
+      Map<dynamic,dynamic> map = await snapshot.value;
       map.forEach((key,v) {
         print("Key  :" + v.toString());
         if(map.isNotEmpty) {
@@ -107,55 +106,40 @@ class _DashboardState extends State<Dashboard> {
           );
         }
       });
+      setState(() {
+        clientLoad = true;
+      });
     });
   }
-
-//  BannerAd bannerAd;
-//  BannerAd createBannerAd(){
-//    return BannerAd(
-////      adUnitId: 'ca-app-pub-4569649492742996/8555084850',
-//      size: AdSize.smartBanner,
-//      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-//      targetingInfo: targetingInfo,
-//      listener: (MobileAdEvent event){
-//        print("ad " +event.toString());
-//      }
-//    );
-//  }
-
-//  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-//    testDevices: testDevice != null ?<String>[testDevice] : null,
-//    nonPersonalizedAds: true,
-//    contentUrl: 'https://flutter.io',
-//    childDirected: false,
-//    keywords: <String>['game','mario'],
-//  );
+  
+  
+  tutorial() async{
+    String temp = await SharedPrefs.getStringPreference("dashTutorial");
+    if(temp != "done") {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ShowCaseWidget.of(context).startShowCase([first, second, third]);
+        SharedPrefs.setStringPreference("dashTutorial", "done");
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-//    print("user check"+widget.userBasic.fullName);
     getUserId();
     _userController = StreamController();
     temp().whenComplete(() async{
       upComingCompliancesList = await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonth(clientList).whenComplete((){
+        if(this.mounted)
         setState(() {
           list = true;
-          clientLoad = true;
         });
       });
       setState(() {
         loading = true;
       });
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        ShowCaseWidget.of(context).startShowCase([first, second, third]));
-//    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
-//    bannerAd = createBannerAd()..load()..show(
-//      anchorType: AnchorType.bottom,
-//      horizontalCenterOffset: 10.0,
-//      anchorOffset: 0.0,
-//    );
+    tutorial();
   }
   
 
@@ -200,11 +184,31 @@ class _DashboardState extends State<Dashboard> {
           key: first,
           description: "Add new clients",
           child: FloatingActionButton(
-            onPressed: () {
+            onPressed: () async{
+              if(clientList.length>5){
+                  await showDialog(
+                      context: context,
+                      builder: (context)=>AlertDialog(
+                        title: Text("Alert"),
+                        content: Text("You have already registered 5 clients , to add further you will be charged 25Rs"),
+                        actions: [
+                          FlatButton(
+                            child: Text("Ok"),
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
+                          )
+                        ],
+                      )
+                  );
+                }
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddSingleClient(),
+                  builder: (context) => AddSingleClient(
+                    clientList: clientList,
+                    userBasic: widget.userBasic,
+                  ),
                 ),
               );
             },

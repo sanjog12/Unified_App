@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_string/random_string.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:unified_reminder/models/MutualFundRecordObject.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/client.dart';
@@ -736,5 +737,27 @@ class PaymentRecordToDataBase {
       print(e);
       return false;
     }
+  }
+  
+  
+  
+  
+  Future<void> savePaymentDetails(PaymentSuccessResponse response) async{
+    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    dbf = firebaseDatabase.reference();
+    try{
+    dbf.child("PaymentRecords")
+       .child(firebaseUserId)
+       .push()
+       .set({
+      "Order Id":response.orderId,
+      "Payment Id":response.paymentId,
+      "Date":DateTime.now().toString(),
+    });
+    }catch(e){
+      print("error");
+      debugPrint(e);
+    }
+    
   }
 }

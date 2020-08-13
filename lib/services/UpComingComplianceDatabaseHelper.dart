@@ -141,7 +141,6 @@ class UpComingComplianceDatabaseHelper {
             
             await dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic, dynamic> valuesdata = await snapshot.value;
-              print('15');
               if (valuesdata == null) {
                 UpComingComplinceData.add(UpComingComplianceObject(
                   name: p.name,
@@ -348,10 +347,6 @@ class UpComingComplianceDatabaseHelper {
             await dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic, dynamic> valuesdate = await snapshot.value;
               if (valuesdate == null) {
-                UpComingComplianceObject upComingComplianceObject =
-                UpComingComplianceObject(
-                    date: ' ', label: 'No TDS Compliance in this month');
-                UpComingComplinceData.add(upComingComplianceObject);
               } else {
                 for(var v in doneCompliances){
                   valuesdate.remove(v.key);

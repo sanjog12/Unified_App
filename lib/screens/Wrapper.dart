@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcase_widget.dart';
-import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/LoginPage.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
@@ -97,10 +96,20 @@ class _WrapperState extends State<Wrapper> {
         : StreamBuilder(
             stream: firestoreService.getUserDetails(firebaseUserId),
             builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {}
+              if (snapshot.hasData) {
+                print("hash data");
+                return ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context)=>Dashboard(
+                    
+                    ),
+                  ),
+                );
+              }
               return ShowCaseWidget(
                 builder: Builder(
-                  builder: (context)=>Dashboard(),
+                  builder: (context)=>Dashboard(
+                  ),
                 ),
               );
             },

@@ -199,7 +199,6 @@ class _LoginPageState extends State<LoginPage>{
 					                  : Row(
 				                  mainAxisAlignment: MainAxisAlignment.start,
 				                  children: <Widget>[
-					
 					                  Image.asset("assets/images/google_logo0_5p.png", height:50 ),
 					                  SizedBox(width: 40),
 					                  Text(
@@ -220,7 +219,9 @@ class _LoginPageState extends State<LoginPage>{
                                 MaterialPageRoute(
                                   builder: (context)=> ShowCaseWidget(
                                     builder: Builder(
-                                      builder: (context)=>Dashboard(),
+                                      builder: (context)=>Dashboard(
+                                        userBasic: userBasic,
+                                      ),
                                     ),
                                   ),
                                 )
@@ -296,7 +297,7 @@ class _LoginPageState extends State<LoginPage>{
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: TextFormField(
               validator: (value) => validateEmail(value),
               
@@ -310,7 +311,7 @@ class _LoginPageState extends State<LoginPage>{
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+            padding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
             child: Container(
               height: 50,
               child: FlatButton(
@@ -375,7 +376,9 @@ class _LoginPageState extends State<LoginPage>{
             MaterialPageRoute(
               builder: (context) => ShowCaseWidget(
                 builder: Builder(
-                  builder: (context)=>Dashboard(),
+                  builder: (context)=>Dashboard(
+                    userBasic: userBasic,
+                  ),
                 ),
               ),
             )
