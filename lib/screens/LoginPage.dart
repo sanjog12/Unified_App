@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:showcaseview/showcase.dart';
 import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
+import 'package:unified_reminder/screens/RegisterPage.dart';
 import 'package:unified_reminder/services/AuthService.dart';
+import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -27,7 +29,27 @@ class _LoginPageState extends State<LoginPage>{
   GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _loginScaffold = GlobalKey<ScaffoldState>();
   bool obscureText = true;
+  GlobalKey key = GlobalKey();
+  GlobalKey first = GlobalKey();
+  GlobalKey second = GlobalKey();
+  GlobalKey third = GlobalKey();
+  GlobalKey fourth = GlobalKey();
   
+  tutorial() async{
+    String temp = await SharedPrefs.getStringPreference("loginTutorial");
+    if(temp != "done") {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ShowCaseWidget.of(this.context).startShowCase([first, second, third]);
+        SharedPrefs.setStringPreference("loginTutorial", "done");
+      });
+    }
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    tutorial();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -153,25 +175,29 @@ class _LoginPageState extends State<LoginPage>{
                     SizedBox(
                       height: 40.0,
                     ),
-                    Container(
-                      decoration: roundedCornerButton,
-                      height: 50.0,
-                      child: FlatButton(
-                        child: buttonLoading
-                            ? Container(
-                                height: 30.0,
-                                width: 30.0,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3.0,
-                                  valueColor: AlwaysStoppedAnimation(
-                                    Colors.white,
+                    Showcase(
+                      key: second,
+                      description: "",
+                      child: Container(
+                        decoration: roundedCornerButton,
+                        height: 50.0,
+                        child: FlatButton(
+                          child: buttonLoading
+                              ? Container(
+                                  height: 30.0,
+                                  width: 30.0,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3.0,
+                                    valueColor: AlwaysStoppedAnimation(
+                                      Colors.white,
+                                    ),
                                   ),
-                                ),
-                              )
-                            : Text("Login"),
-                        onPressed: () {
-                          loginUser(userAuth);
-                        },
+                                )
+                              : Text("Login"),
+                          onPressed: () {
+                            loginUser(userAuth);
+                          },
+                        ),
                       ),
                     ),
 	                  
@@ -181,7 +207,10 @@ class _LoginPageState extends State<LoginPage>{
                       height: 20,
                     ),
 	
-	                  Container(
+	                  Showcase(
+                      key: third,
+	                    description: "Continue with google login",
+	                    child: Container(
                       decoration: roundedCornerButton,
 		                  height: 50.0,
 		                  child: FlatButton(
@@ -238,39 +267,47 @@ class _LoginPageState extends State<LoginPage>{
                           }
 			                  },
 		                  ),
+	                    ),
 	                  ),
                     
                     SizedBox(
                       height: 50.0,
                     ),
-  
                     
-                    
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Dont have an account?",
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.0,
+                    Showcase(
+                      key: first,
+                      description: "New to Tax Reminder? Click here to join now",
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Dont have an account?",
                           ),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(RegisterTypeRoute);
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: linkColor,
-                                fontWeight: FontWeight.bold,
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context,
+                                  MaterialPageRoute(
+                                    builder: (context)=>ShowCaseWidget(builder: Builder(
+                                      builder: (context)=>RegisterPage(),
+                                    ))
+                                  )
+                                );
+                              },
+                              child: Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  color: linkColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),

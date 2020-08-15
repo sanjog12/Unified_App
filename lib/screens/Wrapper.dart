@@ -91,8 +91,11 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return firebaseUserId == null
-        ? LoginPage()
+    return firebaseUserId == null ? ShowCaseWidget(
+      builder: Builder(
+        builder: (context)=>LoginPage()
+      ),
+    )
         : StreamBuilder(
             stream: firestoreService.getUserDetails(firebaseUserId),
             builder: (BuildContext context, snapshot) {

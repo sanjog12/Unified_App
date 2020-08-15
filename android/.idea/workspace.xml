@@ -1,28 +1,1123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b346e63-862d-4bc9-9210-3e30550ffe10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="1757a661-3036-4779-9481-4eca70c9ba99" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_razorpay_checkout_1_5_16_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_arm64_v8a_debug_1_0_0_c8e3b9485386425213e2973126d6f57e7ed83c54_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_armeabi_v7a_debug_1_0_0_c8e3b9485386425213e2973126d6f57e7ed83c54_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_flutter_embedding_debug_1_0_0_c8e3b9485386425213e2973126d6f57e7ed83c54_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_x86_64_debug_1_0_0_c8e3b9485386425213e2973126d6f57e7ed83c54_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_x86_debug_1_0_0_c8e3b9485386425213e2973126d6f57e7ed83c54_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/-86948162/razorpay_flutter.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/new_logo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/splash_screen_new.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/models/PaymentHistory.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/screens/PaymentHistoryScreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.dart_tool/flutter_build/0bf92d49e2ec3fe5e99e61ae38de056a/flutter_assets.d" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/../.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/armeabi-v7a/app.so" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/armeabi-v7a/app.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/libs.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/libs.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_arm64_v8a_debug_1_0_0_ee76268252c22f5c11e82a7b87423ca3982e51a7_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_armeabi_v7a_debug_1_0_0_ee76268252c22f5c11e82a7b87423ca3982e51a7_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_flutter_embedding_debug_1_0_0_ee76268252c22f5c11e82a7b87423ca3982e51a7_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_x86_64_debug_1_0_0_ee76268252c22f5c11e82a7b87423ca3982e51a7_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__io_flutter_x86_debug_1_0_0_ee76268252c22f5c11e82a7b87423ca3982e51a7_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1002548188/flutter_pdfview.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1002548188/flutter_pdfview.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1109646582/webview_flutter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1109646582/webview_flutter.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1137535103/firebase_core_web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1137535103/firebase_core_web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1464682822/firebase_admob.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1464682822/firebase_admob.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1870226332/firebase_auth_web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1870226332/firebase_auth_web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1893002270/shared_preferences_web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1893002270/shared_preferences_web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-2109265198/path_provider.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-2109265198/path_provider.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-255641115/flutter_local_notifications.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-255641115/flutter_local_notifications.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-502159827/shared_preferences.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-502159827/shared_preferences.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-572392307/file_picker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-572392307/file_picker.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-746895960/firebase_database.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-746895960/firebase_database.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-799216830/shared_preferences_macos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-799216830/shared_preferences_macos.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1037192636/url_launcher.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1037192636/url_launcher.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1247508942/firebase_storage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1247508942/firebase_storage.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1582097739/cloud_firestore_web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1582097739/cloud_firestore_web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1617931521/firebase_messaging.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1617931521/firebase_messaging.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1755520947/firebase_core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1755520947/firebase_core.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1767918491/flutter_plugin_android_lifecycle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1767918491/flutter_plugin_android_lifecycle.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1816488785/url_launcher_macos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1816488785/url_launcher_macos.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/2128400642/google_sign_in_web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/2128400642/google_sign_in_web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/231754419/url_launcher_web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/231754419/url_launcher_web.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/349544084/fluttertoast.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/349544084/fluttertoast.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/402363505/google_sign_in.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/402363505/google_sign_in.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/662731054/cloud_firestore.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/662731054/cloud_firestore.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/831280825/firebase_auth.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/831280825/firebase_auth.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/launch_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/launch_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-de.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-en-rGB.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-fa.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-fr-rCA.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-gl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-kk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-pl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-tl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values-watch-v20.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/blame/res/release/multi-v2/values.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeExtDexDebug/classes2.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeExtDexDebug/classes2.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_1.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_1.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_10.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_10.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_11.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_11.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_12.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_12.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_13.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_13.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_14.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_14.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_15.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_15.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_16.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_16.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_17.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_17.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_18.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_18.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_19.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_19.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_2.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_2.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_20.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_20.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_21.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_21.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_22.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_22.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_23.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_23.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_24.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_24.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_3.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_3.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_4.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_4.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_5.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_5.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_6.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_6.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_7.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_7.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_8.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_8.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_9.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeLibDexDebug/classes_9.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeProjectDexDebug/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex/debug/mergeProjectDexDebug/classes.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/dex_archive_input_jar_hashes/debug/out" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/dex_archive_input_jar_hashes/debug/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/flutter/debug/flutter_assets/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/armeabi-v7a/app.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/flutter_assets/fonts/MaterialIcons-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/flutter/release/libs.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeJavaRes/zip-cache/A5sdi3gECHO1UBZ+_eYGFCEOjJI=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeJavaRes/zip-cache/G2sLaKV27aBjQ38IFeELARUD_vc=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeJavaRes/zip-cache/MoUTWBh6fpxOwEv1BJ381zqZY_g=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeJavaRes/zip-cache/k13_5ByUcq+yJy6wo18Bk3dUiYA=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeNativeLibs/merge-state" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeNativeLibs/merge-state" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeNativeLibs/zip-cache/A5sdi3gECHO1UBZ+_eYGFCEOjJI=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeNativeLibs/zip-cache/G2sLaKV27aBjQ38IFeELARUD_vc=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeNativeLibs/zip-cache/MoUTWBh6fpxOwEv1BJ381zqZY_g=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/debug-mergeNativeLibs/zip-cache/k13_5ByUcq+yJy6wo18Bk3dUiYA=" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ar/values-ar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-bs/values-bs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-cs/values-cs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-kk/values-kk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ml/values-ml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-ta/values-ta.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeDebugResources/merger.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merged.dir/values-bs/values-bs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merged.dir/values-cs/values-cs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merged.dir/values-fi/values-fi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merged.dir/values-ml/values-ml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merged.dir/values-mr/values-mr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merged.dir/values-si/values-si.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merged.dir/values-ta/values-ta.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/mergeReleaseResources/merger.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/app/outputs/apk/app.apk" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/outputs/apk/app.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build/app/outputs/apk/app.apk.sha1" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/outputs/apk/app.apk.sha1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/drawable-hdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/drawable-hdpi-v4/notification_bg_low_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/drawable-hdpi-v4/notification_bg_low_pressed.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/drawable-xhdpi-v4/common_full_open_on_phone.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/drawable/common_google_signin_btn_text_light_normal.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/drawable/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/values-ca/values-ca.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/values-en-rIN/values-en-rIN.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/values-en-rXC/values-en-rXC.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/values-mn/values-mn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/values-or/values-or.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/values-v16/values-v16.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged-not-compiled-resources/release/values-zh-rCN/values-zh-rCN.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged_native_libs/debug/out/lib/arm64-v8a/libflutter.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged_native_libs/debug/out/lib/x86/libflutter.so" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/merged_native_libs/debug/out/lib/x86/libflutter.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/merged_native_libs/debug/out/lib/x86_64/libflutter.so" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/merged_native_libs/debug/out/lib/x86_64/libflutter.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/navigation_json/release/navigation.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/processed_res/release/out/resources-release.ap_" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/project_dex_archive/debug/out/f7051fddf6b5daabc40b168e9104ad70a815bff63d7fb1de2c1dce8bdb660baf_0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/project_dex_archive/debug/out/f7051fddf6b5daabc40b168e9104ad70a815bff63d7fb1de2c1dce8bdb660baf_1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/project_dex_archive/debug/out/f7051fddf6b5daabc40b168e9104ad70a815bff63d7fb1de2c1dce8bdb660baf_2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/project_dex_archive/debug/out/f7051fddf6b5daabc40b168e9104ad70a815bff63d7fb1de2c1dce8bdb660baf_3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/project_dex_archive/debug/out/io/flutter/plugins/GeneratedPluginRegistrant.dex" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/project_dex_archive/debug/out/io/flutter/plugins/GeneratedPluginRegistrant.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/mipmap-mdpi_ic_launcher.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-az_values-az.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-b+sr+Latn_values-b+sr+Latn.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-bg_values-bg.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-de_values-de.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-en-rGB_values-en-rGB.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-eu_values-eu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-hy_values-hy.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-ka_values-ka.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-mk_values-mk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-nb_values-nb.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-pa_values-pa.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/res/merged/release/values-uz_values-uz.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/stripped_native_libs/debug/out/lib/arm64-v8a/libflutter.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/stripped_native_libs/debug/out/lib/x86/libflutter.so" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/stripped_native_libs/debug/out/lib/x86/libflutter.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/intermediates/stripped_native_libs/debug/out/lib/x86_64/libflutter.so" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/intermediates/stripped_native_libs/debug/out/lib/x86_64/libflutter.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/kotlin/compileDebugKotlin/last-build.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/kotlin/compileDebugKotlin/last-build.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/kotlin/compileReleaseKotlin/caches-jvm/inputs/source-to-output.tab_i.len" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/kotlin/compileReleaseKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/kotlin/compileReleaseKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.len" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/kotlin/compileReleaseKotlin/caches-jvm/jvm/kotlin/subtypes.tab.keystream.len" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/kotlin/compileReleaseKotlin/caches-jvm/jvm/kotlin/supertypes.tab.keystream.len" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/outputs/apk/app.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/outputs/apk/app.apk.sha1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../build/app/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../build/app/outputs/flutter-apk/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/outputs/flutter-apk/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/Waste/ProUserProfileScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/Waste/ProUserProfileScreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/screens/Clients.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/Clients.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/screens/Dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/Dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/screens/FD/Record.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/FD/Record.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../build/app/outputs/logs/manifest-merger-debug-report.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/outputs/mapping/release/mapping.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/outputs/mapping/release/resources.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/app/outputs/mapping/release/usage.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/.transforms/eb05f0e3761a9bb271959d1a196e9ff3.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/.transforms/eb05f0e3761a9bb271959d1a196e9ff3/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/aapt_friendly_merged_manifests/release/aapt/output.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/blame/res/release/multi-v2/values-en-rIN.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/blame/res/release/multi-v2/values-ky.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/blame/res/release/multi-v2/values-ms.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/blame/res/release/multi-v2/values-or.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/blame/res/release/multi-v2/values-sq.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/blame/res/release/single/drawable.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/incremental/mergeReleaseResources/merged.dir/values-cs/values-cs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rXC/values-en-rXC.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/incremental/mergeReleaseResources/merged.dir/values-et/values-et.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/incremental/mergeReleaseResources/merged.dir/values-fi/values-fi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/incremental/mergeReleaseResources/merged.dir/values-kn/values-kn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/incremental/mergeReleaseResources/merged.dir/values-ml/values-ml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/incremental/mergeReleaseResources/merged.dir/values-tr/values-tr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/javac/release/classes/io/flutter/plugins/firebase/cloudfirestore/CloudFirestorePlugin$DocumentObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable-hdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable-hdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable-mdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_normal_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable_common_google_signin_btn_text_light.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/drawable_notification_icon_background.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/layout-v21_notification_action_tombstone.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/layout_notification_template_part_time.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-eu_values-eu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-fa_values-fa.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-hy_values-hy.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-ko_values-ko.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-lt_values-lt.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-mn_values-mn.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-my_values-my.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-or_values-or.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-pl_values-pl.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values-uz_values-uz.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/compiled/release/values_values.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/color/common_google_signin_btn_tint.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/drawable-hdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/drawable-mdpi-v4/notify_panel_notification_icon_bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/drawable/common_google_signin_btn_text_disabled.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/layout/custom_dialog.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-bn/values-bn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-eu/values-eu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-hy/values-hy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-it/values-it.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-ko/values-ko.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-ms/values-ms.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-ru/values-ru.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/res/merged/release/values-uk/values-uk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore/intermediates/runtime_library_classes_jar/release/classes.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/.transforms/63d0a6dbdc914716b2339d294eae0357.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/.transforms/63d0a6dbdc914716b2339d294eae0357/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/multi-v2/values-am.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/multi-v2/values-b+sr+Latn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/multi-v2/values-hr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/multi-v2/values-nl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/multi-v2/values-zu.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/single/drawable-xhdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/single/drawable.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/single/layout-v21.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/blame/res/release/single/layout.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-ca/values-ca.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rXC/values-en-rXC.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-mk/values-mk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-mr/values-mr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-pa/values-pa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-pt-rPT/values-pt-rPT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-sk/values-sk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_normal.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_low_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/layout-v21_notification_action_tombstone.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-az_values-az.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-en-rGB_values-en-rGB.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-fi_values-fi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-ka_values-ka.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-mk_values-mk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-or_values-or.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-ur_values-ur.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-uz_values-uz.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/compiled/release/values-vi_values-vi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_normal_pressed.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/merged/release/drawable-xhdpi-v4/notification_bg_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/merged/release/layout/notification_action.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/merged/release/values-bs/values-bs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/merged/release/values-fa/values-fa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/merged/release/values-hy/values-hy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/intermediates/res/merged/release/values-lo/values-lo.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/cloud_firestore_web/outputs/aar/cloud_firestore_web-release.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/.transforms/319a6e0942cac019aede135b7b6ceec5.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/.transforms/319a6e0942cac019aede135b7b6ceec5/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-bn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-is.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-lo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-pl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-ru.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-sk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-sl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-ta.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/blame/res/release/multi-v2/values-uk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/compile_library_classes_jar/release/classes.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/incremental/mergeReleaseResources/merged.dir/values-az/values-az.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/incremental/mergeReleaseResources/merged.dir/values-ca/values-ca.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/incremental/mergeReleaseResources/merged.dir/values-hi/values-hi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/incremental/mergeReleaseResources/merged.dir/values-mn/values-mn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/javac/release/classes/com/mr/flutter/plugin/filepicker/FilePickerDelegate$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/javac/release/classes/com/mr/flutter/plugin/filepicker/FilePickerPlugin$LifeCycleObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/javac/release/classes/com/mr/flutter/plugin/filepicker/FileUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_normal.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/compiled/release/layout-v16_notification_template_custom_big.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/compiled/release/values-el_values-el.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/compiled/release/values-ja_values-ja.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/compiled/release/values-pt-rBR_values-pt-rBR.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/compiled/release/values-pt_values-pt.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_normal_pressed.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/layout/notification_template_part_chronometer.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-ca/values-ca.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-es/values-es.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-fr-rCA/values-fr-rCA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-hi/values-hi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-lv/values-lv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-uz/values-uz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-zh-rHK/values-zh-rHK.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/file_picker/intermediates/res/merged/release/values-zh-rTW/values-zh-rTW.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_admob/.transforms/9d52d99d4b2b6d65a8388cdadb89e8de.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_admob/.transforms/9d52d99d4b2b6d65a8388cdadb89e8de/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/.transforms/f3c477dd59282a3161ce7ce2170628a9.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/.transforms/f3c477dd59282a3161ce7ce2170628a9/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/generated/source/buildConfig/release/io/flutter/plugins/firebaseauth/BuildConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/multi-v2/values-af.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/multi-v2/values-az.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/multi-v2/values-hi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/multi-v2/values-or.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/multi-v2/values-ta.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/multi-v2/values-v16.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/multi-v2/values-zh-rTW.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/blame/res/release/single/drawable-mdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-de/values-de.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-fi/values-fi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-gl/values-gl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-hr/values-hr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-kn/values-kn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-ml/values-ml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-sw/values-sw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/incremental/mergeReleaseResources/merged.dir/values-tl/values-tl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/local_only_symbol_list/release/R-def.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_normal.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/drawable-xhdpi-v4_googleg_standard_color_18.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/drawable_common_google_signin_btn_text_light_focused.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/drawable_notification_icon_background.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/values-am_values-am.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/values-es_values-es.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/values-et_values-et.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/values-lo_values-lo.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/values-or_values-or.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/values-th_values-th.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/compiled/release/values-v21_values-v21.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/drawable/notification_bg_low.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/drawable/notification_tile_bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/layout/notification_action.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/values-es/values-es.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/values-ja/values-ja.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/values-km/values-km.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/values-lv/values-lv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/values-nb/values-nb.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/values-sk/values-sk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth/intermediates/res/merged/release/values-uz/values-uz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/.transforms/6fb30089d2f9041352be7e0ea1f12ddf.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/.transforms/6fb30089d2f9041352be7e0ea1f12ddf/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/blame/res/release/multi-v2/values-iw.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/blame/res/release/multi-v2/values-sk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/blame/res/release/multi-v2/values-uk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rAU/values-en-rAU.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-eu/values-eu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-hy/values-hy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-ms/values-ms.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-pt/values-pt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/incremental/mergeReleaseShaders/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/layout-v21_notification_action.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/values-es_values-es.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/values-hi_values-hi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/values-ml_values-ml.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/values-te_values-te.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/compiled/release/values-zh-rHK_values-zh-rHK.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/values-af/values-af.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/values-iw/values-iw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/values-ky/values-ky.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/values-or/values-or.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/values-te/values-te.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/res/merged/release/values-zh-rHK/values-zh-rHK.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/intermediates/symbol_list_with_package_name/release/package-aware-r.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_auth_web/outputs/aar/firebase_auth_web-release.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/.transforms/f268cac8cee5a016d85b592e91777a14.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/.transforms/f268cac8cee5a016d85b592e91777a14/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-bn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-et.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-fi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-hi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-mn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-nb.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-ne.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-sl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-uz.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values-zh-rTW.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/blame/res/release/multi-v2/values.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rCA/values-en-rCA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/incremental/mergeReleaseResources/merged.dir/values-es-rUS/values-es-rUS.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/incremental/mergeReleaseResources/merged.dir/values-pt-rPT/values-pt-rPT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/incremental/mergeReleaseResources/merged.dir/values-si/values-si.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/incremental/mergeReleaseResources/merged.dir/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/incremental/release-mergeNativeLibs/merge-state" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/javac/release/classes/io/flutter/plugins/firebase/core/FlutterFirebaseAppRegistrar.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_low_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/drawable-xhdpi-v4_notification_bg_normal.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/layout-v21_notification_action.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/layout_notification_template_media.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/values-am_values-am.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/values-ar_values-ar.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/values-hi_values-hi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/values-in_values-in.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/compiled/release/values-sq_values-sq.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/drawable-mdpi-v4/notification_bg_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/drawable-v21/notification_action_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/layout-v21/notification_action.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/layout/notification_action_tombstone.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-az/values-az.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-hr/values-hr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-ky/values-ky.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-ml/values-ml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-or/values-or.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-pa/values-pa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-tl/values-tl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/intermediates/res/merged/release/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core/outputs/logs/manifest-merger-release-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/.transforms/08758a091f02f975c72a8b276336e54d.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/.transforms/08758a091f02f975c72a8b276336e54d/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/multi-v2/values-b+sr+Latn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/multi-v2/values-en-rGB.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/multi-v2/values-fr-rCA.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/multi-v2/values-si.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/multi-v2/values-sk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/multi-v2/values-uk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/single/drawable-hdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/blame/res/release/single/layout-v21.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/incremental/mergeReleaseResources/compile-file-map.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-fr-rCA/values-fr-rCA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-hr/values-hr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-or/values-or.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-v21/values-v21.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-cs_values-cs.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-da_values-da.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-fr-rCA_values-fr-rCA.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-hr_values-hr.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-hu_values-hu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-iw_values-iw.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-ru_values-ru.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/compiled/release/values-zh-rTW_values-zh-rTW.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/layout/notification_template_part_time.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-af/values-af.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-fr/values-fr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-hr/values-hr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-ky/values-ky.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-nl/values-nl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-or/values-or.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-sr/values-sr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-sw/values-sw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-tl/values-tl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-v16/values-v16.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_core_web/intermediates/res/merged/release/values-zh-rCN/values-zh-rCN.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/.transforms/e00de6bd7665d07c3cc1c712b0e78822.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/.transforms/e00de6bd7665d07c3cc1c712b0e78822/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/blame/res/release/multi-v2/values-be.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/blame/res/release/multi-v2/values-de.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/blame/res/release/multi-v2/values-hu.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/blame/res/release/multi-v2/values-kk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/blame/res/release/multi-v2/values-ro.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/blame/res/release/multi-v2/values-tl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/mergeReleaseResources/merged.dir/values-bs/values-bs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/mergeReleaseResources/merged.dir/values-es-rUS/values-es-rUS.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/mergeReleaseResources/merged.dir/values-iw/values-iw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/mergeReleaseResources/merged.dir/values-ne/values-ne.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/mergeReleaseResources/merged.dir/values-sv/values-sv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/mergeReleaseResources/merged.dir/values-te/values-te.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/mergeReleaseResources/merged.dir/values-vi/values-vi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../build/firebase_database/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/javac/release/classes/io/flutter/plugins/firebase/database/MethodCallHandlerImpl$1$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/javac/release/classes/io/flutter/plugins/firebase/database/MethodCallHandlerImpl$EventObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/javac/release/classes/io/flutter/plugins/firebase/database/MethodCallHandlerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/color_common_google_signin_btn_tint.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/drawable-mdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_low_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/drawable-v21_notification_action_background.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/drawable-xxhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/layout_notification_template_media.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-ca_values-ca.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-en-rIN_values-en-rIN.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-eu_values-eu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-is_values-is.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-ko_values-ko.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-lt_values-lt.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-my_values-my.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-sk_values-sk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-sv_values-sv.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/compiled/release/values-zu_values-zu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/color/common_google_signin_btn_tint.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/drawable-hdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/drawable-hdpi-v4/googleg_standard_color_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/drawable-v21/notification_action_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/drawable/common_google_signin_btn_text_dark_normal.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/values-da/values-da.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/values-lo/values-lo.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/values-lv/values-lv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/values-mk/values-mk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/values-my/values-my.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/res/merged/release/values-v21/values-v21.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/intermediates/runtime_library_classes_jar/release/classes.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_database/outputs/aar/firebase_database-release.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/.transforms/e4464b1bc85c117ee2d36f4e55b2a872.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/.transforms/e4464b1bc85c117ee2d36f4e55b2a872/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/generated/source/buildConfig/release/io/flutter/plugins/firebasemessaging/BuildConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/intermediates/javac/release/classes/io/flutter/plugins/firebasemessaging/FirebaseMessagingPlugin$5$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/intermediates/javac/release/classes/io/flutter/plugins/firebasemessaging/FlutterFirebaseMessagingService$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/intermediates/local_only_symbol_list/release/R-def.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/intermediates/navigation_json/release/navigation.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_messaging/intermediates/symbol_list_with_package_name/release/package-aware-r.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/.transforms/c819b9def286e6c3d0b7b13701cba0df.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/.transforms/c819b9def286e6c3d0b7b13701cba0df/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-az.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-it.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-ko.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-mr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-ne.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-pt-rBR.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-si.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-tl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/blame/res/release/multi-v2/values-tr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-gl/values-gl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-kk/values-kk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-ky/values-ky.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-si/values-si.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-sq/values-sq.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-tr/values-tr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/incremental/mergeReleaseResources/merged.dir/values-zh-rTW/values-zh-rTW.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/javac/release/classes/io/flutter/plugins/firebase/storage/FirebaseStoragePlugin$11.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/color_common_google_signin_btn_text_dark.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/drawable-v21_notification_action_background.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/drawable-xxhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/drawable_common_google_signin_btn_text_light_focused.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/values-fr_values-fr.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/values-lo_values-lo.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/values-sk_values-sk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/values-th_values-th.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/compiled/release/values_values.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable-hdpi-v4/googleg_disabled_color_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable-mdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable-mdpi-v4/notify_panel_notification_icon_bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable-xxhdpi-v4/googleg_standard_color_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable/common_google_signin_btn_icon_dark.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable/common_google_signin_btn_icon_light_normal.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/drawable/common_google_signin_btn_text_light_normal.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/layout/notification_action.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/layout/notification_action_tombstone.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/layout/notification_template_part_time.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-az/values-az.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-ca/values-ca.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-es/values-es.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-kn/values-kn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-lv/values-lv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-mn/values-mn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-pa/values-pa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-sk/values-sk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/firebase_storage/intermediates/res/merged/release/values-uz/values-uz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/.transforms/53bc4087ee382381ef418d13e85afc49.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/.transforms/53bc4087ee382381ef418d13e85afc49/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-en-rXC.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-iw.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-ka.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-nl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-sr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-te.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-v21.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/multi-v2/values-zu.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/blame/res/release/single/drawable-xhdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/incremental/mergeReleaseResources/merged.dir/values-hy/values-hy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/incremental/mergeReleaseResources/merged.dir/values-ko/values-ko.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/incremental/mergeReleaseResources/merged.dir/values-ne/values-ne.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/incremental/mergeReleaseResources/merged.dir/values-th/values-th.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/incremental/mergeReleaseResources/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/incremental/release-mergeJavaRes/merge-state" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/javac/release/classes/com/dexterous/flutterlocalnotifications/ScheduledNotificationReceiver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/javac/release/classes/com/dexterous/flutterlocalnotifications/SoundSource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/javac/release/classes/com/dexterous/flutterlocalnotifications/models/Time.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/javac/release/classes/com/dexterous/flutterlocalnotifications/models/styles/BigTextStyleInformation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/javac/release/classes/com/dexterous/flutterlocalnotifications/models/styles/InboxStyleInformation.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_normal.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_normal_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/layout_custom_dialog.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/layout_notification_template_big_media_custom.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-be_values-be.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-el_values-el.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-en-rAU_values-en-rAU.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-et_values-et.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-ja_values-ja.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-kk_values-kk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-kn_values-kn.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-lv_values-lv.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-pt_values-pt.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-sv_values-sv.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-tl_values-tl.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-ur_values-ur.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-zh-rHK_values-zh-rHK.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/compiled/release/values-zh-rTW_values-zh-rTW.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/drawable-mdpi-v4/notification_bg_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/drawable/notification_bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/layout-v21/notification_action.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/layout/notification_template_big_media.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-bn/values-bn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-en-rCA/values-en-rCA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-ms/values-ms.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-nl/values-nl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-pl/values-pl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-ru/values-ru.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-sv/values-sv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-te/values-te.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-uk/values-uk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_local_notifications/intermediates/res/merged/release/values-v21/values-v21.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_pdfview/.transforms/bef2ab98a471007dbb19cf750f3a60ce.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_pdfview/.transforms/bef2ab98a471007dbb19cf750f3a60ce/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_pdfview/intermediates/javac/release/classes/io/endigo/plugins/pdfviewflutter/FlutterPDFView$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_pdfview/intermediates/local_only_symbol_list/release/R-def.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/.transforms/73292da92f24f0cb0ed7f16e1a045b6d.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/.transforms/73292da92f24f0cb0ed7f16e1a045b6d/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/aapt_friendly_merged_manifests/release/aapt/output.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/multi-v2/values-bs.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/multi-v2/values-mr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/multi-v2/values-ms.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/multi-v2/values-pt-rPT.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/multi-v2/values-sq.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/multi-v2/values-te.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/single/drawable-mdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/blame/res/release/single/layout.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/incremental/mergeReleaseResources/merged.dir/values-eu/values-eu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/incremental/mergeReleaseResources/merged.dir/values-it/values-it.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/incremental/mergeReleaseResources/merged.dir/values-ka/values-ka.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/incremental/mergeReleaseResources/merged.dir/values-ko/values-ko.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/incremental/mergeReleaseResources/merged.dir/values-ro/values-ro.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/incremental/mergeReleaseResources/merged.dir/values-ru/values-ru.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/incremental/release-mergeNativeLibs/merge-state" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_normal.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/compiled/release/drawable_notification_bg_low.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/compiled/release/values-bs_values-bs.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/compiled/release/values-en-rCA_values-en-rCA.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/compiled/release/values-hu_values-hu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/compiled/release/values-kk_values-kk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-bg/values-bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-es-rUS/values-es-rUS.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-ky/values-ky.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-lt/values-lt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-pt-rPT/values-pt-rPT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-sl/values-sl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-sq/values-sq.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/flutter_plugin_android_lifecycle/intermediates/runtime_library_classes_jar/release/classes.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/.transforms/0d3ef187d54f7ec4451162b7dd9f98ec.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/.transforms/0d3ef187d54f7ec4451162b7dd9f98ec/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/aapt_friendly_merged_manifests/release/aapt/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-af.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-az.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-b+sr+Latn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-es-rUS.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-hi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-it.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-ms.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-or.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-pt-rPT.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-sk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-uk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/blame/res/release/multi-v2/values-zh-rTW.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-af/values-af.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-da/values-da.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rCA/values-en-rCA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-km/values-km.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-my/values-my.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-pl/values-pl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-pt-rBR/values-pt-rBR.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-th/values-th.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/incremental/mergeReleaseResources/merged.dir/values-v21/values-v21.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/library_manifest/release/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/navigation_json/release/navigation.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/layout-v16_notification_template_custom_big.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-am_values-am.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-es_values-es.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-fr-rCA_values-fr-rCA.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-hu_values-hu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-lo_values-lo.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-te_values-te.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-th_values-th.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/compiled/release/values-zh-rCN_values-zh-rCN.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/layout-v16/notification_template_custom_big.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-am/values-am.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-as/values-as.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-el/values-el.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-hy/values-hy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-ko/values-ko.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-lo/values-lo.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-pt/values-pt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/fluttertoast/intermediates/res/merged/release/values-v16/values-v16.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/.transforms/1dac2006b126a409968a629ab31a0370.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/.transforms/1dac2006b126a409968a629ab31a0370/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-bn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-ca.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-en-rCA.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-et.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-eu.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-fi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-gu.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-hi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-is.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-ko.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-ne.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-pt-rPT.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-pt.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-si.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-v16.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/blame/res/release/multi-v2/values-watch-v20.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-ar/values-ar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-b+sr+Latn/values-b+sr+Latn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-bg/values-bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-cs/values-cs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-gl/values-gl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-hr/values-hr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-hu/values-hu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-kk/values-kk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values-nl/values-nl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/incremental/mergeReleaseResources/merged.dir/values/values.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/javac/release/classes/io/flutter/plugins/googlesignin/BackgroundTaskRunner$Callback.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/javac/release/classes/io/flutter/plugins/googlesignin/GoogleSignInPlugin$IDelegate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/javac/release/classes/io/flutter/plugins/googlesignin/GoogleSignInPlugin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/merged_java_res/release/out.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/drawable-mdpi-v4_googleg_standard_color_18.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/drawable_common_google_signin_btn_icon_dark_focused.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/drawable_notification_tile_bg.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/layout-v21_notification_action.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/values-en-rIN_values-en-rIN.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/values-es_values-es.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/values-fr_values-fr.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/values-km_values-km.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/compiled/release/values-ml_values-ml.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/color/common_google_signin_btn_text_dark.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/color/common_google_signin_btn_tint.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/drawable-hdpi-v4/common_full_open_on_phone.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/drawable-mdpi-v4/googleg_disabled_color_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/drawable-watch-v20/common_google_signin_btn_text_disabled.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/drawable/common_google_signin_btn_text_dark.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/drawable/common_google_signin_btn_text_light_normal.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/drawable/notification_bg_low.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/values-es/values-es.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/values-ja/values-ja.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/values-km/values-km.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/values-sk/values-sk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in/intermediates/res/merged/release/values-th/values-th.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/.transforms/ee766dc09bf059f1e2f390194c263346.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/.transforms/ee766dc09bf059f1e2f390194c263346/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/annotations_typedef_file/release/typedefs.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/blame/res/release/multi-v2/values-b+sr+Latn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/blame/res/release/multi-v2/values-hi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/blame/res/release/multi-v2/values-ky.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/blame/res/release/multi-v2/values-th.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/blame/res/release/multi-v2/values-ur.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/blame/res/release/single/drawable-hdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-cs/values-cs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rGB/values-en-rGB.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-fi/values-fi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-gu/values-gu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-kn/values-kn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-ml/values-ml.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-mn/values-mn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-mr/values-mr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-ms/values-ms.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-tr/values-tr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/javac/release/classes/io/flutter/plugins/google_sign_in_web/GoogleSignInWebPlugin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/merged_manifests/release/output.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/layout_notification_template_part_time.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-az_values-az.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-de_values-de.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-en-rXC_values-en-rXC.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-gl_values-gl.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-is_values-is.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-it_values-it.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-pa_values-pa.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-uz_values-uz.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/compiled/release/values-vi_values-vi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_normal_pressed.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/drawable-hdpi-v4/notify_panel_notification_icon_bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/drawable-v21/notification_action_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/layout/notification_template_part_time.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/values-as/values-as.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/values-el/values-el.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/values-hy/values-hy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/values-in/values-in.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/values-ka/values-ka.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/res/merged/release/values-uk/values-uk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/google_sign_in_web/intermediates/symbol_list_with_package_name/release/package-aware-r.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/path_provider/.transforms/f71ba36b998509e130ac61fb72740fd7.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/path_provider/.transforms/f71ba36b998509e130ac61fb72740fd7/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/path_provider/intermediates/compile_only_not_namespaced_r_class_jar/release/R.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/path_provider/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/path_provider/intermediates/javac/release/classes/io/flutter/plugins/pathprovider/StorageDirectoryMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/path_provider/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/.transforms/d9fdef64ddd5fb4ffe6e673aa7b9dcc5.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/.transforms/d9fdef64ddd5fb4ffe6e673aa7b9dcc5/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-am.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-es.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-hy.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-km.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-kn.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-lv.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-nb.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-pa.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-tr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/blame/res/release/multi-v2/values-uz.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/compile_symbol_list/release/R.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-et/values-et.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-fi/values-fi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-is/values-is.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-kk/values-kk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-kn/values-kn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-ne/values-ne.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-ta/values-ta.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/mergeReleaseResources/merged.dir/values-v16/values-v16.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/incremental/release-mergeNativeLibs/merge-state" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/drawable-mdpi-v4_notification_bg_low_normal.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/drawable-xhdpi-v4_notification_bg_low_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/values-es-rUS_values-es-rUS.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/values-es_values-es.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/values-ml_values-ml.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/values-ro_values-ro.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/values-sq_values-sq.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/compiled/release/values-zh-rHK_values-zh-rHK.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/layout/notification_action_tombstone.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/values-da/values-da.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/values-it/values-it.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/values-iw/values-iw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/values-ms/values-ms.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/values-pl/values-pl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/values-te/values-te.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/res/merged/release/values-th/values-th.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/intermediates/symbol_list_with_package_name/release/package-aware-r.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences/outputs/aar/shared_preferences-release.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/.transforms/11408d2960ae2dbe240b22a118458768.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/.transforms/11408d2960ae2dbe240b22a118458768/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/generated/source/buildConfig/release/io/flutter/plugins/shared_preferences_macos/BuildConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/annotations_typedef_file/release/typedefs.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/multi-v2/values-am.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/multi-v2/values-da.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/multi-v2/values-el.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/multi-v2/values-fr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/multi-v2/values-pl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/multi-v2/values-sv.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/multi-v2/values-ur.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/blame/res/release/single/layout-v16.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/compile-file-map.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-da/values-da.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rCA/values-en-rCA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rGB/values-en-rGB.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-fa/values-fa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-km/values-km.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-my/values-my.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-pl/values-pl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-pt-rBR/values-pt-rBR.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-th/values-th.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/compiled/release/values-de_values-de.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/compiled/release/values-fr_values-fr.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/compiled/release/values-is_values-is.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/compiled/release/values-pt-rBR_values-pt-rBR.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/compiled/release/values-sk_values-sk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/compiled/release/values-vi_values-vi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/compiled/release/values-zh-rCN_values-zh-rCN.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_low_pressed.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/merged/release/values-as/values-as.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/merged/release/values-in/values-in.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/merged/release/values-ro/values-ro.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/merged/release/values-uk/values-uk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/intermediates/res/merged/release/values-zh-rTW/values-zh-rTW.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_macos/outputs/logs/manifest-merger-release-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/.transforms/254c18b1014e60911b75fb64713b359f.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/.transforms/254c18b1014e60911b75fb64713b359f/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/blame/res/release/multi-v2/values-am.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/blame/res/release/multi-v2/values-ms.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/blame/res/release/multi-v2/values-nl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/blame/res/release/multi-v2/values-te.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/blame/res/release/multi-v2/values-zu.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/blame/res/release/single/drawable-hdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rGB/values-en-rGB.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-en-rIN/values-en-rIN.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-es/values-es.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-km/values-km.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-kn/values-kn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-lv/values-lv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-pl/values-pl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-uz/values-uz.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/layout-v21_notification_action_tombstone.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-am_values-am.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-bg_values-bg.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-ca_values-ca.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-mr_values-mr.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-ro_values-ro.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-sl_values-sl.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-sq_values-sq.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-sw_values-sw.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/compiled/release/values-zh-rTW_values-zh-rTW.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/layout/notification_action_tombstone.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-bn/values-bn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-en-rIN/values-en-rIN.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-fr-rCA/values-fr-rCA.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-hr/values-hr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-ko/values-ko.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-pl/values-pl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-ru/values-ru.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-uk/values-uk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/shared_preferences_web/intermediates/res/merged/release/values-vi/values-vi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/.transforms/42c6498c961eed799e66c9f2df477e73.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/.transforms/42c6498c961eed799e66c9f2df477e73/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/annotations_typedef_file/release/typedefs.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-am.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-el.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-en-rGB.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-fr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-lo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-my.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-pt-rBR.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/blame/res/release/multi-v2/values-th.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeReleaseResources/merged.dir/values-el/values-el.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeReleaseResources/merged.dir/values-fa/values-fa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeReleaseResources/merged.dir/values-fr/values-fr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeReleaseResources/merged.dir/values-in/values-in.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeReleaseResources/merged.dir/values-ro/values-ro.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/incremental/mergeReleaseResources/merged.dir/values-sr/values-sr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/javac/release/classes/io/flutter/plugins/urllauncher/UrlLauncher$LaunchStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/manifest_merge_blame_file/release/manifest-merger-blame-release-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/values-gl_values-gl.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/values-is_values-is.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/values-my_values-my.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/values-sv_values-sv.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/values-v21_values-v21.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/values-zh-rHK_values-zh-rHK.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/compiled/release/values-zu_values-zu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/drawable-xhdpi-v4/notification_bg_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/values-ar/values-ar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/values-bg/values-bg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/values-kk/values-kk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/values-lt/values-lt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/values-ne/values-ne.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher/intermediates/res/merged/release/values-tr/values-tr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/.transforms/842104b002161b8d5340e181b87f7b69.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/.transforms/842104b002161b8d5340e181b87f7b69/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/blame/res/release/multi-v2/values-en-rCA.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/blame/res/release/multi-v2/values-my.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/blame/res/release/multi-v2/values-th.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-b+sr+Latn/values-b+sr+Latn.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-ca/values-ca.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-da/values-da.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-hi/values-hi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-iw/values-iw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-kk/values-kk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-my/values-my.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-pl/values-pl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-pt-rPT/values-pt-rPT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/mergeReleaseResources/merged.dir/values-th/values-th.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/incremental/packageReleaseResources/compile-file-map.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-de_values-de.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-es_values-es.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-eu_values-eu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-fa_values-fa.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-hy_values-hy.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-ka_values-ka.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-lt_values-lt.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-mk_values-mk.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-my_values-my.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-ne_values-ne.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-pt-rBR_values-pt-rBR.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-ur_values-ur.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-vi_values-vi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/compiled/release/values-zh-rCN_values-zh-rCN.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/merged/release/values-et/values-et.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/merged/release/values-fi/values-fi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/merged/release/values-gu/values-gu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/merged/release/values-mr/values-mr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/merged/release/values-tr/values-tr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_macos/intermediates/res/merged/release/values-zh-rTW/values-zh-rTW.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/.transforms/5fe4479473baad6ea7140227100a8a67.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/.transforms/5fe4479473baad6ea7140227100a8a67/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-ar.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-as.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-bg.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-de.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-es-rUS.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-in.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-ja.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-mk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-ro.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-sw.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-tl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-uk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/multi-v2/values-zh-rHK.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/single/drawable-hdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/blame/res/release/single/drawable-v21.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-de/values-de.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-gl/values-gl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-hu/values-hu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-sw/values-sw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-tl/values-tl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-tr/values-tr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/mergeReleaseResources/merged.dir/values-ur/values-ur.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/packageReleaseAssets/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/incremental/packageReleaseResources/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/drawable-xhdpi-v4_notification_bg_low_pressed.9.png.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/layout-v21_notification_action_tombstone.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/values-am_values-am.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/values-bg_values-bg.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/values-eu_values-eu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/values-mr_values-mr.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/values-ro_values-ro.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/compiled/release/values-sl_values-sl.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_normal_pressed.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-as/values-as.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-en-rIN/values-en-rIN.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-en-rXC/values-en-rXC.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-fa/values-fa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-fr/values-fr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-km/values-km.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-lo/values-lo.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-lv/values-lv.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-pt/values-pt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/url_launcher_web/intermediates/res/merged/release/values-ro/values-ro.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/.transforms/7c623b2dd508b1c54df237713c887bcd.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/.transforms/7c623b2dd508b1c54df237713c887bcd/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/blame/res/release/multi-v2/values-af.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/blame/res/release/multi-v2/values-az.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/blame/res/release/multi-v2/values-en-rXC.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/blame/res/release/multi-v2/values-hi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/blame/res/release/multi-v2/values-sl.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/blame/res/release/multi-v2/values-ta.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/blame/res/release/single/drawable-xhdpi-v4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/compile_library_classes_jar/release/classes.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-am/values-am.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-ar/values-ar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-as/values-as.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-el/values-el.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-eu/values-eu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-fa/values-fa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-hi/values-hi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-hy/values-hy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-iw/values-iw.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-kk/values-kk.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-ko/values-ko.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-ne/values-ne.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/incremental/mergeReleaseResources/merged.dir/values-ro/values-ro.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/javac/release/classes/io/flutter/plugins/webviewflutter/FlutterWebViewClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/javac/release/classes/io/flutter/plugins/webviewflutter/InputAwareWebView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/local_only_symbol_list/release/R-def.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/drawable_notification_icon_background.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/layout-v21_notification_template_icon_group.xml.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-az_values-az.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-en-rGB_values-en-rGB.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-gl_values-gl.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-lo_values-lo.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-pt-rBR_values-pt-rBR.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-sq_values-sq.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-th_values-th.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-vi_values-vi.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/compiled/release/values-zu_values-zu.arsc.flat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/drawable-hdpi-v4/notification_bg_low_normal.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/drawable/notification_icon_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-de/values-de.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-et/values-et.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-fi/values-fi.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-is/values-is.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-nl/values-nl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-sl/values-sl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-tl/values-tl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build/webview_flutter/intermediates/res/merged/release/values-tr/values-tr.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/Waste/ProUserProfileScreen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/screens/AddSingleClient.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/AddSingleClient.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/screens/IncomeTax/ComplianceHistory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/IncomeTax/ComplianceHistory.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/screens/LoginPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/LoginPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/screens/PersonalInfo.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/PersonalInfo.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/screens/RegisterPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/RegisterPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/screens/Wrapper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/screens/Wrapper.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/services/FirestoreService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/services/FirestoreService.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lib/styles/styles.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/styles/styles.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/services/HistoriesDatabaseHelper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/services/HistoriesDatabaseHelper.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/services/PaymentRecordToDatatBase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/services/PaymentRecordToDatatBase.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lib/widgets/AppDrawer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/widgets/AppDrawer.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +1125,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="97096a1b" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_API_R" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -43,23 +1138,10 @@
       </state>
     </system>
   </component>
-  <component name="GenerateSignedApkSettings">
-    <option name="KEY_STORE_PATH" value="D:\Unified_Reminder_signedKey\unifed_apk.jks" />
-    <option name="KEY_ALIAS" value="keyo" />
-    <option name="REMEMBER_PASSWORDS" value="true" />
-    <option name="BUILD_TARGET_KEY" value="apk" />
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="C:\Users\sanjo\OneDrive\Desktop\unified_reminder\android\.idea" />
-      </set>
-    </option>
-  </component>
-  <component name="ProjectId" id="1fMATLNKj0lhVPYtQ6QRqCauZgh" />
+  <component name="ProjectId" id="1g5v2mqE0MQkuFfHkcKT5mklHoL" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -67,18 +1149,18 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ApkExportedModule" value="app" />
-    <property name="ExportApk.ApkPath" value="C:\Users\sanjo\OneDrive\Desktop\unified_reminder\android\app" />
-    <property name="ExportApk.BuildVariants" value="release" />
-    <property name="ExportApk.SignV1" value="true" />
-    <property name="ExportApk.SignV2" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="D:/Unified_Reminder_signedKey/unifed_apk.jks" />
-    <property name="settings.editor.selected.configurable" value="application.passwordSafe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sanjo\OneDrive\Desktop\unified_reminder\android\app\src\main\res\drawable" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -145,18 +1227,18 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2b346e63-862d-4bc9-9210-3e30550ffe10" name="Default Changelist" comment="" />
-      <created>1596017594074</created>
+      <changelist id="1757a661-3036-4779-9481-4eca70c9ba99" name="Default Changelist" comment="" />
+      <created>1597417062732</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1596017594074</updated>
+      <updated>1597417062732</updated>
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="548" y="168" key="FileChooserDialogImpl" timestamp="1596017631446">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1597417788719">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="548" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1596017631446" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1597417788719" />
   </component>
 </project>

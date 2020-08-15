@@ -18,7 +18,7 @@ const LoginPageRoute = "/login";
 const RegisterPageRoute = "/register";
 const ActivateAccountRoute = "/activate-account";
 const ApplicableCompliancesRoute = "/applicable-compliances";
-const RegisterTypeRoute = "/register-type";
+const RegisterTypeRout = "/register-type";
 const SelectClientsRoute = "/select-clients";
 const DashboardRoute = "/dashboard";
 const TDSScreenRoute = "/tds";
@@ -48,9 +48,9 @@ Route onGenerateRoute(RouteSettings settings) {
 //      return MaterialPageRoute(
 //          builder: (BuildContext context) =>
 //              ApplicableCompliances(arguments: settings.arguments));
-    case RegisterTypeRoute:
-      return MaterialPageRoute(
-          builder: (BuildContext context) => RegisterPage());
+//    case RegisterTypeRoute:
+//      return MaterialPageRoute(
+//          builder: (BuildContext context) => RegisterPage());
     case SelectClientsRoute:
       return MaterialPageRoute(
           builder: (BuildContext context) =>

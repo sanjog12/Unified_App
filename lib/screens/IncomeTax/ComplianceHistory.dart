@@ -7,7 +7,6 @@ import 'package:unified_reminder/screens/IncomeTax/HistoryDetailsView.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
 class ComplianceHistoryForIncomeTax extends StatefulWidget {

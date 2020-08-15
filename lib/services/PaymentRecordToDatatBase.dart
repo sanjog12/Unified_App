@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:unified_reminder/models/MutualFundRecordObject.dart';
@@ -750,10 +751,12 @@ class PaymentRecordToDataBase {
        .child(firebaseUserId)
        .push()
        .set({
-      "Order Id":response.orderId,
-      "Payment Id":response.paymentId,
-      "Date":DateTime.now().toString(),
+      "OrderId":response.orderId,
+      "PaymentId":response.paymentId,
+      "Date": DateFormat("dd/MM/yyyy").format(DateTime.now()),
     });
+    
+    
     }catch(e){
       print("error");
       debugPrint(e);

@@ -8,9 +8,6 @@ import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class PersonalInfo extends StatefulWidget {
-//  final int userType;
-//
-//  const PersonalInfo({@required this.userType});
   @override
   _PersonalInfoState createState() => _PersonalInfoState();
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcase.dart';
 import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
@@ -18,11 +19,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final UserBasic _userBasic = UserBasic();
   bool submitButtonLoading = false;
   bool googleSignInButton = false;
+  GlobalKey first = GlobalKey();
+  GlobalKey second = GlobalKey();
+  GlobalKey third = GlobalKey();
+  GlobalKey fourth = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
-    final TextEditingController _pass = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -184,27 +188,31 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 50.0,
                     ),
                     
-                    Container(
-                      decoration: roundedCornerButton,
-                      height: 50.0,
-                      child: FlatButton(
-                        child: submitButtonLoading
-                            ? Container(
-                                height: 30.0,
-                                width: 30.0,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3.0,
-                                  valueColor: AlwaysStoppedAnimation(
-                                    Colors.white,
+                    Showcase(
+                      key: second,
+                      description: "Yo",
+                      child: Container(
+                        decoration: roundedCornerButton,
+                        height: 50.0,
+                        child: FlatButton(
+                          child: submitButtonLoading
+                              ? Container(
+                                  height: 30.0,
+                                  width: 30.0,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3.0,
+                                    valueColor: AlwaysStoppedAnimation(
+                                      Colors.white,
+                                    ),
                                   ),
+                                )
+                              : Text(
+                                  "Register",style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                              )
-                            : Text(
-                                "Register",style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                        onPressed: () {
-                          createUser();
-                        },
+                          onPressed: () {
+                            createUser();
+                          },
+                        ),
                       ),
                     ),
                     
@@ -216,35 +224,39 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 20,
                     ),
   
-                    Container(
-                      decoration: roundedCornerButton,
-                      height: 50,
-                      child: FlatButton(
-                        child: googleSignInButton
-                            ? Container(
-                          height: 30.0,
-                          width: 30.0,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3.0,
-                            valueColor: AlwaysStoppedAnimation(
-                              Colors.white,
+                    Showcase(
+                      key: first,
+                      description: "Click here to register with google",
+                      child: Container(
+                        decoration: roundedCornerButton,
+                        height: 50,
+                        child: FlatButton(
+                          child: googleSignInButton
+                              ? Container(
+                            height: 30.0,
+                            width: 30.0,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3.0,
+                              valueColor: AlwaysStoppedAnimation(
+                                Colors.white,
+                              ),
                             ),
+                          )
+                              : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            
+                            children: <Widget>[
+                              Image.asset("assets/images/google_logo0_5p.png", height:50 ),
+                              SizedBox(width: 40,),
+                              Text(
+                                "Sign up with Google",style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                        )
-                            : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          
-                          children: <Widget>[
-                            Image.asset("assets/images/google_logo0_5p.png", height:50 ),
-                            SizedBox(width: 40,),
-                            Text(
-                              "Sign up with Google",style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                          onPressed: () {
+                            googleSignIn();
+                          },
                         ),
-                        onPressed: () {
-                          googleSignIn();
-                        },
                       ),
                     ),
                     

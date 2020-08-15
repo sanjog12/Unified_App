@@ -103,11 +103,10 @@ class FirestoreService {
 
 //  Future<bool> addClientRecord(Client )
 
-  Future<bool> addClient(Client client, List<Compliance> compliances) async {
+  Future<bool> addClient(Client client, List<Compliance> compliances, String code) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
     
-    List mails = [];
     try {
       Map<String, String> clientData = {
         'name': client.name,
@@ -127,14 +126,13 @@ class FirestoreService {
           .push()
           .set(clientData);
 
-      for (var items in compliances) {
+      for (var items in compliances){
         if (items.checked) {
           Map<String, String> clientCompliances = {
             'clientEmail': client.email,
             'title': items.title,
             'value': items.value
           };
-          
           dbf
               .child(FsUserCompliances)
               .child(firebaseUserId)
@@ -144,6 +142,7 @@ class FirestoreService {
               .set(clientCompliances);
         }
       }
+      
       return true;
     } catch (e) {
       print("Here");

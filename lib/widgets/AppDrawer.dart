@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Clients.dart';
-import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/ProUserProfileScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Screens/PaymentHistoryScreen.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
@@ -40,18 +40,18 @@ class AppDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-//                  GestureDetector(
-//                      onTap: () {
-//                        Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (context) => ProUserProfileScreen(
-//                              userBasic: userBasic,
-//                            ),
-//                          ),
-//                        );
-//                      },
-//                      child: singleDrawItem('Profile')),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentHistoryScreen(
+                              userBasic: userBasic,
+                            ),
+                          ),
+                        );
+                      },
+                      child: singleDrawItem('Payment History')),
                   SizedBox(
                     height: 10,
                   ),

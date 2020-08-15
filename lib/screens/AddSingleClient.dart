@@ -38,6 +38,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   Razorpay _razorpay;
   bool willPop = true;
+  String successFulCode = "";
   
   
   
@@ -56,11 +57,11 @@ class _AddSingleClientState extends State<AddSingleClient>{
         context: context,
         builder: (context){
           return AlertDialog(
-            title: Text("Warning"),
-            content: Text("You cant go back from this page after making payment"),
+            title: Text("Alert"),
+            content: Text("Are you sure want to go back"),
             actions: [
               FlatButton(
-                child: Text("Ok"),
+                child: Text("No"),
                 onPressed: (){
                   Navigator.of(context).pop(false);
                 },
@@ -70,6 +71,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
                 child: Text("Exit"),
                 onPressed: (){
                   Navigator.of(context).pop(true);
+                  
                 },
               ),
             ],
@@ -91,7 +93,6 @@ class _AddSingleClientState extends State<AddSingleClient>{
         'wallets': ['paytm']
       }
     };
-  
     try {
       _razorpay.open(options);
     } catch (e){
@@ -101,6 +102,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     PaymentRecordToDataBase().savePaymentDetails(response);
+    successFulCode = response.paymentId;
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIos: 10);
     willPop = false;
@@ -211,7 +213,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
           });
 
           bool savedClients =
-              await fireStoreService.addClient(clients, compliances);
+              await fireStoreService.addClient(clients, compliances, successFulCode);
           this.setState(() {
             buttonLoading = false;
           });
@@ -238,7 +240,6 @@ class _AddSingleClientState extends State<AddSingleClient>{
   }
 
   Widget clientForm() {
-//    print(compliances);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
