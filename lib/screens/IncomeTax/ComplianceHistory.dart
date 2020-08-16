@@ -32,7 +32,7 @@ class _ComplianceHistoryForIncomeTaxState
         title: Text("History of Compliances"),
       ),
       body: Container(
-        padding: EdgeInsets.all(15.0),
+        padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

@@ -60,7 +60,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		  child: Container(
 		  	decoration: roundedCornerButton,
 		  	child: Container(
-		  		padding: EdgeInsets.all(8),
+		  		padding: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 70),
 		  		child: Column(
 		  			crossAxisAlignment: CrossAxisAlignment.stretch,
 		  			children: <Widget>[

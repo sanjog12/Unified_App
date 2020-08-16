@@ -83,7 +83,7 @@ class StateGSTRPayment extends State<GSTPayment>{
         
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(24.0),
+            padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
             child: Form(
               key: key,
               child: Column(

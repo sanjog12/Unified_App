@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
-import 'package:unified_reminder/screens/TDS/History.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -82,7 +81,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 	    
 	    body: SingleChildScrollView(
 		    child: Container(
-			    padding: EdgeInsets.all(24),
+			    padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    children: <Widget>[

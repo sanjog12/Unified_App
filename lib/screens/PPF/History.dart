@@ -24,7 +24,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
         title: Text("History of PPF"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

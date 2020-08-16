@@ -13,7 +13,6 @@ import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class IncomeTaxPayment extends StatefulWidget {
   final Client client;
@@ -68,7 +67,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
           title: Text("Income Tax Payment"),
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[

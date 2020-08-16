@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -82,7 +81,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 	    
 	    body: SingleChildScrollView(
 	      child: Container(
-		    padding: EdgeInsets.all(20),
+		    padding: EdgeInsets.only(top: 20, bottom: 70, left: 20, right: 20),
 		    child: Column(
 			    crossAxisAlignment: CrossAxisAlignment.stretch,
 			    children: <Widget>[

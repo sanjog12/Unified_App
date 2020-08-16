@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
@@ -62,7 +61,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
           title: Text("Income Tax Returns"),
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

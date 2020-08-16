@@ -6,11 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject.dart';
-import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ESIReturnFilling extends StatefulWidget {
 	final Client client;
@@ -61,7 +58,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 					title: Text("Income Tax Returns"),
 				),
 				body: Container(
-					padding: EdgeInsets.all(24.0),
+					padding: EdgeInsets.only(top: 24.0, left: 24 , right: 24, bottom: 70),
 					child: SingleChildScrollView(
 						child: Column(
 							crossAxisAlignment: CrossAxisAlignment.stretch,

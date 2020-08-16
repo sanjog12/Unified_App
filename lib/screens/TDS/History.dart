@@ -45,7 +45,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 	    ),
 	    
 	    body: Container(
-			  padding: EdgeInsets.all(15),
+			  padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
 			   child: Column(
 				   crossAxisAlignment: CrossAxisAlignment.stretch,
 				   children: <Widget>[

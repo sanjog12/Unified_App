@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/styles/colors.dart';

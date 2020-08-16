@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

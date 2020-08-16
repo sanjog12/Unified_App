@@ -30,30 +30,18 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
     getUserId();
     print(widget.client.toString());
     FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
-    bannerAd = createBannerAd()..load()..show(
-      anchorType: AnchorType.bottom,
-      horizontalCenterOffset: 10.0,
-      anchorOffset: 0.0,
-    );
+//    bannerAd = createBannerAd()..load()..show(
+//      anchorType: AnchorType.bottom,
+//      horizontalCenterOffset: 10.0,
+//      anchorOffset: 0.0,
+//    );
     interstitialAd = createInterstitialAd()..load()..show(
       anchorType: AnchorType.bottom,
       anchorOffset: 0.0,
       horizontalCenterOffset: 0.0,
     );
   }
-
-  BannerAd bannerAd;
-  BannerAd createBannerAd(){
-    return BannerAd(
-      adUnitId: 'ca-app-pub-4569649492742996/8555084850',
-        size: AdSize.smartBanner,
-//        adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-        targetingInfo: targetingInfo,
-        listener: (MobileAdEvent event){
-          print("ad " +event.toString());
-        }
-    );
-  }
+  
   
   InterstitialAd interstitialAd;
   InterstitialAd createInterstitialAd(){
@@ -110,7 +98,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   void dispose() {
     super.dispose();
     try {
-      createBannerAd().dispose();
+      createInterstitialAd().dispose();
     }catch(e){
       print(e);
     }
@@ -124,7 +112,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
         title: Text("Applicable Compliances"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

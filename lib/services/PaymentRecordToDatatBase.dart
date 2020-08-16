@@ -743,7 +743,7 @@ class PaymentRecordToDataBase {
   
   
   
-  Future<void> savePaymentDetails(PaymentSuccessResponse response) async{
+  Future<void> savePaymentDetails(PaymentSuccessResponse response, Client client) async{
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
     try{
@@ -754,6 +754,8 @@ class PaymentRecordToDataBase {
       "OrderId":response.orderId,
       "PaymentId":response.paymentId,
       "Date": DateFormat("dd/MM/yyyy").format(DateTime.now()),
+      "Client": client.name,
+      "Client_email": client.email,
     });
     
     

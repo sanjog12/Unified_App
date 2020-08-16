@@ -57,7 +57,7 @@ class _FDRecordState extends State<FDRecord> {
           title: Text("Fixed Deposit Record"),
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -101,7 +101,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    PaymentRecordToDataBase().savePaymentDetails(response);
+    PaymentRecordToDataBase().savePaymentDetails(response,_client);
     successFulCode = response.paymentId;
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId, timeInSecForIos: 10);
@@ -125,9 +125,6 @@ class _AddSingleClientState extends State<AddSingleClient>{
   void initState() {
     super.initState();
     _razorpay = Razorpay();
-    if(widget.clientList.length >= 5){
-      openCheckout();
-    }
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
@@ -154,7 +151,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
           title: Text('Add Client'),
         ),
         body: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(top: 15,bottom: 70,left: 15,right: 15),
           color: backgroundColor,
           child: Form(
             key: _clientsFormKey,
@@ -179,9 +176,12 @@ class _AddSingleClientState extends State<AddSingleClient>{
                               Colors.white,
                             ),
                           )
-                          : Text("Save"),
+                          : widget.clientList.length > 5? Text("Pay and Save"):Text("Save"),
                       onPressed: () {
                         saveClients(_client, _compliances);
+                        if(widget.clientList.length >= 5){
+                          openCheckout();
+                        }
                       },
                       color: buttonColor,
                     ),

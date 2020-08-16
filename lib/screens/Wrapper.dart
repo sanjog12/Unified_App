@@ -103,16 +103,13 @@ class _WrapperState extends State<Wrapper> {
                 print("hash data");
                 return ShowCaseWidget(
                   builder: Builder(
-                    builder: (context)=>Dashboard(
-                    
-                    ),
+                    builder: (context)=>Dashboard(),
                   ),
                 );
               }
               return ShowCaseWidget(
                 builder: Builder(
-                  builder: (context)=>Dashboard(
-                  ),
+                  builder: (context)=>Dashboard(),
                 ),
               );
             },

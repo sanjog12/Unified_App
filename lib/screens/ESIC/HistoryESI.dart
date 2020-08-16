@@ -26,7 +26,7 @@ class _HistoryESIState extends State<HistoryESI> {
 	    ),
 	    
 	    body: Container(
-		    padding: EdgeInsets.all(20),
+		    padding: EdgeInsets.only(top: 20, bottom: 70, left: 20, right: 20),
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    

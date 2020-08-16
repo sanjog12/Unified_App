@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:unified_reminder/screens/LIC/ComplianceHistoryForTDS.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -127,7 +126,7 @@ class _LICPaymentRecordHistoryDetailsViewState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

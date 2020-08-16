@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
@@ -159,7 +158,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
         title: Text("TDS Payment"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
         child: SingleChildScrollView(
           child: Form(
             key: _MFRecordFormKey,

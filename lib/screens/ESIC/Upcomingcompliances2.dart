@@ -32,7 +32,7 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 			),
 			
 			body: Container(
-				padding: EdgeInsets.all(24),
+				padding: EdgeInsets.only(top: 24, left: 24, bottom: 70, right: 24),
 				child: Column(
 					crossAxisAlignment: CrossAxisAlignment.stretch,
 					children: <Widget>[

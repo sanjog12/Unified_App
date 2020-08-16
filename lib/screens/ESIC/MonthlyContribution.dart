@@ -80,7 +80,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 	    
 	    body: SingleChildScrollView(
 		    child: Container(
-			    padding: EdgeInsets.all(24.0),
+			    padding: EdgeInsets.only(top: 24.0,bottom: 70, left: 24, right: 24),
 			    child: Form(
 				    key: _key,
 			      child: Column(

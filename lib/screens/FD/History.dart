@@ -23,7 +23,7 @@ class _HistoryForFDState extends State<HistoryForFD> {
         title: Text("History of Fixed Deposit"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.only(top: 24.0, bottom: 70, left: 24, right: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

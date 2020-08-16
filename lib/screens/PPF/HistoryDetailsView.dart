@@ -5,8 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
-import 'package:unified_reminder/screens/MF/HistoryTrial.dart';
-import 'package:unified_reminder/screens/PPF/History.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -83,7 +81,7 @@ class _PPFRecordHistoryDetailsViewState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(15.0),
+          padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

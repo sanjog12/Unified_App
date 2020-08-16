@@ -73,7 +73,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
           title: Text("Monthly Contribution"),
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24.0, bottom: 70, left: 24.0, right: 24.0),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[

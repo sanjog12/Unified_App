@@ -6,10 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -71,7 +69,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	    ),
 	    
 	    body: Container(
-		    padding: EdgeInsets.all(24),
+		    padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 70),
 		    child: SingleChildScrollView(
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,

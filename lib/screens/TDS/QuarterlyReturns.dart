@@ -4,10 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/TDSQuarterlyReturnsObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TDSQuarterly extends StatefulWidget {
   
@@ -64,7 +62,7 @@ class _TDSQuarterly extends State<TDSQuarterly>{
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

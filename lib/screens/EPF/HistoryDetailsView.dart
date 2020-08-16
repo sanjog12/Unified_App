@@ -9,7 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
-import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -85,7 +84,7 @@ class _EPFRecordHistoryDetailsViewState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24.0, bottom: 70, left: 24.0, right: 24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

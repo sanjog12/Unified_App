@@ -41,7 +41,7 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 	    ),
 	    
 	    body: Container(
-			    padding: EdgeInsets.all(24),
+			    padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    children: <Widget>[

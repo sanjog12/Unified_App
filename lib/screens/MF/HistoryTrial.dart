@@ -132,7 +132,7 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 	    ),
 	    
 	    body: history.length != 0?Container(
-		    padding: EdgeInsets.all(20),
+		    padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 70),
 		    child: gotHistory
 					    ?Container(
 				    child: ListView.builder(

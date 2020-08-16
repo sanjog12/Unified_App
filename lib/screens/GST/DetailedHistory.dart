@@ -10,7 +10,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
-import 'package:unified_reminder/screens/GST/HistoryGST.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -97,7 +96,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 	    
 	    body: SingleChildScrollView(
 		    child: Container(
-			    padding: EdgeInsets.all(24),
+			    padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    children: <Widget>[

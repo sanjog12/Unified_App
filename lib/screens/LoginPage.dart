@@ -36,12 +36,17 @@ class _LoginPageState extends State<LoginPage>{
   GlobalKey fourth = GlobalKey();
   
   tutorial() async{
-    String temp = await SharedPrefs.getStringPreference("loginTutorial");
-    if(temp != "done") {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ShowCaseWidget.of(this.context).startShowCase([first, second, third]);
-        SharedPrefs.setStringPreference("loginTutorial", "done");
-      });
+    try {
+      String temp = await SharedPrefs.getStringPreference("loginTutorial");
+      print(temp);
+      if (temp != "done") {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(this.context).startShowCase([first, second, third]);
+          SharedPrefs.setStringPreference("loginTutorial", "done");
+        });
+      }
+    }catch(e){
+      debugPrint(e);
     }
   }
   

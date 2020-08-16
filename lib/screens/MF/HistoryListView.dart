@@ -10,7 +10,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
-import 'package:unified_reminder/screens/MF/HistoryTrial.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
@@ -200,7 +199,7 @@ class _HistoryViewState extends State<HistoryView> {
 			),
 			body: SingleChildScrollView(
 				child: Container(
-					padding: EdgeInsets.all(24),
+					padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
 					child: Column(
 						crossAxisAlignment: CrossAxisAlignment.stretch,
 						children: <Widget>[

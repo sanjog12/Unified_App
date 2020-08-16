@@ -29,7 +29,7 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
         title: Text("History of Compliances of EPF"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.only(top: 24, bottom: 70, left: 24, right: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
