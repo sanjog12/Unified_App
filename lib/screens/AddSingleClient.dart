@@ -255,11 +255,16 @@ class _AddSingleClientState extends State<AddSingleClient>{
                           if (temp)
                             saveClients(_client, _compliances);
                         }else{
-                          buttonLoading = true;
-                          String firebaseUID = await SharedPrefs.getStringPreference('uid');
-                          await FirestoreService().editClientData(_client, firebaseUID,com, _compliances);
-                          await flutterToast(message: "Updated Successfully");
-                          Navigator.pop(context);
+                          if(_clientsFormKey.currentState.validate()) {
+                            _clientsFormKey.currentState.save();
+                            setState(() {
+                              buttonLoading = true;
+                            });
+                            String firebaseUID = await SharedPrefs.getStringPreference('uid');
+                            await FirestoreService().editClientData(_client, firebaseUID, com, _compliances);
+                            await flutterToast(message: "Updated Successfully");
+                            Navigator.pop(context);
+                          }
                         }
                       },
                       color: buttonColor,
@@ -458,10 +463,15 @@ class _AddSingleClientState extends State<AddSingleClient>{
               height: 10.0,
             ),
             TextFormField(
+              maxLength: 10,
               initialValue: _client != null?_client.phone:"",
               onChanged: (value) => _client.phone = value,
-              validator: (value) =>
-                  requiredField(value, "Client's Mobile Number"),
+              validator: (value) {
+                if(value.length<10 ){
+                  return "Invalid Mobile Number";
+                }
+               return requiredField(value, "Client's Mobile Number");
+              },
               keyboardType: TextInputType.phone,
               decoration: buildCustomInput(
                 hintText: "Client's Mobile Number",
