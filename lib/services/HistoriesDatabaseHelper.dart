@@ -666,7 +666,8 @@ class HistoriesDatabaseHelper {
           paymentHistory.add(
             PaymentHistory(
               paymentId: value["PaymentId"],
-              dateOfPayment: value["Date"]
+              dateOfPayment: value["Date"],
+              nameOfClient: value["Client"],
             )
           );
         });

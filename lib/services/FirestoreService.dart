@@ -43,8 +43,9 @@ class FirestoreService {
         .child('clients');
 //    Stream data = dbf.onValue;
     await dbf.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, values) {
+      
+      Map<dynamic, dynamic> map = snapshot.value;
+      map.forEach((key, values) {
 //        print(key);
         Client client = Client(
             values["name"],
@@ -62,7 +63,7 @@ class FirestoreService {
     return clientsData;
   }
   
-  editClientData(Client client,String firebaseUID){
+  Future<void> editClientData(Client client,String firebaseUID, List<String> temp, List<Compliance> compliances) async{
     
     try {
       dbf = firebaseDatabase.reference();
@@ -78,8 +79,28 @@ class FirestoreService {
         'company': client.company,
         'natureOfBusiness': client.natureOfBusiness,
         'email': client.email,
-        'phone': client.phone
+        'phone': client.phone.toString(),
       });
+
+      String clientEmail = client.email.replaceAll('.', ',');
+
+      for (var items in compliances){
+        if (items.checked && !temp.contains(items.title)) {
+          print(items.title);
+          Map<String, String> clientCompliances = {
+            'clientEmail': client.email,
+            'title': items.title,
+            'value': items.value
+          };
+          dbf
+              .child(FsUserCompliances)
+              .child(firebaseUID)
+              .child('compliances')
+              .child(clientEmail)
+              .push()
+              .set(clientCompliances);
+        }
+      }
     }catch(e){
       print(e);
     }

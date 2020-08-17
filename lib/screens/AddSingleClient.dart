@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,21 +9,24 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
+import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
+import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 
 class AddSingleClient extends StatefulWidget {
   
-  final Map arguments;
+  final Client client;
   final UserBasic userBasic;
   final List<Client> clientList;
   
-  const AddSingleClient({this.arguments, this.userBasic, this.clientList});
+  const AddSingleClient({this.userBasic, this.clientList, this.client});
   @override
   _AddSingleClientState createState() => _AddSingleClientState();
 }
@@ -37,9 +41,11 @@ class _AddSingleClientState extends State<AddSingleClient>{
   List<Compliance> _compliances = [];
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   Razorpay _razorpay;
+  List<String> com=[];
   bool willPop = true;
   String successFulCode = "";
-  
+  FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+  DatabaseReference dbf;
   
   
   Future<void> subscribeTopic(String compliance, bool subscribe) async{
@@ -50,6 +56,35 @@ class _AddSingleClientState extends State<AddSingleClient>{
     else if(subscribe){
       firebaseMessaging.unsubscribeFromTopic(compliance);
     }
+  }
+
+  Future<void> _getUserCompliances() async {
+    String clientEmail = widget.client.email.replaceAll('.', ',');
+    var firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    
+    dbf = firebaseDatabase
+        .reference()
+        .child(FsUserCompliances)
+        .child(firebaseUserId)
+        .child('compliances')
+        .child(clientEmail);
+  
+    await dbf.once().then((DataSnapshot snapshot) async{
+      Map<dynamic, dynamic> values = await snapshot.value;
+      for(var v in values.entries){
+        com.add(v.value['title']);
+      }
+//      values.forEach((key, values) {
+//        Compliance compliance = Compliance(
+//            title: values['title'],);
+//        com.add(compliance.title);
+//
+//      });
+    });
+    setState(() {
+      com = com;
+      _compliances = [];
+    });
   }
   
   Future<bool> onWillPop() async{
@@ -82,21 +117,23 @@ class _AddSingleClientState extends State<AddSingleClient>{
   
   
 
-  void openCheckout() async {
-    var options = {
-      'key': 'rzp_test_YHXEshy02jkv2N',
-      'amount': 2500,
-      'name': 'Tax Reminder',
-      'description': 'Fee for adding further clients',
-//      'prefill': {'Unique Id': uid},
-      'external': {
-        'wallets': ['paytm']
-      }
-    };
+  Future<bool> openCheckout() async {
     try {
-      _razorpay.open(options);
-    } catch (e){
+      var options = {
+        'key': 'rzp_test_YHXEshy02jkv2N',
+        'amount': 2500,
+        'name': 'Tax Reminder',
+        'description': 'Fee for adding further clients',
+//      'prefill': {'Unique Id': uid},
+        'external': {
+          'wallets': ['paytm']
+        }
+      };
+        _razorpay.open(options);
+      return true;
+    }catch(e){
       debugPrint(e);
+      return false;
     }
   }
 
@@ -123,6 +160,12 @@ class _AddSingleClientState extends State<AddSingleClient>{
   
   @override
   void initState() {
+    if(widget.client != null){
+      _getUserCompliances();
+      _client = widget.client;
+      print(_client.key);
+    }
+    
     super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -133,16 +176,41 @@ class _AddSingleClientState extends State<AddSingleClient>{
 
   @override
   Widget build(BuildContext context) {
-    _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: false));
-    _compliances.add(Compliance(title: "TDS", value: "tds", checked: false));
-    _compliances.add(Compliance(title: "GST", value: "gst", checked: false));
-    _compliances.add(Compliance(title: "EPF", value: "epf", checked: false));
-    _compliances.add(Compliance(title: "ESI", value: "esi", checked: false));
-    _compliances.add(Compliance(title: "ROC", value: "roc", checked: false));
-    _compliances.add(Compliance(title: "LIC", value: "lic", checked: false));
-    _compliances.add(Compliance(title: "PPF", value: "ppf", checked: false));
-    _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: false));
-    _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false));
+    if(widget.client == null) {
+      _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: false));
+      _compliances.add(Compliance(title: "TDS", value: "tds", checked: false));
+      _compliances.add(Compliance(title: "GST", value: "gst", checked: false));
+      _compliances.add(Compliance(title: "EPF", value: "epf", checked: false));
+      _compliances.add(Compliance(title: "ESI", value: "esi", checked: false));
+      _compliances.add(Compliance(title: "ROC", value: "roc", checked: false));
+      _compliances.add(Compliance(title: "LIC", value: "lic", checked: false));
+      _compliances.add(Compliance(title: "PPF", value: "ppf", checked: false));
+      _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: false));
+      _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false));
+    }
+    
+    else{
+      print("here");
+      print(com.join(" "));
+      _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: com.contains("Income Tax")));
+      print(com.contains("Income Tax"));
+      _compliances.add(Compliance(title: "TDS", value: "tds", checked: com.contains("TDS")));
+      print(com.contains("TDS"));
+      _compliances.add(Compliance(title: "GST", value: "gst", checked: com.contains("GST")));
+      print(com.contains("GST"));
+      _compliances.add(Compliance(title: "EPF", value: "epf", checked: com.contains("EPF")));
+      print(com.contains("EPF"));
+      _compliances.add(Compliance(title: "ESI", value: "esi", checked: com.contains("ESI")));
+      _compliances.add(Compliance(title: "ROC", value: "roc", checked: com.contains("ROC")));
+      _compliances.add(Compliance(title: "LIC", value: "lic", checked: com.contains("LIC")));
+      _compliances.add(Compliance(title: "PPF", value: "ppf", checked: com.contains("PPF")));
+      print(com.contains("PPF"));
+      _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: com.contains("MUTUAL FUND")));
+      _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: com.contains("FIXED DEPOSIT")));
+      setState(() {
+        _compliances = _compliances;
+      });
+    }
     
     return WillPopScope(
       onWillPop: onWillPop,
@@ -176,11 +244,22 @@ class _AddSingleClientState extends State<AddSingleClient>{
                               Colors.white,
                             ),
                           )
-                          : widget.clientList.length > 5? Text("Pay and Save"):Text("Save"),
-                      onPressed: () {
-                        saveClients(_client, _compliances);
-                        if(widget.clientList.length >= 5){
-                          openCheckout();
+                          : widget.clientList != null ?(widget.clientList.length > 5? Text("Pay and Save"):Text("Save")):Text("Update"),
+                      onPressed: () async{
+                        if(widget.client == null) {
+                          bool temp = true;
+                          if (widget.clientList.length >= 5) {
+                            temp = false;
+                            temp = await openCheckout();
+                          }
+                          if (temp)
+                            saveClients(_client, _compliances);
+                        }else{
+                          buttonLoading = true;
+                          String firebaseUID = await SharedPrefs.getStringPreference('uid');
+                          await FirestoreService().editClientData(_client, firebaseUID,com, _compliances);
+                          await flutterToast(message: "Updated Successfully");
+                          Navigator.pop(context);
                         }
                       },
                       color: buttonColor,
@@ -251,9 +330,10 @@ class _AddSingleClientState extends State<AddSingleClient>{
               height: 10.0,
             ),
             TextFormField(
+              initialValue: _client != null?_client.name:"",
               validator: (value) => requiredField(value, "Client's Name"),
               decoration: buildCustomInput(hintText: "Client's Name"),
-              onSaved: (value) => _client.name = value,
+              onChanged: (value) => _client.name = value,
             ),
           ],
         ),
@@ -320,7 +400,8 @@ class _AddSingleClientState extends State<AddSingleClient>{
               height: 10.0,
             ),
             TextFormField(
-              onSaved: (value) => _client.company = value,
+              initialValue: _client != null?_client.company:"",
+              onChanged: (value) => _client.company = value,
               validator: (value) =>
                   requiredField(value, "Client's Company Name"),
               decoration: buildCustomInput(hintText: "Client's Company Name"),
@@ -337,10 +418,11 @@ class _AddSingleClientState extends State<AddSingleClient>{
             SizedBox(
               height: 10.0,
             ),
-            TextFormField(
+  
+            _client != null?Text(_client.email):TextFormField(
               keyboardType: TextInputType.emailAddress,
               validator: (value) => validateEmail(value),
-              onSaved: (value) => _client.email = value,
+              onChanged: (value) => _client.email = value,
               decoration: buildCustomInput(hintText: "Client's Email Address"),
             ),
           ],
@@ -356,7 +438,8 @@ class _AddSingleClientState extends State<AddSingleClient>{
               height: 10.0,
             ),
             TextFormField(
-              onSaved: (value) => _client.natureOfBusiness = value,
+              initialValue: _client != null?_client.natureOfBusiness:"",
+              onChanged: (value) => _client.natureOfBusiness = value,
               validator: (value) =>
                   requiredField(value, "Client's Nature of Business"),
               decoration:
@@ -375,7 +458,8 @@ class _AddSingleClientState extends State<AddSingleClient>{
               height: 10.0,
             ),
             TextFormField(
-              onSaved: (value) => _client.phone = value,
+              initialValue: _client != null?_client.phone:"",
+              onChanged: (value) => _client.phone = value,
               validator: (value) =>
                   requiredField(value, "Client's Mobile Number"),
               keyboardType: TextInputType.phone,

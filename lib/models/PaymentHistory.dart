@@ -1,5 +1,5 @@
 class PaymentHistory{
-	String paymentId,dateOfPayment;
+	String paymentId,dateOfPayment, nameOfClient;
 	
-	PaymentHistory({this.paymentId, this.dateOfPayment});
+	PaymentHistory({this.paymentId, this.dateOfPayment, this.nameOfClient});
 }

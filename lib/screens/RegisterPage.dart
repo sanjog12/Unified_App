@@ -4,6 +4,7 @@ import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/AuthService.dart';
+import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -23,6 +24,29 @@ class _RegisterPageState extends State<RegisterPage> {
   GlobalKey second = GlobalKey();
   GlobalKey third = GlobalKey();
   GlobalKey fourth = GlobalKey();
+  ScrollController controller = ScrollController();
+  
+  tutorial() async{
+    try {
+      String temp = await SharedPrefs.getStringPreference("registerTutorial");
+      print(temp);
+      if (temp != "done") {
+        controller.animateTo(controller.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(this.context).startShowCase([first, second]);
+          SharedPrefs.setStringPreference("registerTutorial", "done");
+        });
+      }
+    }catch(e){
+      debugPrint(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tutorial();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
         title: Text("Register"),
       ),
       body: SingleChildScrollView(
+        controller: controller,
         child: Container(
           padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
           child: Column(
@@ -189,8 +214,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     
                     Showcase(
-                      key: second,
-                      description: "Yo",
+                      key: first,
+                      description: "Register your self using above fields",
                       child: Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
@@ -225,8 +250,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
   
                     Showcase(
-                      key: first,
-                      description: "Click here to register with google",
+                      showArrow: true,
+                      key: second,
+                      description: "Or register using Google",
                       child: Container(
                         decoration: roundedCornerButton,
                         height: 50,

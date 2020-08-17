@@ -33,17 +33,35 @@ class _LoginPageState extends State<LoginPage>{
   GlobalKey first = GlobalKey();
   GlobalKey second = GlobalKey();
   GlobalKey third = GlobalKey();
-  GlobalKey fourth = GlobalKey();
   
-  tutorial() async{
+  tutorial1() async{
     try {
       String temp = await SharedPrefs.getStringPreference("loginTutorial");
       print(temp);
       if (temp != "done") {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          ShowCaseWidget.of(this.context).startShowCase([first, second, third]);
+          ShowCaseWidget.of(this.context).startShowCase([first]);
           SharedPrefs.setStringPreference("loginTutorial", "done");
         });
+      }
+    }catch(e){
+      debugPrint(e);
+    }
+  }
+
+
+  tutorial2() async{
+    try {
+      String temp = await SharedPrefs.getStringPreference("loginTutorial");
+      String temp2 = await SharedPrefs.getStringPreference("login2Tutorial");
+      print(temp);
+      if (temp == "done") {
+        if(temp2 != "done"){
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ShowCaseWidget.of(this.context).startShowCase([second, third]);
+            SharedPrefs.setStringPreference("login2Tutorial", "done");
+          });
+        }
       }
     }catch(e){
       debugPrint(e);
@@ -53,7 +71,8 @@ class _LoginPageState extends State<LoginPage>{
   @override
   void initState() {
     super.initState();
-    tutorial();
+    tutorial1();
+    tutorial2();
   }
   
   @override
@@ -66,7 +85,7 @@ class _LoginPageState extends State<LoginPage>{
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -182,7 +201,7 @@ class _LoginPageState extends State<LoginPage>{
                     ),
                     Showcase(
                       key: second,
-                      description: "",
+                      description: "Login using your credentials",
                       child: Container(
                         decoration: roundedCornerButton,
                         height: 50.0,

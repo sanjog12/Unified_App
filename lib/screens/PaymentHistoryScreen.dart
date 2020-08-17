@@ -44,8 +44,14 @@ class _PaymentHistoryScreenState extends State<PaymentHistoryScreen> {
                           decoration: roundedCornerButton,
                           margin: EdgeInsets.symmetric(vertical: 10.0),
                           child: ListTile(
-                            title: Text(snapshot.data[index].paymentId != null?snapshot.data[index].paymentId:"No History found"),
-                            subtitle: Text(snapshot.data[index].dateOfPayment != null ? snapshot.data[index].dateOfPayment : " "),
+                            title: Text(snapshot.data[index].paymentId != null?"Payment ID: "+snapshot.data[index].paymentId:"No History found"),
+                            subtitle: Column(
+                              children: [
+                                Text(snapshot.data[index].dateOfPayment != null ?"Payment Date: "+snapshot.data[index].dateOfPayment : " "),
+                                SizedBox(height: 10,),
+                                Text(snapshot.data[index].nameOfClient != null ?"Name of client: "+snapshot.data[index].nameOfClient:" "),
+                              ],
+                            ),
                           ),
                         );
                       },

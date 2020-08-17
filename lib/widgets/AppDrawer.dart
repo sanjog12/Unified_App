@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Clients.dart';
+import 'package:unified_reminder/screens/LoginPage.dart';
 import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Screens/PaymentHistoryScreen.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -20,6 +21,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -58,7 +60,9 @@ class AppDrawer extends StatelessWidget {
                   GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Clients()));
+                            MaterialPageRoute(builder: (context) => Clients(
+                              userBasic: userBasic,
+                            )));
                       },
                       child: singleDrawItem('Manage Clients')),
                 ],
@@ -85,12 +89,14 @@ class AppDrawer extends StatelessWidget {
                   onTap: () {
                     SharedPrefs.removePrefeence("uid");
                     AuthService().logOutUser();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, LoginPageRoute, (route) => false);
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(
+                      builder:(context)=> LoginPage()
+                    ));
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 18),
                     decoration: BoxDecoration(
                         border: Border(
                             top: BorderSide(color: whiteColor, width: 1))),
@@ -110,7 +116,7 @@ class AppDrawer extends StatelessWidget {
   Widget singleDrawItem(String label) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: whiteColor, width: 1))),
       child: Text(
