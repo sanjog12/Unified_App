@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class DetailsOfContribution extends StatefulWidget {
@@ -65,7 +65,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	  final ThemeData _theme = Theme.of(context);
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Details of Contribution'),
+		    title: Text('EPF Details of Contribution'),
 	    ),
 	    
 	    body: Container(
@@ -239,35 +239,16 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 						.AddDetailsOfContribution(epfDetailsOfContributionObject, widget.client, file);
 				
 				if (done) {
-					Fluttertoast.showToast(
-							msg: "Successfully Saved",
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: "Successfully Saved");
 					Navigator.pop(context);
 				}
 			}
 		} on PlatformException catch (e) {
-			Fluttertoast.showToast(
-					msg: e.message,
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		} catch (e) {
-			Fluttertoast.showToast(
-					msg: 'Details did not saved this time',
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: 'Details did not saved this time');
 		} finally {
 			this.setState(() {
 				buttonLoading = false;

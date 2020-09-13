@@ -34,7 +34,7 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Upcoming Compliances'),
+		    title: Text('GST Upcoming Compliances'),
 		    actions: <Widget>[
 		    	helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
 		    ],

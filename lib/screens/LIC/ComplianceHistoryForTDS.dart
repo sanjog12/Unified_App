@@ -23,7 +23,7 @@ class _ComplianceHistoryForTDSState extends State<ComplianceHistoryForLIC> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Compliances For LIC"),
+        title: Text("LIC History"),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),

@@ -26,7 +26,7 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Compliances of EPF"),
+        title: Text("EPF History"),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 24, bottom: 70, left: 24, right: 24),

@@ -222,7 +222,7 @@ class HistoriesDatabaseHelper {
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: ' ', type: ''));
+            date: 'No History Found', amount: ' ', type: ''));
       }
     });
     return complinceData;
@@ -286,7 +286,7 @@ class HistoriesDatabaseHelper {
     
     if(complinceData.length == 0 || complinceData == null){
     complinceData.add(HistoryComplinceObject(
-    date: 'No history founded', amount: '', type: ''));
+    date: 'No History Found', amount: '', type: ''));
     }
 
     return complinceData;
@@ -325,7 +325,7 @@ class HistoriesDatabaseHelper {
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No History Found', amount: 'null', type: ''));
       }
     });
 
@@ -365,7 +365,7 @@ class HistoriesDatabaseHelper {
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No History Found', amount: 'null', type: ''));
       }
     });
 
@@ -405,7 +405,7 @@ class HistoriesDatabaseHelper {
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No History Found', amount: 'null', type: ''));
       }
     });
 
@@ -496,7 +496,7 @@ class HistoriesDatabaseHelper {
         });
       } else {
         historyData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No History Found', amount: 'null', type: ''));
       }
     });
 
@@ -524,11 +524,11 @@ class HistoriesDatabaseHelper {
         .child(clientEmail)
         .child(date);
     
-    await dbf.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
+    await dbf.once().then((DataSnapshot snapshot) async{
+      Map<dynamic, dynamic> values = await snapshot.value;
+      // print(values);
       if (values != null) {
         values.forEach((key, values) {
-          
           if(key!='AGM Date') {
             print(values['SRN No']);
             HistoryCompliancesObjectForROC historyCompliancesObjectForROC =
@@ -542,14 +542,19 @@ class HistoriesDatabaseHelper {
           else{
           }
         });
-      }else {
-        print('t');
-        historyData.add(HistoryCompliancesObjectForROC(
-            SRNNumber: 'No History Found' , formType: ' ' , dateOfFilling: ' ', ));
       }
       print('here');
     });
-    print("test");
+    if(historyData.length ==0){
+      HistoryCompliancesObjectForROC historyCompliancesObjectForROC =
+      HistoryCompliancesObjectForROC(
+        formType: "No History Found",
+        SRNNumber: "",
+        dateOfFilling: "",
+      );
+      historyData.add(historyCompliancesObjectForROC);
+    }
+    print(historyData.length);
     return historyData;
   }
 

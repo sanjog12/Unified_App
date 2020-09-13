@@ -219,7 +219,7 @@ class _LoginPageState extends State<LoginPage>{
                                 )
                               : Text("Login"),
                           onPressed: () {
-                            loginUser(userAuth);
+                            loginUser(userAuth, context);
                           },
                         ),
                       ),
@@ -401,7 +401,6 @@ class _LoginPageState extends State<LoginPage>{
                         msg: e.message,
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
-                        timeInSecForIos: 2,
                         backgroundColor: Color(0xff666666),
                         textColor: Colors.white,
                         fontSize: 16.0);
@@ -421,7 +420,7 @@ class _LoginPageState extends State<LoginPage>{
   
   
 
-  Future<void> loginUser(UserAuth authDetails) async {
+  Future<void> loginUser(UserAuth authDetails, BuildContext context) async {
     try {
       if (_loginFormKey.currentState.validate()) {
         _loginFormKey.currentState.save();
@@ -430,7 +429,6 @@ class _LoginPageState extends State<LoginPage>{
         });
 
         UserBasic userBasic = await _auth.loginUser(authDetails,context);
-        print(userBasic.fullName);
         if (userBasic != null) {
           Navigator.pop(context);
           Navigator.of(context).push(
@@ -451,11 +449,11 @@ class _LoginPageState extends State<LoginPage>{
           msg: e.message,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);
     } catch (e) {
+      print(e);
       flutterToast(message: "Unable to login at the moment");
     } finally {
       this.setState(() {

@@ -11,6 +11,7 @@ import 'package:unified_reminder/models/payment/ESIMonthlyContributionObejct.dar
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -74,7 +75,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 	  
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Monthly Contribution' , style: TextStyle(fontWeight: FontWeight.bold),),
+		    title: Text('ESI Monthly Contribution' , style: TextStyle(fontWeight: FontWeight.bold),),
 	    ),
 	    
 	    
@@ -241,14 +242,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 			Navigator.pop(context);
 		}
 		else{
-			Fluttertoast.showToast(
-					msg: "Please fill all the fields",
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: "Please fill all the fields");
 		}
   }
   

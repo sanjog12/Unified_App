@@ -21,7 +21,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of PPF"),
+        title: Text("PPF History"),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),

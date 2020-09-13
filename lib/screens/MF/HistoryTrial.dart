@@ -128,7 +128,7 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text("PortFolio"),
+		    title: Text("Mutual Funds PortFolios"),
 	    ),
 	    
 	    body: history.length != 0?Container(

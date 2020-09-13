@@ -138,20 +138,15 @@ class AuthService {
       AuthResult user = await _auth.signInWithEmailAndPassword(
           email: authDetails.email, password: authDetails.password);
       bool temp = user.user.isEmailVerified;
-      if(!temp){
-        Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Your account has not been verified. Verify your account using a link sent to your given email address"),
-              action: SnackBarAction(
-                label: "Ok",
-                onPressed: (){
-                  Scaffold.of(context).hideCurrentSnackBar();
-                  },
-              ),
-            )
-        );
-        return null;
-      }
+      print(temp);
+      // if(!temp){
+      //   try {
+      //     flutterToast(message: "Your account has not been verified. Verify your account using a link sent to your given email address");
+      //   }catch(e){
+      //     print(e);
+      //   }
+      //   return null;
+      // }
       SharedPrefs.setStringPreference("uid", user.user.uid);
 
       return UserBasic(

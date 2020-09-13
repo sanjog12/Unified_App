@@ -788,23 +788,11 @@ class _LICPaymentRecordHistoryDetailsViewState
       recordEditToast();
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
 
@@ -894,24 +882,11 @@ class _LICPaymentRecordHistoryDetailsViewState
 //      );
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
       print(e);
-      Fluttertoast.showToast(
-          msg: e.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Something went wrong");
     }
   }
 
@@ -967,14 +942,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                       });
                       Navigator.of(context).pop();
                       Navigator.pop(context);
-                      Fluttertoast.showToast(
-                          msg: "PDF Deleted",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIos: 1,
-                          backgroundColor: Color(0xff666666),
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                      flutterToast(message: "PDF Deleted");
                     }catch(e){
                       print(e.toString());
                     }
@@ -991,14 +959,8 @@ class _LICPaymentRecordHistoryDetailsViewState
             );
           }
       );}catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
   

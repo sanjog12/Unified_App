@@ -20,7 +20,7 @@ class _HistoryForFDState extends State<HistoryForFD> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Fixed Deposit"),
+        title: Text("Fixed Deposit History"),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 24.0, bottom: 70, left: 24, right: 24),

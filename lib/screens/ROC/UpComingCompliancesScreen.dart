@@ -2,7 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/services/LocalNotificationServices.dart';
@@ -10,6 +9,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 
 class UpComingCompliancesScreenForROC extends StatefulWidget {
@@ -33,6 +33,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	
 	GlobalKey<FormState> rocFromKey = GlobalKey<FormState>();
 	
+	String tempDate = "Select Date";
 	
 	String _selectedDateOfAgm = 'Select Date';
 	DateTime selectedDateOfAgmSubmission = DateTime.now();
@@ -54,8 +55,11 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	
 	 GestureDetector makeWidget(String formType, int days) {
 		return GestureDetector(
-			onTap: (){
-				saveSRNofForms(formType, context);
+			onTap: () async{
+				await saveSRNofForms(formType, context);
+				flutterToast(message: "Successfully Saved");
+				setState(() {
+				});
 			},
 		  child: Container(
 		  	decoration: roundedCornerButton,
@@ -203,7 +207,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text("Upcoming Compliances"),
+		    title: Text("ROC Upcoming Compliances"),
 	    ),
 	    
 	    body: SingleChildScrollView(
@@ -370,73 +374,101 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		String SRN = ' ';
 		String date = ' ';
 
-		showDialog<void>(
+		await showDialog<void>(
 				context: context,
 				builder: (builder){
-					return AlertDialog(
-						title: Column(
-						  children: <Widget>[
-						    Text('Enter details',style: TextStyle(fontWeight: FontWeight.bold),),
-							  Divider(
-								  thickness: 1.0,
+					return StatefulBuilder(
+					  builder:(context,setState) {
+						  return AlertDialog(
+							  title: Column(
+								  children: <Widget>[
+									  Text('Enter details',
+										  style: TextStyle(fontWeight: FontWeight.bold),),
+									  Divider(
+										  thickness: 1.0,
+									  ),
+								  ],
 							  ),
-						  ],
-						),
-
-					  content: SingleChildScrollView(
-					    child: Container(
-					    	padding: EdgeInsets.all(2),
-					  	  child: Column(
-					  		  crossAxisAlignment: CrossAxisAlignment.stretch,
-					  		  children: <Widget>[
-					  		  	Text("SRN No. of $formType"),
-					  			  SizedBox(height: 10,),
-					  			  TextFormField(
-					  				  decoration: buildCustomInput(hintText: 'SRN no.'),
-					  				  onChanged: (value){
-					  				  	setState(() {
-											    SRN = value;
-					  				  	});
-
-									    },
-					  			  ),
-					  			  SizedBox(height: 20,),
-					  			  Text("Date Of Filling"),
-					  			  SizedBox(height: 10,),
-					  			  TextFormField(
-					  				  decoration: buildCustomInput(hintText: 'Date of Filing'),
-					  				  onChanged: (value){
-					  				  	setState(() {
-											    date = value;
-					  				  	});
-									    },
-					  			  ),
-					  			  SizedBox(height: 20,),
-					  		  ],
-					  	  )
-					    ),
-					  ),
-
-						actions: <Widget>[
-							FlatButton(
-								child: Text('Save AGM Date'),
-								onPressed: () async{
-									String firebaseUserId= await SharedPrefs.getStringPreference("uid");
-									dfb = firebaseDatabase.reference();
-									dfb.child('complinces')
-											.child('ROC')
-											.child(firebaseUserId)
-											.child(widget.client.email.replaceAll('.', ','))
-											.child(widget.stringAGMDate)
-											.child(formType)
-									     .set({
-											'SRN No': SRN,
-										  'Date of Filing': date,
-										});
-									Navigator.of(context).pop();
-								},
-							)
-						],
+							
+							  content: SingleChildScrollView(
+								  child: Container(
+										  padding: EdgeInsets.all(2),
+										  child: Column(
+											  crossAxisAlignment: CrossAxisAlignment.stretch,
+											  children: <Widget>[
+												  Text("SRN No. of $formType"),
+												  SizedBox(height: 10,),
+												  TextFormField(
+													  decoration: buildCustomInput(hintText: 'SRN no.'),
+													  onChanged: (value) {
+														  setState(() {
+															  SRN = value;
+														  });
+													  },
+												  ),
+												  SizedBox(height: 20,),
+												  Text("Date Of Filling"),
+												  SizedBox(height: 10,),
+												  Container(
+													  padding: EdgeInsets.symmetric(horizontal: 10),
+													  decoration: fieldsDecoration,
+													  child: Row(
+														  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+														  children: <Widget>[
+															  Text(
+																  tempDate,
+															  ),
+															  FlatButton(
+																  onPressed: () async {
+																	  final DateTime picked = await showDatePicker(
+																			  context: context,
+																			  initialDate: DateTime.now(),
+																			  firstDate: DateTime(DateTime.now().year - 1),
+																			  lastDate: DateTime(DateTime.now().year + 1)
+																	  );
+																	  if (picked != null) {
+																		  print(picked);
+																		  setState(() {
+																			  tempDate =  DateFormat('dd-MM-yyyy').format(picked);
+																		  });
+																		  date = tempDate;
+																		  print(tempDate);
+																	  }
+																  },
+																  child: Icon(Icons.date_range),
+															  ),
+														  ],
+													  ),
+												  ),
+												  SizedBox(height: 20,),
+											  ],
+										  )
+								  ),
+							  ),
+							
+							  actions: <Widget>[
+								  FlatButton(
+									  child: Text('Save AGM Date'),
+									  onPressed: () async {
+										  String firebaseUserId = await SharedPrefs
+												  .getStringPreference("uid");
+										  dfb = firebaseDatabase.reference();
+										  dfb.child('complinces')
+												  .child('ROC')
+												  .child(firebaseUserId)
+												  .child(widget.client.email.replaceAll('.', ','))
+												  .child(widget.stringAGMDate)
+												  .child(formType)
+												  .set({
+											  'SRN No': SRN,
+											  'Date of Filing': date,
+										  });
+										  Navigator.of(context).pop();
+									  },
+								  )
+							  ],
+						  );
+					  }
 					);
 				}
 		);
@@ -445,7 +477,6 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
   
 	Future<void> agmDateEntry(int i) async {
 		try {
-
 			if (rocFromKey.currentState.validate()  || i ==1) {
 				rocFromKey.currentState.save();
 				
@@ -482,55 +513,19 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 					  widget.agmRecorded = true;
 					});
 					Navigator.of(context).reassemble();
-					
-					Fluttertoast.showToast(
-							msg: i != 1 ? "Date has Been Recorded" : "Date has been updated",
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: i != 1 ? "Date has Been Recorded" : "Date has been updated");
 				}on PlatformException catch(e){
 					print("Patform" + e.toString());
-					Fluttertoast.showToast(
-							msg: e.message,
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: e.message);
 				}catch(e){
 					print(e);
-					Fluttertoast.showToast(
-							msg: e.message,
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: "Something went wrong");
 				}
 			}
 		} on PlatformException catch (e) {
-			Fluttertoast.showToast(
-					msg: e.message,
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: e.message);
 		} catch (e) {
-			Fluttertoast.showToast(
-					msg: 'Payment Not Saved This Time',
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: 'Payment Not Saved due to some error');
 		} finally {
 			this.setState(() {
 				buttonLoading = false;
@@ -696,23 +691,9 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		  
 		  print('success');
 	  }on PlatformException catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message,
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  flutterToast(message: e.message);
 	  }catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message,
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  flutterToast(message: "Something went wrong");
 	  }
 	}
 	
@@ -763,14 +744,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 											.remove();
 									
 									Navigator.of(context).pop();
-									Fluttertoast.showToast(
-											msg: 'Date Deleted',
-											toastLength: Toast.LENGTH_SHORT,
-											gravity: ToastGravity.BOTTOM,
-											timeInSecForIos: 1,
-											backgroundColor: Color(0xff666666),
-											textColor: Colors.white,
-											fontSize: 16.0);
+									flutterToast(message: 'Date Deleted');
 								},
 							),
 							

@@ -94,7 +94,7 @@ class _UpCommingComliancesScreenForLICState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("LIC Upcoming Compliances"),
+        title: Text("LIC Upcoming Premium Date"),
         actions: <Widget>[
           helpButtonActionBar('https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20LIC'),
         ],

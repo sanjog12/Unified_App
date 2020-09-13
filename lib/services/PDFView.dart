@@ -21,8 +21,17 @@ class _PDFViewerState extends State<PDFViewer> {
 	String localFile ;
 	
 	Future<String> loadPDFurl() async{
+		try{
 		String pdf = await firebaseStorage.ref().child("files").child(widget.pdf).getDownloadURL();
 		return pdf;
+		}catch(e){
+			try{
+				String pdf = await firebaseStorage.ref().child("AdminUse").child(widget.pdf).getDownloadURL();
+				return pdf;
+			}catch(e){
+			
+			}
+		}
 	}
 	
 	Future<String> getFile() async{

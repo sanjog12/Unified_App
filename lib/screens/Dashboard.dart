@@ -131,10 +131,10 @@ class _DashboardState extends State<Dashboard> {
     _userController = StreamController();
     temp().whenComplete(() async{
       upComingCompliancesList = await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonth(clientList).whenComplete((){
-        if(this.mounted)
+        if(this.mounted){
         setState(() {
           list = true;
-        });
+        });}
       });
       setState(() {
         loading = true;
@@ -198,13 +198,14 @@ class _DashboardState extends State<Dashboard> {
               width: MediaQuery.of(context).size.width * 0.8,
               child: SafeArea(
                 child: AppDrawer(
+                  bannerAd: bannerAd,
                   userBasic: widget.userBasic,
                 ),
               ),
             ),
           ),
           appBar: AppBar(
-            title: Text("Unified Reminder"),
+            title: Text("Tax Reminder"),
           ),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         floatingActionButton: Showcase(
@@ -438,6 +439,9 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 30,
               ),
             ],
           ),

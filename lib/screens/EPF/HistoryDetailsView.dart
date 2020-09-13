@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
@@ -14,6 +13,7 @@ import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class EPFRecordHistoryDetailsView extends StatefulWidget {
   final Client client;
@@ -346,34 +346,14 @@ class _EPFRecordHistoryDetailsViewState
         'amountOfPayment': _epfMonthlyContributionObejct.amountOfPayment,
         'dateOfFilling': _epfMonthlyContributionObejct.dteOfFilling,
       });
-    
-      Fluttertoast.showToast(
-          msg: "Changes Saved",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Changes saved");
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
 
@@ -451,15 +431,7 @@ class _EPFRecordHistoryDetailsViewState
           .child(widget.client.email)
           .child(widget.keyDB)
           .remove();
-    
-      Fluttertoast.showToast(
-          msg: "Record Deleted",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Record Deleted");
       Navigator.pop(context);
       Navigator.pop(context);
 //      Navigator.push(context,
@@ -471,23 +443,11 @@ class _EPFRecordHistoryDetailsViewState
 //      );
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
 
@@ -544,14 +504,7 @@ class _EPFRecordHistoryDetailsViewState
                       });
                       Navigator.of(context).pop();
                       Navigator.pop(context);
-                      Fluttertoast.showToast(
-                          msg: "PDF Deleted",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIos: 1,
-                          backgroundColor: Color(0xff666666),
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                      flutterToast(message: "PDF Deleted");
                     }catch(e){
                       print(e.toString());
                     }
@@ -568,14 +521,8 @@ class _EPFRecordHistoryDetailsViewState
             );
           }
       );}catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
 }

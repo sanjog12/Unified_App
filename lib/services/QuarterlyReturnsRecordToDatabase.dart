@@ -10,7 +10,6 @@ import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject
 import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/TDSQuarterlyReturnsObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-//import 'package:unified_reminder/screens/GST/ReturnFilling.dart';
 
 import 'SharedPrefs.dart';
 
@@ -67,7 +66,6 @@ class QuarterlyReturnsRecordToDatabase {
           msg: e.message.toString(),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);

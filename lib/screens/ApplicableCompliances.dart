@@ -93,16 +93,6 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
     });
     return clientsData;
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    try {
-      createInterstitialAd().dispose();
-    }catch(e){
-      print(e);
-    }
-  }
   
   @override
   Widget build(BuildContext context) {

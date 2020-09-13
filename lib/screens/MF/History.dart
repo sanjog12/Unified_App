@@ -42,7 +42,7 @@ class _HistoryForFMState extends State<HistoryForFM> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Mutual Fund"),
+        title: Text("Mutual Fund History"),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),

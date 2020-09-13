@@ -101,7 +101,6 @@ class _AddSingleClientState extends State<AddSingleClient>{
                   Navigator.of(context).pop(false);
                 },
               ),
-              
               FlatButton(
                 child: Text("Exit"),
                 onPressed: (){
@@ -141,20 +140,20 @@ class _AddSingleClientState extends State<AddSingleClient>{
     PaymentRecordToDataBase().savePaymentDetails(response,_client);
     successFulCode = response.paymentId;
     Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId, timeInSecForIos: 10);
+        msg: "SUCCESS: " + response.paymentId);
     willPop = false;
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(
         msg: response.message ,
-        timeInSecForIos: 10);
+        );
     Navigator.pop(context);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName, timeInSecForIos: 10);
+        msg: "EXTERNAL_WALLET: " + response.walletName);
     Navigator.pop(context);
   }
   
@@ -244,7 +243,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
                               Colors.white,
                             ),
                           )
-                          : widget.clientList != null ?(widget.clientList.length > 5? Text("Pay and Save"):Text("Save")):Text("Update"),
+                          : widget.clientList != null ?(widget.clientList.length >=5? Text("Pay and Save"):Text("Save")):Text("Update"),
                       onPressed: () async{
                         if(widget.client == null) {
                           bool temp = true;
@@ -385,8 +384,8 @@ class _AddSingleClientState extends State<AddSingleClient>{
                   value: "LLP",
                 )
               ],
-              value: _constitution,
-              onChanged: (v) {
+              value: _client.constitution != "" ? _client.constitution : _constitution ,
+              onChanged: (v){
                 setState(() {
                   _constitution = v;
                 });
@@ -424,12 +423,15 @@ class _AddSingleClientState extends State<AddSingleClient>{
               height: 10.0,
             ),
   
-            _client != null?Text(_client.email):TextFormField(
+            TextFormField(
+              initialValue: _client.email != ""? _client.email:"",
+              enabled: _client.email != ""?false:true,
               keyboardType: TextInputType.emailAddress,
               validator: (value) => validateEmail(value),
               onChanged: (value) => _client.email = value,
               decoration: buildCustomInput(hintText: "Client's Email Address"),
             ),
+            _client.email != ""?Text("You can't change this Email", style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: Colors.red),):Container()
           ],
         ),
         SizedBox(

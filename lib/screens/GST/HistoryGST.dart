@@ -25,7 +25,7 @@ class _HistoryGSTState extends State<HistoryGST> {
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('History'),
+		    title: Text('GST History'),
 	    ),
 	    
 	    body: Container(
@@ -96,7 +96,6 @@ class _HistoryGSTState extends State<HistoryGST> {
 																			    msg:"No File Were Uploaded",
 																			    toastLength: Toast.LENGTH_SHORT,
 																			    gravity: ToastGravity.BOTTOM,
-																			    timeInSecForIos: 1,
 																			    backgroundColor: Color(0xff666666),
 																			    textColor: Colors.white,
 																			    fontSize: 16.0);

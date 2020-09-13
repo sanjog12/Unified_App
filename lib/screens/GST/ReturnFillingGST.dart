@@ -55,7 +55,7 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 		final ThemeData _theme = Theme.of(context);
 		return Scaffold(
 				appBar: AppBar(
-					title: Text("Income Tax Returns"),
+					title: Text("GST Returns"),
 				),
 				body: Container(
 					padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
@@ -185,7 +185,6 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 							msg: "Successfully Recorded",
 							toastLength: Toast.LENGTH_SHORT,
 							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
 							backgroundColor: Color(0xff666666),
 							textColor: Colors.white,
 							fontSize: 16.0);
@@ -197,7 +196,6 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 					msg: e.message,
 					toastLength: Toast.LENGTH_SHORT,
 					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
 					backgroundColor: Color(0xff666666),
 					textColor: Colors.white,
 					fontSize: 16.0);
@@ -206,7 +204,6 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 					msg: 'Payment Not Saved This Time',
 					toastLength: Toast.LENGTH_SHORT,
 					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
 					backgroundColor: Color(0xff666666),
 					textColor: Colors.white,
 					fontSize: 16.0);

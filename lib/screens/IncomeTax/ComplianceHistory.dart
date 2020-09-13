@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForIncomeTax.dart';
 import 'package:unified_reminder/models/payment/IncomeTaxPaymentObject.dart';
@@ -8,6 +7,7 @@ import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class ComplianceHistoryForIncomeTax extends StatefulWidget {
   final Client client;
@@ -29,7 +29,7 @@ class _ComplianceHistoryForIncomeTaxState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Compliances"),
+        title: Text("Income Tax History"),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
@@ -91,14 +91,7 @@ class _ComplianceHistoryForIncomeTaxState
                                         );
                                       }
                                       else {
-                                        Fluttertoast.showToast(
-                                            msg: "No File Were Uploaded",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIos: 1,
-                                            backgroundColor: Color(0xff666666),
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
+                                        flutterToast(message: "No File Were Uploaded");
                                       }
                                     }
                                   },

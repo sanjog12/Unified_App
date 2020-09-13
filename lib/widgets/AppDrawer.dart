@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Clients.dart';
@@ -12,7 +14,8 @@ import 'package:unified_reminder/styles/colors.dart';
 
 class AppDrawer extends StatelessWidget {
   final UserBasic userBasic;
-  AppDrawer({Key key, this.userBasic}) : super(key: key);
+  final BannerAd bannerAd;
+  AppDrawer({Key key, this.userBasic, this.bannerAd}) : super(key: key);
   
   List<Map> listItems = [
     {"title": "Profile"},
@@ -87,11 +90,16 @@ class AppDrawer extends StatelessWidget {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
+                    bannerAd.dispose();
                     SharedPrefs.removePrefeence("uid");
                     AuthService().logOutUser();
-                    Navigator.pop(context);
+                    Navigator.popUntil(context,ModalRoute.withName("/dashboard"));
                     Navigator.push(context, MaterialPageRoute(
-                      builder:(context)=> LoginPage()
+                      builder:(context)=> ShowCaseWidget(
+                        builder: Builder(
+                          builder: (context)=>LoginPage()
+                        ),
+                      ),
                     ));
                   },
                   child: Container(

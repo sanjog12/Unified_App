@@ -394,7 +394,6 @@ class _TDSPaymentState extends State<TDSPayment>{
             msg: "Date has Been Recorded",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 1,
             backgroundColor: Color(0xff666666),
             textColor: Colors.white,
             fontSize: 16.0);
@@ -407,7 +406,6 @@ class _TDSPaymentState extends State<TDSPayment>{
           msg: e.message,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);
@@ -416,7 +414,6 @@ class _TDSPaymentState extends State<TDSPayment>{
           msg: e.message,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);

@@ -270,7 +270,6 @@ class _ROCPaymentState extends State<ROCPayment> {
           msg: e.message,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);
@@ -279,7 +278,6 @@ class _ROCPaymentState extends State<ROCPayment> {
           msg: 'Payment Not Saved This Time',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);

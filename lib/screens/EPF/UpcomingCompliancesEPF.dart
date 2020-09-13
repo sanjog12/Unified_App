@@ -21,7 +21,7 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text("Upcoming Compliances"),
+		    title: Text("EPF Upcoming Compliances"),
 	    ),
 	    
 	    body: Container(

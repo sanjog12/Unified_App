@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/ESIMonthlyContributionObejct.dart';
@@ -76,7 +75,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Details'),
+		    title: Text('ESI Details'),
 	    ),
 	    
 	    body: SingleChildScrollView(
@@ -346,23 +345,11 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 			recordEditToast();
 			
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 	
@@ -448,23 +435,11 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 //				)
 //			);
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 	
@@ -521,14 +496,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 											});
 											Navigator.of(context).pop();
 											Navigator.of(context).reassemble();
-											Fluttertoast.showToast(
-													msg: "PDF Deleted",
-													toastLength: Toast.LENGTH_SHORT,
-													gravity: ToastGravity.BOTTOM,
-													timeInSecForIos: 1,
-													backgroundColor: Color(0xff666666),
-													textColor: Colors.white,
-													fontSize: 16.0);
+											flutterToast(message: "PDF Deleted");
 										}catch(e){
 											print(e.toString());
 										}
@@ -545,14 +513,8 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						);
 					}
 			);}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
  
