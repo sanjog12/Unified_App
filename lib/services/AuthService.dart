@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/personalDetail.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';

@@ -123,12 +123,12 @@ class _AddSingleClientState extends State<AddSingleClient>{
         'amount': 2500,
         'name': 'Tax Reminder',
         'description': 'Fee for adding further clients',
-//      'prefill': {'Unique Id': uid},
         'external': {
           'wallets': ['paytm']
         }
       };
         _razorpay.open(options);
+        
       return true;
     }catch(e){
       debugPrint(e);
@@ -141,6 +141,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
     successFulCode = response.paymentId;
     Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId);
+    saveClients(_client, _compliances);
     willPop = false;
   }
 
@@ -175,6 +176,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
 
   @override
   Widget build(BuildContext context) {
+    
     if(widget.client == null) {
       _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: false));
       _compliances.add(Compliance(title: "TDS", value: "tds", checked: false));
@@ -246,12 +248,10 @@ class _AddSingleClientState extends State<AddSingleClient>{
                           : widget.clientList != null ?(widget.clientList.length >=5? Text("Pay and Save"):Text("Save")):Text("Update"),
                       onPressed: () async{
                         if(widget.client == null) {
-                          bool temp = true;
-                          if (widget.clientList.length >= 5) {
-                            temp = false;
-                            temp = await openCheckout();
-                          }
-                          if (temp)
+                          if (widget.clientList.length >= 5)
+                            await openCheckout();
+                          
+                          else
                             saveClients(_client, _compliances);
                         }else{
                           if(_clientsFormKey.currentState.validate()) {

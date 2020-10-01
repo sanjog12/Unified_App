@@ -159,7 +159,9 @@ class _ClientsState extends State<Clients> {
                         child: Container(
                           width: 50.0,
                           height: 50.0,
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
                         ),
                       );
                     }
@@ -270,6 +272,7 @@ class _ClientsState extends State<Clients> {
   
   Future<void> deleteClient(String key,String email) async{
     try {
+      try{
       dbf = firebaseDatabase.reference();
       await dbf
           .child(FsUserClients)
@@ -277,12 +280,21 @@ class _ClientsState extends State<Clients> {
           .child('clients')
           .child(key)
           .remove();
-      dbf = firebaseDatabase.reference();
-      await dbf.child("user_compliances")
+      } catch(e){
+        print(e);
+        flutterToast(message: "Something went wrong");
+          }
+      try {
+        dbf = firebaseDatabase.reference();
+        await dbf.child("user_compliances")
             .child(firebaseUserId)
             .child('compliances')
             .child(email)
             .remove();
+      }catch(e){
+        print(e);
+        flutterToast(message: "Something went wrong try latter");
+      }
       recordDeletedToast();
       Navigator.pop(context);
     }catch(e){

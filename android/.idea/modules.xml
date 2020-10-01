@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="android/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1342789424/cloud_firestore.iml" filepath="$PROJECT_DIR$/.idea/modules/1342789424/cloud_firestore.iml" group="android/cloud_firestore" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1582097739/cloud_firestore_web.iml" filepath="$PROJECT_DIR$/.idea/modules/1582097739/cloud_firestore_web.iml" group="android/cloud_firestore_web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1496052117/contacts_service.iml" filepath="$PROJECT_DIR$/.idea/modules/1496052117/contacts_service.iml" group="android/contacts_service" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1969102213/file_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-1969102213/file_picker.iml" group="android/file_picker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-784624452/firebase_admob.iml" filepath="$PROJECT_DIR$/.idea/modules/-784624452/firebase_admob.iml" group="android/firebase_admob" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1964111950/firebase_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/1964111950/firebase_auth.iml" group="android/firebase_auth" />
@@ -24,6 +25,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1058306005/path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/1058306005/path_provider.iml" group="android/path_provider" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2019718740/path_provider_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/2019718740/path_provider_linux.iml" group="android/path_provider_linux" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1781503465/path_provider_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-1781503465/path_provider_macos.iml" group="android/path_provider_macos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-257324920/permission_handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-257324920/permission_handler.iml" group="android/permission_handler" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-86948162/razorpay_flutter.iml" filepath="$PROJECT_DIR$/.idea/modules/-86948162/razorpay_flutter.iml" group="android/razorpay_flutter" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1560695434/shared_preferences.iml" filepath="$PROJECT_DIR$/.idea/modules/1560695434/shared_preferences.iml" group="android/shared_preferences" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/556504958/shared_preferences_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/556504958/shared_preferences_linux.iml" group="android/shared_preferences_linux" />

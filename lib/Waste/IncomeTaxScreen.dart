@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/IncomeTax/ComplianceHistory.dart';
-import 'package:unified_reminder/screens/UpComingComliancesScreen.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
 import '../screens/ComplianceHistory.dart';

