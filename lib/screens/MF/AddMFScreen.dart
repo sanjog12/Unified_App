@@ -158,7 +158,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
         title: Text("Add MF Portfolio"),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
+        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 24),
         child: SingleChildScrollView(
           child: Form(
             key: _MFRecordFormKey,
@@ -515,6 +515,8 @@ class _AddMFScreenState extends State<AddMFScreen> {
                         ],
                       )
                     : SizedBox(),
+                
+                SizedBox(height: 70),
               ],
             ),
           ),

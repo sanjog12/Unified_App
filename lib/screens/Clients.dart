@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/AddSingleClient.dart';
+import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -37,13 +39,14 @@ class _ClientsState extends State<Clients> {
 
   //  String userFirebaseId = SharedPrefs.getStringPreference("uid");
   String firebaseUserId;
+  
 
   @override
   void initState() {
     super.initState();
     getUserId();
     _userController = new StreamController();
-    Timer.periodic(Duration(seconds: 1), (_) => loadUser());
+    Timer.periodic(Duration(seconds: 3), (_) => loadUser());
   }
 
   void getUserId() async {
@@ -295,8 +298,15 @@ class _ClientsState extends State<Clients> {
         print(e);
         flutterToast(message: "Something went wrong try latter");
       }
-      recordDeletedToast();
       Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>ShowCaseWidget(
+            builder: Builder(
+              builder: (context)=>Dashboard(),
+            ),
+          )
+      ));
+      recordDeletedToast();
     }catch(e){
       flutterToast(message: "Something went wrong try latter");
       print(e);

@@ -323,7 +323,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 													),
 										),
 									);},
-								child: Text("History Compliances"),
+								child: Text("History of Compliances"),
 							),
 						),
 							

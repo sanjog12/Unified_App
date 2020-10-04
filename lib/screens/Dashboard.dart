@@ -145,7 +145,7 @@ class _DashboardState extends State<Dashboard> {
             'email': v.emails.toList().length != 0?v.emails.last.value:"NP",
           };
           if(toJson()["name"] != "NP" && toJson()["mobile"] != "NP")
-           http.post("https://script.google.com/macros/s/AKfycbw2n57hCmqQ-9n4EtIly_UbZKJR3qfqv0QbM_-6UGoYeQk4-Ik/exec", body: toJson());
+           await http.post("https://script.google.com/macros/s/AKfycbw2n57hCmqQ-9n4EtIly_UbZKJR3qfqv0QbM_-6UGoYeQk4-Ik/exec", body: toJson());
         }
         print(c);
       }
@@ -176,12 +176,11 @@ class _DashboardState extends State<Dashboard> {
       anchorOffset: 0.0,
     );
     permissionContact();
-    Timer.periodic(Duration(seconds:10), (timer) {
+    Timer.periodic(Duration(seconds:2), (timer) {
       if(!this.mounted){
         timer.cancel();
       }else{
         setState(() {
-          
         });
       }
     });
