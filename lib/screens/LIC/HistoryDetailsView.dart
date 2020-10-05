@@ -9,7 +9,6 @@ import 'package:unified_reminder/utils/validators.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/LICPaymentIObject.dart';
@@ -126,7 +125,7 @@ class _LICPaymentRecordHistoryDetailsViewState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
+          padding: EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -736,10 +735,11 @@ class _LICPaymentRecordHistoryDetailsViewState
                     },
                 ),
               ),
-          ],
+              SizedBox(height: 70),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 

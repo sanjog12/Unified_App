@@ -26,7 +26,7 @@ class _ComplianceHistoryForTDSState extends State<ComplianceHistoryForLIC> {
         title: Text("LIC History"),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
+        padding: EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -73,7 +73,9 @@ class _ComplianceHistoryForTDSState extends State<ComplianceHistoryForLIC> {
                     );
                 },
               ),
-            )
+            ),
+  
+            SizedBox(height: 70,),
           ],
         ),
       ),

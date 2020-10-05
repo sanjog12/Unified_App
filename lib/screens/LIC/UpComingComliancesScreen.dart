@@ -100,7 +100,7 @@ class _UpComingCompliancesScreenForLICState
         ],
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
+        padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -153,7 +153,8 @@ class _UpComingCompliancesScreenForLICState
                   }
                 },
               ),
-            )
+            ),
+            SizedBox(height: 70,),
           ],
         ),
       ),

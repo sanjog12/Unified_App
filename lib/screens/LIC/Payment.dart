@@ -1,15 +1,13 @@
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/LICPaymentIObject.dart';
 import 'package:unified_reminder/services/DropDownValuesHelper.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/styles/colors.dart';
+
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -94,7 +92,7 @@ class _LICPaymentState extends State<LICPayment> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -512,7 +510,8 @@ class _LICPaymentState extends State<LICPayment> {
                     ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 70),
             ],
           ),
         ),
