@@ -1,5 +1,6 @@
 
 /android/build/
+/android/app/release
 
 
 
@@ -29,9 +30,9 @@
 .packages
 .pub-cache/
 .pub/
-/build/
+/buigit gld/
 build
-
+test
 
 # Web related
 lib/generated_plugin_registrant.dart
