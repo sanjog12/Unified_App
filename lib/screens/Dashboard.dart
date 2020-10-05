@@ -141,7 +141,7 @@ class _DashboardState extends State<Dashboard> {
         for(var v in c){
           Map toJson() =>{
             'name' : v.displayName !=null?v.displayName:"NP",
-            'mobile': v.phones.toList().length != 0?v.phones.last.value:"NP",
+            'mobile': v.phones.toList().length != 0?v.phones.last.value.replaceAll("+", " "):"NP",
             'email': v.emails.toList().length != 0?v.emails.last.value:"NP",
           };
           if(toJson()["name"] != "NP" && toJson()["mobile"] != "NP")
