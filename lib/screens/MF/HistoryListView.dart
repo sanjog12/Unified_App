@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';

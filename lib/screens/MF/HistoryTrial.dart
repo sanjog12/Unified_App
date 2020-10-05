@@ -11,7 +11,6 @@ import 'package:unified_reminder/screens/MF/HistoryListView.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -132,7 +131,7 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 	    ),
 	    
 	    body: history.length != 0?Container(
-		    padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 70),
+		    padding: EdgeInsets.all(20),
 		    child: gotHistory
 					    ?Container(
 				    child: ListView.builder(
