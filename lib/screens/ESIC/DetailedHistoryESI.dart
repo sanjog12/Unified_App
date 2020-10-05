@@ -80,7 +80,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 	    
 	    body: SingleChildScrollView(
 	      child: Container(
-		    padding: EdgeInsets.only(top: 20, bottom: 70, left: 20, right: 20),
+		    padding: EdgeInsets.all(20),
 		    child: Column(
 			    crossAxisAlignment: CrossAxisAlignment.stretch,
 			    children: <Widget>[
@@ -284,7 +284,8 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							    ),
 						    ),
 					    ],
-				    )
+				    ),
+				    SizedBox(height: 70,),
 			    ],
 		    ),
 	      ),

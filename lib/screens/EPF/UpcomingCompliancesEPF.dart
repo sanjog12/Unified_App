@@ -25,7 +25,7 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
 	    ),
 	    
 	    body: Container(
-		    padding: EdgeInsets.only(top: 15, bottom: 70, left: 15, right: 15),
+		    padding: EdgeInsets.all(15),
 		    child: Container(
 			    child: Column(
 				    children: <Widget>[
@@ -102,7 +102,8 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
 								    }
 							    },
 						    ),
-					    )
+					    ),
+					    SizedBox(height: 70,),
 				    ],
 			    ),
 		    ),

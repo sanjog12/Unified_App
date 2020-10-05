@@ -92,7 +92,7 @@ class _EPFRecordHistoryDetailsViewState2
 			),
 			body: SingleChildScrollView(
 				child: Container(
-					padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 70),
+					padding: EdgeInsets.all(20),
 					child: Column(
 						crossAxisAlignment: CrossAxisAlignment.stretch,
 						children: <Widget>[
@@ -302,7 +302,8 @@ class _EPFRecordHistoryDetailsViewState2
 										],
 									)
 								],
-							)
+							),
+							SizedBox(height: 70,),
 						],
 					),
 				),

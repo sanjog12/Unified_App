@@ -81,7 +81,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 	    
 	    body: SingleChildScrollView(
 		    child: Container(
-			    padding: EdgeInsets.only(top: 24.0,bottom: 70, left: 24, right: 24),
+			    padding: EdgeInsets.all(20),
 			    child: Form(
 				    key: _key,
 			      child: Column(
@@ -222,7 +222,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 					    SizedBox(height: 20,),
 					    helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20ESI"),
 					    SizedBox(
-						    height: 30.0,
+						    height: 70.0,
 					    ),
 				    ],
 			    ),

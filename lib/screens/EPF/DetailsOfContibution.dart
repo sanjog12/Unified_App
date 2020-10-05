@@ -69,7 +69,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	    ),
 	    
 	    body: Container(
-		    padding: EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 70),
+		    padding: EdgeInsets.all(20),
 		    child: SingleChildScrollView(
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -219,7 +219,8 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 								    ),
 							    ],
 						    ),
-					    )
+					    ),
+					    SizedBox(height: 70,),
 				    ],
 			    ),
 		    ),

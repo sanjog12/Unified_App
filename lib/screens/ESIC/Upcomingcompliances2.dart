@@ -32,7 +32,7 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 			),
 			
 			body: Container(
-				padding: EdgeInsets.only(top: 24, left: 24, bottom: 70, right: 24),
+				padding: EdgeInsets.all(20),
 				child: Column(
 					crossAxisAlignment: CrossAxisAlignment.stretch,
 					children: <Widget>[
@@ -108,7 +108,8 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 									}
 								},
 							),
-						)
+						),
+						SizedBox(height: 70,),
 					],
 				),
 			),
