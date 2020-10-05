@@ -80,7 +80,7 @@ class _PPFRecordHistoryDetailsViewState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
+          padding: EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -281,7 +281,8 @@ class _PPFRecordHistoryDetailsViewState
                     ],
                   ),
                 ],
-              )
+              ),
+              SizedBox(height: 70,),
             ],
           ),
         ),
