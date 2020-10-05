@@ -67,7 +67,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
           title: Text("Income Tax Payment"),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
+          padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -252,7 +252,8 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 70),
               ],
             ),
           ),

@@ -61,7 +61,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
           title: Text("Income Tax Returns"),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
+          padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,7 +164,8 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 70,),
               ],
             ),
           ),

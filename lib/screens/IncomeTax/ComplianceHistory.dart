@@ -33,7 +33,7 @@ class _ComplianceHistoryForIncomeTaxState
         title: Text("Income Tax History"),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
+        padding: EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -132,7 +132,8 @@ class _ComplianceHistoryForIncomeTaxState
                     );
                 },
               ),
-            )
+            ),
+            SizedBox(height: 70,),
           ],
         ),
       ),

@@ -98,7 +98,7 @@ class _UpComingComliancesScreenForIncomeTaxState
         ],
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
+        padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -176,7 +176,8 @@ class _UpComingComliancesScreenForIncomeTaxState
                   }
                 },
               ),
-            )
+            ),
+            SizedBox(height: 70,),
           ],
         ),
       ),
