@@ -221,7 +221,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
           title: Text('Add Client'),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: 15,bottom: 70,left: 15,right: 15),
+          padding: EdgeInsets.only(top: 15,bottom: 15,left: 15,right: 15),
           color: backgroundColor,
           child: Form(
             key: _clientsFormKey,
@@ -270,6 +270,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
                       color: buttonColor,
                     ),
                   ),
+                  SizedBox(height: 70,),
                 ],
               ),
             ),

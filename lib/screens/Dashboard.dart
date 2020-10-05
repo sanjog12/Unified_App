@@ -84,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   
-  Future<void> temp() async{
+  Future<void> getClients() async{
     firebaseUID = await SharedPrefs.getStringPreference('uid');
     dbf = firebaseDatabase
         .reference()
@@ -157,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     getUserId();
     _userController = StreamController();
-    temp().whenComplete(() async{
+    getClients().whenComplete(() async{
       upComingCompliancesList = await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonth(clientList).whenComplete((){
         if(this.mounted){
         setState(() {
