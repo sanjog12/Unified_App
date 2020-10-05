@@ -413,7 +413,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 								  Navigator.push(
 									  context,
 									  MaterialPageRoute(
-										  builder: (context) => UpCommingComliancesScreenForLIC(
+										  builder: (context) => UpComingCompliancesScreenForLIC(
 											  client: client,
 										  ),
 									  ),

@@ -9,19 +9,19 @@ import 'package:unified_reminder/screens/LIC/Payment.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
-class UpCommingComliancesScreenForLIC extends StatefulWidget {
+class UpComingCompliancesScreenForLIC extends StatefulWidget {
   final Client client;
 
-  const UpCommingComliancesScreenForLIC({this.client});
+  const UpComingCompliancesScreenForLIC({this.client});
   
 
   @override
-  _UpCommingComliancesScreenForLICState createState() =>
-      _UpCommingComliancesScreenForLICState();
+  _UpComingCompliancesScreenForLICState createState() =>
+      _UpComingCompliancesScreenForLICState();
 }
 
-class _UpCommingComliancesScreenForLICState
-    extends State<UpCommingComliancesScreenForLIC> {
+class _UpComingCompliancesScreenForLICState
+    extends State<UpComingCompliancesScreenForLIC> {
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
 

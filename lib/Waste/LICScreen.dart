@@ -76,7 +76,7 @@ class _LICScreenState extends State<LICScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UpCommingComliancesScreenForLIC(
+                          builder: (context) => UpComingCompliancesScreenForLIC(
                             client: widget.client,
                           ),
                         ),

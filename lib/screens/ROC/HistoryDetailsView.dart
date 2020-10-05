@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/ROCFormFilling.dart';
@@ -34,7 +35,7 @@ class _ROCRecordHistoryDetailsViewState
       
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -139,6 +140,7 @@ class _ROCRecordHistoryDetailsViewState
                   ),
                 ],
               ),
+              SizedBox(height: 70),
             ],
           ),
         ),

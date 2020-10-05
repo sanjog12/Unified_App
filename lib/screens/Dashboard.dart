@@ -384,7 +384,7 @@ class _DashboardState extends State<Dashboard> {
                                     
                                     else if(upComingCompliancesList[index].key == "LIC"){
                                       Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => UpCommingComliancesScreenForLIC(
+                                      MaterialPageRoute(builder: (context) => UpComingCompliancesScreenForLIC(
                                           client: clientList.firstWhere((element){
                                             return element.name == upComingCompliancesList[index].name;
                                           }),
