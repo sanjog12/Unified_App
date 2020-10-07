@@ -118,7 +118,7 @@ class _DashboardState extends State<Dashboard> {
   }
   
   
-  tutorial() async{
+  void tutorial() async{
     String temp = await SharedPrefs.getStringPreference("dashTutorial");
     if(temp != "done") {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -170,6 +170,7 @@ class _DashboardState extends State<Dashboard> {
     });
     tutorial();
     FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
+    
     bannerAd = createBannerAd()..load()..show(
       anchorType: AnchorType.bottom,
       horizontalCenterOffset: 20.0,
