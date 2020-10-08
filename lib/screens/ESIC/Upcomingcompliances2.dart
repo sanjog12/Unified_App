@@ -39,21 +39,8 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 						Expanded(
 							child: FutureBuilder<List<UpComingComplianceObject>>(
 								future: UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfESI(widget.client),
-								
 								builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 									if(snapshot.hasData){
-										if(snapshot.data.length == 0){
-											return ListView(
-											  children:<Widget>[
-												  Container(
-													  decoration: roundedCornerButton,
-													  child: ListTile(
-														  title: Text("No Upcoming Compliances"),
-													  ),
-												  ),
-											  ],
-											);
-										}
 										return ListView.builder(
 											itemCount: snapshot.data.length,
 											itemBuilder: (BuildContext context, int index){
@@ -69,23 +56,18 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 														onTap: (){
 															print(snapshot.data[index].key);
 															if(snapshot.data[index].key != 'Monthly_payment'){
-																Navigator.push(context,
-																		MaterialPageRoute(
+																Navigator.push(context, MaterialPageRoute(
 																				builder: (context)=> GSTReturnFilling(
 																					client: widget.client,
 																				)
-																		)
-																);
+																		));
 															}
 															else {
-																Navigator.push(context,
-																		MaterialPageRoute(
-																				builder: (context) =>
-																						MonthlyContributionESIC(
+																Navigator.push(context, MaterialPageRoute(
+																				builder: (context) => MonthlyContributionESIC(
 																							client: widget.client,
 																						)
-																		)
-																);
+																		));
 															}
 														},
 													),
