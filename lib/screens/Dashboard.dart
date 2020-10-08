@@ -181,8 +181,7 @@ class _DashboardState extends State<Dashboard> {
       if(!this.mounted){
         timer.cancel();
       }else{
-        setState(() {
-        });
+        setState(() {});
       }
     });
   }
