@@ -28,6 +28,11 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 //apply plugin: 'com.google.firebase.firebase-perf'
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 android {
     compileSdkVersion 29
 
@@ -50,19 +55,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
-//        signingConfigs {
-//            release {
-//                keyAlias keystoreProperties['keyAlias']
-//                keyPassword keystoreProperties['keyPassword']
-//                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-//                storePassword keystoreProperties['storePassword']
-//            }
-//        }
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -77,7 +83,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.firebase:firebase-messaging:20.3.0'
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics:17.6.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     implementation 'com.google.android.gms:play-services-ads:19.4.0'
 //    implementation 'com.google.firebase:firebase-perf:19.0.8'
