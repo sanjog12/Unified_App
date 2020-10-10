@@ -331,10 +331,10 @@ class _DashboardState extends State<Dashboard> {
                   children:<Widget>[
                       list?ListView.builder(
                         controller: controller,
-                      scrollDirection: Axis.vertical,
+                        scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: upComingCompliancesList.length,
-                      itemBuilder: (BuildContext context,int index){
+                        itemBuilder: (BuildContext context,int index){
                           if(upComingCompliancesList.length != 0){
                             return upComingCompliancesList[index].label != " "?Container(
                               padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -375,16 +375,14 @@ class _DashboardState extends State<Dashboard> {
                                   
                                   onLongPress: (){
                                     if(upComingCompliancesList[index].key == "TDS"){
-                                      Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => UpcomingCompliancesTDS(
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => UpcomingCompliancesTDS(
                                           client: clientList.firstWhere((element){
                                             return element.name == upComingCompliancesList[index].name;
                                           }),)));
                                     }
                                     
                                     else if(upComingCompliancesList[index].key == "LIC"){
-                                      Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => UpComingCompliancesScreenForLIC(
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => UpComingCompliancesScreenForLIC(
                                           client: clientList.firstWhere((element){
                                             return element.name == upComingCompliancesList[index].name;
                                           }),
@@ -392,8 +390,7 @@ class _DashboardState extends State<Dashboard> {
                                     }
                                     
                                     else if(upComingCompliancesList[index].key == "Income Tax"){
-                                      Navigator.push(context,
-                                      MaterialPageRoute(builder: (context)=>UpComingComliancesScreenForIncomeTax(
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>UpComingComliancesScreenForIncomeTax(
                                         client: clientList.firstWhere((element){
                                           return element.name == upComingCompliancesList[index].name;
                                         })
@@ -401,8 +398,7 @@ class _DashboardState extends State<Dashboard> {
                                     }
                                     
                                     else if(upComingCompliancesList[index].key == "GST"){
-                                      Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => UpcomingCompliancesGST(
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => UpcomingCompliancesGST(
                                         client: clientList.firstWhere((element){
                                       return element.name == upComingCompliancesList[index].name;
                                       }),
@@ -410,8 +406,7 @@ class _DashboardState extends State<Dashboard> {
                                     }
                                     
                                     else if(upComingCompliancesList[index].key =="EPF"){
-                                      Navigator.push(context,
-                                      MaterialPageRoute(builder: (context)=> UpcomingCompliancesEPF(
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UpcomingCompliancesEPF(
                                         client: clientList.firstWhere((element){
                                           return element.name == upComingCompliancesList[index].name;
                                         }),
