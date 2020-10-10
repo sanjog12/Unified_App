@@ -66,7 +66,7 @@ Widget helpButtonActionBar(String url){
       onTap: (){
         launch(url);
       },
-      child: Text("Help",style: TextStyle(
+      child: Text("Help    ",style: TextStyle(
         fontStyle: FontStyle.italic,
         fontSize: 12,
       ),),
