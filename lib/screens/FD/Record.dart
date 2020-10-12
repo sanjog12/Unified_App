@@ -200,7 +200,7 @@ class _FDRecordState extends State<FDRecord> {
                           ),
                           TextFormField(
                             decoration:
-                                buildCustomInput(hintText: "Rate Of Interest"),
+                                buildCustomInput(hintText: "Rate Of Interest", suffixText: "%"),
                             validator: (value) =>
                                 requiredField(value, 'Rate Of Interest'),
                             onChanged: (value) =>
