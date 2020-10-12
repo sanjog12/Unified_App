@@ -155,7 +155,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 							    SizedBox(height: 10,),
 							    edit?TextFormField(
 								    initialValue: widget.gstPaymentObject.amountOfPayment,
-								    decoration: buildCustomInput(hintText: 'Amount of Payment'),
+								    decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
 								    onChanged: (String value){
 									    _gstPaymentObject.amountOfPayment = value;
 								    },
