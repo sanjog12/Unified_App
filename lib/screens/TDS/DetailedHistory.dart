@@ -281,7 +281,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 								    },
 								    keyboardType: TextInputType.numberWithOptions(decimal: true),
 								    decoration:
-								    buildCustomInput(hintText: "Amount of Payment"),
+								    buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
 							    )
 									    :Container(
 									    padding: EdgeInsets.all(15),

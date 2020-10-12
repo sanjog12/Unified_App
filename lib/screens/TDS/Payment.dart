@@ -239,7 +239,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                           },
                           keyboardType: TextInputType.numberWithOptions(decimal: true),
                           decoration:
-                              buildCustomInput(hintText: "Amount of Payment"),
+                              buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
                         ),
                       ],
                     ),
