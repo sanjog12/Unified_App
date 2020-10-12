@@ -163,7 +163,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						
 						    edit?TextFormField(
 							    initialValue: widget.esiMonthlyContributionObejct.amountOfPayment,
-							    decoration: buildCustomInput(hintText: 'Amount of Payment'),
+							    decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
 							    onChanged: (String value){
 								    _esiMonthlyContributionObejct.amountOfPayment= value;
 							    },
@@ -171,7 +171,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 								    :Container(
 							    padding: EdgeInsets.all(15),
 							    decoration: fieldsDecoration,
-							    child: Text(
+							    child: Text("\u{20B9} " +
 								    widget.esiMonthlyContributionObejct.amountOfPayment,
 								    style: TextStyle(color: Colors.white),
 							    ),

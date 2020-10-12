@@ -137,7 +137,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 							
 							    Container(
 								    child: TextFormField(
-									    decoration: buildCustomInput(hintText: 'Amount of Payment'),
+									    decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
 									    onChanged: (String value){
 										    esiMonthlyContributionObejct.amountOfPayment= value;
 									    },

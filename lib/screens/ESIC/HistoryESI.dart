@@ -23,6 +23,9 @@ class _HistoryESIState extends State<HistoryESI> {
     return Scaffold(
 	    appBar: AppBar(
 		    title: Text('ESI Payment History'),
+		    actions: <Widget>[
+			    helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20ESI"),
+		    ],
 	    ),
 	    
 	    body: Container(
