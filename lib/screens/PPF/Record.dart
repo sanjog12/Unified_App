@@ -86,7 +86,7 @@ class _PPFRecordState extends State<PPFRecord> {
                             height: 10.0,
                           ),
                           TextFormField(
-                            decoration: buildCustomInput(hintText: "Name Of Institution", prefixText: "\u{20B9}"),
+                            decoration: buildCustomInput(hintText: "Name Of Institution"),
                             validator: (value) =>
                                 requiredField(value, 'Name Of Institution'),
                             onSaved: (value) =>
@@ -126,7 +126,7 @@ class _PPFRecordState extends State<PPFRecord> {
                           ),
                           TextFormField(
                             decoration:
-                                buildCustomInput(hintText: "Amount of Payment"),
+                                buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
                             validator: (value) =>
                                 requiredField(value, 'Amount Of Payment'),
                             onSaved: (value) => ppfRecordObject.amount = value,
