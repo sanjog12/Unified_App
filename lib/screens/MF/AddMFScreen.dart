@@ -467,8 +467,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
                                   ),
                                   TextFormField(
                                     autofocus: false,
-                                    decoration:
-                                        buildCustomInput(hintText: "Amount", prefixText: "\u{20B9}"),
+                                    decoration: buildCustomInput(hintText: "Amount", prefixText: "\u{20B9}"),
                                     validator: (value) =>
                                         requiredField(value, 'Amount'),
                                     onSaved: (value) => _amount = value,
