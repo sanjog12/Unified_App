@@ -129,7 +129,7 @@ class _FDRecordState extends State<FDRecord> {
                           TextFormField(
                             keyboardType: TextInputType.number,
                             decoration:
-                                buildCustomInput(hintText: "Principal Amount"),
+                                buildCustomInput(hintText: "Principal Amount",prefixText: "\u{20B9}"),
                             validator: (value) =>
                                 requiredField(value, 'Principal Amount'),
                             onChanged: (value) =>
@@ -180,7 +180,7 @@ class _FDRecordState extends State<FDRecord> {
                           TextFormField(
                             keyboardType: TextInputType.numberWithOptions(decimal: true),
                             decoration:
-                                buildCustomInput(hintText: "Maturity Amount"),
+                                buildCustomInput(hintText: "Maturity Amount", prefixText: "\u{20B9}"),
                             validator: (value) =>
                                 requiredField(value, 'Maturity Amount'),
                             onChanged: (value) =>
