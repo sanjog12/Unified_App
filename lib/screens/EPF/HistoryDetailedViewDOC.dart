@@ -157,7 +157,7 @@ class _EPFRecordHistoryDetailsViewState2
 											edit?TextFormField(
 												initialValue: widget.epfDetailsOfContributionObject.amountOfPayment,
 												decoration:
-												buildCustomInput(hintText: "Amount of Payment"),
+												buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
 												onChanged: (value) => _epfDetailsOfContributionObject
 														.amountOfPayment = value,
 											):Container(

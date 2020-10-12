@@ -544,7 +544,9 @@ class _HistoryViewState extends State<HistoryView> {
 									) : Container(),
 								
 								],
-							)
+							),
+							
+							SizedBox(height: 70,),
 						],
 					),
 				),

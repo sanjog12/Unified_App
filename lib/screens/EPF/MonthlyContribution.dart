@@ -144,7 +144,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                           ),
                           TextFormField(
                             decoration:
-                                buildCustomInput(hintText: "Amount of Payment"),
+                                buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
                             validator: (value) =>
                                 requiredField(value, 'Amount Of Payment'),
                             onChanged: (value) => epfMonthlyContributionObejct
