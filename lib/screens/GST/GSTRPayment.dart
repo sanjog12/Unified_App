@@ -189,7 +189,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                       Text('Amount of Payment'),
                       SizedBox(height: 10,),
                       TextFormField(
-                        decoration: buildCustomInput(hintText: 'Amount of Payment'),
+                        decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
                         validator: (String value){
                           return requiredField(value, 'Amount of Payment');
                         },

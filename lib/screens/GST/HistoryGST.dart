@@ -26,6 +26,9 @@ class _HistoryGSTState extends State<HistoryGST> {
     return Scaffold(
 	    appBar: AppBar(
 		    title: Text('GST History'),
+		    actions: <Widget>[
+			    helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
+		    ],
 	    ),
 	    
 	    body: Container(
@@ -110,8 +113,12 @@ class _HistoryGSTState extends State<HistoryGST> {
 											    }
 									    );
 								    }else{
-						    			return ListTile(
+						    			return Container(
+										    decoration: roundedCornerButton,
+										    margin: EdgeInsets.symmetric(vertical: 10.0),
+						    			  child: ListTile(
 											    title: Text("No Record Found"),
+						    			  ),
 						    			);
 								    }
 							    }else{
