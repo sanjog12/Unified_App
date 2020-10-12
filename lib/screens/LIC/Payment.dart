@@ -254,7 +254,7 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                         TextFormField(
                           decoration:
-                              buildCustomInput(hintText: "Premium Amount"),
+                              buildCustomInput(hintText: "Premium Amount", prefixText: "\u{20B9}"),
                           validator: (value) =>
                               requiredField(value, 'Premium Amount'),
                           onSaved: (value) =>
