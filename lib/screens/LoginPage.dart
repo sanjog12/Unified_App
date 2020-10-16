@@ -14,6 +14,8 @@ import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -34,7 +36,7 @@ class _LoginPageState extends State<LoginPage>{
   GlobalKey second = GlobalKey();
   GlobalKey third = GlobalKey();
   
-  tutorial1() async{
+  Future<void> tutorialFirst() async{
     try {
       String temp = await SharedPrefs.getStringPreference("loginTutorial");
       print(temp);
@@ -50,7 +52,7 @@ class _LoginPageState extends State<LoginPage>{
   }
 
 
-  tutorial2() async{
+  Future<void> tutorialSecond() async{
     try {
       String temp = await SharedPrefs.getStringPreference("loginTutorial");
       String temp2 = await SharedPrefs.getStringPreference("login2Tutorial");
@@ -71,8 +73,8 @@ class _LoginPageState extends State<LoginPage>{
   @override
   void initState() {
     super.initState();
-    tutorial1();
-    tutorial2();
+    tutorialFirst();
+    tutorialSecond();
   }
   
   @override
@@ -90,7 +92,7 @@ class _LoginPageState extends State<LoginPage>{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(
-                height: 50.0,
+                height: 40.0,
               ),
               Text(
                 "Welcome Back, ",
@@ -332,10 +334,11 @@ class _LoginPageState extends State<LoginPage>{
                           )
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 70),
             ],
           ),
         ),

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:random_string/random_string.dart';
@@ -8,7 +7,6 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 class NotificationServices{
 	
 	
-//	int notificationId = ;
 	FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 	AndroidInitializationSettings androidInitializationSettings;
 	IOSInitializationSettings iosInitializationSettings;
@@ -20,7 +18,7 @@ class NotificationServices{
 	}
 	
 	void initializeSetting() async{
-		androidInitializationSettings = AndroidInitializationSettings("ic_launcher");
+		androidInitializationSettings = AndroidInitializationSettings("logo.jpg");
 		initializationSettings = InitializationSettings(androidInitializationSettings , iosInitializationSettings);
 		await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: onSelectNotification);
 	}
