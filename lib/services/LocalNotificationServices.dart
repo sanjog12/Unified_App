@@ -18,7 +18,7 @@ class NotificationServices{
 	}
 	
 	void initializeSetting() async{
-		androidInitializationSettings = AndroidInitializationSettings("logo.jpg");
+		androidInitializationSettings = AndroidInitializationSettings("logo");
 		initializationSettings = InitializationSettings(androidInitializationSettings , iosInitializationSettings);
 		await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: onSelectNotification);
 	}
