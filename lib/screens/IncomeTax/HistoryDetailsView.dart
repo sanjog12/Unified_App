@@ -247,7 +247,9 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                         child: FlatButton(
                           color: buttonColor,
                           onPressed: () async{
-                            file = await FilePicker.getFile();
+                            await FilePicker.platform.pickFiles().then((value){
+                            
+                            });
                             List<String> temp = file.path.split('/');
                             print(temp.last);
                             setState(() {

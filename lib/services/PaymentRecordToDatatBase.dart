@@ -197,8 +197,9 @@ class PaymentRecordToDataBase {
     final File file = attachmentFile;
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     String fileName = randomString(8,from: 97 , to: 122) + randomNumeric(4).toString();
-    final StorageReference ref =
-    firebaseStorage.ref().child('files').child(fileName);
+    
+    final StorageReference ref = firebaseStorage.ref().child('files').child(fileName);
+    
     final StorageUploadTask uploadTask = ref.putFile(
       file,
       StorageMetadata(
@@ -213,6 +214,7 @@ class PaymentRecordToDataBase {
     return fileName;
   }catch(e){
     print(e);
+    return null;
   }
 //    });
   }

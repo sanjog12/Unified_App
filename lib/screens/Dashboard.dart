@@ -169,6 +169,7 @@ class _DashboardState extends State<Dashboard> {
       });
     });
     tutorial();
+    
     FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
     
     bannerAd = createBannerAd()..load()..show(

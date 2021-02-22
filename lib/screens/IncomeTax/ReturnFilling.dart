@@ -125,7 +125,8 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                             height: 50,
                             child: FlatButton(
                               onPressed: () async{
-                                file = await FilePicker.getFile();
+                                FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                                file = File(filePickerResult.files.single.path);
                                 List<String> temp = file.path.split('/');
                                 print(temp.last);
                                 setState(() {

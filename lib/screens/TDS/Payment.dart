@@ -291,8 +291,8 @@ class _TDSPaymentState extends State<TDSPayment>{
                           height: 50,
                           child: FlatButton(
                             onPressed: () async{
-                              file = await FilePicker.getFile();
-                              
+                              FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                              file = File(filePickerResult.files.single.path);
                               List<String> temp = file.path.split('/');
                               setState(() {
                                 nameOfFile = temp.last;

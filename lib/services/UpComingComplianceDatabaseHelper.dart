@@ -609,9 +609,7 @@ class UpComingComplianceDatabaseHelper {
 
     dbf = firebaseDatabase
         .reference()
-        .child('upCommingComliances')
-        .child(todayDateObject.month.toString())
-        .child('GST');
+        .child('upCommingComliances');
 
     await dbf.once().then((DataSnapshot snapshot) async{
         Map<dynamic, dynamic> valuesData = await snapshot.value;
