@@ -267,7 +267,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           content: Text("You have already registered 5 clients, to add further you will be charged 25 Rs"),
                           actions: [
-                            FlatButton(
+                            TextButton(
                               child: Text("Ok"),
                               onPressed: (){
                                 Navigator.pop(context);
@@ -305,7 +305,7 @@ class _DashboardState extends State<Dashboard> {
             children: <Widget>[
               Text(
                 "Your Clients",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),

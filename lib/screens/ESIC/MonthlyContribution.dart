@@ -163,7 +163,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 												    Text(
 													    '$_selectedDateOfPayment',
 												    ),
-												    FlatButton(
+												    TextButton(
 													    onPressed: () {
 														    selectDateTime(context);
 													    },
@@ -185,7 +185,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 											    Container(
 												    decoration: roundedCornerButton,
 												    height: 50,
-												    child: FlatButton(
+												    child: TextButton(
 													    onPressed: () async{
 														    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
 														    file = File(filePickerResult.files.single.path);
@@ -211,7 +211,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 									    
 									    Container(
 										    decoration: roundedCornerButton,
-										    child: FlatButton(
+										    child: TextButton(
 											    child: Text('Save Record'),
 											    onPressed: (){
 											    	saveRecordESI();

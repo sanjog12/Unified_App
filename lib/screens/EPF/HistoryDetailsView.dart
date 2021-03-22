@@ -90,7 +90,7 @@ class _EPFRecordHistoryDetailsViewState
             children: <Widget>[
               Text(
                 "${widget.client.name}\'s EPF Monthly Contribution Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 20.0,
                   ),
@@ -385,7 +385,7 @@ class _EPFRecordHistoryDetailsViewState
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Confirm'),
                 onPressed: () async{
                   Navigator.of(context).pop();
@@ -394,7 +394,7 @@ class _EPFRecordHistoryDetailsViewState
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -479,7 +479,7 @@ class _EPFRecordHistoryDetailsViewState
               ),
             
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('Confirm'),
                   onPressed: () async{
                     try {
@@ -512,7 +512,7 @@ class _EPFRecordHistoryDetailsViewState
                   },
                 ),
               
-                FlatButton(
+                TextButton(
                   child: Text('Cancel'),
                   onPressed: (){
                     Navigator.of(context).pop();

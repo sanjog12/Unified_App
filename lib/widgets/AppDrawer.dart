@@ -16,7 +16,7 @@ class AppDrawer extends StatelessWidget {
   final BannerAd bannerAd;
   AppDrawer({Key key, this.userBasic, this.bannerAd}) : super(key: key);
   
-  List<Map> listItems = [
+  final List<Map> listItems = [
     {"title": "Profile"},
     {"title": "Manage Clients"}
   ];

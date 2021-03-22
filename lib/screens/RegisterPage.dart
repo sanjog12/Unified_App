@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: <Widget>[
                   Text(
                   "Create Account",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 Text(
                   "Register to own a free account today.",
-                  style: _theme.textTheme.subtitle.merge(
+                  style: _theme.textTheme.bodyText2.merge(
                     TextStyle(
                       fontWeight: FontWeight.w300,
                     ),
@@ -292,7 +292,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: submitButtonLoading
                               ? Container(
                             height: 30.0,
@@ -329,7 +329,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: Container(
                           decoration: roundedCornerButton,
                           height: 50,
-                          child: FlatButton(
+                          child: TextButton(
                             child: googleSignInButton
                                 ? Container(
                               height: 30.0,

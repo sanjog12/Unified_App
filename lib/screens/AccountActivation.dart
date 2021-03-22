@@ -20,7 +20,7 @@ class AccountActivation extends StatelessWidget {
             ),
             Text(
               "Welcome Back, ",
-              style: _theme.textTheme.headline.merge(
+              style: _theme.textTheme.headline6.merge(
                 TextStyle(
                   fontSize: 26.0,
                 ),
@@ -31,7 +31,7 @@ class AccountActivation extends StatelessWidget {
             ),
             Text(
               "Sign In to Continue",
-              style: _theme.textTheme.subtitle.merge(
+              style: _theme.textTheme.bodyText2.merge(
                 TextStyle(
                   fontWeight: FontWeight.w300,
                 ),
@@ -76,10 +76,9 @@ class AccountActivation extends StatelessWidget {
                   ),
                   Container(
                     height: 50.0,
-                    child: FlatButton(
+                    child: TextButton(
                       child: Text("Login"),
                       onPressed: () {},
-                      color: buttonColor,
                     ),
                   ),
                   SizedBox(

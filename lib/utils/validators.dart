@@ -59,14 +59,14 @@ Future<bool> showConfirmationDialog(BuildContext context) async{
           ),
           
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('Confirm'),
               onPressed: () async{
                 Navigator.of(context).pop();
                 r =true;
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text('Cancel'),
               onPressed: (){
                 Navigator.of(context).pop();

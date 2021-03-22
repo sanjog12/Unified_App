@@ -96,13 +96,13 @@ class _AddSingleClientState extends State<AddSingleClient>{
             title: Text("Alert"),
             content: Text("Are you sure want to go back"),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text("No"),
                 onPressed: (){
                   Navigator.of(context).pop(false);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text("Exit"),
                 onPressed: (){
                   Navigator.of(context).pop(true);
@@ -238,7 +238,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
                   ),
                   Container(
                     decoration: roundedCornerButton,
-                    child: FlatButton(
+                    child: TextButton(
                       child: buttonLoading
                           ? CircularProgressIndicator(
                             strokeWidth: 3.0,
@@ -267,7 +267,6 @@ class _AddSingleClientState extends State<AddSingleClient>{
                           }
                         }
                       },
-                      color: buttonColor,
                     ),
                   ),
                   SizedBox(height: 70,),

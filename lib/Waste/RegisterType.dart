@@ -23,7 +23,7 @@ class RegisterType extends StatelessWidget {
             ),
             Text(
               "Register",
-              style: _theme.textTheme.headline.merge(
+              style: _theme.textTheme.headline6.merge(
                 TextStyle(
                   fontSize: 26.0,
                 ),
@@ -34,7 +34,7 @@ class RegisterType extends StatelessWidget {
             ),
             Text(
               "Select an account type",
-              style: _theme.textTheme.subtitle.merge(
+              style: _theme.textTheme.bodyText2.merge(
                 TextStyle(
                   fontWeight: FontWeight.w300,
                 ),

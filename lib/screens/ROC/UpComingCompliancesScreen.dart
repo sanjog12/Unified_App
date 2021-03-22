@@ -725,7 +725,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									String firebaseUserId= await SharedPrefs.getStringPreference("uid");
@@ -750,7 +750,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();

@@ -54,7 +54,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     children: <Widget>[
                       Text(
                         "Welcome $name!",
-                        style: _theme.textTheme.headline.merge(
+                        style: _theme.textTheme.headline6.merge(
                           TextStyle(
                             fontSize: 26.0,
                           ),
@@ -65,7 +65,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       ),
                       Text(
                         "Just a little more setup and we'll be up",
-                        style: _theme.textTheme.subtitle.merge(
+                        style: _theme.textTheme.bodyText2.merge(
                           TextStyle(
                             fontWeight: FontWeight.w300,
                           ),
@@ -181,7 +181,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             ),
                             Container(
                               height: 50.0,
-                              child: FlatButton(
+                              child: TextButton(
                                 child: buttonLoading
                                     ? Container(
                                         height: 30.0,
@@ -197,7 +197,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 onPressed: () {
                                   addAdditionalInfo(_personalDetail);
                                 },
-                                color: buttonColor,
                               ),
                             ),
                           ],

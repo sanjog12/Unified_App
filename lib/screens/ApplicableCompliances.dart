@@ -110,7 +110,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
                 ? SizedBox()
                 : Text(
                     "${widget.client.name}",
-                    style: _theme.textTheme.headline.merge(
+                    style: _theme.textTheme.headline6.merge(
                       TextStyle(
                         fontSize: 26.0,
                       ),
@@ -123,7 +123,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
                 ? SizedBox()
                 : Text(
                     "${widget.client.email}",
-                    style: _theme.textTheme.subtitle.merge(
+                    style: _theme.textTheme.bodyText2.merge(
                       TextStyle(
                         fontWeight: FontWeight.w300,
                       ),

@@ -10,7 +10,6 @@ import 'package:unified_reminder/models/payment/ESIMonthlyContributionObejct.dar
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -378,14 +377,14 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							),
 						),
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									Navigator.of(context).pop();
 									await deleteRecord();
 								},
 							),
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -471,7 +470,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							),
 							
 							actions: <Widget>[
-								FlatButton(
+								TextButton(
 									child: Text('Confirm'),
 									onPressed: () async{
 										try {
@@ -504,7 +503,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 									},
 								),
 								
-								FlatButton(
+								TextButton(
 									child: Text('Cancel'),
 									onPressed: (){
 										Navigator.of(context).pop();

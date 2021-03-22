@@ -263,7 +263,7 @@ class _ClientsState extends State<Clients> {
               ),
             ),
             actions: <Widget>[
-              FlatButton(child: Text('Ok',textAlign: TextAlign.center,),onPressed: () async{
+              TextButton(child: Text('Ok',textAlign: TextAlign.center,),onPressed: () async{
                 print(clientEdit.name);
                 Navigator.pop(context);
               },)
