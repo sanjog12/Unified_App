@@ -88,7 +88,7 @@ class _FDPaymentRecordHistoryDetailsViewState
             children: <Widget>[
               Text(
                 "${widget.client.name}\'s Fixed Deposit Payment Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 20.0,
                   ),
@@ -235,7 +235,7 @@ class _FDPaymentRecordHistoryDetailsViewState
                             Text(
                               '$selectedDateOfPayment',
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context);
                               },
@@ -404,13 +404,13 @@ class _FDPaymentRecordHistoryDetailsViewState
                       Container(
                         decoration: roundedCornerButton,
                         
-                        child: edit?FlatButton(
+                        child: edit? TextButton(
                           child: Text("Save Changes"),
                           onPressed: (){
                             editRecord();
                           },
                         )
-                            :FlatButton(
+                            : TextButton(
                           child: Text("Edit"),
                           onPressed: (){
                             setState(() {
@@ -424,7 +424,7 @@ class _FDPaymentRecordHistoryDetailsViewState
                       
                       Container(
                         decoration: roundedCornerButton,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Delete Record"),
                           onPressed: () async{
                             print("called");
@@ -522,7 +522,7 @@ class _FDPaymentRecordHistoryDetailsViewState
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Confirm'),
                 onPressed: () async{
                   Navigator.of(context).pop();
@@ -531,7 +531,7 @@ class _FDPaymentRecordHistoryDetailsViewState
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: (){
                   Navigator.of(context).pop();

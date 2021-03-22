@@ -9,6 +9,8 @@ import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
+
+
 class FDRecord extends StatefulWidget {
   final Client client;
 
@@ -64,7 +66,7 @@ class _FDRecordState extends State<FDRecord> {
               children: <Widget>[
                 Text(
                   "Details of Fixed Deposit",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -156,7 +158,8 @@ class _FDRecordState extends State<FDRecord> {
                                 Text(
                                   '$selectedDateOfPayment',
                                 ),
-                                FlatButton(
+                                
+                                TextButton(
                                   onPressed: () {
                                     selectDateTime(context);
                                   },
@@ -273,10 +276,10 @@ class _FDRecordState extends State<FDRecord> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Record"),
                           onPressed: () {
-                            AddDetailsOfContribution();
+                            addDetailsOfContribution();
                           },
                           
                         ),
@@ -294,7 +297,7 @@ class _FDRecordState extends State<FDRecord> {
         ));
   }
 
-  Future<void> AddDetailsOfContribution() async {
+  Future<void> addDetailsOfContribution() async {
     try {
       print(_FDRecordFormKey.currentState.validate());
       if (_FDRecordFormKey.currentState.validate()) {

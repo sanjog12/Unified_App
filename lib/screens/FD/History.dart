@@ -37,7 +37,7 @@ class _HistoryForFDState extends State<HistoryForFD> {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
+                        return TextButton(
                           onPressed: () =>
                               _getHistoryDetails(snapshot.data[index].key),
                           child: Container(
