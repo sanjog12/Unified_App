@@ -1,10 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
+// import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/doneComplianceObject.dart';
 import 'DocumentPaths.dart';
 import 'SharedPrefs.dart';
+
+
 
 class UpComingComplianceDatabaseHelper {
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
@@ -154,9 +157,10 @@ class UpComingComplianceDatabaseHelper {
                 for(var v in valuesdata.entries){
                   print(p.name + "Income Tax added1");
 
-                  bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
+                  bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),v.value['date']));
                   if(!t){
-                  UpComingComplinceData.add(UpComingComplianceObject(
+                  UpComingComplinceData.add(
+                      UpComingComplianceObject(
                       name: p.name,
                       key: "Income Tax",
                       date: v.value['date'].toString(),

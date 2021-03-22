@@ -26,15 +26,13 @@ class _ROCPaymentState extends State<ROCPayment> {
   static DateTime now = new DateTime.now();
   DateTime date = new DateTime(now.year, now.month, now.day);
 
-  String _fullDate, _nameOfEForm;
+  String _nameOfEForm;
   String _selectedDate = 'Select Date';
 
   @override
   void initState() {
     super.initState();
 //    print(date);
-    List<String> dateData = date.toString().split(' ');
-    _fullDate = dateData[0];
     print(widget.client.email);
   }
 

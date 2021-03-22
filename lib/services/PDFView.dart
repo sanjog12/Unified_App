@@ -29,7 +29,7 @@ class _PDFViewerState extends State<PDFViewer> {
 				String pdf = await firebaseStorage.ref().child("AdminUse").child(widget.pdf).getDownloadURL();
 				return pdf;
 			}catch(e){
-			
+				return null;
 			}
 		}
 	}

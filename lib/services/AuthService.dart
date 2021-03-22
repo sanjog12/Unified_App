@@ -191,12 +191,12 @@ class AuthService {
       return UserBasic(
         email: loginUser.user.email,
         uid: loginUser.user.uid,
-//        fullName: loginUser.user.displayName,
       );
     }
     catch(e) {
       print(e);
       flutterToast(message: "Something went Wrong");
+      return null;
     }
   }
 

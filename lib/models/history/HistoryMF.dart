@@ -2,7 +2,7 @@
 
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/MutualFundObject.dart';
-import 'package:unified_reminder/models/MutualFundRecordObject.dart';
+// import 'package:unified_reminder/models/MutualFundRecordObject.dart';
 
 class HistoryForMF{
 	final String  key,amount,type,frequency,totalInvestment,keyDate;

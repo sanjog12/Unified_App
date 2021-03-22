@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/router.dart';
+import 'package:unified_reminder/screens/LoginPage.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import '../screens/RegisterPage.dart';
 
@@ -117,7 +117,9 @@ class RegisterType extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamed(LoginPageRoute);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) =>LoginPage())
+                        );
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(

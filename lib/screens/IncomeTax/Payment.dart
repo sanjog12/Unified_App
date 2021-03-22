@@ -269,7 +269,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
           buttonLoading = true;
         });
 
-        bool done = await PaymentRecordToDataBase().AddIncomeTaxPayment(
+        bool done = await PaymentRecordToDataBase().addIncomeTaxPayment(
             incomeTaxPaymentObject, widget.client, file);
 
         if (done) {

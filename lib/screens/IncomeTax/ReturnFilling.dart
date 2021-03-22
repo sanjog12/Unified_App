@@ -24,8 +24,6 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
   IncomeTaxReturnFillingsObject incomeTaxReturnFillingsObject =
       IncomeTaxReturnFillingsObject();
   
-
-  String _fullDate;
   String selectedDateDB = "Select Date";
   DateTime selectedDate = DateTime.now();
   File file;
@@ -123,7 +121,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                           Container(
                             decoration: roundedCornerButton,
                             height: 50,
-                            child: FlatButton(
+                            child: TextButton(
                               onPressed: () async{
                                 FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
                                 file = File(filePickerResult.files.single.path);

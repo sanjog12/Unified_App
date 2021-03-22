@@ -31,7 +31,6 @@ class _HistoryForFMState extends State<HistoryForFM> {
     List<String> dateData = date.toString().split(' ');
     _fullDate = dateData[0];
     print(_fullDate);
-    List<String> todayDateData = _fullDate.toString().split('-');
   }
   
   String currentNav= "Calculating";

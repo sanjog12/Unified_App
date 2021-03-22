@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 class Client {
   String _name;

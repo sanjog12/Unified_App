@@ -59,7 +59,6 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 
 	
 	Widget listItem(String item , Client client,BuildContext context) {
-	 
 		switch(item){
 			case 'TDS':
 				return Column(
@@ -476,6 +475,9 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 					],
 				);
 				break;
+				
+			default:
+				return Container();
 		}
 	}
 	

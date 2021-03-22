@@ -108,16 +108,10 @@ class PaymentRecordToDataBase {
     }
   }
 
-  Future<bool> AddIncomeTaxPayment(
+  Future<bool> addIncomeTaxPayment(
       IncomeTaxPaymentObject incomeTaxPaymentObject,
       Client client,
       File attachmentFile) async {
-    List<String> todayDateData =
-        incomeTaxPaymentObject.dateOfPayment.toString().split('-');
-    TodayDateObject todayDateObject;
-
-    todayDateObject = TodayDateObject(
-        year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
@@ -175,6 +169,7 @@ class PaymentRecordToDataBase {
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);
+      return false;
     } catch (e) {
       Fluttertoast.showToast(
           msg: e.message.toString(),
@@ -431,6 +426,7 @@ class PaymentRecordToDataBase {
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);
+      return false;
     } catch (e) {
       Fluttertoast.showToast(
           msg: e.message.toString(),
@@ -578,7 +574,6 @@ class PaymentRecordToDataBase {
         });
       }
         String premiumDate = licPaymentIObject.dateOfCommoncement;
-        int i=0;
         DateTime t = DateTime(int.parse(licPaymentIObject.maturityDate.split('-')[2]),
           int.parse(licPaymentIObject.maturityDate.split('-')[1]),
           int.parse(licPaymentIObject.maturityDate.split('-')[0])

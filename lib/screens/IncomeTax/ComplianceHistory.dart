@@ -23,6 +23,7 @@ class _ComplianceHistoryForIncomeTaxState
   
   @override
   void initState() {
+    super.initState();
     HistoriesDatabaseHelper().getComplincesHistoryOfIncomeTax(widget.client);
   }
 

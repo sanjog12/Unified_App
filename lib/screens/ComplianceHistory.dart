@@ -16,6 +16,7 @@ class _ComplianceHistoryState extends State<ComplianceHistory> {
   
   @override
   void initState() {
+    super.initState();
     HistoriesDatabaseHelper().getComplincesHistoryOfIncomeTax(widget.client);
   }
 

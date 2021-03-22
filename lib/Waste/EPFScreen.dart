@@ -4,8 +4,7 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/screens/EPF/MonthlyContribution.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
-import '../router.dart';
-import '../screens/EPF/ComplianceHistory.dart';
+import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';
 
 class EPFScreen extends StatefulWidget {
   final Client client;

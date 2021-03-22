@@ -1,7 +1,7 @@
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+// import 'package:flutter/widgets.dart';
+// import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
-import 'package:unified_reminder/models/history/HistoryMF.dart';
+// import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 
 import 'networking.dart';
@@ -113,27 +113,5 @@ class MutualFundHelper {
     print('returning ');
     return mutualFundDetailObject;
   }
-  
-  
-  
-  
-  Future<List<MutualFundDetailObject>> fetchPreviousNAV(DateTime dateTime , String code) async{
-    String url  = '$open_api_url/$code';
-    
-//    dateTime = DateTime(dateTime.month +1);
-
-    String date = dateTime.toString();
-    List<String> temp = date.split(' ');
-    String temp2 = temp[0].toString();
-    List<String> dateData = temp2.split('-');
-    String selectedDateString = '${dateData[2]}-${dateData[1]}-${dateData[0]}';
-    
-    NetworkHelper networkHelper = NetworkHelper(url: url);
-    
-    List<MutualFundDetailObject> mutualFundDetailsObject = [];
-    
-    var getMutualFundData = await networkHelper.getDate();
-  }
-  
   
 }

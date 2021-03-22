@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/client_compliance.dart';
+// import 'package:unified_reminder/models/client.dart';
+// import 'package:unified_reminder/models/client_compliance.dart';
 import 'package:unified_reminder/models/compliance.dart';
-import 'package:unified_reminder/router.dart';
-import 'package:unified_reminder/services/FirestoreService.dart';
+// import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/widgets/ClientForm.dart';
+
+
+
 
 class SelectClients extends StatefulWidget {
   final Map arguments;
@@ -15,14 +17,13 @@ class SelectClients extends StatefulWidget {
   _SelectClientsState createState() => _SelectClientsState();
 }
 
+
 class _SelectClientsState extends State<SelectClients> {
   List<String> _constitution = [null];
-  FirestoreService _firestoreService = FirestoreService();
   bool buttonLoading = false;
   GlobalKey<FormState> _clientsFormKey = GlobalKey<FormState>();
   List _clients = [
     {
-//      "client": Client(),
       "compliances": [
         Compliance(title: "Income Tax", value: "income_tax", checked: false),
         Compliance(title: "TDS", value: "tds", checked: false),
@@ -61,7 +62,7 @@ class _SelectClientsState extends State<SelectClients> {
               ),
               Text(
                 "Select Clients",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -166,7 +167,7 @@ class _SelectClientsState extends State<SelectClients> {
                     ),
                     Container(
                       height: 50.0,
-                      child: FlatButton(
+                      child: TextButton(
                         child: buttonLoading
                             ? Container(
                                 height: 30.0,
@@ -182,7 +183,6 @@ class _SelectClientsState extends State<SelectClients> {
                         onPressed: () {
                           saveClients(_clients);
                         },
-                        color: buttonColor,
                       ),
                     ),
                   ],

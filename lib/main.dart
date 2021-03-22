@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
@@ -16,17 +15,27 @@ class Bootstrapper extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: buttonColor,
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed))
+                  return Color(0xff4D5163);
+                return null; // Use the component's default.
+              },
+            ),
+          ),
+        ),
         scaffoldBackgroundColor: backgroundColor,
         textTheme: TextTheme(
-          title: TextStyle(fontFamily: "ProximaNova"),
-          body1: TextStyle(
+          headline6: TextStyle(fontFamily: "ProximaNova"),
+          bodyText2: TextStyle(
             fontFamily: "ProximaNova",
             fontSize: 16.0,
           ),
         ),
       ),
       themeMode: ThemeMode.dark,
-      onGenerateRoute: onGenerateRoute,
       home: Wrapper(),
     );
   }

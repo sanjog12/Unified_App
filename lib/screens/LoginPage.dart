@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage>{
               ),
               Text(
                 "Welcome Back, ",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage>{
               ),
               Text(
                 "Sign In to Continue",
-                style: _theme.textTheme.subtitle.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontWeight: FontWeight.w300,
                   ),
@@ -152,7 +152,8 @@ class _LoginPageState extends State<LoginPage>{
                           obscureText: obscureText,
                           decoration: InputDecoration(
                             hintText: "Password",
-                            suffixIcon: GestureDetector(child: Icon(Icons.remove_red_eye,color: Colors.white,),onTap: (){
+                            suffixIcon: GestureDetector(child: Icon(obscureText?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,),
+                              onTap: (){
                               setState(() {
                                 obscureText = !obscureText;
                               });
@@ -207,7 +208,7 @@ class _LoginPageState extends State<LoginPage>{
                       child: Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: buttonLoading
                               ? Container(
                                   height: 30.0,
@@ -219,7 +220,7 @@ class _LoginPageState extends State<LoginPage>{
                                     ),
                                   ),
                                 )
-                              : Text("Login"),
+                              : Text("Login",style: TextStyle(color: Colors.white)),
                           onPressed: () {
                             loginUser(userAuth, context);
                           },
@@ -239,7 +240,7 @@ class _LoginPageState extends State<LoginPage>{
 	                    child: Container(
                       decoration: roundedCornerButton,
 		                  height: 50.0,
-		                  child: FlatButton(
+		                  child: TextButton(
 			                  child: gButtonLoading
 					                  ? Container(
 				                  height: 30.0,
@@ -250,14 +251,15 @@ class _LoginPageState extends State<LoginPage>{
 						                  Colors.white,
 					                  ),
 				                  ),
-			                  )
-					                  : Row(
-				                  mainAxisAlignment: MainAxisAlignment.start,
+			                  ) :
+                        Stack(
 				                  children: <Widget>[
 					                  Image.asset("assets/images/google_logo0_5p.png", height:50 ),
 					                  SizedBox(width: 40),
-					                  Text(
-						                  "Login Using Google",
+					                  Center(
+					                    child: Text(
+						                  "Login Using Google",style: TextStyle(color: Colors.white),
+					                    ),
 					                  ),
 				                  ],
 			                  ),
@@ -283,7 +285,8 @@ class _LoginPageState extends State<LoginPage>{
                               );
                             } else {}
                           }on PlatformException catch (e) {
-                            flutterToast(message: "Something went Wrong");
+			                      
+                            flutterToast(message: e.message);
                           } catch(e){
                             flutterToast(message: "Can't Sign In at this Moment");
                           } finally {
@@ -378,8 +381,7 @@ class _LoginPageState extends State<LoginPage>{
             padding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
             child: Container(
               height: 50,
-              child: FlatButton(
-                color: buttonColor,
+              child: TextButton(
                 child: loading ? Container(
                   height: 30,
                     width: 30,
@@ -418,7 +420,6 @@ class _LoginPageState extends State<LoginPage>{
       );
     }
     );
-    
   }
   
   

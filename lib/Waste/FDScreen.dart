@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/router.dart';
-import 'package:unified_reminder/screens/ComplianceHistory.dart';
 import 'package:unified_reminder/screens/FD/History.dart';
 import 'package:unified_reminder/screens/FD/Record.dart';
 //import 'package:unified_reminder/screens/TDS/ComplianceHistoryForTDS.dart';
@@ -10,8 +8,6 @@ import 'package:unified_reminder/screens/FD/Record.dart';
 //import 'package:unified_reminder/screens/TDS/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
-import '../screens/PPF/History.dart';
-import '../screens/PPF/Record.dart';
 
 class FDScreen extends StatefulWidget {
   final Client client;

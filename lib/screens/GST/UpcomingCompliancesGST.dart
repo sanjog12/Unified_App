@@ -24,11 +24,6 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 	List<UpComingComplianceObject> t1 = [];
 	List<doneComplianceObject> t2 = [];
 	
-	Future<List<UpComingComplianceObject>> getUpcoming() async{
-		t1=await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfGST(widget.client);
-//		t2 = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(widget.client.email, todayDate, snapshotKey)
-	}
-	
 	
   @override
   Widget build(BuildContext context) {
