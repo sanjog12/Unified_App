@@ -87,12 +87,12 @@ class StateGSTRPayment extends State<GSTPayment>{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('GST',style: _theme.textTheme.headline.merge(TextStyle(
+                  Text('GST',style: _theme.textTheme.headline6.merge(TextStyle(
                       fontSize: 28
                   )
                   ),),
                   SizedBox(height: 10,),
-                  Text('Enter your details to make payment for GST',style: _theme.textTheme.subhead.merge(TextStyle(
+                  Text('Enter your details to make payment for GST',style: _theme.textTheme.bodyText2.merge(TextStyle(
                     fontSize: 15
                   )),),
                   
@@ -214,7 +214,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                             Text(
                               '$_showDateOfPayment',
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context);
                               },
@@ -235,7 +235,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                       Container(
                         decoration: roundedCornerButton,
                         height: 50,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () async{
                             FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
                             file = File(filePickerResult.files.single.path);
@@ -268,7 +268,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                             valueColor: AlwaysStoppedAnimation<Color>
                               (Colors.white70),
                           ),
-                        ):FlatButton(
+                        ):TextButton(
                           child: Text("Save Record"),
                           onPressed: () {
                             savePayment();

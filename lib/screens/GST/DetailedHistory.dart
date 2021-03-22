@@ -186,7 +186,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 											    Text(
 												    '$selectedDateDB',
 											    ),
-											    FlatButton(
+											    TextButton(
 												    onPressed: () {
 													    selectDateTime(context);
 												    },
@@ -217,7 +217,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 							    Container(
 								    decoration: roundedCornerButton,
 								    height: 50,
-								    child: FlatButton(
+								    child: TextButton(
 									    onPressed: () async{
 										    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
 										    file = File(filePickerResult.files.single.path);
@@ -249,7 +249,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						    children: <Widget>[
 						    	Container(
 								    decoration: roundedCornerButton,
-						    	  child: FlatButton(
+						    	  child: TextButton(
 								    child: Row(
 									    mainAxisAlignment: MainAxisAlignment.spaceBetween,
 								      children: <Widget>[
@@ -283,17 +283,15 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						    children: <Widget>[
 							    Container(
 								    decoration: roundedCornerButton,
-								    child: edit
-										    ?FlatButton(
-									    color: buttonColor,
+								    child: edit ?
+								    TextButton(
 									    child: Text("Save Changes"),
 									    onPressed: () async{
 										    await editRecord();
 										    Navigator.pop(context);
 									    },
-								    )
-										    :FlatButton(
-									    color: buttonColor,
+								    ) :
+								    TextButton(
 									    child: Text("Edit"),
 									    onPressed: (){
 										    setState(() {
@@ -309,8 +307,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 							
 							    Container(
 								    decoration: roundedCornerButton,
-								    child: FlatButton(
-									    color: buttonColor,
+								    child: TextButton(
 									    child: loadingDelete
 											    ?Center(
 										    child: CircularProgressIndicator(
@@ -424,7 +421,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									await deleteRecord();
@@ -432,7 +429,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -529,7 +526,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									try {
@@ -562,7 +559,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
