@@ -86,7 +86,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    children: <Widget>[
 				    	
-				    	Text('Monthly Contribution Payment',style: _theme.textTheme.headline.merge(
+				    	Text('Monthly Contribution Payment',style: _theme.textTheme.headline6.merge(
 						    TextStyle(
 							    fontSize: 26.0,
 						    ),),
@@ -94,7 +94,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 					    
 					    SizedBox(height: 10,),
 					    
-					    Text('Enter your details to make payment for Monthly Contribution',style: _theme.textTheme.subtitle.merge(
+					    Text('Enter your details to make payment for Monthly Contribution',style: _theme.textTheme.bodyText2.merge(
 						    TextStyle(
 							    fontSize: 15,
 							    fontWeight: FontWeight.w300,

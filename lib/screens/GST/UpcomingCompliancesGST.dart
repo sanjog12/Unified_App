@@ -64,7 +64,6 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 										    	DateTime t = DateTime.now();
 											    DateTime t2 = DateTime(t.year,t.month,int.parse(snapshot.data[index].date));
 											    String date = DateFormat('dd MMMM').format(t2);
-										    	print(t2);
 										    	return Container(
 												    decoration: roundedCornerButton,
 												    margin: EdgeInsets.symmetric(vertical: 10.0),

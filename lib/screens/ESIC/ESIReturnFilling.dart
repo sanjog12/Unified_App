@@ -65,7 +65,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 							children: <Widget>[
 								Text(
 									"ESI Return Filling",
-									style: _theme.textTheme.headline.merge(
+									style: _theme.textTheme.headline6.merge(
 										TextStyle(
 											fontSize: 26.0,
 										),
@@ -98,7 +98,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 																Text(
 																	'$selectedDateDB',
 																),
-																FlatButton(
+																TextButton(
 																	onPressed: () {
 																		selectDateTime(context);
 																	},
@@ -120,7 +120,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 													Container(
 														decoration: roundedCornerButton,
 														height: 50,
-														child: FlatButton(
+														child: TextButton(
 															onPressed: () async{
 																FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
 																file = File(filePickerResult.files.single.path);
@@ -148,10 +148,10 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 											Container(
 												decoration: roundedCornerButton,
 												height: 50.0,
-												child: FlatButton(
+												child: TextButton(
 													child: Text("Save Record"),
 													onPressed: () {
-														ReturnFillingsIncomeTax();
+														returnFillingsIncomeTax();
 													},
 												),
 											),
@@ -169,7 +169,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 				));
 	}
 	
-	Future<void> ReturnFillingsIncomeTax() async {
+	Future<void> returnFillingsIncomeTax() async {
 		try {
 			if (gSTReturnFillingsFormKey.currentState.validate()) {
 				gSTReturnFillingsFormKey.currentState.save();

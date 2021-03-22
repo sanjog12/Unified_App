@@ -101,7 +101,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 									    Text(
 										    '$selectedDateDB',
 									    ),
-									    FlatButton(
+									    TextButton(
 										    onPressed: () {
 											    selectDateTime(context);
 										    },
@@ -188,7 +188,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						    SizedBox(height: 10,),
 						    Container(
 							    height: 50,
-							    child: FlatButton(
+							    child: TextButton(
 								    onPressed: () async{
 									    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
 									    file = File(filePickerResult.files.single.path);
@@ -199,7 +199,6 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 										    newFile = true;
 									    });
 								    },
-								    color: buttonColor,
 								
 								    child: Row(
 									    children: <Widget>[
@@ -220,7 +219,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 					    children: <Widget>[
 						    Container(
 						      decoration: roundedCornerButton,
-						      child: FlatButton(
+						      child: TextButton(
 							    child: Row(
 								    mainAxisAlignment: MainAxisAlignment.spaceBetween,
 								    children: <Widget>[
@@ -253,12 +252,12 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						
 						    Container(
 							    decoration: roundedCornerButton,
-							    child: edit?FlatButton(
+							    child: edit?TextButton(
 								    child: Text("Save Changes"),
 								    onPressed: (){
 									    editRecord();
 								    },
-							    ) :FlatButton(
+							    ) :TextButton(
 								    child: Text("Edit"),
 								    onPressed: (){
 									    setState(() {
@@ -272,7 +271,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						
 						    Container(
 							    decoration: roundedCornerButton,
-							    child: FlatButton(
+							    child: TextButton(
 								    child: Text("Delete Record"),
 								    onPressed: () async{
 									    loadingDelete = true;

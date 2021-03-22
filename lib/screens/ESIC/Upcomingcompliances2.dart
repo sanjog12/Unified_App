@@ -41,6 +41,18 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 								future: UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfESI(widget.client),
 								builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 									if(snapshot.hasData){
+										if(snapshot.data.length ==0){
+											return ListView(
+												children: <Widget>[
+													Container(
+														decoration: roundedCornerButton,
+														child: ListTile(
+															title: Text("No Upcoming Compliances"),
+														),
+													)
+												],
+											);
+										}
 										return ListView.builder(
 											itemCount: snapshot.data.length,
 											itemBuilder: (BuildContext context, int index){

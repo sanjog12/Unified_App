@@ -43,7 +43,7 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
+                        return TextButton(
                           onPressed: () {
                             if(snapshot.data[index].type == 'Monthly Contribution') {
                               _getHistoryDetails(snapshot.data[index].key);

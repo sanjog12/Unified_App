@@ -118,7 +118,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 													    Text(
 														    '$_selectedDateOfPayment',
 													    ),
-													    FlatButton(
+													    TextButton(
 														    onPressed: () {
 															    selectDateTime(context);
 														    },
@@ -181,7 +181,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 										    Container(
 											    decoration: roundedCornerButton,
 											    height: 50,
-											    child: FlatButton(
+											    child: TextButton(
 												    onPressed: () async{
 													    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
 													    file = File(filePickerResult.files.single.path);
@@ -208,7 +208,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 								    Container(
 									    decoration: roundedCornerButton,
 									    height: 50.0,
-									    child: FlatButton(
+									    child: TextButton(
 										    child: Text("Save Payment"),
 										    onPressed: () {
 										    	detailsMonthlyContribution();

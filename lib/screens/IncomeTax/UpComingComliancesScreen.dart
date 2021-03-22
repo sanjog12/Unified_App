@@ -113,6 +113,7 @@ class _UpComingComliancesScreenForIncomeTaxState
                       return ListView(
                         children: <Widget>[
                           Container(
+                            decoration: roundedCornerButton,
                             child: ListTile(
                               title: Text("No Upcoming Compliances"),
                             ),
