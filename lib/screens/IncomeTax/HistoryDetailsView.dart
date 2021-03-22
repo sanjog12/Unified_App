@@ -101,7 +101,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
             children: <Widget>[
               Text(
                 "${widget.client.name}\'s Income Tax Payment Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -215,7 +215,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                             Text(
                               '$selectedDateDB',
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context);
                               },
@@ -244,8 +244,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                       SizedBox(height: 10,),
                       Container(
                         height: 50,
-                        child: FlatButton(
-                          color: buttonColor,
+                        child: TextButton(
                           onPressed: () async{
                             await FilePicker.platform.pickFiles().then((value){
                             
@@ -278,7 +277,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                       SizedBox(height: 30,),
                       Container(
                         decoration: roundedCornerButton,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -310,17 +309,15 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                     children: <Widget>[
                       Container(
                         decoration: roundedCornerButton,
-                        child: edit
-                            ?FlatButton(
-                          color: buttonColor,
+                        child: edit ?
+                        TextButton(
                           child: Text("Save Changes"),
                           onPressed: () async{
                             await editRecord();
                             Navigator.pop(context);
                           },
-                        )
-                            :FlatButton(
-                          color: buttonColor,
+                        ) :
+                        TextButton(
                           child: Text("Edit"),
                           onPressed: (){
                             setState(() {
@@ -336,10 +333,9 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
       
                       Container(
                         decoration: roundedCornerButton,
-                        child: FlatButton(
-                          color: buttonColor,
-                          child: loadingDelete
-                              ?Center(
+                        child: TextButton(
+                          child: loadingDelete ?
+                          Center(
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>
                                 (Colors.white),
@@ -453,7 +449,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Confirm'),
                 onPressed: () async{
                   Navigator.of(context).pop();
@@ -462,7 +458,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -538,7 +534,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
               ),
             
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('Confirm'),
                   onPressed: () async{
                     try {
@@ -571,7 +567,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                   },
                 ),
               
-                FlatButton(
+                TextButton(
                   child: Text('Cancel'),
                   onPressed: (){
                     Navigator.of(context).pop();

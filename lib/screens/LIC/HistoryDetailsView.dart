@@ -131,7 +131,7 @@ class _LICPaymentRecordHistoryDetailsViewState
             children: <Widget>[
               Text(
                 "${widget.client.name}\'s LIC Payment Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 20.0,
                   ),
@@ -245,7 +245,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                         Text(
                           '$selectedDatePremiumDateDB',
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             selectDateTime(context,0);
                           },
@@ -367,7 +367,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                         Text(
                           '$selectedDateCommencementDB',
                         ),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             selectDateTime(context,1);
                           },
@@ -593,7 +593,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                             ):Text(
                                 'null'
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context,2);
                               },
@@ -628,7 +628,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                   SizedBox(height: 10,),
                   Container(
                     height: 50,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () async{
                         FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
                         file = File(filePickerResult.files.single.path);
@@ -639,7 +639,6 @@ class _LICPaymentRecordHistoryDetailsViewState
                           newFile = true;
                         });
                       },
-                      color: buttonColor,
                       child: Row(
                         children: <Widget>[
                           Icon(Icons.attach_file),
@@ -659,7 +658,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                 children: <Widget>[
                   Container(
                     decoration: roundedCornerButton,
-                    child: FlatButton(
+                    child: TextButton(
                       child:Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -692,16 +691,14 @@ class _LICPaymentRecordHistoryDetailsViewState
                   Container(
                     decoration: roundedCornerButton,
                     child: edit
-                        ?FlatButton(
-                      color: buttonColor,
+                        ?TextButton(
                       child: Text("Save Changes"),
                       onPressed: () async{
                         await editRecord();
                         Navigator.pop(context);
                       },
                     )
-                        :FlatButton(
-                      color: buttonColor,
+                        :TextButton(
                       child: Text("Edit"),
                       onPressed: (){
                         setState(() {
@@ -716,8 +713,7 @@ class _LICPaymentRecordHistoryDetailsViewState
   
               Container(
                 decoration: roundedCornerButton,
-                child: FlatButton(
-                  color: buttonColor,
+                child: TextButton(
                   child: loadingDelete
                       ?Center(
                     child: CircularProgressIndicator(
@@ -824,7 +820,7 @@ class _LICPaymentRecordHistoryDetailsViewState
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Yes'),
                 onPressed: () async{
                   Navigator.of(context).pop();
@@ -833,7 +829,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('No'),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -917,7 +913,7 @@ class _LICPaymentRecordHistoryDetailsViewState
               ),
             
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('Confirm'),
                   onPressed: () async{
                     try {
@@ -950,7 +946,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                   },
                 ),
               
-                FlatButton(
+                TextButton(
                   child: Text('Cancel'),
                   onPressed: (){
                     Navigator.of(context).pop();

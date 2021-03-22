@@ -129,7 +129,7 @@ class _HistoryViewState extends State<HistoryView> {
 					actions: <Widget>[
 						Row(
 							children: <Widget>[
-								FlatButton(
+								TextButton(
 									child: Text("Yes"),
 									onPressed: () async{
 										try {
@@ -155,7 +155,7 @@ class _HistoryViewState extends State<HistoryView> {
 									},
 								),
 								
-								FlatButton(
+								TextButton(
 									child: Text("No"),
 									onPressed: () {
 										setState(() {
@@ -204,7 +204,7 @@ class _HistoryViewState extends State<HistoryView> {
 						children: <Widget>[
 							Text(
 								'${widget.client.name}\'s Mutual Fund Record',
-								style: _themeData.textTheme.headline.merge(TextStyle(
+								style: _themeData.textTheme.headline6.merge(TextStyle(
 									fontSize: 26.0,
 								)),
 							),
@@ -519,7 +519,7 @@ class _HistoryViewState extends State<HistoryView> {
 									    							),
 									    							
 									    							DataCell(
-																	    i==0? Container() :FlatButton(child: Icon(Icons.delete , color: Colors.red),
+																	    i==0? Container() :TextButton(child: Icon(Icons.delete , color: Colors.red),
 																	    onPressed: (){
 																	    	deleteRecord(i,context);
 																	    },)
@@ -622,7 +622,7 @@ class _HistoryViewState extends State<HistoryView> {
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Yes'),
 								onPressed: () async{
 									await deletePortfolio();
@@ -631,7 +631,7 @@ class _HistoryViewState extends State<HistoryView> {
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('No'),
 								onPressed: (){
 									Navigator.of(context).pop();

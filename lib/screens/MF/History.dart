@@ -62,7 +62,7 @@ class _HistoryForFMState extends State<HistoryForFM> {
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           padding: EdgeInsets.all(10),
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: (){
 //                              print(snapshot.data[index].key.toString());
 //                              fullDetails(snapshot.data[index].key.toString(),widget.client);

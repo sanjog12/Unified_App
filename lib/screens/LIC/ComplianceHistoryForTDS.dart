@@ -40,7 +40,7 @@ class _ComplianceHistoryForTDSState extends State<ComplianceHistoryForLIC> {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
+                        return TextButton(
                           onPressed: (){
                             if(snapshot.data[index].date != 'No history founded'){
                               _getHistoryDetails(snapshot.data[index].key);

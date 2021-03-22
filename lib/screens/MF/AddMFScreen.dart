@@ -167,7 +167,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
               children: <Widget>[
                 Text(
                   "Mutual Fund Payment",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -196,7 +196,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
                           Text(
                             '$_selectedDate',
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               selectDateTime(context);
                             },
@@ -484,13 +484,13 @@ class _AddMFScreenState extends State<AddMFScreen> {
                               Container(
                                 decoration: roundedCornerButton,
                                 height: 50.0,
-                                child: FlatButton(
+                                child: TextButton(
                                   child: Text("Save Portfolio"),
                                   onPressed: () {
                                     int notificationID = notificationServices.getRandomInt();
 //                                    if(fetchDetails)
 //                                      fetchPreviousNAV();
-                                    MFRecord();
+                                    mFRecord();
                                     DateTime n = DateTime.now().subtract(Duration(hours: 60));
                                     notificationServices.reminderNotificationService(
                                       id: notificationID,
@@ -526,7 +526,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
 
   
   
-  Future<void> MFRecord() async {
+  Future<void> mFRecord() async {
     try {
       if (_MFRecordFormKey.currentState.validate()) {
         _MFRecordFormKey.currentState.save();

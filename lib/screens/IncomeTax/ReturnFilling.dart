@@ -66,7 +66,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
               children: <Widget>[
                 Text(
                   "Income Tax Return Filling",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -99,7 +99,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                                 Text(
                                   '$selectedDateDB',
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     selectDateTime(context);
                                   },
@@ -149,10 +149,10 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Record"),
                           onPressed: () {
-                            ReturnFillingsIncomeTax();
+                            returnFillingsIncomeTax();
                           },
                         ),
                       ),
@@ -171,7 +171,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
         ));
   }
 
-  Future<void> ReturnFillingsIncomeTax() async {
+  Future<void> returnFillingsIncomeTax() async {
     try {
       if (_IncomeTaxReturnFillingsFormKey.currentState.validate()) {
         _IncomeTaxReturnFillingsFormKey.currentState.save();

@@ -12,6 +12,8 @@ import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
+
+
 class LICPayment extends StatefulWidget {
   final Client client;
 
@@ -98,7 +100,7 @@ class _LICPaymentState extends State<LICPayment> {
             children: <Widget>[
               Text(
                 "LIC Payment",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -109,7 +111,7 @@ class _LICPaymentState extends State<LICPayment> {
               ),
               Text(
                 "Enter your details to make payments for LIC",
-                style: _theme.textTheme.subtitle.merge(
+                style: _theme.textTheme.bodyText2.merge(
                   TextStyle(
                     fontWeight: FontWeight.w300,
                   ),
@@ -220,7 +222,7 @@ class _LICPaymentState extends State<LICPayment> {
                               Text(
                                 '$selectedDatePremiumDateDB',
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   selectDateTime(context,0);
                                 },
@@ -287,7 +289,7 @@ class _LICPaymentState extends State<LICPayment> {
                               Text(
                                 '$selectedDateCommencementDB',
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   selectDateTime(context,1);
                                 },
@@ -412,7 +414,7 @@ class _LICPaymentState extends State<LICPayment> {
                         Container(
                           decoration: roundedCornerButton,
                           height: 50,
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () async{
                               FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
                               file = File(filePickerResult.files.single.path);
@@ -478,7 +480,7 @@ class _LICPaymentState extends State<LICPayment> {
                           Text(
                           '$selectedDateMaturityDateDB',
                           ),
-                         FlatButton(
+                         TextButton(
                           onPressed: () {
                             selectDateTime(context,2);
                           },
@@ -495,7 +497,7 @@ class _LICPaymentState extends State<LICPayment> {
                     Container(
                       decoration: roundedCornerButton,
                       height: 50.0,
-                      child: FlatButton(
+                      child: TextButton(
                         child: buttonLoading?Container(
                           child: Center(
                             child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
