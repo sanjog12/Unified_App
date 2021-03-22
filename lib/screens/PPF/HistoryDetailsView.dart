@@ -86,7 +86,7 @@ class _PPFRecordHistoryDetailsViewState
             children: <Widget>[
               Text(
                 "${widget.client.name}\'s PPF Record Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 20.0,
                   ),
@@ -176,7 +176,7 @@ class _PPFRecordHistoryDetailsViewState
                             Text(
                               '$_selectedDateOfPayment',
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context);
                               },
@@ -234,16 +234,15 @@ class _PPFRecordHistoryDetailsViewState
                     children: <Widget>[
                       Container(
                         decoration: roundedCornerButton,
-                        child: edit
-                            ?FlatButton(
+                        child: edit ?
+                        TextButton(
                           child: Text("Save Changes"),
                           onPressed: () async{
                             await editRecord();
                             Navigator.pop(context);
                           },
-                        )
-                            :FlatButton(
-                          
+                        ) :
+                        TextButton(
                           child: Text("Edit"),
                           onPressed: (){
                             setState(() {
@@ -259,7 +258,7 @@ class _PPFRecordHistoryDetailsViewState
   
                       Container(
                         decoration: roundedCornerButton,
-                        child: FlatButton(
+                        child: TextButton(
                           child: loadDelete
                               ?Center(
                             child: CircularProgressIndicator(
@@ -352,7 +351,7 @@ class _PPFRecordHistoryDetailsViewState
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Confirm'),
                 onPressed: () async{
                   await deleteRecord();
@@ -360,7 +359,7 @@ class _PPFRecordHistoryDetailsViewState
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('Edit'),
                 onPressed: (){
                   Navigator.of(context).pop();

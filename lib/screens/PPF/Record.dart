@@ -64,7 +64,7 @@ class _PPFRecordState extends State<PPFRecord> {
               children: <Widget>[
                 Text(
                   "Details of PPF",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -152,7 +152,7 @@ class _PPFRecordState extends State<PPFRecord> {
                                 Text(
                                   '$_selectedDateOfPayment',
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     selectDateTime(context);
                                   },
@@ -169,7 +169,7 @@ class _PPFRecordState extends State<PPFRecord> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Record"),
                           onPressed: () {
                             addDetailsOfContribution();

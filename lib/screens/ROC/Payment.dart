@@ -51,7 +51,7 @@ class _ROCPaymentState extends State<ROCPayment> {
               children: <Widget>[
                 Text(
                   "Details of ROC",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -167,7 +167,7 @@ class _ROCPaymentState extends State<ROCPayment> {
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             decoration: fieldsDecoration,
-                            child: FlatButton(
+                            child: TextButton(
                               onPressed: () {
                                 DatePicker.showDatePicker(context,
                                     showTitleActions: true,
@@ -226,12 +226,11 @@ class _ROCPaymentState extends State<ROCPayment> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Payment"),
                           onPressed: () {
-                            AddDetailsOfContribution();
+                            addDetailsOfContribution();
                           },
-                          color: buttonColor,
                         ),
                       ),
                       SizedBox(
@@ -246,7 +245,7 @@ class _ROCPaymentState extends State<ROCPayment> {
         ));
   }
 
-  Future<void> AddDetailsOfContribution() async {
+  Future<void> addDetailsOfContribution() async {
     try {
       if (_ROCPaymentFormKey.currentState.validate()) {
         _ROCPaymentFormKey.currentState.save();

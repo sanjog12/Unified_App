@@ -87,7 +87,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 				    children: <Widget>[
 				    	
 				    	Text('Details of the payment paid  ${widget.tdsPaymentObject.dateOfPayment}',
-					    style: _theme.textTheme.headline.merge(TextStyle(
+					    style: _theme.textTheme.headline6.merge(TextStyle(
 						    fontSize: 26.0,
 					    )),
 					    ),
@@ -246,7 +246,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 										    Text(
 											    '$_showDateOfPayment',
 										    ),
-										    FlatButton(
+										    TextButton(
 											    onPressed: () {
 												    selectDateTime(context);
 											    },
@@ -301,15 +301,14 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 						    	Container(
 								    decoration: roundedCornerButton,
 						    	  child: edit
-									      ?FlatButton(
+									      ?TextButton(
 						              child: Text("Save Changes"),
 						              onPressed: () async{
 						              	await editRecord();
 						              	Navigator.pop(context);
 						              },
 					              )
-									      :FlatButton(
-								      color: buttonColor,
+									      :TextButton(
 								      child: Text("Edit"),
 								      onPressed: (){
 								      	setState(() {
@@ -325,8 +324,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 							    
 							    Container(
 								    decoration: roundedCornerButton,
-							      child: FlatButton(
-								      color: buttonColor,
+							      child: TextButton(
 								      child: loadingDelete
 										      ?Center(
 									      child: CircularProgressIndicator(
@@ -424,7 +422,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									Navigator.of(context).pop();
@@ -433,7 +431,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Edit'),
 								onPressed: (){
 									Navigator.of(context).pop();

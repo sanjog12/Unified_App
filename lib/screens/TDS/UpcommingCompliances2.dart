@@ -34,37 +34,6 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 	List<String> todayDateData = fullDate.toString().split('-');
 	TodayDateObject todayDateObject;
 	
-	Future<List<UpComingComplianceObject>> _getUpComings() async {
-		todayDateObject = TodayDateObject(
-				
-				year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
-		List<UpComingComplianceObject> compliancesForListView = [];
-		List<UpComingComplianceObject> compliances =
-		await UpComingComplianceDatabaseHelper()
-				.getUpComingComplincesForMonthOfTDS(widget.client);
-		
-		String clientEmail = widget.client.email.replaceAll('.', ',');
-		
-		List<doneComplianceObject> clientDones =
-		await UpComingComplianceDatabaseHelper()
-				.getClientDoneCompliances(clientEmail, todayDateObject, 'TDS');
-		
-		compliances.forEach((element) {
-			if (getSingleDone(clientDones, element.key)) {
-				compliancesForListView.add(element);
-			}
-		});
-		if (compliancesForListView.length <= 0) {
-			UpComingComplianceObject upComingComplianceObject =
-			UpComingComplianceObject(
-					key: 'nothing',
-					date: 'This Month',
-					label: 'No TDS Compliance in this month');
-			
-			compliancesForListView.add(upComingComplianceObject);
-		}
-		return compliancesForListView;
-	}
 	
 	bool getSingleDone(List<doneComplianceObject> dones, String subkey) {
 		print(dones[0].key);

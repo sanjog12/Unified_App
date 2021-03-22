@@ -232,7 +232,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 															  Text(
 																  '$showDate',
 															  ),
-															  FlatButton(
+															  TextButton(
 																  onPressed: () async{
 																	  final DateTime picked = await showDatePicker(
 																			  context: context,
@@ -314,7 +314,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 							  ),
 							
 							  actions: <Widget>[
-								  FlatButton(
+								  TextButton(
 									  child: Text('Save Changes'),
 									  onPressed: () async{
 										  dbf = firebaseDatabase.reference();
@@ -369,7 +369,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 					  ),
 					
 					  actions: <Widget>[
-						  FlatButton(
+						  TextButton(
 							  child: Text('Yes'),
 							  onPressed: () async{
 								  Navigator.of(context).pop();
@@ -378,7 +378,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 							  },
 						  ),
 						
-						  FlatButton(
+						  TextButton(
 							  child: Text('No'),
 							  onPressed: (){
 								  Navigator.of(context).pop();

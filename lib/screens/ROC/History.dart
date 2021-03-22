@@ -205,7 +205,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Yes'),
                 onPressed: () async{
                   String firebaseUserId= await SharedPrefs.getStringPreference("uid");
@@ -223,7 +223,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('No'),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -291,7 +291,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Save AGM Date'),
                 onPressed: () async{
                   String firebaseUserId= await SharedPrefs.getStringPreference("uid");

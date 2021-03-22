@@ -288,7 +288,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 									    color: buttonColor,
 								    ),
 								    margin: EdgeInsets.symmetric(horizontal: 20),
-								    child:FlatButton(
+								    child: TextButton(
 									    child: Text("Edit AGM Conclusion Date"),
 									    onPressed: (){
 									    	setState(() {
@@ -317,7 +317,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 									    Text(
 										    '$_selectedDateOfAgm',
 									    ),
-									    FlatButton(
+									    TextButton(
 										    onPressed: () {
 										    	selectDateTime(context);
 										    },
@@ -336,7 +336,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								    color: buttonColor,
 							    ),
 							    height: 50.0,
-							    child: FlatButton(
+							    child: TextButton(
 								    child: buttonLoading? Container(
 									    child: CircularProgressIndicator(
 										    valueColor: AlwaysStoppedAnimation<Color>
@@ -420,7 +420,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 															  Text(
 																  tempDate,
 															  ),
-															  FlatButton(
+															  TextButton(
 																  onPressed: () async {
 																	  final DateTime picked = await showDatePicker(
 																			  context: context,
@@ -449,7 +449,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 							  ),
 							
 							  actions: <Widget>[
-								  FlatButton(
+								  TextButton(
 									  child: Text('Save AGM Date'),
 									  onPressed: () async {
 										  String firebaseUserId = await SharedPrefs
@@ -562,7 +562,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				  ),
 				  
 				  actions: <Widget>[
-				  	FlatButton(
+				  	TextButton(
 						  child: Text('Confirm Date'),
 						  onPressed: () async{
 						  	Navigator.of(context).pop();
@@ -571,7 +571,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 						  },
 					  ),
 					  
-					  FlatButton(
+					  TextButton(
 						  child: Text('Edit Date'),
 						  onPressed: (){
 						  	Navigator.of(context).pop();

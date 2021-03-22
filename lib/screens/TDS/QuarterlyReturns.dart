@@ -68,7 +68,7 @@ class _TDSQuarterly extends State<TDSQuarterly>{
             children: <Widget>[
               Text(
                 "TDS Quarterly Returns",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -101,7 +101,7 @@ class _TDSQuarterly extends State<TDSQuarterly>{
                               Text(
                                 '$_selectedDateOfFiling',
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   selectDateTime(context);
                                 },
@@ -184,7 +184,7 @@ class _TDSQuarterly extends State<TDSQuarterly>{
                           valueColor: AlwaysStoppedAnimation<Color>
                             (Colors.white70),
                         ),
-                      ):FlatButton(
+                      ):TextButton(
                         child: Text("Save Record"),
                         onPressed: () {
                           saveRecord();

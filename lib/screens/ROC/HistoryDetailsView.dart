@@ -42,7 +42,7 @@ class _ROCRecordHistoryDetailsViewState
               
               Text(
                 "${widget.client.name}\'s ROC Record Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),

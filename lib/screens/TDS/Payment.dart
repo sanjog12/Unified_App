@@ -85,7 +85,7 @@ class _TDSPaymentState extends State<TDSPayment>{
             children: <Widget>[
               Text(
                 "TDS Payment",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -96,7 +96,7 @@ class _TDSPaymentState extends State<TDSPayment>{
               ),
               Text(
                 "Enter your details to make payments for TDS",
-                style: _theme.textTheme.subtitle.merge(
+                style: _theme.textTheme.bodyText2.merge(
                   TextStyle(
                     fontWeight: FontWeight.w300,
                   ),
@@ -263,7 +263,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                               Text(
                                 '$_showDateOfPayment',
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   selectDateTime(context);
                                 },
@@ -289,7 +289,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                         SizedBox(height: 10),
                         Container(
                           height: 50,
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () async{
                               FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
                               file = File(filePickerResult.files.single.path);
@@ -298,7 +298,6 @@ class _TDSPaymentState extends State<TDSPayment>{
                                 nameOfFile = temp.last;
                               });
                             },
-                            color: buttonColor,
                             
                             child: Row(
                               children: <Widget>[
@@ -332,7 +331,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                           valueColor: AlwaysStoppedAnimation<Color>
                             (Colors.white70),
                         ),
-                      ) :FlatButton(
+                      ) :TextButton(
                         child: Text("Make Payment"),
                         onPressed: () {
                           openWebView("Payment", 'https://onlineservices.tin.egov-nsdl.com/etaxnew/tdsnontds.jsp', context);
@@ -355,7 +354,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                           valueColor: AlwaysStoppedAnimation<Color>
                             (Colors.white70),
                         ),
-                      ):FlatButton(
+                      ):TextButton(
                         child: Text("Save Record"),
                         onPressed: () {
                           savePayment();
