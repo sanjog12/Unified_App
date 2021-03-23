@@ -39,22 +39,16 @@ class UpComingComplianceDatabaseHelper {
         .child(DateTime.now().year.toString())
         .child(DateTime.now().month.toString())
         .child(snapshotKey);
-    print('values2');
 
     await dbf.once().then((DataSnapshot snapshot) {
-      print('1122');
-      print(snapshot.value);
       Map<dynamic, dynamic> values = snapshot.value;
-      print(values);
-
+      
       if (values != null) {
-        print('values4');
 
         values.forEach((key, value) {
           clientDones.add(doneComplianceObject(key: key, value: value));
         });
-      } else
-        print('values7');
+      }
 
       clientDones.add(doneComplianceObject(key: null, value: null));
     });
@@ -69,73 +63,71 @@ class UpComingComplianceDatabaseHelper {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
-    List<UpComingComplianceObject> UpComingComplinceData = [];
+    List<UpComingComplianceObject> upComingComplinceData = [];
   
     firebaseUID = await SharedPrefs.getStringPreference('uid');
     
     
-    loop(Client p) async{
-      print(p.name);
+    for(var client in clientList){
+      // print(client.name);
       dbf = firebaseDatabase
           .reference()
           .child(FsUserCompliances)
           .child(firebaseUID)
           .child('compliances')
-          .child(p.email);
+          .child(client.email);
     
       await dbf.once().then((DataSnapshot snapshot) async{
         Map<dynamic, dynamic> map = snapshot.value;
-        for(var v in map.values){
-          print(v.toString());
+        for(var registeredCompliancesData in map.values){
+          // print(registeredCompliancesData.toString());
           
-          if(v['title'] == 'LIC'){
-            print("LIC");
+          if(registeredCompliancesData['title'] == 'LIC'){
+            // print("LIC");
             dbf = firebaseDatabase
                 .reference()
                 .child('complinces')
                 .child('LICUserUpcomingCompliances')
                 .child(firebaseUID)
-                .child(p.email.replaceAll('.', ","))
+                .child(client.email.replaceAll('.', ","))
                 .child(todayDateObject.year)
                 .child(todayDateObject.month);
 
-            await dbf.once().then(
-                  (DataSnapshot snapshot) {
+            await dbf.once().then((DataSnapshot snapshot) {
                 Map<dynamic, dynamic> valuesdate = snapshot.value;
                 if (valuesdate != null) {
-                  print(valuesdate);
+                  // print(valuesdate);
                   for(var v in valuesdate.entries){
-                    print(v.key);
+                    // print(v.key);
                     UpComingComplianceObject upComingComplianceObject =
                     UpComingComplianceObject(
                       key: "LIC",
-                      name: p.name,
+                      name: client.name,
                       date: v.value['date'].toString(),
                       label: v.value['label'].toString(),
                     );
-                    bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
-                    if(!t)
-                      UpComingComplinceData.add(upComingComplianceObject);
+                    bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
+                    if(!isPassedDueDate)
+                      upComingComplinceData.add(upComingComplianceObject);
                   }
                 }else {
                   UpComingComplianceObject upComingComplianceObject =
                   UpComingComplianceObject(
-                      date: ' ', label: ' ',name: p.name);
-
-                  UpComingComplinceData.add(upComingComplianceObject);
+                      date: ' ', label: ' ',name: client.name);
+                  upComingComplinceData.add(upComingComplianceObject);
                 }
               },
             );
           }
           
-          if(v['title'] == 'Income Tax'){
+          if(registeredCompliancesData['title'] == 'Income Tax'){
             List<doneComplianceObject> doneCompliances = [];
             try {
-              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(p.email, todayDateObject, "INCOME_TAX");
+              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "INCOME_TAX");
             }catch(e){
               print(e);
             }
-            print('Income Tax');
+            // print('Income Tax');
             dbf = firebaseDatabase
                 .reference()
                 .child('upCommingComliances')
@@ -145,8 +137,8 @@ class UpComingComplianceDatabaseHelper {
             await dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic, dynamic> valuesdata = await snapshot.value;
               if (valuesdata == null) {
-                UpComingComplinceData.add(UpComingComplianceObject(
-                  name: p.name,
+                upComingComplinceData.add(UpComingComplianceObject(
+                  name: client.name,
                   date: ' ',
                   label: " ",
                 ));
@@ -155,28 +147,28 @@ class UpComingComplianceDatabaseHelper {
                   valuesdata.remove(v.key);
                 }
                 for(var v in valuesdata.entries){
-                  print(p.name + "Income Tax added1");
+                  // print(client.name + "Income Tax added1");
 
                   bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),v.value['date']));
                   if(!t){
-                  UpComingComplinceData.add(
+                  upComingComplinceData.add(
                       UpComingComplianceObject(
-                      name: p.name,
+                      name: client.name,
                       key: "Income Tax",
                       date: v.value['date'].toString(),
                       label: v.value['label']
                   ));}
-                  print(p.name + "Income Tax added2");
+                  // print(client.name + "Income Tax added2");
                 }
               }
             });
           }
   
-          if(v['title']=='TDS'){
-            print("TDS");
+          if(registeredCompliancesData['title']=='TDS'){
+            // print("TDS");
             List<doneComplianceObject> doneCompliances = [];
             try {
-              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(p.email, todayDateObject, "TDS");
+              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "TDS");
             }catch(e){
               print(e);
             }
@@ -186,104 +178,102 @@ class UpComingComplianceDatabaseHelper {
                 .child(todayDateObject.month.toString())
                 .child('TDS');
             
-            await dbf.once().then(
-                  (DataSnapshot snapshot) {
-                    Map<dynamic, dynamic> valuesdate = snapshot.value;
-                    if (valuesdate == null) {
-                      UpComingComplinceData.add(UpComingComplianceObject(
-                        name: p.name,
-                        date: " ",
-                        label: " ",
-                      ));
-                    } else {
-                      for(var v in doneCompliances){
-                        valuesdate.remove(v.key);
-                      }
-                      for(var v in valuesdate.entries){
-                        print(p.name + "TDS added1");
-                        bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
-                        if(!t){
-                        UpComingComplinceData.add(UpComingComplianceObject(
-                          name: p.name,
-                          date: v.value['date'].toString(),
-                          label:v.value['label'],
-                          key: "TDS",
-                        ));}
-                        print(p.name + "TDS added2");
-                      }
-                    }
-                    },
+            await dbf.once().then((DataSnapshot snapshot) {
+              Map<dynamic, dynamic> valuesdate = snapshot.value;
+              if (valuesdate == null) {
+                upComingComplinceData.add(UpComingComplianceObject(
+                  name: client.name,
+                  date: " ",
+                  label: " ",
+                ));
+              } else {
+                for(var v in doneCompliances){
+                  valuesdate.remove(v.key);
+                }
+                for(var v in valuesdate.entries){
+                  // print(client.name + "TDS added1");
+                  bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
+                  if(!t){
+                    upComingComplinceData.add(UpComingComplianceObject(
+                      name: client.name,
+                      date: v.value['date'].toString(),
+                      label:v.value['label'],
+                      key: "TDS",
+                    ));}
+                  // print(client.name + "TDS added2");
+                }
+              }
+              },
             );
           }
           
-          if(v['title'] == 'GST'){
+          if(registeredCompliancesData['title'] == 'GST'){
             List<doneComplianceObject> doneCompliances = [];
             try{
-              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(p.email.replaceAll('.', ','),
+              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email.replaceAll('.', ','),
                   todayDateObject, "GST");
             }catch(e){
               print(e);
             }
-            print("GST");
+            // print("GST");
             dbf = firebaseDatabase
                 .reference()
                 .child('upCommingComliances')
                 .child(todayDateObject.month.toString())
                 .child('GST');
             
-            await dbf.once().then(
-                  (DataSnapshot snapshot) async{
-                    Map<dynamic, dynamic> valuesdate = snapshot.value;
-                    
-                    if (valuesdate == null) {
-                      UpComingComplinceData.add(UpComingComplianceObject(
-                        name: p.name,
-                        date: " ",
-                        label: " ",
-                      ));
-                    } else {
-                      for(var v in doneCompliances){
-                        valuesdate.remove(v.key);
-                      }
-                      for(var v in valuesdate.entries){
-                        print(p.name + "GST added1");
-                        bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'].toString())));
-                        if(!t){
-                        UpComingComplinceData.add(UpComingComplianceObject(
-                          name: p.name,
-                          date: v.value['date'].toString(),
-                          label: v.value['label'],
-                          key: "GST",
-                        ));}
-                      }
-                    }
-                    },
+            await dbf.once().then((DataSnapshot snapshot) async{
+              Map<dynamic, dynamic> valuesdate = snapshot.value;
+              
+              if (valuesdate == null) {
+                upComingComplinceData.add(UpComingComplianceObject(
+                  name: client.name,
+                  date: " ",
+                  label: " ",
+                ));
+              } else {
+                for(var v in doneCompliances){
+                  valuesdate.remove(v.key);
+                }
+                for(var v in valuesdate.entries){
+                  // print(client.name + "GST added1");
+                  bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'].toString())));
+                  if(!isPassedDueDate){
+                    upComingComplinceData.add(UpComingComplianceObject(
+                      name: client.name,
+                      date: v.value['date'].toString(),
+                      label: v.value['label'],
+                      key: "GST",
+                    ));}
+                }
+              }
+              },
             );
           }
           
-          if(v['title'] == 'ROC'){
-            print("ROC");
+          if(registeredCompliancesData['title'] == 'ROC'){
+            // print("ROC");
             
             dbf = firebaseDatabase.reference()
                 .child('usersUpcomingCompliances')
                 .child(firebaseUID)
-                .child(p.email.replaceAll('.', ','))
+                .child(client.email.replaceAll('.', ','))
                 .child('ROC')
                 .child(todayDateObject.month.toString());
             dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic,dynamic> v = snapshot.value;
               if(v == null){
-                UpComingComplinceData.add(UpComingComplianceObject(
-                  name: p.name,
+                upComingComplinceData.add(UpComingComplianceObject(
+                  name: client.name,
                   date: " ",
                   label: " ",
                 ));
               }
               else{
                 v.forEach((key, values){
-                  print('ROC   ' +key);
-                  UpComingComplinceData.add(UpComingComplianceObject(
-                    name: p.name,
+                  // print('ROC   ' +key);
+                  upComingComplinceData.add(UpComingComplianceObject(
+                    name: client.name,
                     key: "ROC",
                     date: values['date'],
                     label: values['label'],
@@ -293,10 +283,10 @@ class UpComingComplianceDatabaseHelper {
             });
           }
           
-          if(v['title'] == 'EPF'){
+          if(registeredCompliancesData['title'] == 'EPF'){
             List<doneComplianceObject> doneCompliances = [];
             try {
-              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(p.email, todayDateObject, "ESI");
+              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
             }catch(e){
               print(e);
             }
@@ -308,36 +298,39 @@ class UpComingComplianceDatabaseHelper {
                 .child('EPF');
   
             await dbf.once().then((DataSnapshot snapshot) {
-                Map<dynamic, dynamic> valuesdate = snapshot.value;
-                if (valuesdate == null) {
+                Map<dynamic, dynamic> valuesDate = snapshot.value;
+                if (valuesDate == null) {
                   UpComingComplianceObject upComingComplianceObject =
                   UpComingComplianceObject(
-                      date: ' ', label: ' ',name: p.name);
-                  UpComingComplinceData.add(upComingComplianceObject);
+                      date: ' ', label: ' ',name: client.name);
+                  upComingComplinceData.add(upComingComplianceObject);
                 } else {
-                  for(var v in doneCompliances){
-                    valuesdate.remove(v.key);
+                  for(var compliances in doneCompliances){
+                    valuesDate.remove(compliances.key);
                   }
-                  for(var v in valuesdate.entries){
+                  for(var v in valuesDate.entries){
                     UpComingComplianceObject upComingComplianceObject =
                     UpComingComplianceObject(
                         date: v.value['date'].toString(),
                         label: v.value['label'],
                         key: "EPF",
-                        name: p.name);
-                    bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
-                    if(!t)
-                      UpComingComplinceData.add(upComingComplianceObject);
+                        name: client.name);
+                    bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),
+                        int.parse(todayDateObject.month),
+                        int.parse(upComingComplianceObject.date)));
+                    
+                    if(!isPassedDueDate)
+                      upComingComplinceData.add(upComingComplianceObject);
                   }
                 }
               },
             );
           }
           
-          if(v['title'] == 'ESI'){
+          if(registeredCompliancesData['title'] == 'ESI'){
             List<doneComplianceObject> doneCompliances = [];
             try {
-              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(p.email, todayDateObject, "ESI");
+              doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
             }catch(e){
               print(e);
             }
@@ -349,41 +342,39 @@ class UpComingComplianceDatabaseHelper {
                 .child('ESI');
   
             await dbf.once().then((DataSnapshot snapshot) async{
-              Map<dynamic, dynamic> valuesdate = await snapshot.value;
-              if (valuesdate == null) {
+              Map<dynamic, dynamic> valuesDate = await snapshot.value;
+              if (valuesDate == null) {
               } else {
-                for(var v in doneCompliances){
-                  valuesdate.remove(v.key);
+                for(var compliances in doneCompliances){
+                  valuesDate.remove(compliances.key);
                 }
-                for(var v in valuesdate.entries){
-                  print(v.value["date"]);
+                for(var data in valuesDate.entries){
+                  // print(data.value["date"]);
                   UpComingComplianceObject upComingComplianceObject =
                   UpComingComplianceObject(
-                      date: v.value['date'].toString(),
-                      label: v.value['label'],
-                      name: p.name,
+                      date: data.value['date'].toString(),
+                      label: data.value['label'],
+                      name: client.name,
                       key: "ESI");
-                  print(upComingComplianceObject.label);
-                  bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
-                  if(!t)
-                    UpComingComplinceData.add(upComingComplianceObject);
+                  // print(upComingComplianceObject.label);
+                  bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
+                  if(!isPassedDueDate)
+                    upComingComplinceData.add(upComingComplianceObject);
                 }
               }
             });
           }
         }
       });
+      print("end");
+      
     }
     
-    
-    for(var p in clientList){
-      await loop(p);
-      print(UpComingComplinceData.length);
-      print("check    " +UpComingComplinceData[0].name);
+    print("returnin");
+    for(var v in upComingComplinceData){
+      print(v.name + " " + v.label);
     }
-    
-    print("done");
-    return UpComingComplinceData;
+    return upComingComplinceData;
   }
 
   
@@ -441,8 +432,7 @@ class UpComingComplianceDatabaseHelper {
 
   
   
-  Future<List<UpComingComplianceObject>>
-      getUpComingComplincesForMonthOfTDS(Client client) async {
+  Future<List<UpComingComplianceObject>> getUpComingComplincesForMonthOfTDS(Client client) async {
   
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);

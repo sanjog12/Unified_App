@@ -32,8 +32,7 @@ class IncomeTaxPaymentRecordRecordHistoryDetailsView extends StatefulWidget {
       _IncomeTaxPaymentRecordRecordHistoryDetailsViewState();
 }
 
-class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
-    extends State<IncomeTaxPaymentRecordRecordHistoryDetailsView> {
+class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeTaxPaymentRecordRecordHistoryDetailsView> {
   
   bool loadingDelete = false ;
   bool edit = false;
@@ -83,7 +82,6 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
     super.initState();
     _incomeTaxPaymentObject = widget.incomeTaxPaymentObject;
     selectedDateDB = widget.incomeTaxPaymentObject.dateOfPayment;
-    
   }
   
   @override

@@ -35,6 +35,7 @@ dependencies:
   file_picker: ^2.1.6
   random_string:
   progress_indicators:
+  syncfusion_flutter_charts: ^18.4.48
   http:
   path_provider:
   flutter_pdfview:

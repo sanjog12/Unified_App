@@ -394,25 +394,25 @@ class _AddSingleClientState extends State<AddSingleClient>{
             ),
           ],
         ),
-        SizedBox(
-          height: 40.0,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text("Client's Company Name"),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFormField(
-              initialValue: _client != null?_client.company:"",
-              onChanged: (value) => _client.company = value,
-              validator: (value) =>
-                  requiredField(value, "Client's Company Name"),
-              decoration: buildCustomInput(hintText: "Client's Company Name"),
-            ),
-          ],
-        ),
+        // SizedBox(
+        //   height: 40.0,
+        // ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.stretch,
+        //   children: <Widget>[
+        //     Text("Client's Company Name"),
+        //     SizedBox(
+        //       height: 10.0,
+        //     ),
+        //     TextFormField(
+        //       initialValue: _client != null?_client.company:"",
+        //       onChanged: (value) => _client.company = value,
+        //       validator: (value) =>
+        //           requiredField(value, "Client's Company Name"),
+        //       decoration: buildCustomInput(hintText: "Client's Company Name"),
+        //     ),
+        //   ],
+        // ),
         SizedBox(
           height: 40.0,
         ),
@@ -435,53 +435,53 @@ class _AddSingleClientState extends State<AddSingleClient>{
             _client.email != ""?Text("You can't change this Email", style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: Colors.red),):Container()
           ],
         ),
-        SizedBox(
-          height: 40.0,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text("Client's Nature of Business"),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFormField(
-              initialValue: _client != null?_client.natureOfBusiness:"",
-              onChanged: (value) => _client.natureOfBusiness = value,
-              validator: (value) =>
-                  requiredField(value, "Client's Nature of Business"),
-              decoration:
-                  buildCustomInput(hintText: "Client's Nature of Business"),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 40.0,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text("Client's Mobile Number"),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFormField(
-              maxLength: 10,
-              initialValue: _client != null?_client.phone:"",
-              onChanged: (value) => _client.phone = value,
-              validator: (value) {
-                if(value.length<10 ){
-                  return "Invalid Mobile Number";
-                }
-               return requiredField(value, "Client's Mobile Number");
-              },
-              keyboardType: TextInputType.phone,
-              decoration: buildCustomInput(
-                hintText: "Client's Mobile Number",
-              ),
-            ),
-          ],
-        ),
+        // SizedBox(
+        //   height: 40.0,
+        // ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.stretch,
+        //   children: <Widget>[
+        //     Text("Client's Nature of Business"),
+        //     SizedBox(
+        //       height: 10.0,
+        //     ),
+        //     TextFormField(
+        //       initialValue: _client != null?_client.natureOfBusiness:"",
+        //       onChanged: (value) => _client.natureOfBusiness = value,
+        //       validator: (value) =>
+        //           requiredField(value, "Client's Nature of Business"),
+        //       decoration:
+        //           buildCustomInput(hintText: "Client's Nature of Business"),
+        //     ),
+        //   ],
+        // ),
+        // SizedBox(
+        //   height: 40.0,
+        // ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.stretch,
+        //   children: <Widget>[
+        //     Text("Client's Mobile Number"),
+        //     SizedBox(
+        //       height: 10.0,
+        //     ),
+        //     TextFormField(
+        //       maxLength: 10,
+        //       initialValue: _client != null?_client.phone:"",
+        //       onChanged: (value) => _client.phone = value,
+        //       validator: (value) {
+        //         if(value.length<10 ){
+        //           return "Invalid Mobile Number";
+        //         }
+        //        return requiredField(value, "Client's Mobile Number");
+        //       },
+        //       keyboardType: TextInputType.phone,
+        //       decoration: buildCustomInput(
+        //         hintText: "Client's Mobile Number",
+        //       ),
+        //     ),
+        //   ],
+        // ),
         SizedBox(
           height: 40.0,
         ),

@@ -174,10 +174,10 @@ class _LICPaymentState extends State<LICPayment> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text(
-                              "*",
-                              style: TextStyle(color: Colors.red, fontSize: 22),
-                            )
+                            // Text(
+                            //   "*",
+                            //   style: TextStyle(color: Colors.red, fontSize: 22),
+                            // )
                           ],
                         ),
                         SizedBox(
@@ -185,8 +185,8 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                         TextFormField(
                           decoration: buildCustomInput(hintText: "Policy No"),
-                          validator: (value) =>
-                              requiredField(value, 'Policy No'),
+                          // validator: (value) =>
+                          //     requiredField(value, 'Policy No'),
                           onSaved: (value) =>
                               licPaymentIObject.policyNo = value,
                         ),

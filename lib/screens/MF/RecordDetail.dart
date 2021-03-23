@@ -7,7 +7,7 @@ import 'package:progress_indicators/progress_indicators.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
-import 'package:unified_reminder/screens/MF/HistoryListView.dart';
+import 'package:unified_reminder/screens/MF/MFAllRecords.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';

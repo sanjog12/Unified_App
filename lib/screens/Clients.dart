@@ -208,17 +208,17 @@ class _ClientsState extends State<Clients> {
                         ),overflow: TextOverflow.clip),
                       ],
                     ),
-                    SizedBox(height: 5,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Phone:-"),
-                        Text('${details.phone}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),)
-                      ],
-                    ),
-                    SizedBox(height: 5,),
+                    // SizedBox(height: 5,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Text("Phone:-"),
+                    //     Text('${details.phone}',style: TextStyle(
+                    //       fontStyle: FontStyle.italic,
+                    //     ),)
+                    //   ],
+                    // ),
+                    SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -228,17 +228,17 @@ class _ClientsState extends State<Clients> {
                         ),overflow: TextOverflow.clip)
                       ],
                     ),
-                    SizedBox(height: 5,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Company:-"),
-                        Text('${details.company}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip)
-                      ],
-                    ),
-                    SizedBox(height: 5,),
+                    // SizedBox(height: 5,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Text("Company:-"),
+                    //     Text('${details.company}',style: TextStyle(
+                    //       fontStyle: FontStyle.italic,
+                    //     ),overflow: TextOverflow.clip)
+                    //   ],
+                    // ),
+                    SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -248,16 +248,16 @@ class _ClientsState extends State<Clients> {
                         ),overflow: TextOverflow.clip)
                       ],
                     ),
-                    SizedBox(height: 5,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Nature Of\n Business:-  "),
-                        Text('${details.natureOfBusiness}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip,)
-                      ],
-                    ),
+                    // SizedBox(height: 5,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Text("Nature Of\n Business:-  "),
+                    //     Text('${details.natureOfBusiness}',style: TextStyle(
+                    //       fontStyle: FontStyle.italic,
+                    //     ),overflow: TextOverflow.clip,)
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

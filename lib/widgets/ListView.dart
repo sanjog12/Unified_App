@@ -15,7 +15,7 @@ import 'package:unified_reminder/screens/LIC/ComplianceHistoryForTDS.dart';
 import 'package:unified_reminder/screens/LIC/Payment.dart';
 import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/screens/MF/AddMFScreen.dart';
-import 'package:unified_reminder/screens/MF/HistoryTrial.dart';
+import 'package:unified_reminder/screens/MF/RecordDetail.dart';
 import 'package:unified_reminder/screens/PPF/History.dart';
 import 'package:unified_reminder/screens/PPF/Record.dart';
 import 'package:unified_reminder/screens/ROC/History.dart';
@@ -90,7 +90,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 									  ),
 								  );
 						  	},
-						  	child: Text("Future Compliances"),
+						  	child: Text("Upcoming Compliances"),
 						  ),
 						),
 					],

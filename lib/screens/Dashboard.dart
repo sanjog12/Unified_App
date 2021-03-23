@@ -14,15 +14,10 @@ import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/ApplicableCompliances.dart';
-import 'package:unified_reminder/screens/EPF/UpcomingCompliancesEPF.dart';
-import 'package:unified_reminder/screens/ESIC/Upcomingcompliances2.dart';
-import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';
-import 'package:unified_reminder/screens/IncomeTax/UpComingComliancesScreen.dart';
-import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
-import 'package:unified_reminder/screens/TDS/UpcommingCompliances2.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
+import 'package:unified_reminder/services/UpcomingCompliancesPageRedirect.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/widgets/AppDrawer.dart';
 import 'AddSingleClient.dart';
@@ -42,12 +37,11 @@ class _DashboardState extends State<Dashboard> {
   DatabaseReference dbf;
   String firebaseUserId;
   Client client ;
-  List<UpComingComplianceObject> upComingCompliancesList = [];
   bool loading = false;
-  bool list = false;
   bool clientLoad = false;
   String firebaseUID;
   List<Client> clientList = [];
+  List<UpComingComplianceObject> listUpcomingCompliances = [];
   ScrollController controller = ScrollController();
   ScrollController controller2 = ScrollController();
   GlobalKey key = GlobalKey();
@@ -96,16 +90,16 @@ class _DashboardState extends State<Dashboard> {
   
     await dbf.once().then((DataSnapshot snapshot) async{
       Map<dynamic,dynamic> map = await snapshot.value;
-      map.forEach((key,v) {
-        print("Key  :" + v.toString());
+      map.forEach((key,value) {
+        print("Key  :" + value.toString());
         if(map.isNotEmpty) {
           clientList.add(Client(
-              v["name"],
-              v["constitution"],
-              v["company"],
-              v["natureOfBusiness"],
-              v["email"].toString().replaceAll('.', ','),
-              v["phone"],
+              value["name"],
+              value["constitution"],
+              value["company"],
+              value["natureOfBusiness"],
+              value["email"].toString().replaceAll('.', ','),
+              value["phone"],
               key
           ),
           );
@@ -158,12 +152,7 @@ class _DashboardState extends State<Dashboard> {
     getUserId();
     _userController = StreamController();
     getClients().whenComplete(() async{
-      upComingCompliancesList = await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonth(clientList).whenComplete((){
-        if(this.mounted){
-        setState(() {
-          list = true;
-        });}
-      });
+      listUpcomingCompliances = await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonth(clientList);
       setState(() {
         loading = true;
       });
@@ -182,7 +171,9 @@ class _DashboardState extends State<Dashboard> {
       if(!this.mounted){
         timer.cancel();
       }else{
-        setState(() {});
+        setState(() {
+        
+        });
       }
     });
   }
@@ -330,113 +321,60 @@ class _DashboardState extends State<Dashboard> {
                 child: ExpansionTile(
                   title: Text('Upcoming Compliances'),
                   children:<Widget>[
-                      list?ListView.builder(
-                        controller: controller,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: upComingCompliancesList.length,
-                        itemBuilder: (BuildContext context,int index){
-                          if(upComingCompliancesList.length != 0){
-                            return upComingCompliancesList[index].label != " "?Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15.0),
-                              child: Container(
-                                margin: EdgeInsets.symmetric(vertical: 10.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 1.0,
-                                    )
-                                ),
-                                child: ListTile(
-                                  title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      SizedBox(height: 10,),
-                                      Text(upComingCompliancesList[index].name !=null ? upComingCompliancesList[index].name :' ',style: TextStyle(
-                                        fontSize: 15,
-                                      )),
-                                      
-                                      Divider(
-                                        thickness: 1.5,
-                                      ),
-                                      
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
+                      ListView.builder(
+                          controller: controller,scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: listUpcomingCompliances.length,
+                          itemBuilder: (BuildContext context,int index){
+                            if(listUpcomingCompliances.length != 0){
+                              return listUpcomingCompliances[index].label != ' '?Container(
+                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(vertical: 10.0),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 1.0,
+                                      )
                                   ),
-                                  
-                                  subtitle: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      Text(' - ${upComingCompliancesList[index].label} due on ${upComingCompliancesList[index].date}  ${DateFormat("MMMM").format(DateTime.now())}'),
-                                      SizedBox(height: 10,)
-                                    ],
+                                  child: ListTile(
+                                    title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        SizedBox(height: 10,),
+                                        Text(listUpcomingCompliances[index].name !=null ? listUpcomingCompliances[index].name :' ',style: TextStyle(
+                                          fontSize: 15,
+                                        )),
+                                        Divider(
+                                          thickness: 1.5,
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    ),
+            
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        Text(' - ${listUpcomingCompliances[index].label} due on ${listUpcomingCompliances[index].date}  ${DateFormat("MMMM").format(DateTime.now())}'),
+                                        SizedBox(height: 10,)
+                                      ],
+                                    ),
+            
+                                    onLongPress: (){
+                                      jumpToPage(context, listUpcomingCompliances[index].key, clientList, listUpcomingCompliances[index].name);},
                                   ),
-                                  
-                                  onLongPress: (){
-                                    if(upComingCompliancesList[index].key == "TDS"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => UpcomingCompliancesTDS(
-                                          client: clientList.firstWhere((element){
-                                            return element.name == upComingCompliancesList[index].name;
-                                          }),)));
-                                    }
-                                    
-                                    else if(upComingCompliancesList[index].key == "LIC"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => UpComingCompliancesScreenForLIC(
-                                          client: clientList.firstWhere((element){
-                                            return element.name == upComingCompliancesList[index].name;
-                                          }),
-                                      )));
-                                    }
-                                    
-                                    else if(upComingCompliancesList[index].key == "Income Tax"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>UpComingComliancesScreenForIncomeTax(
-                                        client: clientList.firstWhere((element){
-                                          return element.name == upComingCompliancesList[index].name;
-                                        })
-                                      )));
-                                    }
-                                    
-                                    else if(upComingCompliancesList[index].key == "GST"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => UpcomingCompliancesGST(
-                                        client: clientList.firstWhere((element){
-                                      return element.name == upComingCompliancesList[index].name;
-                                      }),
-                                      )));
-                                    }
-                                    
-                                    else if(upComingCompliancesList[index].key =="EPF"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UpcomingCompliancesEPF(
-                                        client: clientList.firstWhere((element){
-                                          return element.name == upComingCompliancesList[index].name;
-                                        }),
-                                      )));
-                                    }
-                                    
-                                    else if(upComingCompliancesList[index].key == 'ESI'){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> UpcomingCompliancesESI(
-                                        client: clientList.firstWhere((element){
-                                          return element.name == upComingCompliancesList[index].name;
-                                        }),
-                                      )));
-                                    }
-                                  },
                                 ),
-                              ),
-                            ):Container();
-                          }
-                          else{
-                            return Container(
-                              child: Text("Add Client First"),
-                            );
-                          }
-                      },
-                  )
-                    : Container(
-                        padding: EdgeInsets.all(10),
-                        child:JumpingText("Loading.."),
-                      ),],
+                              ):Container();
+                            }
+                            else{
+                              return Container(
+                                child: Text("Add Client First"),
+                              );
+                            }
+                      }),
+                  ],
                 ),
               ),
               

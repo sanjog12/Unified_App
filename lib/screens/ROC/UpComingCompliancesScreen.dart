@@ -450,7 +450,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 							
 							  actions: <Widget>[
 								  TextButton(
-									  child: Text('Save AGM Date'),
+									  child: Text('Save Details'),
 									  onPressed: () async {
 										  String firebaseUserId = await SharedPrefs
 												  .getStringPreference("uid");

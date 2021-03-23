@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
@@ -55,23 +56,10 @@ class _HistoryViewState extends State<HistoryView> {
 	void initState() {
 		super.initState();
 		print(widget.historyForMF.type);
-		if(widget.historyForMF.type =="SIP") {
-			print("yes sip");
-			getListOfNav();
-		}
 	}
 	
-	getListOfNav() async {
-		deletedDateList = await SingleHistoryDatabaseHelper().getDeletedRecordDates(widget.client, widget.historyForMF.keyDate);
-		print("deleted List");
-		print(deletedDateList);
-		iterations = int.parse(widget.historyForMF.mutualFundObject.numberOfInstalments);
-		temp = await getNAV(
-				widget.historyForMF.mutualFundObject.code,
-				widget.historyForMF.mutualFundDetailObject.date
-		,iterations,
-		deletedDateList);
-//		temp.removeLast();
+	getListOfNav() async* {
+		temp.removeLast();
 		setState((){
 		  mutualFund = temp;
 		  loadingNav = false;
@@ -451,97 +439,69 @@ class _HistoryViewState extends State<HistoryView> {
 									SizedBox(height: 30),
 									
 									widget.historyForMF.type == 'SIP' ?
-									Column(
-										crossAxisAlignment: CrossAxisAlignment.stretch,
-									  children: <Widget>[
-									    SingleChildScrollView(
-									    	child: DataTable(
-											    columnSpacing: 2,
-									    			columns: [
-									    				DataColumn(label: Text("Date",style: TextStyle(
-														    fontWeight: FontWeight.bold,
-														    fontSize: 15,
-													    ),),
-													    ),
-									    				
-									    				DataColumn(label: Text(" ")),
-									    				
-									    				DataColumn(label: Text("NAV",style: TextStyle(
-														    fontWeight: FontWeight.bold,
-														    fontSize: 15,
-													    ),)),
-									    			],
-									    			
-									    			rows: loadingNav ? [DataRow(
-									    					cells: [
-									    						DataCell(
-									    							Column(
-									    							  children: <Widget>[
-									    							  	SizedBox(
-																		      height: 10,
-																	      ),
-									    							    LinearProgressIndicator(
-																	        value: progressIndicator,
-																	       valueColor: AlwaysStoppedAnimation<Color>
-																		       (Colors.blueAccent),
-																        ),
-									    								  SizedBox(height: 10,)
-									    							  ],
-									    							),
-									    						),
-															    DataCell(
-																    Container(),
-															    ),
-									    						DataCell(
-									    							Column(
-									    							  children: <Widget>[
-									    							  	SizedBox(
-																		      height: 10,
-																	      ),
-									    							    LinearProgressIndicator(
-																	        value: progressIndicator,
-																	        valueColor: AlwaysStoppedAnimation<Color>
-																		        (Colors.blueAccent),
-																        ),
-									    								  SizedBox(height: 20,)
-									    							  ],
-									    							),
-									    						)
-									    					]
-									    					),] :
-												    
-												    mutualFund.asMap().map(
-									    					(i,mutual) => MapEntry(i,DataRow(
-									    						selected: mutualFundTemp.contains(mutual),
-									    						cells: [
-									    							DataCell(
-									    								Text(mutual.date),
-									    							),
-									    							
-									    							DataCell(
-																	    i==0? Container() :TextButton(child: Icon(Icons.delete , color: Colors.red),
-																	    onPressed: (){
-																	    	deleteRecord(i,context);
-																	    },)
+									StreamBuilder<List<MutualFundDetailObject>>(
+										stream: getNAV(),
+										builder: (BuildContext context, AsyncSnapshot<List<MutualFundDetailObject>> snapShot){
+											if(snapShot.hasData){
+											return Column(
+												crossAxisAlignment: CrossAxisAlignment.stretch,
+											  children: <Widget>[
+											    SingleChildScrollView(
+											    	child: DataTable(
+													    columnSpacing: 2,
+													    columns: [
+													    	DataColumn(label: Text("Date",style: TextStyle(
+															    fontWeight: FontWeight.bold,
+															    fontSize: 15,
+														    ),),),
+
+														    DataColumn(label: Text(" ")),
+														    DataColumn(label: Text("NAV",style: TextStyle(
+															    fontWeight: FontWeight.bold,
+															    fontSize: 15,
+														    ),)),
+													    ],
+
+													    rows: mutualFund.asMap().map((i,mutual) => MapEntry(i,DataRow(
+															    selected: mutualFundTemp.contains(mutual),
+															    cells: [
+															    	DataCell(
+																	    Text(mutual.date),
 																    ),
-									    							
-									    							DataCell(
-									    								Row(
-									    								  children: <Widget>[
-									    								    Text(mutual.nav),
-																		      i==0? Container() :getIcon(i),
-									    								  ],
-									    								),
-									    							)
-									    						]
-									    					)
-									    			)).values.toList(),
-									    	),
-									    ),
-										  
-										  SizedBox(height: 30,)
-									  ],
-									) : Container(),
+																    DataCell(i==0? Container() :TextButton(child: Icon(Icons.delete , color: Colors.red),
+																	    onPressed: (){
+																    	deleteRecord(i,context);
+																    	},)
+																    ),
+
+																    DataCell(
+																	    Row(
+																		    children: <Widget>[
+																		    	Text(mutual.nav),
+																			    i==0? Container() :getIcon(i),
+																		    ],
+																	    ),
+																    )
+															    ]
+													    )
+													    )).values.toList(),
+												    ),
+											    ),
+												  SizedBox(height: 30,)
+											  ],
+											);}
+											return CircularProgressIndicator();
+											},
+									): Container(),
+									
+									widget.historyForMF.type == 'SIP' ?
+											SfCartesianChart(
+												primaryXAxis: CategoryAxis(),
+												title: ChartTitle(text: "Mutual Fund"),
+												legend: Legend(isVisible: true),
+												
+												
+											):Container(),
 								
 								],
 							),
@@ -555,45 +515,43 @@ class _HistoryViewState extends State<HistoryView> {
 	}
 	
 	
-	Future<List<MutualFundDetailObject>> getNAV(String code,
-			String startDate, int i, List<String> deletedList) async {
+	Stream<List<MutualFundDetailObject>> getNAV() async* {
+		String code = widget.historyForMF.mutualFundObject.code;
+		String startDate = widget.historyForMF.mutualFundDetailObject.date;
+		deletedDateList = await SingleHistoryDatabaseHelper().getDeletedRecordDates(widget.client, widget.historyForMF.keyDate);
+		iterations = int.parse(widget.historyForMF.mutualFundObject.numberOfInstalments);
 		
 		String tempDate;
-		List<MutualFundDetailObject> mutualFundDetailObject = [];
-		MutualFundDetailObject mutualFundDetailObject2 = MutualFundDetailObject();
-		print(mutualFundDetailObject2);
-		int i2=0;
-		while (mutualFundDetailObject2 != null) {
-			if (i2 >= i)
+		MutualFundDetailObject mutualFundDetailObject = MutualFundDetailObject();
+		print(mutualFundDetailObject);
+		int countInstallment=0;
+		while (mutualFundDetailObject != null) {
+			if (countInstallment >= iterations)
 				break;
 			tempDate = startDate;
 			for (int i = 0; i < 3; i++) {
 				if(widget.storedNav.containsKey(tempDate+code)){
-					mutualFundDetailObject2 = widget.storedNav[tempDate+code];
+					mutualFundDetailObject = widget.storedNav[tempDate+code];
 				}
 				else {
-					mutualFundDetailObject2 =
+					mutualFundDetailObject =
 					await MutualFundHelper().getMutualFundNAV(code, tempDate, startDate);
 				}
 				
-				if (mutualFundDetailObject2 != null)
+				if (mutualFundDetailObject != null)
 					break;
 				else
 					tempDate = DateChange.addDayToDate(tempDate, 1);
 			}
-			if (mutualFundDetailObject2 != null){
-				if (!deletedList.contains(mutualFundDetailObject2.date)) {
-					mutualFundDetailObject.add(mutualFundDetailObject2);
+			if (mutualFundDetailObject != null){
+				if (!deletedDateList.contains(mutualFundDetailObject.date)) {
+					mutualFund.add(mutualFundDetailObject);
 				}
 		}
-			
 			startDate = DateChange.addMonthToDate(startDate,1);
-			i2++;
-			setState(() {
-			  progressIndicator =i2/i;
-			});
+			countInstallment++;
+			yield mutualFund;
 		}
-		return mutualFundDetailObject;
   }
 	
 	Future<void> showConfirmation(BuildContext context) async{
