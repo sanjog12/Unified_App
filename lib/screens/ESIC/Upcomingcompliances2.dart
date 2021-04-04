@@ -38,7 +38,7 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 					children: <Widget>[
 						Expanded(
 							child: FutureBuilder<List<UpComingComplianceObject>>(
-								future: UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfESI(widget.client),
+								future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfESI(widget.client),
 								builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 									if(snapshot.hasData){
 										if(snapshot.data.length ==0){

@@ -42,7 +42,7 @@ class _HistoryGSTState extends State<HistoryGST> {
 						    
 						    builder: (BuildContext context , AsyncSnapshot<List<HistoryComplinceObject>> snapshot){
 						    	if(snapshot.hasData) {
-						    		print(snapshot.data.length);
+						    		print("length of snapshot " + snapshot.data.length.toString());
 						    		if(snapshot.data.length != 0) {
 									    return ListView.builder(
 											    itemCount: snapshot.data.length,

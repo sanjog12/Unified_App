@@ -42,10 +42,10 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 				    children: <Widget>[
 				    	Expanded(
 						    child: FutureBuilder<List<UpComingComplianceObject>>(
-							    future: UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfGST(widget.client),
-							    
+							    future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfGST(widget.client),
 							    builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 							    	if(snapshot.hasData){
+							    		print("lenght of list : " + snapshot.data.length.toString());
 							    		if(snapshot.data.length == 0){
 							    			return ListView(
 											    children: <Widget>[

@@ -72,7 +72,7 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 			      children: <Widget>[
 			      	Expanded(
 			      	  child: FutureBuilder<List<UpComingComplianceObject>>(
-					      future: UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfTDS(widget.client),
+					      future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfTDS(widget.client),
 					      builder: (BuildContext context,AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 					      	if(snapshot.hasData){
 							      if(snapshot.data.length == 0){
