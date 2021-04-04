@@ -37,7 +37,7 @@ class _PDFViewerState extends State<PDFViewer> {
 	Future<String> getFile() async{
 		http.Response response;
 		await loadPDFurl().then((value) async{
-			response = await http.get(value);
+			response = await http.get(Uri.parse(value));
 		});
 		
 		var dir = await getTemporaryDirectory();

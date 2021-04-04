@@ -79,7 +79,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
               children: <Widget>[
                 Text(
                   "Monthly Contribution Payments",
-                  style: _theme.textTheme.title.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -90,7 +90,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                 ),
                 Text(
                   "Enter your details to make payments for Monthly Contribution ",
-                  style: _theme.textTheme.subtitle.merge(
+                  style: _theme.textTheme.bodyText2.merge(
                     TextStyle(
                       fontWeight: FontWeight.w300,
                     ),

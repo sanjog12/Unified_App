@@ -14,39 +14,61 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  razorpay_flutter: ^1.2.2
-  provider:
-  shared_preferences: ^0.5.8
-  firebase_admob: ^0.9.3+2
-  showcaseview: ^0.1.5
-  firebase_auth:
+
+  #c
   cloud_firestore:
-  fluttertoast:
-  firebase_database:
-  easy_web_view: ^1.3.0
-  firebase_storage:
-  file_picker: ^2.1.6
-  random_string:
-  progress_indicators:
-  syncfusion_flutter_charts: ^18.4.48
-  http:
-  path_provider:
+  contacts_service: ^0.4.6
+
+  #e
+  easy_web_view: ^1.3.1
+
+  #f
   flutter_pdfview:
   flutter_datetime_picker:
+  flutter_local_notifications:
+  firebase_auth:
+#  fluttertoast: ^8.0.3
+  firebase_messaging: ^9.0.1
+  firebase_storage:
+  file_picker:
+  firebase_core: ^1.0.2
+  firebase_database:
+
+  #g
+  google_mobile_ads: ^0.12.0
   google_sign_in:
-  flutter_local_notifications: ^1.4.3
-  intl:
-  firebase_messaging:
-  url_launcher: ^5.5.0
-  contacts_service: ^0.4.6
-  permission_handler: ^5.0.1+1
+
+  #h
+  http: ^0.13.1
+
+  #i
+  intl: ^0.17.0
+
+  #p
+  provider:
+  progress_indicators:
+  permission_handler: ^6.1.1
+  path_provider:
+
+  #r
+  razorpay_flutter: ^1.2.2
+  random_string:
+
+  #s
+  shared_preferences:
+  showcaseview: ^0.1.5
+  syncfusion_flutter_charts: ^18.4.48
+
+  #u
+  url_launcher: ^6.0.3
+
 
 
 dev_dependencies:

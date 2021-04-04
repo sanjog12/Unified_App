@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/ROCPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
@@ -263,21 +263,21 @@ class _ROCPaymentState extends State<ROCPayment> {
         }
       }
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message,
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Payment Not Saved This Time',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: 'Payment Not Saved This Time',
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
     } finally {
       this.setState(() {
         buttonLoading = false;

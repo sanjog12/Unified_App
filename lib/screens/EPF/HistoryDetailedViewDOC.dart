@@ -98,7 +98,7 @@ class _EPFRecordHistoryDetailsViewState2
 						children: <Widget>[
 							Text(
 								"${widget.client.name}\'s EPF Details Of Contribution Details",
-								style: _theme.textTheme.headline.merge(
+								style: _theme.textTheme.headline6.merge(
 									TextStyle(
 										fontSize: 20.0,
 									),
@@ -327,7 +327,7 @@ class _EPFRecordHistoryDetailsViewState2
 				FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 				if(widget.epfDetailsOfContributionObject.addAttachment != "null"){
 					print("2");
-					String path =  firebaseStorage.ref().child('files').child(widget.epfDetailsOfContributionObject.addAttachment).path;
+					String path =  firebaseStorage.ref().child('files').child(widget.epfDetailsOfContributionObject.addAttachment).fullPath;
 					print("3");
 					await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
 				}
@@ -396,7 +396,7 @@ class _EPFRecordHistoryDetailsViewState2
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									Navigator.of(context).pop();
@@ -405,7 +405,7 @@ class _EPFRecordHistoryDetailsViewState2
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -431,7 +431,7 @@ class _EPFRecordHistoryDetailsViewState2
 						.ref()
 						.child('files')
 						.child(widget.epfDetailsOfContributionObject.addAttachment)
-						.path;
+						.fullPath;
 				await firebaseStorage.ref().child(path).delete().then((_) =>
 						print("Done Task"));
 			}
@@ -490,7 +490,7 @@ class _EPFRecordHistoryDetailsViewState2
 							),
 							
 							actions: <Widget>[
-								FlatButton(
+								TextButton(
 									child: Text('Confirm'),
 									onPressed: () async{
 										try {
@@ -499,7 +499,7 @@ class _EPFRecordHistoryDetailsViewState2
 													.ref()
 													.child('files')
 													.child(widget.epfDetailsOfContributionObject.addAttachment)
-													.path;
+													.fullPath;
 											firebaseStorage = FirebaseStorage.instance;
 											await firebaseStorage.ref().child(path).delete();
 											print("here");
@@ -523,7 +523,7 @@ class _EPFRecordHistoryDetailsViewState2
 									},
 								),
 								
-								FlatButton(
+								TextButton(
 									child: Text('Cancel'),
 									onPressed: (){
 										Navigator.of(context).pop();

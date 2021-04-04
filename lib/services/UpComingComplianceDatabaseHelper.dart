@@ -385,7 +385,7 @@ class UpComingComplianceDatabaseHelper {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
     
-    List<UpComingComplianceObject> UpComingComplinceData = [];
+    List<UpComingComplianceObject> upComingComplinceData = [];
 
     List<doneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
         todayDateObject, "INCOME_TAX");
@@ -407,7 +407,7 @@ class UpComingComplianceDatabaseHelper {
                 date: ' ',
                 name: ' ',
                 label: 'No Income-Tax Compliance in this month');
-        UpComingComplinceData.add(upComingComplianceObject);
+        upComingComplinceData.add(upComingComplianceObject);
       }else {
         print(doneCompliances.length);
         for(var v in doneCompliances){
@@ -423,11 +423,11 @@ class UpComingComplianceDatabaseHelper {
           print(upComingComplianceObject.label);
           bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
           if(!t)
-            UpComingComplinceData.add(upComingComplianceObject);
+            upComingComplinceData.add(upComingComplianceObject);
         }
       }
     });
-    return UpComingComplinceData;
+    return upComingComplinceData;
   }
 
   

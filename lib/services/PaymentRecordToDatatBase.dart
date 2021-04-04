@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -31,7 +31,7 @@ class PaymentRecordToDataBase {
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
 
-  List<StorageUploadTask> _tasks = <StorageUploadTask>[];
+  List _tasks = [];
 //  static DateTime now = new DateTime.now();
 //  static DateTime date = new DateTime(now.year, now.month, now.day);
 //
@@ -162,22 +162,22 @@ class PaymentRecordToDataBase {
 
       return true;
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message.toString(),
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       return false;
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message.toString(),
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       print("Here");
       print(e);
       return false;
@@ -193,11 +193,11 @@ class PaymentRecordToDataBase {
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     String fileName = randomString(8,from: 97 , to: 122) + randomNumeric(4).toString();
     
-    final StorageReference ref = firebaseStorage.ref().child('files').child(fileName);
+    final Reference ref = firebaseStorage.ref().child('files').child(fileName);
     
-    final StorageUploadTask uploadTask = ref.putFile(
+    final UploadTask uploadTask = ref.putFile(
       file,
-      StorageMetadata(
+      SettableMetadata(
         contentLanguage: 'en',
         customMetadata: <String, String>{'activity': 'test'},
       ),
@@ -409,32 +409,32 @@ class PaymentRecordToDataBase {
           .push()
           .set(ESImonthlyContributionPayment);
 
-      Fluttertoast.showToast(
-          msg: "Record has been saved in database",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: "Record has been saved in database",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
 
       return true;
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message.toString(),
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       return false;
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message.toString(),
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       print("Here");
       print(e);
       return false;

@@ -756,7 +756,7 @@ class _LICPaymentRecordHistoryDetailsViewState
         FirebaseStorage firebaseStorage = FirebaseStorage.instance;
         if(widget.licPaymentObject.attachement != "null"){
           print("2");
-          String path =  firebaseStorage.ref().child('files').child(widget.licPaymentObject.attachement).path;
+          String path =  firebaseStorage.ref().child('files').child(widget.licPaymentObject.attachement).fullPath;
           print("3");
           await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
         }
@@ -855,7 +855,7 @@ class _LICPaymentRecordHistoryDetailsViewState
             .ref()
             .child('files')
             .child(widget.licPaymentObject.attachement)
-            .path;
+            .fullPath;
         await firebaseStorage.ref().child(path).delete().then((_) =>
             print("Done Task"));
       }
@@ -922,7 +922,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                           .ref()
                           .child('files')
                           .child(widget.licPaymentObject.attachement)
-                          .path;
+                          .fullPath;
                       firebaseStorage = FirebaseStorage.instance;
                       await firebaseStorage.ref().child(path).delete();
                       print("here");

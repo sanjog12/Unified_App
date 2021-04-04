@@ -180,7 +180,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
         });
 
         bool done = await QuarterlyReturnsRecordToDatabase()
-            .AddIncomeTaxReturnFillings(
+            .addIncomeTaxReturnFillings(
                 incomeTaxReturnFillingsObject, widget.client,file);
 
         if (done) {

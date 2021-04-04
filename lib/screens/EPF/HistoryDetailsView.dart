@@ -317,7 +317,7 @@ class _EPFRecordHistoryDetailsViewState
         FirebaseStorage firebaseStorage = FirebaseStorage.instance;
         if(widget.epfMonthlyContributionObejct.addAttachment != "null"){
           print("2");
-          String path =  firebaseStorage.ref().child('files').child(widget.epfMonthlyContributionObejct.addAttachment).path;
+          String path =  firebaseStorage.ref().child('files').child(widget.epfMonthlyContributionObejct.addAttachment).fullPath;
           print("3");
           await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
         }
@@ -420,7 +420,7 @@ class _EPFRecordHistoryDetailsViewState
             .ref()
             .child('files')
             .child(widget.epfMonthlyContributionObejct.addAttachment)
-            .path;
+            .fullPath;
         await firebaseStorage.ref().child(path).delete().then((_) =>
             print("Done Task"));
       }
@@ -488,7 +488,7 @@ class _EPFRecordHistoryDetailsViewState
                           .ref()
                           .child('files')
                           .child(widget.epfMonthlyContributionObejct.addAttachment)
-                          .path;
+                          .fullPath;
                       firebaseStorage = FirebaseStorage.instance;
                       await firebaseStorage.ref().child(path).delete();
                       print("here");

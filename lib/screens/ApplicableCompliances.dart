@@ -1,4 +1,4 @@
-import 'package:firebase_admob/firebase_admob.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
@@ -29,39 +29,39 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
     super.initState();
     getUserId();
     print(widget.client.toString());
-    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
+    interstitialAd..load()..show();
 //    bannerAd = createBannerAd()..load()..show(
 //      anchorType: AnchorType.bottom,
 //      horizontalCenterOffset: 10.0,
 //      anchorOffset: 0.0,
 //    );
-    interstitialAd = createInterstitialAd()..load()..show(
-      anchorType: AnchorType.bottom,
-      anchorOffset: 0.0,
-      horizontalCenterOffset: 0.0,
-    );
+  
   }
   
   
-  InterstitialAd interstitialAd;
-  InterstitialAd createInterstitialAd(){
-    return InterstitialAd(
-      adUnitId: 'ca-app-pub-4569649492742996/7190581030',
-//      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event){
-        print("interad " + event.toString());
-      }
-    );
-  }
-  
-  
-  
-  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: testDevice != null ?<String>[testDevice] : null,
-    nonPersonalizedAds: true,
-    keywords: <String>['game','mario'],
+  InterstitialAd interstitialAd = InterstitialAd(
+    adUnitId: 'ca-app-pub-4569649492742996~2564391573',
+    request: AdRequest(),
+    listener: AdListener(),
   );
+//   InterstitialAd createInterstitialAd(){
+//     return InterstitialAd(
+//       adUnitId: 'ca-app-pub-4569649492742996/7190581030',
+// //      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+//       targetingInfo: targetingInfo,
+//       listener: (MobileAdEvent event){
+//         print("interad " + event.toString());
+//       }
+//     );
+//   }
+  
+  
+  
+  // static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+  //   testDevices: testDevice != null ?<String>[testDevice] : null,
+  //   nonPersonalizedAds: true,
+  //   keywords: <String>['game','mario'],
+  // );
 
   void getUserId() async {
     var _firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -69,6 +69,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
       firebaseUserId = _firebaseUserId;
     });
   }
+  
   Future<List<Compliance>> _getUserCompliances() async {
     List<Compliance> clientsData = [];
     String clientEmail = widget.client.email.replaceAll('.', ',');

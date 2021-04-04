@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
@@ -6,7 +7,7 @@ import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 
 class FirestoreService {
-  final Firestore _firestore = Firestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
 
@@ -15,8 +16,8 @@ class FirestoreService {
     try {
       _firestore
           .collection(FsUserCompliances)
-          .document(firebaseUserId)
-          .setData({"compliances": compliances});
+          .doc(firebaseUserId)
+          .set({"compliances": compliances});
       return true;
     } catch (e) {
       return false;
@@ -107,7 +108,7 @@ class FirestoreService {
   String getUserProgress(String firebaseUserId) {
     return _firestore
         .collection(FsUserClients)
-        .document(firebaseUserId)
+        .doc(firebaseUserId)
         .collection('progress')
         .toString();
   }
@@ -115,7 +116,7 @@ class FirestoreService {
   dynamic getUserDetails(firebaseUserId) {
     return _firestore
         .collection(FsUsersPath)
-        .document('firebaseUserId')
+        .doc('firebaseUserId')
         .snapshots();
     
   }

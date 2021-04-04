@@ -22,7 +22,7 @@ class _WrapperState extends State<Wrapper> {
   NotificationServices notificationServices = NotificationServices();
   DatabaseReference dbf;
   String firebaseUserId;
-  FirebaseUser user;
+  FirebaseAuth user;
   FirebaseAuth auth;
   
   static Future<dynamic> backgroundMessage(Map<String, dynamic> message) async{
@@ -42,24 +42,24 @@ class _WrapperState extends State<Wrapper> {
     String body;
     notificationServices.initializeSetting();
     print("called");
-    FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-    firebaseMessaging.configure(
-      onMessage: (Map<String,dynamic> message) async{
-        print("on Message" + message.toString());
-        for(var v in message.values){
-          title = v["title"];
-          body = v["body"];
-        }
-        notificationServices.setReminderNotification(id: 90,titleString: title,bodyString: body,scheduleTime: DateTime.now().add(Duration(seconds: 5)));
-      },
-      onBackgroundMessage:backgroundMessage,
-      onLaunch: (Map<String,dynamic> message) async{
-        print("on Launch" + message.toString());
-      },
-      onResume: (Map<String,dynamic> message) async{
-        print("on Resume" + message.toString());
-      },
-    );
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    // firebaseMessaging.(
+    //   onMessage: (Map<String,dynamic> message) async{
+    //     print("on Message" + message.toString());
+    //     for(var v in message.values){
+    //       title = v["title"];
+    //       body = v["body"];
+    //     }
+    //     notificationServices.setReminderNotification(id: 90,titleString: title,bodyString: body,scheduleTime: DateTime.now().add(Duration(seconds: 5)));
+    //   },
+    //   onBackgroundMessage:backgroundMessage,
+    //   onLaunch: (Map<String,dynamic> message) async{
+    //     print("on Launch" + message.toString());
+    //   },
+    //   onResume: (Map<String,dynamic> message) async{
+    //     print("on Resume" + message.toString());
+    //   },
+    // );
 //    firebaseMessaging.requestNotificationPermissions();
     await firebaseMessaging.getToken().then((value){
       print(value);

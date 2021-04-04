@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
@@ -19,7 +19,7 @@ class QuarterlyReturnsRecordToDatabase {
   
   
   
-  Future<bool> AddTDSQuarterlyReturns(
+  Future<bool> addTDSQuarterlyReturns(
       TDSQuarterlyReturnsObject tdsQuarterlyReturnsObject,
       Client client) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -62,13 +62,13 @@ class QuarterlyReturnsRecordToDatabase {
 
       return true;
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message.toString(),
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       print("Here");
       print(e);
       return false;
@@ -77,7 +77,7 @@ class QuarterlyReturnsRecordToDatabase {
   
   
   
-  Future<bool> AddIncomeTaxReturnFillings(
+  Future<bool> addIncomeTaxReturnFillings(
       IncomeTaxReturnFillingsObject incomeTaxReturnFillingsObject,
       Client client,File file) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -147,7 +147,7 @@ class QuarterlyReturnsRecordToDatabase {
   
   
   
-  Future<bool> AddGSTReturnFillings(
+  Future<bool> addGSTReturnFillings(
       GSTReturnFillingsObject gstReturnFillingsObject, Client client,File file) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
@@ -209,7 +209,7 @@ class QuarterlyReturnsRecordToDatabase {
   
   
   
-  Future<bool> AddDetailOfContribution(
+  Future<bool> addDetailOfContribution(
       EPFDetailsOfContributionObject epfDetailsOfContributionObject,
       Client client) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");

@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
@@ -40,7 +40,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
   GlobalKey<FormState> _clientsFormKey = GlobalKey<FormState>();
   Client _client = Client('', '', '', '', '', '', '');
   List<Compliance> _compliances = [];
-  FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging firebaseMessaging  = FirebaseMessaging.instance;
   Razorpay _razorpay;
   List<String> com=[];
   bool willPop = true;
@@ -87,6 +87,17 @@ class _AddSingleClientState extends State<AddSingleClient>{
       _compliances = [];
     });
   }
+  
+  // editingComplete(){
+  //   return showDialog(context: context, builder: (context){
+  //     return SimpleDialog(
+  //       title: Text("Alert"),
+  //       children: [
+  //         Text("You won't be able to change this email address later please check before submitting ");
+  //       ],
+  //     );
+  //   });
+  // }
   
   Future<bool> onWillPop() async{
       return await showDialog(
@@ -140,22 +151,22 @@ class _AddSingleClientState extends State<AddSingleClient>{
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     PaymentRecordToDataBase().savePaymentDetails(response,_client);
     successFulCode = response.paymentId;
-    Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId);
+    // Fluttertoast.showToast(
+    //     msg: "SUCCESS: " + response.paymentId);
     saveClients(_client, _compliances);
     willPop = false;
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    Fluttertoast.showToast(
-        msg: response.message ,
-        );
+    // Fluttertoast.showToast(
+    //     msg: response.message ,
+    //     );
     Navigator.pop(context);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName);
+    // Fluttertoast.showToast(
+    //     msg: "EXTERNAL_WALLET: " + response.walletName);
     Navigator.pop(context);
   }
   
@@ -430,6 +441,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
               keyboardType: TextInputType.emailAddress,
               validator: (value) => validateEmail(value),
               onChanged: (value) => _client.email = value,
+              // onEditingComplete: (value)=> ,
               decoration: buildCustomInput(hintText: "Client's Email Address"),
             ),
             _client.email != ""?Text("You can't change this Email", style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: Colors.red),):Container()

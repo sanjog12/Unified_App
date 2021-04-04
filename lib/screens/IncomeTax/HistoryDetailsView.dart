@@ -377,7 +377,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
         FirebaseStorage firebaseStorage = FirebaseStorage.instance;
         if(widget.incomeTaxPaymentObject.addAttachment != "null"){
           print("2");
-          String path =  firebaseStorage.ref().child('files').child(widget.incomeTaxPaymentObject.addAttachment).path;
+          String path =  firebaseStorage.ref().child('files').child(widget.incomeTaxPaymentObject.addAttachment).fullPath;
           print("3");
           await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
         }
@@ -482,7 +482,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
             .ref()
             .child('files')
             .child(widget.incomeTaxPaymentObject.addAttachment)
-            .path;
+            .fullPath;
         await firebaseStorage.ref().child(path).delete().then((_) =>
             print("Done Task"));
       }
@@ -541,7 +541,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
                           .ref()
                           .child('files')
                           .child(widget.incomeTaxPaymentObject.addAttachment)
-                          .path;
+                          .fullPath;
                       firebaseStorage = FirebaseStorage.instance;
                       await firebaseStorage.ref().child(path).delete();
                       print("here");

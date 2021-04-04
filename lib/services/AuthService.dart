@@ -8,6 +8,7 @@ import 'package:unified_reminder/models/personalDetail.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
+import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,17 +16,17 @@ import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Firestore _firestore = Firestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
 
-  UserBasic fromFirebaseUser(FirebaseUser user) {
+  UserBasic fromFirebaseUser(User user) {
     return user != null ? UserBasic(email: user.email, uid: user.uid) : null;
   }
 
   Stream<UserBasic> get user {
-    return _auth.onAuthStateChanged.map(fromFirebaseUser);
+    return _auth.authStateChanges().map(fromFirebaseUser);
   }
 
   Future<void> logOutUser() async {
@@ -53,24 +54,24 @@ class AuthService {
     }
   }
 
-  Future<FirebaseUser> getFirebaseUser() async {
-    return _auth.currentUser();
+  Future<User> getFirebaseUser() async {
+    return _auth.currentUser;
   }
 
   Future<UserBasic> registerProUser(UserBasic user) async {
     try {
-      AuthResult newUser = await _auth.createUserWithEmailAndPassword(
+      UserCredential newUser = await _auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
       await newUser.user.sendEmailVerification();
       flutterToast(message: "A verification link has been send to your Entered mail");
-      _firestore.collection(FsUsersPath).document(newUser.user.uid).setData({
+      _firestore.collection(FsUsersPath).doc(newUser.user.uid).set({
         "fullname": user.fullName,
         "phone": user.phoneNumber,
         "password": user.password,
         "progress": 1,
       });
       print('67');
-      FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+      FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
       dbf = firebaseDatabase.reference();
       await firebaseMessaging.getToken().then((value){
         dbf
@@ -81,7 +82,7 @@ class AuthService {
         });
       });
       print('12');
-      AuthResult loginUser = await _auth.signInWithEmailAndPassword(
+      UserCredential loginUser = await _auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
       SharedPrefs.setStringPreference("uid", loginUser.user.uid);
       print('34');
@@ -102,12 +103,12 @@ class AuthService {
   	try{
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-    AuthCredential authCredential = GoogleAuthProvider.getCredential(idToken: googleSignInAuthentication.idToken,
+    AuthCredential authCredential = GoogleAuthProvider.credential(idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
     
     
-    AuthResult loginUser = await _auth.signInWithCredential(authCredential);
-    _firestore.collection(FsUsersPath).document(loginUser.user.uid).setData({
+    var loginUser = await _auth.signInWithCredential(authCredential);
+    _firestore.collection(FsUsersPath).doc(loginUser.user.uid).set({
       "fullname": loginUser.user.displayName,
       "phone": loginUser.user.phoneNumber,
       "password": "gooogle user",
@@ -134,9 +135,9 @@ class AuthService {
 
   Future<UserBasic> loginUser(UserAuth authDetails, BuildContext context) async {
     try {
-      AuthResult user = await _auth.signInWithEmailAndPassword(
+      UserCredential user = await _auth.signInWithEmailAndPassword(
           email: authDetails.email, password: authDetails.password);
-      bool temp = user.user.isEmailVerified;
+      bool temp = user.user.emailVerified;
       print(temp);
       // if(!temp){
       //   try {
@@ -173,14 +174,14 @@ class AuthService {
       }
       GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-      AuthCredential authCredential = GoogleAuthProvider.getCredential(idToken: googleSignInAuthentication.idToken,
+      AuthCredential authCredential = GoogleAuthProvider.credential(idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken);
 
-      AuthResult loginUser = await _auth.signInWithCredential(authCredential);
+      UserCredential loginUser = await _auth.signInWithCredential(authCredential);
       print(loginUser.user.uid);
       bool temp = loginUser.additionalUserInfo.isNewUser;
       if(temp){
-        _firestore.collection(FsUsersPath).document(loginUser.user.uid).setData({
+        _firestore.collection(FsUsersPath).doc(loginUser.user.uid).set({
           "fullname": loginUser.user.displayName,
           "phone": loginUser.user.phoneNumber,
           "password": "gooogle user",
@@ -205,8 +206,8 @@ class AuthService {
     try {
       await _firestore
           .collection(FsUsersPath)
-          .document(userFirebaseId)
-          .updateData(
+          .doc(userFirebaseId)
+          .update(
         {
           "company_name": personalDetail.companyName,
           "constitution": personalDetail.constitution,

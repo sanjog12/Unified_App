@@ -19,7 +19,7 @@ class NotificationServices{
 	
 	void initializeSetting() async{
 		androidInitializationSettings = AndroidInitializationSettings("logo");
-		initializationSettings = InitializationSettings(androidInitializationSettings , iosInitializationSettings);
+		initializationSettings = InitializationSettings();
 		await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: onSelectNotification);
 	}
 	
@@ -40,15 +40,15 @@ class NotificationServices{
 			'Channel _ID',
 			'Channel title',
 			'channel body',
-			priority: Priority.High,
-			importance: Importance.Max,
+			priority: Priority.high,
+			importance: Importance.max,
 			ticker: 'test',
 			
 		);
 		
 		IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
 		
-		NotificationDetails notificationDetails = NotificationDetails(androidNotificationDetails,iosNotificationDetails);
+		NotificationDetails notificationDetails = NotificationDetails();
 		await flutterLocalNotificationsPlugin.show(0, titleString, bodyString, notificationDetails);
 	}
 	
@@ -60,15 +60,15 @@ class NotificationServices{
 			'Channel _ID',
 			'Channel title',
 			'channel body',
-			priority: Priority.High,
-			importance: Importance.Max,
+			priority: Priority.high,
+			importance: Importance.max,
 			ticker: 'test',
 			enableLights: true,
 		);
 		
 		IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
 		
-		NotificationDetails notificationDetails = NotificationDetails(androidNotificationDetails,iosNotificationDetails);
+		NotificationDetails notificationDetails = NotificationDetails();
 		await flutterLocalNotificationsPlugin.schedule(id, titleString, bodyString, scheduleTime, notificationDetails);
 	}
 	
@@ -80,7 +80,7 @@ class NotificationServices{
 	}
 	
 	Future<void> deleteNotification(int id) async{
-		await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation().cancel(id);
+		await flutterLocalNotificationsPlugin.cancel(id);
 	}
 	
 	Future<void> notificationRecord(Client client,String id,DateTime time) async{

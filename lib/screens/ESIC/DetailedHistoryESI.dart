@@ -312,7 +312,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							.ref()
 							.child('files')
 							.child(widget.esiMonthlyContributionObejct.addAttachment)
-							.path;
+							.fullPath;
 					await firebaseStorage.ref().child(path).delete().then((_) =>
 							print("Done Task"));
 				}
@@ -410,7 +410,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						.ref()
 						.child('files')
 						.child(widget.esiMonthlyContributionObejct.addAttachment)
-						.path;
+						.fullPath;
 				await firebaseStorage.ref().child(path).delete().then((_) =>
 						print("Done Task"));
 			}catch(e){
@@ -479,7 +479,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 													.ref()
 													.child('files')
 													.child(widget.esiMonthlyContributionObejct.addAttachment)
-													.path;
+													.fullPath;
 											firebaseStorage = FirebaseStorage.instance;
 											await firebaseStorage.ref().child(path).delete();
 											print("here");

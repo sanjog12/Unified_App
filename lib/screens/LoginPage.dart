@@ -12,7 +12,7 @@ import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 
 
@@ -402,13 +402,13 @@ class _LoginPageState extends State<LoginPage>{
                     _auth.resetPassword(st,context);
                   }
                   catch(e){
-                    Fluttertoast.showToast(
-                        msg: e.message,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Color(0xff666666),
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+                    // Fluttertoast.showToast(
+                    //     msg: e.message,
+                    //     toastLength: Toast.LENGTH_SHORT,
+                    //     gravity: ToastGravity.BOTTOM,
+                    //     backgroundColor: Color(0xff666666),
+                    //     textColor: Colors.white,
+                    //     fontSize: 16.0);
                   }finally{
                     loading= false;
                   }
@@ -449,13 +449,13 @@ class _LoginPageState extends State<LoginPage>{
         } else {}
       }
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message,
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
     } catch (e) {
       print(e);
       flutterToast(message: "Unable to login at the moment");

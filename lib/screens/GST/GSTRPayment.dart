@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
@@ -302,13 +302,13 @@ class StateGSTRPayment extends State<GSTPayment>{
       print('3');
       await PaymentRecordToDataBase().AddGSTPayment(gstPaymentObject, widget.client, file);
       Navigator.pop(context);
-      Fluttertoast.showToast(
-          msg: "Date has Been Recorded",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: "Date has Been Recorded",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       
       
     }else{
@@ -316,25 +316,25 @@ class StateGSTRPayment extends State<GSTPayment>{
     }
     }on PlatformException catch(e){
       print('here');
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message,
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       setState(() {
         loadingSave=false;
       });
     }catch(e){
       print(e);
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      // Fluttertoast.showToast(
+      //     msg: e.message,
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     backgroundColor: Color(0xff666666),
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
       setState(() {
         loadingSave=false;
       });

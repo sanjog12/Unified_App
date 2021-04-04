@@ -350,7 +350,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 				FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 				if(widget.gstPaymentObject.addAttachment != "null"){
 					print("2");
-					String path =  firebaseStorage.ref().child('files').child(widget.gstPaymentObject.addAttachment).path;
+					String path =  firebaseStorage.ref().child('files').child(widget.gstPaymentObject.addAttachment).fullPath;
 					print("3");
 					await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
 				}
@@ -454,7 +454,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						.ref()
 						.child('files')
 						.child(widget.gstPaymentObject.addAttachment)
-						.path;
+						.fullPath;
 				await firebaseStorage.ref().child(path).delete().then((_) =>
 						print("Done Task"));
 			}
@@ -534,7 +534,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 												.ref()
 												.child('files')
 												.child(widget.gstPaymentObject.addAttachment)
-												.path;
+												.fullPath;
 										firebaseStorage = FirebaseStorage.instance;
 										await firebaseStorage.ref().child(path).delete();
 										print("here");

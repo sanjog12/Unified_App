@@ -1,12 +1,61 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/styles/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+
+
 
 void main() {
-  runApp(Bootstrapper());
+  // Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  // MobileAds.instance.initialize();
+  final initAds = MobileAds.instance.initialize();
+  final adState = AdState(initAds);
+  runApp(
+    Provider.value(
+      value: adState,
+      builder: (context,child)=> Bootstrapper(),
+    )
+  );
 }
 
-class Bootstrapper extends StatelessWidget {
+class Bootstrapper extends StatefulWidget {
+  @override
+  _BootstrapperState createState() => _BootstrapperState();
+}
+
+class _BootstrapperState extends State<Bootstrapper>{
+  
+  bool initialized = false;
+  bool error = false;
+  
+  // Define an async function to initialize FlutterFire
+  void initializeFlutterFire() async {
+    try {
+      // await MobileAds.instance.initialize();
+      await Firebase.initializeApp();
+      setState(() {
+        initialized = true;
+      });
+    } catch(e) {
+      // Set `_error` state to true if Firebase initialization fails
+      setState(() {
+        error = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -36,7 +85,7 @@ class Bootstrapper extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.dark,
-      home: Wrapper(),
+      home: initialized ? Wrapper():Container(),
     );
   }
 }

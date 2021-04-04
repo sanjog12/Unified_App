@@ -76,7 +76,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 				    children: <Widget>[
 					    Text(
 						    "Details of Contribution Payments",
-						    style: _theme.textTheme.title.merge(
+						    style: _theme.textTheme.headline6.merge(
 							    TextStyle(
 								    fontSize: 26.0,
 							    ),
@@ -87,7 +87,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 					    ),
 					    Text(
 						    "Enter your details for Details of Contribution ",
-						    style: _theme.textTheme.subtitle.merge(
+						    style: _theme.textTheme.bodyText2.merge(
 							    TextStyle(
 								    fontWeight: FontWeight.w300,
 							    ),

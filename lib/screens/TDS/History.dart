@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
@@ -409,22 +409,22 @@ class _HistoryTDSState extends State<HistoryTDS> {
 		  recordDeletedToast();
 		
 	  }on PlatformException catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message.toString(),
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  // Fluttertoast.showToast(
+			// 	  msg: e.message.toString(),
+			// 	  toastLength: Toast.LENGTH_SHORT,
+			// 	  gravity: ToastGravity.BOTTOM,
+			// 	  backgroundColor: Color(0xff666666),
+			// 	  textColor: Colors.white,
+			// 	  fontSize: 16.0);
 	  }catch(e){
 	  	print(e);
-		  Fluttertoast.showToast(
-				  msg: e.message.toString(),
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  // Fluttertoast.showToast(
+			// 	  msg: e.message.toString(),
+			// 	  toastLength: Toast.LENGTH_SHORT,
+			// 	  gravity: ToastGravity.BOTTOM,
+			// 	  backgroundColor: Color(0xff666666),
+			// 	  textColor: Colors.white,
+			// 	  fontSize: 16.0);
 	  }
   }
 }
