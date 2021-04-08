@@ -653,7 +653,7 @@ class _LICPaymentState extends State<LICPayment> {
             buttonLoading = true;
           });
 
-          bool done = await PaymentRecordToDataBase().AddLICPayment(
+          bool done = await PaymentRecordToDataBase().addLICPayment(
             licPaymentIObject,
             widget.client,
             file

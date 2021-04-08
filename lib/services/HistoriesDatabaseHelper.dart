@@ -356,10 +356,10 @@ class HistoriesDatabaseHelper {
           print(key);
           HistoryComplinceObject historyComplinceObject =
               HistoryComplinceObject(
-            date: values["dateOfInvestment"],
-            amount: values['principalAmount'],
-            type: values['nameOfInstitution'],
-            key: key,
+            date: values["dateOfInvestment"]??" ",
+            amount: values['principalAmount']??" ",
+            type: values['nameOfInstitution']??" ",
+            key: key??" ",
           );
           complinceData.add(historyComplinceObject);
         });
@@ -396,10 +396,10 @@ class HistoriesDatabaseHelper {
           print(key);
           HistoryComplinceObject historyComplinceObject =
               HistoryComplinceObject(
-            date: values["dateOfCommoncement"],
-            amount: values['premiumAmount'],
-            type: values['frequancey'],
-            key: key,
+            date: values["dateOfCommoncement"]??" ",
+            amount: values['premiumAmount']??" ",
+            type: values['frequancey']??" ",
+            key: key??" ",
           );
           complinceData.add(historyComplinceObject);
         });

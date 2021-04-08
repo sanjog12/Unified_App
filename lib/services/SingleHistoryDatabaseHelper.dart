@@ -246,16 +246,16 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 //      print(values);
       if (values != null) {
-        fdRecordObject.maturityDate = values['dateOfMaturity'];
-        fdRecordObject.nameOfInstitution = values['nameOfInstitution'];
-        fdRecordObject.dateOfInvestment = values['dateOfInvestment'];
-        fdRecordObject.fixedDepositNo = values['fixedDepositNo'];
-        fdRecordObject.maturityAmount = values['maturityAmount'];
-        fdRecordObject.nomineeName = values['nomineeName'];
-        fdRecordObject.principalAmount = values['principalAmount'];
-        fdRecordObject.rateOfInterest = values['rateOfInterest'];
-        fdRecordObject.secondHolderName = values['secondHolderName'];
-        fdRecordObject.termOfInvestment = values['termOfInvestment'];
+        fdRecordObject.maturityDate = values['dateOfMaturity']??" ";
+        fdRecordObject.nameOfInstitution = values['nameOfInstitution']??" ";
+        fdRecordObject.dateOfInvestment = values['dateOfInvestment']??" ";
+        fdRecordObject.fixedDepositNo = values['fixedDepositNo']??" ";
+        fdRecordObject.maturityAmount = values['maturityAmount']??" ";
+        fdRecordObject.nomineeName = values['nomineeName']??" ";
+        fdRecordObject.principalAmount = values['principalAmount']??" ";
+        fdRecordObject.rateOfInterest = values['rateOfInterest']??" ";
+        fdRecordObject.secondHolderName = values['secondHolderName']??" ";
+        fdRecordObject.termOfInvestment = values['termOfInvestment']??" ";
       }
     });
     return fdRecordObject;
@@ -281,21 +281,21 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 //      print(values);
       if (values != null) {
-        licPaymentObject.comanyName = values['comanyName'];
-        licPaymentObject.agenName = values['agenName'];
-        licPaymentObject.agentContactNumber = values['agentContactNumber'];
-        licPaymentObject.branch = values['branch'];
-        licPaymentObject.dateOfCommoncement = values['dateOfCommoncement'];
-        licPaymentObject.frequancey = values['frequancey'];
-        licPaymentObject.maturityDate = values['maturityDate'];
-        licPaymentObject.nomineeName = values['nomineeName'];
-        licPaymentObject.policyName = values['policyName'];
-        licPaymentObject.policyNo = values['policyNo'];
-        licPaymentObject.policyTerm = values['policyTerm'];
-        licPaymentObject.premiumAmount = values['premiumAmount'];
-        licPaymentObject.premiumDueDate = values['premiumDueDate'];
-        licPaymentObject.premiumPayingTerm = values['premiumPayingTerm'];
-        licPaymentObject.attachement = values['attachment'];
+        licPaymentObject.comanyName = values['comanyName']??" ";
+        licPaymentObject.agenName = values['agenName']??" ";
+        licPaymentObject.agentContactNumber = values['agentContactNumber']??" ";
+        licPaymentObject.branch = values['branch']??" ";
+        licPaymentObject.dateOfCommoncement = values['dateOfCommoncement']??" ";
+        licPaymentObject.frequancey = values['frequancey']??" ";
+        licPaymentObject.maturityDate = values['maturityDate']??" ";
+        licPaymentObject.nomineeName = values['nomineeName']??" ";
+        licPaymentObject.policyName = values['policyName']??" ";
+        licPaymentObject.policyNo = values['policyNo']??" ";
+        licPaymentObject.policyTerm = values['policyTerm']??" ";
+        licPaymentObject.premiumAmount = values['premiumAmount']??" ";
+        licPaymentObject.premiumDueDate = values['premiumDueDate']??" ";
+        licPaymentObject.premiumPayingTerm = values['premiumPayingTerm']??" ";
+        licPaymentObject.attachement = values['attachment']??" ";
       }
     });
     return licPaymentObject;

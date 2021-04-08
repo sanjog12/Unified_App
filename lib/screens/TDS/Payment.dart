@@ -385,7 +385,7 @@ class _TDSPaymentState extends State<TDSPayment>{
         setState(() {
           loadingSave = true;
         });
-        await PaymentRecordToDataBase().AddTDSPayment(
+        await PaymentRecordToDataBase().addTDSPayment(
             tDSPaymentObject, widget.client, file);
         Navigator.pop(context);
         // Fluttertoast.showToast(

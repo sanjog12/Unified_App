@@ -238,7 +238,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 				});
 				
 				bool done = await PaymentRecordToDataBase()
-						.AddDetailsOfContribution(epfDetailsOfContributionObject, widget.client, file);
+						.addDetailsOfContribution(epfDetailsOfContributionObject, widget.client, file);
 				
 				if (done) {
 					flutterToast(message: "Successfully Saved");

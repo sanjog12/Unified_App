@@ -257,7 +257,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
         });
 
         bool done = await PaymentRecordToDataBase()
-            .AddMonthlyContributionPayment(
+            .addMonthlyContributionPayment(
                 epfMonthlyContributionObejct, widget.client, file);
         
         if (done) {

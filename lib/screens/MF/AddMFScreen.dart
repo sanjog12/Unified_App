@@ -544,7 +544,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
                     mutualFundObject: selectedMutualFundObject,
                     mutualFundDetailObject: mutualFundDetailObject);
             bool done = await PaymentRecordToDataBase()
-                .AddMFRecord(mutualFundRecordObject, widget.client);
+                .addMFRecord(mutualFundRecordObject, widget.client);
             flutterToast(message: "Portfolio has been created Successfully");
             if (done) {
               Navigator.pop(context);

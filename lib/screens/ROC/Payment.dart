@@ -256,7 +256,7 @@ class _ROCPaymentState extends State<ROCPayment> {
         rocPaymentObject.date = _selectedDate;
 
         bool done = await PaymentRecordToDataBase()
-            .AddROCPayment(rocPaymentObject, widget.client);
+            .addROCPayment(rocPaymentObject, widget.client);
 
         if (done) {
           Navigator.pop(context);

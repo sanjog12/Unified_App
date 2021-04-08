@@ -237,7 +237,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 			setState(() {
 			  loadingSaveButton = true;
 			});
-			await PaymentRecordToDataBase().AddESIMonthlyContributionPayment(esiMonthlyContributionObejct, widget.client, file);
+			await PaymentRecordToDataBase().addESIMonthlyContributionPayment(esiMonthlyContributionObejct, widget.client, file);
 			Navigator.pop(context);
 		}
 		else{

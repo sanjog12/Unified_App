@@ -201,7 +201,7 @@ class _PPFRecordState extends State<PPFRecord> {
         });
 
         bool done = await PaymentRecordToDataBase()
-            .AddPPFRecord(ppfRecordObject, widget.client);
+            .addPPFRecord(ppfRecordObject, widget.client);
 
         if (done) {
           Navigator.pop(context);

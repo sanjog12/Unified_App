@@ -300,7 +300,7 @@ class StateGSTRPayment extends State<GSTPayment>{
         loadingSave= true;
       });
       print('3');
-      await PaymentRecordToDataBase().AddGSTPayment(gstPaymentObject, widget.client, file);
+      await PaymentRecordToDataBase().addGSTPayment(gstPaymentObject, widget.client, file);
       Navigator.pop(context);
       // Fluttertoast.showToast(
       //     msg: "Date has Been Recorded",
