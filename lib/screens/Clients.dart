@@ -1,15 +1,15 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/AddSingleClient.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
-import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -17,8 +17,9 @@ import 'package:unified_reminder/utils/validators.dart';
 class Clients extends StatefulWidget {
   
   final UserBasic userBasic;
+  final List<Client> listClient;
 
-  const Clients({Key key, this.userBasic}) : super(key: key);
+  const Clients({Key key, this.userBasic,this.listClient}) : super(key: key);
   @override
   _ClientsState createState() => _ClientsState();
 }
@@ -27,33 +28,26 @@ class _ClientsState extends State<Clients> {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  List<Client> listClient =[];
 
   StreamController _userController;
 
-  loadUser() async {
-    FirestoreService().getClients(firebaseUserId).then((res) async {
-      _userController.add(res);
-      return res;
-    });
-  }
-
-  //  String userFirebaseId = SharedPrefs.getStringPreference("uid");
+  // loadUser() async {
+  //   FirestoreService().getClients(firebaseUserId).then((res) async {
+  //     _userController.add(res);
+  //     return res;
+  //   });
+  // }
+  
   String firebaseUserId;
   
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     _userController = new StreamController();
-    Timer.periodic(Duration(seconds: 3), (_) => loadUser());
-  }
-
-  void getUserId() async {
-    var _firebaseUserId = await SharedPrefs.getStringPreference("uid");
-    this.setState(() {
-      firebaseUserId = _firebaseUserId;
-    });
+    // Timer.periodic(Duration(seconds: 3), (_) => loadUser());
   }
 
   @override
@@ -62,25 +56,28 @@ class _ClientsState extends State<Clients> {
       appBar: AppBar(
         title: Text("Clients"),
       ),
-      floatingActionButton: Container(
-        padding: EdgeInsets.only(bottom: 50),
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddSingleClient(),
-              ),
-            );
-          },
-          
-          backgroundColor: textboxColor,
-          child: Icon(
-            Icons.add,
-            color: whiteColor,
-          ),
-        ),
-      ),
+      // floatingActionButton: Container(
+      //   padding: EdgeInsets.only(bottom: 50),
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => AddSingleClient(
+      //             userBasic: widget.userBasic,
+      //             clientList: [Client("","", "", "","","","")],
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //
+      //     backgroundColor: textboxColor,
+      //     child: Icon(
+      //       Icons.add,
+      //       color: whiteColor,
+      //     ),
+      //   ),
+      // ),
       body: Container(
         padding: EdgeInsets.all(24.0),
         child: Column(
@@ -98,19 +95,36 @@ class _ClientsState extends State<Clients> {
             Expanded(
               child: Container(
                 child: StreamBuilder(
-                  stream: _userController.stream,
-                  builder: (context, snapshot) {
+                  stream: firebaseDatabase.reference().child(FsUserClients).child(firebaseUserId).child('clients').onValue,
+                  builder: (context, AsyncSnapshot<Event> snapshot) {
                     if (snapshot.hasData) {
+                      
+                      print(snapshot.data.snapshot.value);
+                      Map<dynamic,dynamic> map = snapshot.data.snapshot.value;
+                      for(var data in map.entries){
+                        listClient.add(
+                            Client(data.value["name"],
+                            data.value["constitution"],
+                            data.value["company"],
+                            data.value["natureOfBusiness"],
+                            data.value["email"],
+                            data.value["phone"],
+                            data.key));
+                      }
+                      if(map == null){
+                        return CircularProgressIndicator();
+                      }
+                      print(listClient.first.name);
                       return Container(
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                         child: ListView.builder(
-                            itemCount: snapshot.data.length,
+                            itemCount: map.length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 onTap: () {
-                                
+
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -126,7 +140,7 @@ class _ClientsState extends State<Clients> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
-                                          snapshot.data[index].name,
+                                          listClient[index].name,
                                           style: TextStyle(color: whiteColor),
                                         ),
                                         SizedBox(width: 90,),
@@ -134,7 +148,7 @@ class _ClientsState extends State<Clients> {
                                           Navigator.push(context,
                                             MaterialPageRoute(
                                               builder: (context)=>AddSingleClient(
-                                                client: snapshot.data[index],
+                                                client: listClient[index],
                                                 userBasic: widget.userBasic,
                                               )
                                             )
@@ -144,13 +158,13 @@ class _ClientsState extends State<Clients> {
                                           bool confirm = false;
                                           confirm = await showConfirmationDialog(context);
                                           if(confirm){
-                                            deleteClient(snapshot.data[index].key,snapshot.data[index].email);
+                                            deleteClient(listClient[index].key,listClient[index].email);
                                           }
                                         },),
                                       ],
                                     ),
                                     onTap: (){
-                                      showDetails(context,snapshot.data[index]);
+                                      showDetails(context,listClient[index]);
                                     },
                                   ),
                                 ),
@@ -179,7 +193,7 @@ class _ClientsState extends State<Clients> {
   }
 
   Future<void> showDetails(BuildContext context,details) async{
-    Client clientEdit = details;
+    var clientEdit = details;
     return showDialog<void>(
         context: context,
         builder: (BuildContext context){
@@ -273,7 +287,7 @@ class _ClientsState extends State<Clients> {
     );
   }
   
-  Future<void> deleteClient(String key,String email) async{
+  Future<bool> deleteClient(String key,String email) async{
     try {
       try{
       dbf = firebaseDatabase.reference();
@@ -307,9 +321,11 @@ class _ClientsState extends State<Clients> {
           )
       ));
       recordDeletedToast();
+      return true;
     }catch(e){
       flutterToast(message: "Something went wrong try latter");
       print(e);
+      return false;
     }
   }
 }

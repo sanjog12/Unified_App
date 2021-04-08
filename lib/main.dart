@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
+import 'package:unified_reminder/Bloc/DashboardProvider.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,10 +19,12 @@ void main() {
   final initAds = MobileAds.instance.initialize();
   final adState = AdState(initAds);
   runApp(
-    Provider.value(
-      value: adState,
-      builder: (context,child)=> Bootstrapper(),
-    )
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=>DashboardProvider()),
+        Provider.value(value: adState),
+      ],
+      child: Bootstrapper(),)
   );
 }
 

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
@@ -33,33 +36,35 @@ class FirestoreService {
 //        .snapshots();
 //  }
 
-  Future<List<Client>> getClients(String firebaseUserId) async {
+  Stream<List<Client>> getClients(String firebaseUserId) async* {
     List<Client> clientsData = [];
     dbf = firebaseDatabase
         .reference()
         .child(FsUserClients)
         .child(firebaseUserId)
         .child('clients');
-//    Stream data = dbf.onValue;
+    
+    
+    
     await dbf.once().then((DataSnapshot snapshot) {
-      
       Map<dynamic, dynamic> map = snapshot.value;
-      map.forEach((key, values) {
-//        print(key);
+      for(var v in map.entries){
         Client client = Client(
-            values["name"],
-            values["constitution"],
-            values["company"],
-            values["natureOfBusiness"],
-            values["email"],
-            values["phone"],
-            key
+            v.value["name"],
+            v.value["constitution"],
+            v.value["company"],
+            v.value["natureOfBusiness"],
+            v.value["email"],
+            v.value["phone"],
+            v.key
         );
-//        print(client.phone.toString());
         clientsData.add(client);
-      });
+      }
     });
-    return clientsData;
+    
+    
+    
+    yield clientsData;
   }
   
   Future<void> editClientData(Client client,String firebaseUID, List<String> temp, List<Compliance> compliances) async{

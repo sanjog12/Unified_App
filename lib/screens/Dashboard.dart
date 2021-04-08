@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,7 +8,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
-import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcase.dart';
 import 'package:showcaseview/showcase_widget.dart';
@@ -16,7 +16,6 @@ import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/ApplicableCompliances.dart';
-import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/services/UpcomingCompliancesPageRedirect.dart';
@@ -24,7 +23,6 @@ import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/widgets/AppDrawer.dart';
 import 'AddSingleClient.dart';
 
-const String testDevice = 'FDB28FC6E21EA8FD4E1EAB3899FBD45C';
 
 class Dashboard extends StatefulWidget {
   final UserBasic userBasic;
@@ -39,8 +37,7 @@ class _DashboardState extends State<Dashboard> {
   DatabaseReference dbf;
   String firebaseUserId;
   Client client ;
-  bool loading = false;
-  bool clientLoad = false;
+  bool loading = true;
   String firebaseUID;
   List<Client> clientList = [];
   List<UpComingComplianceObject> listUpcomingCompliances = [];
@@ -63,32 +60,7 @@ class _DashboardState extends State<Dashboard> {
   
   final AdSize adSize = AdSize(width:300, height: 50);
   
-
-  Future<List<Client>> _getClients() async {
-    List<Client> clientsData = [];
-    dbf = firebaseDatabase
-        .reference()
-        .child(FsUserClients)
-        .child(firebaseUserId)
-        .child('clients');
-    await dbf.once().then((DataSnapshot snapshot) {
-      if(snapshot.value != null){
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, values) {
-        Client client = Client(
-            values["name"],
-            values["constitution"],
-            values["company"],
-            values["natureOfBusiness"],
-            values["email"],
-            values["phone"],
-            key
-        );
-        clientsData.add(client);
-      });}
-    });
-    return clientsData;
-  }
+  
 
   
   Future<void> getClients() async{
@@ -99,14 +71,12 @@ class _DashboardState extends State<Dashboard> {
         .child(firebaseUID)
         .child('clients');
     
-    print(firebaseUID);
-  
+    print("entered getClient function ");
     await dbf.once().then((DataSnapshot snapshot) async{
       Map<dynamic,dynamic> map = await snapshot.value;
-      if(map != null) {
         map.forEach((key, value) {
-          print("Key  :" + value.toString());
           if (map.isNotEmpty) {
+            setState(() {
             clientList.add(Client(
                 value["name"],
                 value["constitution"],
@@ -114,15 +84,16 @@ class _DashboardState extends State<Dashboard> {
                 value["natureOfBusiness"],
                 value["email"].toString().replaceAll('.', ','),
                 value["phone"],
-                key
-            ),
+                key),
             );
+            });
+          }
+          else{
+            setState(() {
+              clientList.add(Client('Please add client First', ' ', ' ', '_natureOfBusiness', '_email', '_phone', '_key'));
+            });
           }
         });
-        setState(() {
-          clientLoad = true;
-        });
-      }
     });
   }
   
@@ -166,57 +137,29 @@ class _DashboardState extends State<Dashboard> {
     super.didChangeDependencies();
     final adState = Provider.of<AdState>(context);
     adState.initialisation.then((status){
-      bannerAd = BannerAd(
-        adUnitId: adState.bannerAdUnitId,
-        size: AdSize.banner,
-        request: AdRequest(),
-        listener: adState.adListener,
-      )..load();
+      setState(() {
+        bannerAd = BannerAd(
+          adUnitId: adState.bannerAdUnitId,
+          size: AdSize.banner,
+          request: AdRequest(),
+          listener: adState.adListener,
+        )..load();
+      });
     });
   }
 
   @override
   void initState() {
     super.initState();
-    getUserId();
-    _userController = StreamController();
+    firebaseUID = FirebaseAuth.instance.currentUser.uid;
     getClients().whenComplete(() async{
-      listUpcomingCompliances = await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonth(clientList);
+      listUpcomingCompliances = await UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonth(clientList);
       setState(() {
-        loading = true;
+        loading = false;
       });
     });
     tutorial();
-    
     permissionContact();
-    Timer.periodic(Duration(seconds:2), (timer) {
-      if(!this.mounted){
-        timer.cancel();
-      }else{
-        setState(() {
-        
-        });
-      }
-    });
-  }
-  
-  
-  StreamController _userController;
-  
-
-  loadUser() async {
-    _getClients().then((res) async {
-      _userController.add(res);
-      return res;
-    });
-  }
-  
-
-  Future<void> getUserId() async {
-    var _firebaseUserId = await SharedPrefs.getStringPreference("uid");
-    this.setState(() {
-      firebaseUserId = _firebaseUserId;
-    });
   }
   
 
@@ -236,7 +179,7 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       appBar: AppBar(
-        title: Text("Tax Reminder"),
+        title: Text("Tax Reminder",style: _theme.textTheme.headline6.merge(TextStyle(fontWeight: FontWeight.bold,fontSize: 24)),),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: Showcase(
@@ -319,16 +262,20 @@ class _DashboardState extends State<Dashboard> {
                     child: ExpansionTile(
                       title: Text('Upcoming Compliances'),
                       children:<Widget>[
-                        ListView.builder(
-                            controller: controller,scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: listUpcomingCompliances.length,
-                            itemBuilder: (BuildContext context,int index){
-                              if(listUpcomingCompliances.length != 0){
-                                return listUpcomingCompliances[index].label != ' '?Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        loading == false?
+                          ListView.builder(
+                              controller: controller,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: listUpcomingCompliances.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return listUpcomingCompliances[index].label !=
+                                    ' ' ? Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15.0),
                                   child: Container(
-                                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 10.0),
                                     decoration: BoxDecoration(
                                         border: Border.all(
                                           color: Colors.white,
@@ -337,12 +284,21 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                     child: ListTile(
                                       title: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .stretch,
                                         children: <Widget>[
                                           SizedBox(height: 10,),
-                                          Text(listUpcomingCompliances[index].name !=null ? listUpcomingCompliances[index].name :' ',style: TextStyle(
-                                            fontSize: 15,
-                                          )),
+                                          Text(listUpcomingCompliances[index]
+                                              .name != null
+                                              ? listUpcomingCompliances[index]
+                                              .name
+                                              : ' ',
+                                              style: _theme.textTheme.headline6
+                                                  .merge(TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                            overflow: TextOverflow.fade,
+                                          ),
                                           Divider(
                                             thickness: 1.5,
                                           ),
@@ -351,26 +307,35 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                         ],
                                       ),
-                  
+              
                                       subtitle: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .stretch,
                                         children: <Widget>[
-                                          Text(' - ${listUpcomingCompliances[index].label} due on ${listUpcomingCompliances[index].date}  ${DateFormat("MMMM").format(DateTime.now())}'),
+                                          Text(
+                                            ' - ${listUpcomingCompliances[index]
+                                                .label} due on ${listUpcomingCompliances[index]
+                                                .date}  '
+                                                '${DateFormat("MMMM").format(
+                                                DateTime.now())}',
+                                            style: _theme.textTheme.bodyText2,),
                                           SizedBox(height: 10,)
                                         ],
                                       ),
-                                      onLongPress: (){
-                                        jumpToPage(context, listUpcomingCompliances[index].key, clientList, listUpcomingCompliances[index].name);},
+                                      onLongPress: () {
+                                        jumpToPage(context,
+                                            listUpcomingCompliances[index].key,
+                                            clientList,
+                                            listUpcomingCompliances[index]
+                                                .name);
+                                      },
                                     ),
                                   ),
-                                ):Container();
-                              }
-                              else{
-                                return Container(
-                                  child: Text("Add Client First"),
-                                );
-                              }
-                            }),
+                                ) : Container();
+                              }):
+                      clientList.isEmpty
+                          ? Container(child: Text("Loading Clients"),)
+                          : Container(child: CircularProgressIndicator(),),
                       ],
                     ),
                   ),
@@ -382,7 +347,13 @@ class _DashboardState extends State<Dashboard> {
                     child: ExpansionTile(
                       title: Text("Clients"),
                       children:<Widget>[
-                        clientLoad ?SingleChildScrollView(
+                        clientList.length == 0 ?
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: Center(child: CircularProgressIndicator()
+                          ),
+                        ) :
+                        SingleChildScrollView(
                           padding: EdgeInsets.all(15),
                           child: ListView.builder(
                               controller: controller2,
@@ -390,24 +361,23 @@ class _DashboardState extends State<Dashboard> {
                               itemCount: clientList.length,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (BuildContext context, int index) {
-//                             client = snapshot.data[index];
+//                            client = snapshot.data[index];
                                 return ListTile(
                                   onTap: () {
+                                    if(clientList[index].key != 'Please add client First'){
                                     Navigator.of(context).push(MaterialPageRoute(
                                         builder: (context) =>ApplicableCompliances(client: clientList[index],
-                                        )));
+                                        )));}
                                     },
                                   contentPadding: EdgeInsets.symmetric(
                                     vertical: 10.0,
                                   ),
-                                  title: Text(clientList[index].name.replaceFirst(clientList[index].name[0], clientList[index].name[0].toUpperCase())),
+                                  title: Text(clientList[index].name.replaceFirst(clientList[index].name[0],
+                                      clientList[index].name[0].toUpperCase())),
                                 );
                               }),
-                        ) :Container(
-                          padding: EdgeInsets.all(10),
-                          child: Center(child: JumpingText("Loading..")
-                          ),
-                        ),
+                        )
+                        
                       ],
                     ),
                   ),

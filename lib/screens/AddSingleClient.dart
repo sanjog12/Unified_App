@@ -1,14 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
 import 'package:unified_reminder/models/userbasic.dart';
-// import 'package:unified_reminder/screens/Clients.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
@@ -61,7 +60,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
 
   Future<void> _getUserCompliances() async {
     String clientEmail = widget.client.email.replaceAll('.', ',');
-    var firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    var firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     
     dbf = firebaseDatabase
         .reference()

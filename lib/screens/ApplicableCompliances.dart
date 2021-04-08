@@ -1,14 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/widgets/ListView.dart';
 
-const String testDevice = 'FDB28FC6E21EA8FD4E1EAB3899FBD45C';
+
 
 class ApplicableCompliances extends StatefulWidget {
   final Client client;
@@ -19,56 +21,47 @@ class ApplicableCompliances extends StatefulWidget {
 
 class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   
-  FirestoreService firestoreService = FirestoreService();
+  FirestoreService fireStoreService = FirestoreService();
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
   String firebaseUserId;
   
+  BannerAd bannerAd;
+
+  static final AdRequest request = AdRequest(
+    testDevices: <String>['FDB28FC6E21EA8FD4E1EAB3899FBD45C'],
+    keywords: <String>['foo', 'bar'],
+    contentUrl: 'http://foo.com/bar.html',
+    nonPersonalizedAds: true,
+  );
+
+  final AdSize adSize = AdSize(width:300, height: 50);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    adState.initialisation.then((status){
+      setState(() {
+        bannerAd = BannerAd(
+          adUnitId: adState.bannerAdUnitId,
+          size: AdSize.banner,
+          request: AdRequest(),
+          listener: adState.adListener,
+        )..load();
+      });
+    });
+  }
+  
   @override
   void initState() {
     super.initState();
-    getUserId();
+    firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     print(widget.client.toString());
-    interstitialAd..load()..show();
-//    bannerAd = createBannerAd()..load()..show(
-//      anchorType: AnchorType.bottom,
-//      horizontalCenterOffset: 10.0,
-//      anchorOffset: 0.0,
-//    );
   
   }
   
   
-  InterstitialAd interstitialAd = InterstitialAd(
-    adUnitId: 'ca-app-pub-4569649492742996~2564391573',
-    request: AdRequest(),
-    listener: AdListener(),
-  );
-//   InterstitialAd createInterstitialAd(){
-//     return InterstitialAd(
-//       adUnitId: 'ca-app-pub-4569649492742996/7190581030',
-// //      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
-//       targetingInfo: targetingInfo,
-//       listener: (MobileAdEvent event){
-//         print("interad " + event.toString());
-//       }
-//     );
-//   }
-  
-  
-  
-  // static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-  //   testDevices: testDevice != null ?<String>[testDevice] : null,
-  //   nonPersonalizedAds: true,
-  //   keywords: <String>['game','mario'],
-  // );
-
-  void getUserId() async {
-    var _firebaseUserId = await SharedPrefs.getStringPreference("uid");
-    this.setState(() {
-      firebaseUserId = _firebaseUserId;
-    });
-  }
   
   Future<List<Compliance>> _getUserCompliances() async {
     List<Compliance> clientsData = [];
@@ -103,17 +96,17 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
         title: Text("Applicable Compliances"),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
+        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24,),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             widget.client == null
                 ? SizedBox()
                 : Text(
-                    "${widget.client.name}",
+                    "${widget.client.name}".toUpperCase(),
                     style: _theme.textTheme.headline6.merge(
                       TextStyle(
-                        fontSize: 26.0,
+                        fontSize: 24.0,
                       ),
                     ),
                   ),
@@ -164,10 +157,20 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
                     );}
                 },
               ),
-            )
+            ),
+            
+            bannerAd == null
+                ?SizedBox(height: 10,)
+                :Container(height: 50, child: AdWidget(ad: bannerAd,),),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    bannerAd.dispose();
+    super.dispose();
   }
 }

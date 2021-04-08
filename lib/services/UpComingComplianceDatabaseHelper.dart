@@ -59,11 +59,11 @@ class UpComingComplianceDatabaseHelper {
   
   
 
-  Future<List<UpComingComplianceObject>> getUpComingComplincesForMonth(List<Client> clientList) async {
+  Future<List<UpComingComplianceObject>> getUpComingCompliancesForMonth(List<Client> clientList) async {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
-    List<UpComingComplianceObject> upComingComplinceData = [];
+    List<UpComingComplianceObject> upComingComplianceData = [];
   
     firebaseUID = await SharedPrefs.getStringPreference('uid');
     
@@ -108,13 +108,13 @@ class UpComingComplianceDatabaseHelper {
                     );
                     bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
                     if(!isPassedDueDate)
-                      upComingComplinceData.add(upComingComplianceObject);
+                      upComingComplianceData.add(upComingComplianceObject);
                   }
                 }else {
                   UpComingComplianceObject upComingComplianceObject =
                   UpComingComplianceObject(
                       date: ' ', label: ' ',name: client.name);
-                  upComingComplinceData.add(upComingComplianceObject);
+                  upComingComplianceData.add(upComingComplianceObject);
                 }
               },
             );
@@ -137,7 +137,7 @@ class UpComingComplianceDatabaseHelper {
             await dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic, dynamic> valuesdata = await snapshot.value;
               if (valuesdata == null) {
-                upComingComplinceData.add(UpComingComplianceObject(
+                upComingComplianceData.add(UpComingComplianceObject(
                   name: client.name,
                   date: ' ',
                   label: " ",
@@ -151,7 +151,7 @@ class UpComingComplianceDatabaseHelper {
 
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),v.value['date']));
                   if(!isPassedDueDate){
-                  upComingComplinceData.add(
+                  upComingComplianceData.add(
                       UpComingComplianceObject(
                       name: client.name,
                       key: "Income Tax",
@@ -181,7 +181,7 @@ class UpComingComplianceDatabaseHelper {
             await dbf.once().then((DataSnapshot snapshot) {
               Map<dynamic, dynamic> valuesdate = snapshot.value;
               if (valuesdate == null) {
-                upComingComplinceData.add(UpComingComplianceObject(
+                upComingComplianceData.add(UpComingComplianceObject(
                   name: client.name,
                   date: " ",
                   label: " ",
@@ -194,7 +194,7 @@ class UpComingComplianceDatabaseHelper {
                   // print(client.name + "TDS added1");
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
                   if(!isPassedDueDate){
-                    upComingComplinceData.add(UpComingComplianceObject(
+                    upComingComplianceData.add(UpComingComplianceObject(
                       name: client.name,
                       date: v.value['date'].toString(),
                       label:v.value['label'],
@@ -226,7 +226,7 @@ class UpComingComplianceDatabaseHelper {
               Map<dynamic, dynamic> valuesDate = snapshot.value;
               
               if (valuesDate == null) {
-                upComingComplinceData.add(UpComingComplianceObject(
+                upComingComplianceData.add(UpComingComplianceObject(
                   name: client.name,
                   date: " ",
                   label: " ",
@@ -239,7 +239,7 @@ class UpComingComplianceDatabaseHelper {
                   // print(client.name + "GST added1");
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'].toString())));
                   if(!isPassedDueDate){
-                    upComingComplinceData.add(UpComingComplianceObject(
+                    upComingComplianceData.add(UpComingComplianceObject(
                       name: client.name,
                       date: v.value['date'].toString(),
                       label: v.value['label'],
@@ -263,7 +263,7 @@ class UpComingComplianceDatabaseHelper {
             dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic,dynamic> v = snapshot.value;
               if(v == null){
-                upComingComplinceData.add(UpComingComplianceObject(
+                upComingComplianceData.add(UpComingComplianceObject(
                   name: client.name,
                   date: " ",
                   label: " ",
@@ -272,7 +272,7 @@ class UpComingComplianceDatabaseHelper {
               else{
                 v.forEach((key, values){
                   // print('ROC   ' +key);
-                  upComingComplinceData.add(UpComingComplianceObject(
+                  upComingComplianceData.add(UpComingComplianceObject(
                     name: client.name,
                     key: "ROC",
                     date: values['date'],
@@ -303,7 +303,7 @@ class UpComingComplianceDatabaseHelper {
                   UpComingComplianceObject upComingComplianceObject =
                   UpComingComplianceObject(
                       date: ' ', label: ' ',name: client.name);
-                  upComingComplinceData.add(upComingComplianceObject);
+                  upComingComplianceData.add(upComingComplianceObject);
                 } else {
                   for(var compliances in doneCompliances){
                     valuesDate.remove(compliances.key);
@@ -320,7 +320,7 @@ class UpComingComplianceDatabaseHelper {
                         int.parse(upComingComplianceObject.date)));
                     
                     if(!isPassedDueDate)
-                      upComingComplinceData.add(upComingComplianceObject);
+                      upComingComplianceData.add(upComingComplianceObject);
                   }
                 }
               },
@@ -359,22 +359,17 @@ class UpComingComplianceDatabaseHelper {
                   // print(upComingComplianceObject.label);
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
                   if(!isPassedDueDate)
-                    upComingComplinceData.add(upComingComplianceObject);
+                    upComingComplianceData.add(upComingComplianceObject);
                 }
               }
             });
           }
         }
       });
-      print("end");
       
     }
     
-    print("returnin");
-    for(var v in upComingComplinceData){
-      print(v.name + " " + v.label);
-    }
-    return upComingComplinceData;
+    return upComingComplianceData;
   }
 
   

@@ -32,9 +32,9 @@ dependencies:
   #f
   flutter_pdfview:
   flutter_datetime_picker:
-  flutter_local_notifications:
+  flutter_local_notifications: ^5.0.0
   firebase_auth:
-#  fluttertoast: ^8.0.3
+  fluttertoast: ^8.0.3
   firebase_messaging: ^9.0.1
   firebase_storage:
   file_picker:
