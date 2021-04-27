@@ -23,8 +23,10 @@ class _FDRecordState extends State<FDRecord> {
   bool buttonLoading = false;
   bool entered = false;
 
-  FDRecordObject fdRecordObject = FDRecordObject(nameOfInstitution: '',nomineeName: '',fixedDepositNo: '',dateOfInvestment: '',rateOfInterest: '',termOfInvestment: '0',
-  secondHolderName: '',principalAmount: '',maturityAmount: '',maturityDate: '');
+  FDRecordObject fdRecordObject = FDRecordObject(nameOfInstitution: '',nomineeName: '',
+      fixedDepositNo: '',dateOfInvestment: '',rateOfInterest: '',termOfInvestment: '0',
+      secondHolderName: '',principalAmount: '',maturityAmount: '',maturityDate: ''
+  );
 
   String selectedDateOfPayment = 'Select Date';
   DateTime selectedDateOfInvestment = DateTime.now();

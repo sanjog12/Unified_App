@@ -36,10 +36,8 @@ class _WrapperState extends State<Wrapper> {
     }
     return Future<void>.value();
   }
-  
-  message() async{
-    String title;
-    String body;
+
+  firebaseMessagingFCM() async{
     notificationServices.initializeSetting();
     print("called");
     FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
@@ -60,7 +58,7 @@ class _WrapperState extends State<Wrapper> {
     //     print("on Resume" + message.toString());
     //   },
     // );
-//    firebaseMessaging.requestNotificationPermissions();
+    firebaseMessaging.requestPermission(sound: true, criticalAlert: true);
     await firebaseMessaging.getToken().then((value){
       print(value);
       dbf = firebaseDatabase.reference();
@@ -78,7 +76,7 @@ class _WrapperState extends State<Wrapper> {
   @override
   void initState() {
     super.initState();
-    message();
+    firebaseMessagingFCM();
     getUserFirebaseId();
 //    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
   }

@@ -594,8 +594,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	  .child('ROC')
 	  .remove();
 	  
-	 	temp(String form ,String month,String date) async {
-		  print(form + ' ' + month);
+	 	updateDBUpcoming(String form ,String month,String date) async {
 		  dfb = firebaseDatabase.reference();
 		  await dfb.child('usersUpcomingCompliances')
 		      .child(firebaseUserId)
@@ -612,34 +611,30 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	  try {
 		  print("inside try");
 		  
-		  
-		  temp('Form ADT-1', DateChange.addDayToDate(
-				  convertDate(selectedDateOfAgmSubmission), 15).split('-')[1]
-				  , DateChange.addDayToDate(
-						  convertDate(selectedDateOfAgmSubmission), 15).split('-')[0]);
+		  updateDBUpcoming('Form ADT-1', DateChange.addDayToDate(
+				  convertDate(selectedDateOfAgmSubmission), 15).split('-')[1], DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 15).split('-')[0]);
 		  try{
 		  	notificationServices.deleteNotification(1001);
 		  }catch(e){print('1001' + e.toString());}
+		  
 		  notificationServices.reminderNotificationService(id: 1001 , titleString: "From ADT-1 for ${widget.client.name}",
 				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 7,hours: 13)));
-		
-		  
-		  
-		  temp('From AOC-4 & AOC-4 CFS', DateChange.addDayToDate(
+				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 1,hours: 13)));
+		  updateDBUpcoming('From AOC-4 & AOC-4 CFS', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
+		  
 		  try{
 		  	notificationServices.deleteNotification(1002);
 		  }catch(e){print('1002' + e.toString());}
 		  notificationServices.reminderNotificationService(id: 1002 , titleString: "From AOC-4 & AOC-4 CFS for ${widget.client.name}",
 				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
+				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 1,hours: 13)));
 		  
 		  
 		  
-		  temp('Form AOC-4(XBRL)', DateChange.addDayToDate(
+		  updateDBUpcoming('Form AOC-4(XBRL)', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
@@ -652,7 +647,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		
 		  
 		  
-		  temp('Form MGT-7', DateChange.addDayToDate(
+		  updateDBUpcoming('Form MGT-7', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 60).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 60).split('-')[0]);
@@ -665,7 +660,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		
 		  
 		  
-		  temp('Form CRA-4', DateChange.addDayToDate(
+		  updateDBUpcoming('Form CRA-4', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
@@ -678,7 +673,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		
 		  
 		  
-		  temp('Form MGT-14', DateChange.addDayToDate(
+		  updateDBUpcoming('Form MGT-14', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);

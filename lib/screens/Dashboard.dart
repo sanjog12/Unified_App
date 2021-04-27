@@ -181,49 +181,51 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         title: Text("Tax Reminder",style: _theme.textTheme.headline6.merge(TextStyle(fontWeight: FontWeight.bold,fontSize: 24)),),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: Showcase(
         key: first,
         description: "Add new clients",
-        child: FloatingActionButton(
-          onPressed: () async{
-            if(clientList.length>=5){
-              await showDialog(
-                  context: context,
-                  builder: (context)=>AlertDialog(
-                    title: Column(
-                      children: [
-                        Text("Alert"),
-                        Divider(
-                          thickness: 1.5,
+        child: Padding(
+          padding: bannerAd != null ? EdgeInsets.only(bottom: 70,right: 8):EdgeInsets.all(8),
+          child: FloatingActionButton(
+            onPressed: () async{
+              if(clientList.length>=5){
+                await showDialog(
+                    context: context,
+                    builder: (context)=>AlertDialog(
+                      title: Column(
+                        children: [
+                          Text("Alert"),
+                          Divider(
+                            thickness: 1.5,
+                          )
+                        ],
+                      ),
+                      content: Text("You have already registered 5 clients, to add further you will be charged 25 Rs"),
+                      actions: [
+                        TextButton(
+                          child: Text("Ok"),
+                          onPressed: (){
+                            Navigator.pop(context);},
                         )
                       ],
-                    ),
-                    content: Text("You have already registered 5 clients, to add further you will be charged 25 Rs"),
-                    actions: [
-                      TextButton(
-                        child: Text("Ok"),
-                        onPressed: (){
-                          Navigator.pop(context);},
-                      )
-                    ],
-                  )
-              );
-            }
-            
-            Navigator.push(context,
-              MaterialPageRoute(
-                builder: (context) => AddSingleClient(
-                  clientList: clientList,
-                  userBasic: widget.userBasic,
+                    )
+                );
+              }
+              
+              Navigator.push(context,
+                MaterialPageRoute(
+                  builder: (context) => AddSingleClient(
+                    clientList: clientList,
+                    userBasic: widget.userBasic,
+                  ),
                 ),
-              ),
-            );
-            },
-          backgroundColor: textboxColor,
-          child: Icon(
-            Icons.add,
-            color: whiteColor,
+              );
+              },
+            backgroundColor: textboxColor,
+            child: Icon(
+              Icons.add,
+              color: whiteColor,
+            ),
           ),
         ),
       ),

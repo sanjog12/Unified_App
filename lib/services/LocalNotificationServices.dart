@@ -3,6 +3,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:random_string/random_string.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationServices{
 	
@@ -18,6 +20,7 @@ class NotificationServices{
 	}
 	
 	void initializeSetting() async{
+		tz.initializeTimeZones();
 		androidInitializationSettings = AndroidInitializationSettings("logo");
 		iosInitializationSettings = IOSInitializationSettings();
 		initializationSettings = InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings);
@@ -67,10 +70,15 @@ class NotificationServices{
 			enableLights: true,
 		);
 		
-		IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+		tz.TZDateTime time = tz.TZDateTime.from(
+			scheduleTime,
+			tz.local,
+		);
 		
+		_notification("Test", "test body");
 		NotificationDetails notificationDetails = NotificationDetails();
-		await flutterLocalNotificationsPlugin.schedule(id, titleString, bodyString, scheduleTime, notificationDetails);
+		await flutterLocalNotificationsPlugin.zonedSchedule(id, titleString, bodyString, time, notificationDetails,
+				androidAllowWhileIdle: true,uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime );
 	}
 	
 	Future<void> onSelectNotification(String payLoad) async{

@@ -51,6 +51,9 @@ dependencies:
   #i
   intl: ^0.17.0
 
+  #o
+  onesignal_flutter: ^2.0.0
+
   #p
   provider:
   progress_indicators:

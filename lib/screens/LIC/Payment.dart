@@ -306,18 +306,7 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text("Premium Paying Term"),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(color: Colors.red, fontSize: 22),
-                            )
-                          ],
-                        ),
+                        Text("Premium Paying Term"),
                         SizedBox(
                           height: 10.0,
                         ),
