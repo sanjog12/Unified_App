@@ -1,6 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:random_string/random_string.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
@@ -61,16 +60,6 @@ class NotificationServices{
 	
 	Future<void> reminderNotificationService({int id ,String titleString, String bodyString,DateTime scheduleTime}) async{
 		
-		var status = await OneSignal.shared.getPermissionSubscriptionState();
-		
-		var playerIds = status.subscriptionStatus.userId;
-		
-		OneSignal.shared.postNotification(OSCreateNotification(
-			playerIds: [playerIds],
-			content: bodyString,
-			heading: titleString,
-			sendAfter: scheduleTime,
-		));
 		
 		AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
 			'Channel _ID',
