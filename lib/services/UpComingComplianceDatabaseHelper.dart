@@ -352,10 +352,10 @@ class UpComingComplianceDatabaseHelper {
                   // print(data.value["date"]);
                   UpComingComplianceObject upComingComplianceObject =
                   UpComingComplianceObject(
-                      date: data.value['date'].toString(),
-                      label: data.value['label'],
-                      name: client.name,
-                      key: "ESI");
+                      date: data.value['date'].toString()  ?? '',
+                      label: data.value['label'] ?? '',
+                      name: client.name ?? '',
+                      key: "ESI" ?? '');
                   // print(upComingComplianceObject.label);
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
                   if(!isPassedDueDate)
@@ -412,9 +412,9 @@ class UpComingComplianceDatabaseHelper {
           print(v.value["date"]);
           UpComingComplianceObject upComingComplianceObject =
           UpComingComplianceObject(
-              date: v.value['date'].toString(),
-              label: v.value['label'],
-              key: v.key);
+              date: v.value['date'].toString() ?? '',
+              label: v.value['label'] ?? '',
+              key: v.key ?? '');
           print(upComingComplianceObject.label);
           bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
           if(!t)
@@ -463,9 +463,9 @@ class UpComingComplianceDatabaseHelper {
             print(v.value["date"]);
             UpComingComplianceObject upComingComplianceObject =
             UpComingComplianceObject(
-                date: v.value['date'].toString(),
-                label: v.value['label'],
-                key: v.key);
+                date: v.value['date'].toString() ?? '',
+                label: v.value['label'] ?? '',
+                key: v.key ?? '');
             print(upComingComplianceObject.label);
             bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
             if(!t)
@@ -514,9 +514,9 @@ class UpComingComplianceDatabaseHelper {
           print(v.value["date"]);
           UpComingComplianceObject upComingComplianceObject =
           UpComingComplianceObject(
-              date: v.value['date'].toString(),
-              label: v.value['label'],
-              key: v.key);
+              date: v.value['date'].toString() ?? '',
+              label: v.value['label'] ?? '',
+              key: v.key ?? '');
           print(upComingComplianceObject.label);
           bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
           if(!t)
@@ -554,9 +554,9 @@ class UpComingComplianceDatabaseHelper {
             print(key);
             UpComingComplianceObject upComingComplianceObject =
             UpComingComplianceObject(
-              name: value["type"],
-              date: value["date"],
-              label: value["label"],
+              name: value["type"] ?? '',
+              date: value["date"] ?? '',
+              label: value["label"] ?? '',
             );
             upComingComplianceData.add(upComingComplianceObject);
           });
@@ -607,9 +607,9 @@ class UpComingComplianceDatabaseHelper {
               // print(v.value["date"]);
               UpComingComplianceObject upComingComplianceObject =
               UpComingComplianceObject(
-                  date: v.value['date'].toString(),
-                  label: v.value['label'],
-                  key: v.key);
+                  date: v.value['date'].toString() ?? '',
+                  label: v.value['label'] ?? '',
+                  key: v.key ?? '',);
               bool isPassedDueDate = DateTime.now().isAfter(
                   DateTime(int.parse(todayDateObject.year),
                   int.parse(todayDateObject.month),
@@ -658,9 +658,10 @@ class UpComingComplianceDatabaseHelper {
             print(v.value["date"]);
             UpComingComplianceObject upComingComplianceObject =
             UpComingComplianceObject(
-                date: v.value['date'].toString(),
-                label: v.value['label'],
-                key: v.key);
+                date: v.value['date'].toString() ?? '',
+                label: v.value['label'] ?? '',
+                key: v.key ?? '',
+            );
             print(upComingComplianceObject.label);
             bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
             if(!t)

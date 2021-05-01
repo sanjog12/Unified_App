@@ -16,15 +16,6 @@ import 'package:firebase_core/firebase_core.dart';
 void main() {
   // Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-  OneSignal.shared.init(
-      "ab05a4ae-8f33-4fe5-a2a8-a1ae584e0b37",
-      iOSSettings: {
-        OSiOSSettings.autoPrompt: false,
-        OSiOSSettings.inAppLaunchUrl: false
-      }
-  );
-  OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
 
   // MobileAds.instance.initialize();
   final initAds = MobileAds.instance.initialize();

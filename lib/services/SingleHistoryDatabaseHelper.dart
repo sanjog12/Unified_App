@@ -43,11 +43,11 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 
       if (values != null) {
-        tdsPaymentObject.BSRcode = values['BSRcode'];
-        tdsPaymentObject.dateOfPayment = values['dateOfPayment'];
-        tdsPaymentObject.challanNumber = values['challanNumber'];
-        tdsPaymentObject.section = values['section'];
-        tdsPaymentObject.amountOfPayment = values['amountOfPayment'];
+        tdsPaymentObject.BSRcode = values['BSRcode'] ?? "";
+        tdsPaymentObject.dateOfPayment = values['dateOfPayment'] ?? "";
+        tdsPaymentObject.challanNumber = values['challanNumber']?? "";
+        tdsPaymentObject.section = values['section'] ?? "";
+        tdsPaymentObject.amountOfPayment = values['amountOfPayment'] ?? "";
       }
     });
     return tdsPaymentObject;
@@ -74,11 +74,11 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 
       if (values != null) {
-        incomeTaxPaymentObject.BSRcode = values['BSRcode'];
-        incomeTaxPaymentObject.amountOfPayment = values['amountOfPayment'];
-        incomeTaxPaymentObject.challanNumber = values['challanNumber'];
-        incomeTaxPaymentObject.dateOfPayment = values['dateOfPayment'];
-        incomeTaxPaymentObject.addAttachment = values['addAttachment'];
+        incomeTaxPaymentObject.BSRcode = values['BSRcode'] ?? "";
+        incomeTaxPaymentObject.amountOfPayment = values['amountOfPayment'] ?? "";
+        incomeTaxPaymentObject.challanNumber = values['challanNumber'] ?? "";
+        incomeTaxPaymentObject.dateOfPayment = values['dateOfPayment'] ?? "";
+        incomeTaxPaymentObject.addAttachment = values['addAttachment'] ?? "";
       }
     });
     return incomeTaxPaymentObject;
@@ -103,11 +103,11 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 
       if (values != null) {
-        gstPaymentObject.challanNumber = values['challanNumber'];
-        gstPaymentObject.amountOfPayment = values['amountOfPayment'];
-        gstPaymentObject.dueDate = values['dueDate'];
-        gstPaymentObject.section = values['section'];
-        gstPaymentObject.addAttachment=values['addAttachment'];
+        gstPaymentObject.challanNumber = values['challanNumber'] ?? "";
+        gstPaymentObject.amountOfPayment = values['amountOfPayment'] ?? "";
+        gstPaymentObject.dueDate = values['dueDate'] ?? "";
+        gstPaymentObject.section = values['section'] ?? "";
+        gstPaymentObject.addAttachment=values['addAttachment'] ?? "";
       }
     });
     return gstPaymentObject;
@@ -131,11 +131,11 @@ class SingleHistoryDatabaseHelper {
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
-          epfMonthlyContributionObejct.challanNumber = values['challanNumber'];
-          epfMonthlyContributionObejct.amountOfPayment = values['amountOfPayment'];
-          epfMonthlyContributionObejct.dteOfFilling = values['dateOfFilling'];
-          epfMonthlyContributionObejct.addAttachment = values['addAttachment'];
-          epfMonthlyContributionObejct.type = values['type'];
+          epfMonthlyContributionObejct.challanNumber = values['challanNumber'] ?? "";
+          epfMonthlyContributionObejct.amountOfPayment = values['amountOfPayment'] ?? "";
+          epfMonthlyContributionObejct.dteOfFilling = values['dateOfFilling'] ?? "";
+          epfMonthlyContributionObejct.addAttachment = values['addAttachment'] ?? "";
+          epfMonthlyContributionObejct.type = values['type'] ?? "";
       }
     });
     
@@ -160,10 +160,10 @@ class SingleHistoryDatabaseHelper {
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
-        epfDetailsOfContributionObject.challanNumber = values['challanNumber'];
-        epfDetailsOfContributionObject.amountOfPayment = values['amountOfPayment'];
-        epfDetailsOfContributionObject.dateOfFilling = values['dateOfFilling'];
-        epfDetailsOfContributionObject.addAttachment = values['addAttachment'];
+        epfDetailsOfContributionObject.challanNumber = values['challanNumber'] ?? "";
+        epfDetailsOfContributionObject.amountOfPayment = values['amountOfPayment'] ?? "";
+        epfDetailsOfContributionObject.dateOfFilling = values['dateOfFilling'] ?? "";
+        epfDetailsOfContributionObject.addAttachment = values['addAttachment'] ?? "";
       }
     });
   
@@ -190,10 +190,10 @@ class SingleHistoryDatabaseHelper {
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
-        esiMonthlyContributionObejct.challanNumber = values['challanNumber'];
-        esiMonthlyContributionObejct.amountOfPayment = values['amountOfPayment'];
-        esiMonthlyContributionObejct.dateOfFilling = values['dateOfFilling'];
-        esiMonthlyContributionObejct.addAttachment = values['addAttachment'];
+        esiMonthlyContributionObejct.challanNumber = values['challanNumber'] ?? "";
+        esiMonthlyContributionObejct.amountOfPayment = values['amountOfPayment'] ?? "";
+        esiMonthlyContributionObejct.dateOfFilling = values['dateOfFilling'] ?? "";
+        esiMonthlyContributionObejct.addAttachment = values['addAttachment'] ?? "";
       }
     });
     print(esiMonthlyContributionObejct.dateOfFilling);
@@ -218,10 +218,10 @@ class SingleHistoryDatabaseHelper {
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
-        ppfRecordObject.accountNumber = values['accountNumber'];
-        ppfRecordObject.amount = values['amount'];
-        ppfRecordObject.dateOfInvestment = values['dateOfInvestment'];
-        ppfRecordObject.nameOfInstitution = values['nameOfInstitution'];
+        ppfRecordObject.accountNumber = values['accountNumber'] ?? "";
+        ppfRecordObject.amount = values['amount'] ?? "";
+        ppfRecordObject.dateOfInvestment = values['dateOfInvestment'] ?? "";
+        ppfRecordObject.nameOfInstitution = values['nameOfInstitution'] ?? "";
       }
     });
     return ppfRecordObject;
@@ -246,16 +246,16 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 //      print(values);
       if (values != null) {
-        fdRecordObject.maturityDate = values['dateOfMaturity']??" ";
-        fdRecordObject.nameOfInstitution = values['nameOfInstitution']??" ";
-        fdRecordObject.dateOfInvestment = values['dateOfInvestment']??" ";
-        fdRecordObject.fixedDepositNo = values['fixedDepositNo']??" ";
-        fdRecordObject.maturityAmount = values['maturityAmount']??" ";
-        fdRecordObject.nomineeName = values['nomineeName']??" ";
-        fdRecordObject.principalAmount = values['principalAmount']??" ";
-        fdRecordObject.rateOfInterest = values['rateOfInterest']??" ";
-        fdRecordObject.secondHolderName = values['secondHolderName']??" ";
-        fdRecordObject.termOfInvestment = values['termOfInvestment']??" ";
+        fdRecordObject.maturityDate = values['dateOfMaturity']??"";
+        fdRecordObject.nameOfInstitution = values['nameOfInstitution']??"";
+        fdRecordObject.dateOfInvestment = values['dateOfInvestment']??"";
+        fdRecordObject.fixedDepositNo = values['fixedDepositNo']??"";
+        fdRecordObject.maturityAmount = values['maturityAmount']??"";
+        fdRecordObject.nomineeName = values['nomineeName']??"";
+        fdRecordObject.principalAmount = values['principalAmount']??"";
+        fdRecordObject.rateOfInterest = values['rateOfInterest']??"";
+        fdRecordObject.secondHolderName = values['secondHolderName']??"";
+        fdRecordObject.termOfInvestment = values['termOfInvestment']??"";
       }
     });
     return fdRecordObject;
@@ -281,21 +281,21 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 //      print(values);
       if (values != null) {
-        licPaymentObject.comanyName = values['comanyName']??" ";
-        licPaymentObject.agenName = values['agenName']??" ";
-        licPaymentObject.agentContactNumber = values['agentContactNumber']??" ";
-        licPaymentObject.branch = values['branch']??" ";
-        licPaymentObject.dateOfCommoncement = values['dateOfCommoncement']??" ";
-        licPaymentObject.frequancey = values['frequancey']??" ";
-        licPaymentObject.maturityDate = values['maturityDate']??" ";
-        licPaymentObject.nomineeName = values['nomineeName']??" ";
-        licPaymentObject.policyName = values['policyName']??" ";
-        licPaymentObject.policyNo = values['policyNo']??" ";
-        licPaymentObject.policyTerm = values['policyTerm']??" ";
-        licPaymentObject.premiumAmount = values['premiumAmount']??" ";
-        licPaymentObject.premiumDueDate = values['premiumDueDate']??" ";
-        licPaymentObject.premiumPayingTerm = values['premiumPayingTerm']??" ";
-        licPaymentObject.attachement = values['attachment']??" ";
+        licPaymentObject.comanyName = values['comanyName']??"";
+        licPaymentObject.agenName = values['agenName']??"";
+        licPaymentObject.agentContactNumber = values['agentContactNumber']??"";
+        licPaymentObject.branch = values['branch']??"";
+        licPaymentObject.dateOfCommoncement = values['dateOfCommoncement']??"";
+        licPaymentObject.frequancey = values['frequancey']??"";
+        licPaymentObject.maturityDate = values['maturityDate']??"";
+        licPaymentObject.nomineeName = values['nomineeName']??"";
+        licPaymentObject.policyName = values['policyName']??"";
+        licPaymentObject.policyNo = values['policyNo']??"";
+        licPaymentObject.policyTerm = values['policyTerm']??"";
+        licPaymentObject.premiumAmount = values['premiumAmount']??"";
+        licPaymentObject.premiumDueDate = values['premiumDueDate']??"";
+        licPaymentObject.premiumPayingTerm = values['premiumPayingTerm']??"";
+        licPaymentObject.attachement = values['attachment']??"";
       }
     });
     return licPaymentObject;
@@ -355,17 +355,17 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values =snapshot.value;
       print(values['amount']);
       if(values != null){
-        mutualFundRecordObject.type = values['type'];
-        mutualFundRecordObject.amount = values['amount'];
-        mutualFundRecordObject.frequency = values['No. of Installment'];
+        mutualFundRecordObject.type = values['type'] ?? ' ';
+        mutualFundRecordObject.amount = values['amount'] ?? ' ';
+        mutualFundRecordObject.frequency = values['No. of Installment'] ?? ' ';
         mutualFundRecordObject.mutualFundDetailObject =MutualFundDetailObject(
-          date: values['date'],
-          nav: values['nav'],
+          date: values['date'] ?? ' ',
+          nav: values['nav'] ?? ' ',
         );
         mutualFundRecordObject.mutualFundObject = MutualFundObject(
-          code: values['code'],
-          name: values['name'],
-          numberOfInstalments: values['No of Installment'],
+          code: values['code'] ?? ' ',
+          name: values['name'] ?? ' ',
+          numberOfInstalments: values['No of Installment'] ?? ' ',
         );
       }
       
