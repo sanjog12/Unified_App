@@ -113,13 +113,13 @@ class SingleHistoryDatabaseHelper {
     return gstPaymentObject;
   }
 
-  Future<EPFMonthlyContributionObejct> getEPFHistoryDetails(
+  Future<EPFMonthlyContributionObject> getEPFHistoryDetails(
       Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
 
     String clientEmail = client.email.replaceAll('.', ',');
 
-    EPFMonthlyContributionObejct epfMonthlyContributionObejct = EPFMonthlyContributionObejct();
+    EPFMonthlyContributionObject epfMonthlyContributionObejct = EPFMonthlyContributionObject();
     
     dbf = firebaseDatabase
         .reference()
@@ -133,7 +133,7 @@ class SingleHistoryDatabaseHelper {
       if (values != null) {
           epfMonthlyContributionObejct.challanNumber = values['challanNumber'] ?? "";
           epfMonthlyContributionObejct.amountOfPayment = values['amountOfPayment'] ?? "";
-          epfMonthlyContributionObejct.dteOfFilling = values['dateOfFilling'] ?? "";
+          epfMonthlyContributionObejct.dateOfFilling = values['dateOfFilling'] ?? "";
           epfMonthlyContributionObejct.addAttachment = values['addAttachment'] ?? "";
           epfMonthlyContributionObejct.type = values['type'] ?? "";
       }
@@ -157,6 +157,7 @@ class SingleHistoryDatabaseHelper {
         .child(firebaseUserId)
         .child(clientEmail)
         .child(key);
+    
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {

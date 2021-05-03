@@ -333,17 +333,21 @@ class _EPFRecordHistoryDetailsViewState2
 				}
 				print("4");
 				String name = await PaymentRecordToDataBase().uploadFile(file);
-				print("5");
+				print(name);
+				print("51");
 				dbf = firebaseDatabase.reference();
-				dbf
+				await dbf
 						.child('complinces')
 						.child('EPFDetailsContributionPayments')
 						.child(firebaseUserId)
 						.child(widget.client.email)
 						.child(widget.keyDB)
 						.update({
-					'addAttachment': name,
+					'addAttachment': name,});
+				setState(() {
+					widget.epfDetailsOfContributionObject.addAttachment = name;
 				});
+				
 			}
 			
 			dbf
@@ -357,7 +361,9 @@ class _EPFRecordHistoryDetailsViewState2
 				'amountOfPayment': _epfDetailsOfContributionObject.amountOfPayment,
 				'dateOfFilling': _epfDetailsOfContributionObject.dateOfFilling,
 			});
-			
+			setState(() {
+			  edit = false;
+			});
 			flutterToast(message: "Changes Saved");
 			
 		}on PlatformException catch(e){
@@ -514,8 +520,9 @@ class _EPFRecordHistoryDetailsViewState2
 													.update({
 												'addAttachment': 'null',
 											});
-											Navigator.pop(context);
-											Navigator.pop(context);
+											setState(() {
+												widget.epfDetailsOfContributionObject.addAttachment = "null";
+											});
 											flutterToast(message: "PDF Deleted");
 										}catch(e){
 											print(e.toString());

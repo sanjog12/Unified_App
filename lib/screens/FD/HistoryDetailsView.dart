@@ -8,6 +8,7 @@ import 'package:unified_reminder/models/payment/FDRecordObject.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -164,7 +165,7 @@ class _FDPaymentRecordHistoryDetailsViewState
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text("Fixed diposit number"),
+                      Text("Fixed Deposit number"),
                       SizedBox(
                         height: 10.0,
                       ),
@@ -200,14 +201,14 @@ class _FDPaymentRecordHistoryDetailsViewState
                       edit?TextFormField(
                         initialValue: widget.fdRecordObject.maturityAmount,
                         decoration:
-                        buildCustomInput(hintText: "Maturity Amount"),
+                        buildCustomInput(hintText: "Maturity Amount", prefixText: "\u{20B9}"),
                         onChanged: (value) =>
                         _fdRecordObject.maturityAmount = value,
                       )
                           :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
-                        child: Text(
+                        child: Text( "\u{20B9} " +
                           widget.fdRecordObject.maturityAmount,
                           style: TextStyle(
                             color: whiteColor,
@@ -269,14 +270,14 @@ class _FDPaymentRecordHistoryDetailsViewState
                       edit?TextFormField(
                         initialValue: widget.fdRecordObject.principalAmount,
                         decoration:
-                        buildCustomInput(hintText: "Principal Amount"),
+                        buildCustomInput(hintText: "Principal Amount", prefixText: "\u{20B9} "),
                         onChanged: (value) =>
                         _fdRecordObject.principalAmount = value,
                       )
                           :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
-                        child: Text(
+                        child: Text( "\u{20B9} " +
                           widget.fdRecordObject.principalAmount,
                           style: TextStyle(
                             color: whiteColor,
@@ -291,14 +292,15 @@ class _FDPaymentRecordHistoryDetailsViewState
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text("Rate of intrust"),
+                      Text("Rate of Interest"),
                       SizedBox(
                         height: 10.0,
                       ),
                       edit?TextFormField(
-                        initialValue: widget.fdRecordObject.rateOfInterest,
+                        initialValue: widget.fdRecordObject.rateOfInterest ,
+                        
                         decoration:
-                        buildCustomInput(hintText: "Rate Of Interest"),
+                        buildCustomInput(hintText: "Rate Of Interest", suffixText: " %"),
                         onChanged: (value) =>
                         _fdRecordObject.rateOfInterest = value,
                       )
@@ -306,7 +308,7 @@ class _FDPaymentRecordHistoryDetailsViewState
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: Text(
-                          widget.fdRecordObject.rateOfInterest,
+                          widget.fdRecordObject.rateOfInterest + " %",
                           style: TextStyle(
                             color: whiteColor,
                           ),
@@ -327,7 +329,7 @@ class _FDPaymentRecordHistoryDetailsViewState
                       edit?TextFormField(
                         initialValue: widget.fdRecordObject.termOfInvestment,
                         decoration: buildCustomInput(
-                            hintText: "Term Of Investment"),
+                            hintText: "Term Of Investment" , suffixText: "Months"),
                         onChanged: (value) =>
                         _fdRecordObject.termOfInvestment = value,
                       )
@@ -335,7 +337,7 @@ class _FDPaymentRecordHistoryDetailsViewState
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: Text(
-                          widget.fdRecordObject.termOfInvestment,
+                          widget.fdRecordObject.termOfInvestment + " Months",
                           style: TextStyle(
                             color: whiteColor,
                           ),
@@ -375,6 +377,9 @@ class _FDPaymentRecordHistoryDetailsViewState
                         )
                       : SizedBox(),
   
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -465,6 +470,7 @@ class _FDPaymentRecordHistoryDetailsViewState
     print(widget.keyDB);
     print(_fdRecordObject.nomineeName);
     try{
+      _fdRecordObject.maturityDate = DateChange.addMonthToDate(_fdRecordObject.dateOfInvestment,int.parse(_fdRecordObject.termOfInvestment));
       dbf
           .child('complinces')
           .child('FDRecord')

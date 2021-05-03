@@ -82,7 +82,7 @@ class _WrapperState extends State<Wrapper> {
   }
 
   Future<String> getUserFirebaseId() async {
-    String _firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String _firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     this.setState(() {
       firebaseUserId = _firebaseUserId;
     });

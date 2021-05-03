@@ -320,7 +320,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 				String name = await PaymentRecordToDataBase().uploadFile(file);
 				print("5");
 				dbf = firebaseDatabase.reference();
-				dbf
+				await dbf
 						.child('complinces')
 						.child('ESIMonthlyContributionPayments')
 						.child(firebaseUserId)
@@ -329,9 +329,13 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						.update({
 					'addAttachment': name,
 				});
+				
+				setState(() {
+				  widget.esiMonthlyContributionObejct.addAttachment = name;
+				});
 			}
 			
-			dbf
+			await dbf
 					.child('complinces')
 					.child('ESIMonthlyContributionPayments')
 					.child(firebaseUserId)
@@ -427,13 +431,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 			recordDeletedToast();
 			Navigator.pop(context);
 			Navigator.pop(context);
-//			Navigator.push(context,
-//				MaterialPageRoute(
-//					builder: (context) => HistoryESI(
-//						client: widget.client,
-//					)
-//				)
-//			);
+
 		}on PlatformException catch(e){
 			print(e.message);
 			flutterToast(message: e.message);
@@ -485,7 +483,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 											print("here");
 											await fireUser();
 											dbf = firebaseDatabase.reference();
-											dbf
+											await dbf
 													.child('complinces')
 													.child('ESIMonthlyContributionPayments')
 													.child(firebaseUserId)
@@ -494,8 +492,10 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 													.update({
 												'addAttachment': 'null',
 											});
-											Navigator.of(context).pop();
-											Navigator.of(context).reassemble();
+											setState(() {
+											  widget.esiMonthlyContributionObejct.addAttachment = 'null';
+													
+											});
 											flutterToast(message: "PDF Deleted");
 										}catch(e){
 											print(e.toString());

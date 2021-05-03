@@ -97,7 +97,7 @@ class _HistoryESIState extends State<HistoryESI> {
 							  keyDB: key,
 						  )
 					  )
-			  );
+			  ).whenComplete((){setState(() {});});
 		  }
   		
 	  }

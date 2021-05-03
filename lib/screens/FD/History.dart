@@ -82,14 +82,14 @@ class _HistoryForFDState extends State<HistoryForFD> {
 
       fdRecordObject = await SingleHistoryDatabaseHelper()
           .getFDHistoryDetails(widget.client, key);
-      print(fdRecordObject.nomineeName);
-      print(fdRecordObject.dateOfInvestment);
-      print(fdRecordObject.secondHolderName);
-      print(fdRecordObject.principalAmount);
-      print(fdRecordObject.rateOfInterest);
-      print(fdRecordObject.termOfInvestment);
-      print(fdRecordObject.maturityAmount);
-      print(fdRecordObject.fixedDepositNo);
+      // print(fdRecordObject.nomineeName);
+      // print(fdRecordObject.dateOfInvestment);
+      // print(fdRecordObject.secondHolderName);
+      // print(fdRecordObject.principalAmount);
+      // print(fdRecordObject.rateOfInterest);
+      // print(fdRecordObject.termOfInvestment);
+      // print(fdRecordObject.maturityAmount);
+      // print(fdRecordObject.fixedDepositNo);
       if (fdRecordObject != null) {
 //      print(epfDetailsOfContributionObject.challanNumber);
         Navigator.push(
@@ -101,7 +101,7 @@ class _HistoryForFDState extends State<HistoryForFD> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete((){setState(() {});});
       }
     }
   }

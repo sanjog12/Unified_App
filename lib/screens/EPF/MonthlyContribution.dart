@@ -22,10 +22,10 @@ class MonthlyContribution extends StatefulWidget {
 
 class _MonthlyContributionState extends State<MonthlyContribution> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _MonthlyContributionFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _monthlyContributionFormKey = GlobalKey<FormState>();
 
-  EPFMonthlyContributionObejct epfMonthlyContributionObejct =
-      EPFMonthlyContributionObejct();
+  EPFMonthlyContributionObject epfMonthlyContributionObject =
+      EPFMonthlyContributionObject();
 
   bool loadingSaveButton = false;
   
@@ -51,7 +51,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
       setState(() {
         selectedDateOfPayment = picked;
         showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-        epfMonthlyContributionObejct.dteOfFilling = showDateOfPayment;
+        epfMonthlyContributionObject.dateOfFilling = showDateOfPayment;
         setState(() {
           _selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
         });
@@ -100,7 +100,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                   height: 50.0,
                 ),
                 Form(
-                  key: _MonthlyContributionFormKey,
+                  key: _monthlyContributionFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -145,9 +145,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                           TextFormField(
                             decoration:
                                 buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
-                            validator: (value) =>
-                                requiredField(value, 'Amount Of Payment'),
-                            onChanged: (value) => epfMonthlyContributionObejct
+                            onChanged: (value) => epfMonthlyContributionObject
                                 .amountOfPayment = value,
                           ),
                         ],
@@ -166,9 +164,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                           TextFormField(
                             decoration:
                             buildCustomInput(hintText: "Challan Number"),
-                            validator: (value) =>
-                                requiredField(value, 'Challan number'),
-                            onChanged: (value) => epfMonthlyContributionObejct
+                            onChanged: (value) => epfMonthlyContributionObject
                                 .challanNumber = value,
                           ),
                         ],
@@ -190,7 +186,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                                 FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
                                 file = File(filePickerResult.files.single.path);
                                 List<String> temp = file.path.split('/');
-                                epfMonthlyContributionObejct.addAttachment = temp.last;
+                                epfMonthlyContributionObject.addAttachment = temp.last;
                                 setState(() {
                                   nameOfFile = temp.last;
                                 });
@@ -250,15 +246,15 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
 
   Future<void> paymentMonthlyContribution() async {
     try {
-      if (_MonthlyContributionFormKey.currentState.validate()) {
-        _MonthlyContributionFormKey.currentState.save();
+      if (_monthlyContributionFormKey.currentState.validate()) {
+        _monthlyContributionFormKey.currentState.save();
         this.setState(() {
           buttonLoading = true;
         });
 
         bool done = await PaymentRecordToDataBase()
             .addMonthlyContributionPayment(
-                epfMonthlyContributionObejct, widget.client, file);
+                epfMonthlyContributionObject, widget.client, file);
         
         if (done) {
           flutterToast(message: "Recorded Saved");

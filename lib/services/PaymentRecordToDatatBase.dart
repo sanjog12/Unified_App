@@ -270,7 +270,7 @@ class PaymentRecordToDataBase {
   }
 
   Future<bool> addMonthlyContributionPayment(
-      EPFMonthlyContributionObejct epfMonthlyContributionObejct,
+      EPFMonthlyContributionObject epfMonthlyContributionObejct,
       Client client,
       File attachmentFile) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -284,7 +284,7 @@ class PaymentRecordToDataBase {
       if (attachmentFile != null) {
         String fileName = await uploadFile(attachmentFile);
         monthlyContributionPayment = {
-          'dateOfFilling': epfMonthlyContributionObejct.dteOfFilling,
+          'dateOfFilling': epfMonthlyContributionObejct.dateOfFilling,
           'challanNumber': epfMonthlyContributionObejct.challanNumber,
           'amountOfPayment': epfMonthlyContributionObejct.amountOfPayment,
           'addAttachment': fileName,
@@ -292,7 +292,7 @@ class PaymentRecordToDataBase {
         };
       } else {
         monthlyContributionPayment = {
-          'dateOfFilling': epfMonthlyContributionObejct.dteOfFilling,
+          'dateOfFilling': epfMonthlyContributionObejct.dateOfFilling,
           'challanNumber': epfMonthlyContributionObejct.challanNumber,
           'amountOfPayment': epfMonthlyContributionObejct.amountOfPayment,
           'addAttachment': "null",
@@ -331,7 +331,7 @@ class PaymentRecordToDataBase {
       if (attachmentFile != null) {
         String fileName = await uploadFile(attachmentFile);
         monthlyContributionPayment = {
-          'dateOfFilling': epfDetailsOfContributionObject.dateOfFilling,
+          'dateOfFilling': epfDetailsOfContributionObject.dateOfFilling ,
           'challanNumber': epfDetailsOfContributionObject.challanNumber,
           'amountOfPayment': epfDetailsOfContributionObject.amountOfPayment,
           'addAttachment': fileName,

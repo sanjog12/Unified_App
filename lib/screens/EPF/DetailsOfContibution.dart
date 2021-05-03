@@ -22,7 +22,7 @@ class DetailsOfContribution extends StatefulWidget {
 class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	
 	bool buttonLoading = false;
-	GlobalKey<FormState> _MonthlyContributionFormKey = GlobalKey<FormState>();
+	GlobalKey<FormState> _monthlyContributionFormKey = GlobalKey<FormState>();
 	
 	EPFDetailsOfContributionObject epfDetailsOfContributionObject = EPFDetailsOfContributionObject();
 	
@@ -98,7 +98,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 						    height: 50.0,
 					    ),
 					    Form(
-						    key: _MonthlyContributionFormKey,
+						    key: _monthlyContributionFormKey,
 						    child: Column(
 							    crossAxisAlignment: CrossAxisAlignment.stretch,
 							    children: <Widget>[
@@ -142,8 +142,6 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 										    TextFormField(
 											    decoration:
 											    buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
-											    validator: (value) =>
-													    requiredField(value, 'Amount Of Payment'),
 											    onChanged: (value) => epfDetailsOfContributionObject
 													    .amountOfPayment = value,
 										    ),
@@ -162,8 +160,6 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 										    TextFormField(
 											    decoration:
 											    buildCustomInput(hintText: "Challan Number"),
-											    validator: (value) =>
-													    requiredField(value, 'Challan number'),
 											    onChanged: (value) => epfDetailsOfContributionObject
 													    .challanNumber = value,
 										    ),
@@ -231,8 +227,8 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	
 	Future<void> detailsMonthlyContribution() async {
 		try {
-			if (_MonthlyContributionFormKey.currentState.validate()) {
-				_MonthlyContributionFormKey.currentState.save();
+			if (_monthlyContributionFormKey.currentState.validate() && epfDetailsOfContributionObject.dateOfFilling != '' ) {
+				_monthlyContributionFormKey.currentState.save();
 				this.setState(() {
 					buttonLoading = true;
 				});

@@ -22,13 +22,13 @@ recordEditToast() {
 }
 
 flutterToast({String message}){
-	// return Fluttertoast.showToast(
-	// 		msg: message,
-	// 		toastLength: Toast.LENGTH_SHORT,
-	// 		gravity: ToastGravity.BOTTOM,
-	// 		backgroundColor: Color(0xff666666),
-	// 		textColor: Colors.white,
-	// 		fontSize: 16.0);
+	return Fluttertoast.showToast(
+			msg: message,
+			toastLength: Toast.LENGTH_SHORT,
+			gravity: ToastGravity.BOTTOM,
+			backgroundColor: Color(0xff666666),
+			textColor: Colors.white,
+			fontSize: 16.0);
 }
 
 showToastMessage(BuildContext context,{String title, String content}) async{

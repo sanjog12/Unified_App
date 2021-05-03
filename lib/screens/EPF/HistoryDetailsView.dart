@@ -17,7 +17,7 @@ import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class EPFRecordHistoryDetailsView extends StatefulWidget {
   final Client client;
-  final EPFMonthlyContributionObejct epfMonthlyContributionObejct;
+  final EPFMonthlyContributionObject epfMonthlyContributionObejct;
   final String keyDB;
 
   const EPFRecordHistoryDetailsView({Key key, this.client, this.epfMonthlyContributionObejct, this.keyDB}) : super(key: key);
@@ -40,7 +40,7 @@ class _EPFRecordHistoryDetailsViewState
   bool newFile = false;
   String firebaseUserId;
   String nameOfFile = "Add File";
-  EPFMonthlyContributionObejct _epfMonthlyContributionObejct;
+  EPFMonthlyContributionObject _epfMonthlyContributionObejct;
   DateTime selectedDate = DateTime.now();
   String selectedDateDB;
   File file;
@@ -58,7 +58,7 @@ class _EPFRecordHistoryDetailsViewState
       setState((){
         selectedDate = picked;
         selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-        _epfMonthlyContributionObejct.dteOfFilling = selectedDateDB;
+        _epfMonthlyContributionObejct.dateOfFilling = selectedDateDB;
       });
     }
   }
@@ -72,7 +72,7 @@ class _EPFRecordHistoryDetailsViewState
   void initState() {
     super.initState();
     _epfMonthlyContributionObejct = widget.epfMonthlyContributionObejct;
-    selectedDateDB = widget.epfMonthlyContributionObejct.dteOfFilling;
+    selectedDateDB = widget.epfMonthlyContributionObejct.dateOfFilling;
   }
   
   @override
@@ -130,7 +130,7 @@ class _EPFRecordHistoryDetailsViewState
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: Text(
-                          widget.epfMonthlyContributionObejct.dteOfFilling,
+                          widget.epfMonthlyContributionObejct.dateOfFilling,
                           style: TextStyle(
                             color: whiteColor,
                           ),
@@ -334,6 +334,10 @@ class _EPFRecordHistoryDetailsViewState
             .update({
           'addAttachment': name,
         });
+        
+        setState(() {
+          widget.epfMonthlyContributionObejct.addAttachment = name;
+        });
       }
     
       dbf
@@ -345,7 +349,10 @@ class _EPFRecordHistoryDetailsViewState
           .update({
         'challanNumber': _epfMonthlyContributionObejct.challanNumber,
         'amountOfPayment': _epfMonthlyContributionObejct.amountOfPayment,
-        'dateOfFilling': _epfMonthlyContributionObejct.dteOfFilling,
+        'dateOfFilling': _epfMonthlyContributionObejct.dateOfFilling,
+      });
+      setState(() {
+        edit = false;
       });
       flutterToast(message: "Changes saved");
     
@@ -503,8 +510,9 @@ class _EPFRecordHistoryDetailsViewState
                           .update({
                         'addAttachment': 'null',
                       });
-                      Navigator.of(context).pop();
-                      Navigator.pop(context);
+                      setState(() {
+                        widget.epfMonthlyContributionObejct.addAttachment = 'null';
+                      });
                       flutterToast(message: "PDF Deleted");
                     }catch(e){
                       print(e.toString());

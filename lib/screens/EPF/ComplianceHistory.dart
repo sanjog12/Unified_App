@@ -36,10 +36,10 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
             Expanded(
               child: FutureBuilder<List<HistoryComplinceObject>>(
                 future: HistoriesDatabaseHelper()
-                    .getComplincesHistoryOfEPF(widget.client),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
+                    .getCompliancesHistoryOfEPF(widget.client),
+                builder: (BuildContext context, AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
                   if (snapshot.hasData) {
+                    print(snapshot.data.first.date);
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -90,8 +90,8 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
 
   Future<void> _getHistoryDetails(String key) async {
     if (key != null) {
-      EPFMonthlyContributionObejct epfMonthlyContributionObejct =
-          EPFMonthlyContributionObejct();
+      EPFMonthlyContributionObject epfMonthlyContributionObejct =
+          EPFMonthlyContributionObject();
 
       epfMonthlyContributionObejct = await SingleHistoryDatabaseHelper()
           .getEPFHistoryDetails(widget.client, key);
@@ -106,7 +106,7 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete((){setState(() {});});
       }
     }
   }
@@ -129,7 +129,7 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete((){setState(() {});});
       }
     }
   }
