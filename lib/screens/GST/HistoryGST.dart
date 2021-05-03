@@ -8,6 +8,7 @@ import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/PDFView.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 
 class HistoryGST extends StatefulWidget {
@@ -54,7 +55,7 @@ class _HistoryGSTState extends State<HistoryGST> {
 														    title: Text(
 																    snapshot.data[index].date != null ? snapshot
 																		    .data[index].date : 'No Saved Record '),
-														    contentPadding: EdgeInsets.all(5),
+														    contentPadding: EdgeInsets.all(10),
 														    subtitle: Column(
 															    crossAxisAlignment: CrossAxisAlignment.start,
 															    children: <Widget>[
@@ -77,8 +78,7 @@ class _HistoryGSTState extends State<HistoryGST> {
 														    trailing: snapshot.data[index].type ==
 																    'GSTR_1_QUARTERLY' ? Text('') : Text(
 																    snapshot.data[index].amount != null
-																		    ? snapshot
-																		    .data[index].amount
+																		    ? "\u{20B9} " +snapshot.data[index].amount
 																		    : ' '),
 														    onTap: () {
 															    if (snapshot.data[index].type ==
@@ -95,14 +95,8 @@ class _HistoryGSTState extends State<HistoryGST> {
 																	    );
 																    }
 															    	else{
-																	    // Fluttertoast.showToast(
-																			//     msg:"No File Were Uploaded",
-																			//     toastLength: Toast.LENGTH_SHORT,
-																			//     gravity: ToastGravity.BOTTOM,
-																			//     backgroundColor: Color(0xff666666),
-																			//     textColor: Colors.white,
-																			//     fontSize: 16.0);
-																    }
+															    		flutterToast(message: "No File Were Uploaded");
+															    	}
 															    }
 															    else {
 																    detailedView(snapshot.data[index].key);

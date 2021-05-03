@@ -50,9 +50,9 @@ class _ComplianceHistoryForTDSState extends State<ComplianceHistoryForLIC> {
                             decoration: roundedCornerButton,
                             margin: EdgeInsets.symmetric(vertical: 10.0),
                             child: ListTile(
-                              title: Text(snapshot.data[index].date!= null?snapshot.data[index].date:'Date Not provided'),
-                              subtitle: Text(snapshot.data[index].type!= null?snapshot.data[index].type:'Frequency not provided'),
-                              trailing: Text(snapshot.data[index].amount!=null?"INR ${snapshot.data[index].amount}":'NA'),
+                              title: Text(snapshot.data[index].date),
+                              subtitle: Text(snapshot.data[index].type),
+                              trailing: Text("\u{20B9} ${snapshot.data[index].amount}" ?? ""),
                             ),
                           ),
                         );

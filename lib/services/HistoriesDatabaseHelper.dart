@@ -314,7 +314,7 @@ class HistoriesDatabaseHelper {
 
 //    print(clientEmail);
 
-    List<HistoryComplinceObject> complinceData = [];
+    List<HistoryComplinceObject> complianceData = [];
 
     dbf = firebaseDatabase
         .reference()
@@ -328,22 +328,22 @@ class HistoriesDatabaseHelper {
       if (values != null) {
         values.forEach((key, values) {
           print(key);
-          HistoryComplinceObject historyComplinceObject =
+          HistoryComplinceObject historyComplianceObject =
               HistoryComplinceObject(
-            date: values["dateOfInvestment"],
-            amount: values['amount'],
-            type: values['nameOfInstitution'],
+            date: values["dateOfInvestment"]?? "",
+            amount: values['amount']?? "",
+            type: values['nameOfInstitution']?? "",
             key: key,
           );
-          complinceData.add(historyComplinceObject);
+          complianceData.add(historyComplianceObject);
         });
       } else {
-        complinceData.add(HistoryComplinceObject(
-            date: 'No History Found', amount: 'null', type: ''));
+        complianceData.add(HistoryComplinceObject(
+            date: 'No History Found', amount: '0', type: ''));
       }
     });
 
-    return complinceData;
+    return complianceData;
   }
 
   Future<List<HistoryComplinceObject>> getHistoryOfFDRecord(
@@ -410,16 +410,16 @@ class HistoriesDatabaseHelper {
           print(key);
           HistoryComplinceObject historyComplinceObject =
               HistoryComplinceObject(
-            date: values["dateOfCommoncement"]??" ",
-            amount: values['premiumAmount']??" ",
-            type: values['frequancey']??" ",
+            date: values["dateOfCommoncement"]??"",
+            amount: values['premiumAmount']??"",
+            type: values['frequancey']??"",
             key: key??" ",
           );
           complinceData.add(historyComplinceObject);
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No History Found', amount: 'null', type: ''));
+            date: 'No History Found', amount: '0', type: ''));
       }
     });
 

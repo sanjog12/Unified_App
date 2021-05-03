@@ -11,7 +11,7 @@ import 'package:unified_reminder/screens/GST/HistoryGST.dart';
 import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';
 import 'package:unified_reminder/screens/IncomeTax/ComplianceHistory.dart';
 import 'package:unified_reminder/screens/IncomeTax/UpComingComliancesScreen.dart';
-import 'package:unified_reminder/screens/LIC/ComplianceHistoryForTDS.dart';
+import 'package:unified_reminder/screens/LIC/ComplianceHistoryForLIC.dart';
 import 'package:unified_reminder/screens/LIC/Payment.dart';
 import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/screens/MF/AddMFScreen.dart';
@@ -169,7 +169,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 										  context,
 										  MaterialPageRoute(
 												  builder: (context) =>
-														  UpComingComliancesScreenForIncomeTax(
+														  UpComingCompliancesScreenForIncomeTax(
 															  client: client,
 														  )));
 						  	},

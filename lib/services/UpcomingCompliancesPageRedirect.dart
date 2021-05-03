@@ -28,7 +28,7 @@ void jumpToPage(BuildContext context, String condition, List<Client> clientList,
 	}
 	
 	else if(condition == "Income Tax"){
-		Navigator.push(context, MaterialPageRoute(builder: (context)=>UpComingComliancesScreenForIncomeTax(
+		Navigator.push(context, MaterialPageRoute(builder: (context)=>UpComingCompliancesScreenForIncomeTax(
 				client: clientList.firstWhere((element){
 					return element.name == name;
 				})

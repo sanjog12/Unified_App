@@ -55,6 +55,9 @@ class _PPFRecordState extends State<PPFRecord> {
     return Scaffold(
         appBar: AppBar(
           title: Text("PPF Record"),
+          actions: [
+            helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20PF")
+          ],
         ),
         body: Container(
           padding: EdgeInsets.all(24),
@@ -87,8 +90,7 @@ class _PPFRecordState extends State<PPFRecord> {
                           ),
                           TextFormField(
                             decoration: buildCustomInput(hintText: "Name Of Institution"),
-                            validator: (value) =>
-                                requiredField(value, 'Name Of Institution'),
+                            
                             onSaved: (value) =>
                                 ppfRecordObject.nameOfInstitution = value,
                           ),
@@ -107,8 +109,6 @@ class _PPFRecordState extends State<PPFRecord> {
                           TextFormField(
                             decoration:
                                 buildCustomInput(hintText: "Account Number"),
-                            validator: (value) =>
-                                requiredField(value, 'Account number'),
                             onSaved: (value) =>
                                 ppfRecordObject.accountNumber = value,
                           ),
@@ -127,8 +127,7 @@ class _PPFRecordState extends State<PPFRecord> {
                           TextFormField(
                             decoration:
                                 buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
-                            validator: (value) =>
-                                requiredField(value, 'Amount Of Payment'),
+                            
                             onSaved: (value) => ppfRecordObject.amount = value,
                           ),
                         ],

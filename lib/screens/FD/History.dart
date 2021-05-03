@@ -47,7 +47,7 @@ class _HistoryForFDState extends State<HistoryForFD> {
                               title: Text(snapshot.data[index].date != null ?snapshot.data[index].date :"No Record Till Now"),
                               subtitle: Text(snapshot.data[index].type != null ? snapshot.data[index].type  : ""),
                               trailing:
-                                  Text(snapshot.data[index].amount != "null" ?"INR ${snapshot.data[index].amount}":" "),
+                                  Text(snapshot.data[index].amount != "null" ?"\u{20B9} ${snapshot.data[index].amount}":" "),
                             ),
                           ),
                         );

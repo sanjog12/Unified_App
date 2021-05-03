@@ -48,7 +48,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
                               title: Text(snapshot.data[index].date),
                               subtitle: Text(snapshot.data[index].type),
                               trailing:
-                                  Text(snapshot.data[index].amount != "null"?"INR ${snapshot.data[index].amount}":" "),
+                                  Text(snapshot.data[index].amount != "0"?"INR ${snapshot.data[index].amount}":" "),
                             ),
                           ),
                         );
@@ -78,7 +78,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
     );
   }
 
-  Future<void> _getHistoryDetails(String key) async {
+  Future<Null> _getHistoryDetails(String key) async {
     if (key != null) {
       PPFRecordObject ppfRecordObject = PPFRecordObject();
 
@@ -95,7 +95,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete((){setState(() {});});
       }
     }
   }

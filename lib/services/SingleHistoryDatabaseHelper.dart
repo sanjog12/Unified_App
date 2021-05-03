@@ -228,6 +228,9 @@ class SingleHistoryDatabaseHelper {
     return ppfRecordObject;
   }
 
+  
+  
+  
   Future<FDRecordObject> getFDHistoryDetails(Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
 

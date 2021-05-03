@@ -81,7 +81,7 @@ class PaymentRecordToDataBase {
           .set(tdsPayment);
 
       List<String> todayDateData =
-          tdsPaymentObject.dateOfPayment.toString().split('/');
+          tdsPaymentObject.dateOfPayment.toString().split('-');
       TodayDateObject todayDateObject;
 
       todayDateObject = TodayDateObject(
@@ -102,10 +102,13 @@ class PaymentRecordToDataBase {
           .set('done');
 
       return true;
-    }catch (e) {
+    }on PlatformException catch (e) {
       print("Here");
       print(e);
-      return false;
+      throw e;
+    }catch(e){
+      print("error");
+      print(e);
     }
   }
 

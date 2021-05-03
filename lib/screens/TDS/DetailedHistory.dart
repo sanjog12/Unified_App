@@ -286,7 +286,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 									    :Container(
 									    padding: EdgeInsets.all(15),
 									    decoration: fieldsDecoration,
-									    child: Text(
+									    child: Text( "\u{20B9} " +
 										    widget.tdsPaymentObject.amountOfPayment,
 										    style: TextStyle(color: Colors.white),
 									    ),
@@ -305,7 +305,6 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 						              child: Text("Save Changes"),
 						              onPressed: () async{
 						              	await editRecord();
-						              	Navigator.pop(context);
 						              },
 					              )
 									      :TextButton(
@@ -375,23 +374,14 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 			  'addAttachment': _tdsPaymentObject.addAttachment,  });
 		
 		  recordEditToast();
+		  setState(() {
+		    edit = false;
+		  });
 		  
 	  }on PlatformException catch(e){
-		  // Fluttertoast.showToast(
-			// 	  msg: e.message.toString(),
-			// 	  toastLength: Toast.LENGTH_SHORT,
-			// 	  gravity: ToastGravity.BOTTOM,
-			// 	  backgroundColor: Color(0xff666666),
-			// 	  textColor: Colors.white,
-			// 	  fontSize: 16.0);
+		  flutterToast(message: e.message);
 	  }catch(e){
-		  // Fluttertoast.showToast(
-			// 	  msg: e.message.toString(),
-			// 	  toastLength: Toast.LENGTH_SHORT,
-			// 	  gravity: ToastGravity.BOTTOM,
-			// 	  backgroundColor: Color(0xff666666),
-			// 	  textColor: Colors.white,
-			// 	  fontSize: 16.0);
+		  flutterToast(message: "Something went wrong");
 	  }
   }
 	
@@ -462,24 +452,11 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 			recordDeletedToast();
 			
 			Navigator.pop(context);
-			Navigator.pop(context);
 			
 		}on PlatformException catch(e){
-			// Fluttertoast.showToast(
-			// 		msg: e.message.toString(),
-			// 		toastLength: Toast.LENGTH_SHORT,
-			// 		gravity: ToastGravity.BOTTOM,
-			// 		backgroundColor: Color(0xff666666),
-			// 		textColor: Colors.white,
-			// 		fontSize: 16.0);
+			flutterToast(message: e.message);
 		}catch(e){
-			// Fluttertoast.showToast(
-			// 		msg: e.message.toString(),
-			// 		toastLength: Toast.LENGTH_SHORT,
-			// 		gravity: ToastGravity.BOTTOM,
-			// 		backgroundColor: Color(0xff666666),
-			// 		textColor: Colors.white,
-			// 		fontSize: 16.0);
+			flutterToast(message: "Something went wrong");
 		}
 	}
   

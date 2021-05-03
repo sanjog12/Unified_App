@@ -19,7 +19,7 @@ class IncomeTaxReturnFilling extends StatefulWidget {
 
 class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _IncomeTaxReturnFillingsFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _incomeTaxReturnFillingsFormKey = GlobalKey<FormState>();
 
   IncomeTaxReturnFillingsObject incomeTaxReturnFillingsObject =
       IncomeTaxReturnFillingsObject();
@@ -76,7 +76,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                   height: 50.0,
                 ),
                 Form(
-                  key: _IncomeTaxReturnFillingsFormKey,
+                  key: _incomeTaxReturnFillingsFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -173,8 +173,8 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
 
   Future<void> returnFillingsIncomeTax() async {
     try {
-      if (_IncomeTaxReturnFillingsFormKey.currentState.validate()) {
-        _IncomeTaxReturnFillingsFormKey.currentState.save();
+      if (_incomeTaxReturnFillingsFormKey.currentState.validate()) {
+        _incomeTaxReturnFillingsFormKey.currentState.save();
         this.setState(() {
           buttonLoading = true;
         });

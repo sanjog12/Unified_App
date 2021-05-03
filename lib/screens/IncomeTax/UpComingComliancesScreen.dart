@@ -9,18 +9,18 @@ import 'package:unified_reminder/screens/IncomeTax/ReturnFilling.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
-class UpComingComliancesScreenForIncomeTax extends StatefulWidget {
+class UpComingCompliancesScreenForIncomeTax extends StatefulWidget {
   final Client client;
 
-  const UpComingComliancesScreenForIncomeTax({this.client});
+  const UpComingCompliancesScreenForIncomeTax({this.client});
 
   @override
-  _UpComingComliancesScreenForIncomeTaxState createState() =>
-      _UpComingComliancesScreenForIncomeTaxState();
+  _UpComingCompliancesScreenForIncomeTaxState createState() =>
+      _UpComingCompliancesScreenForIncomeTaxState();
 }
 
-class _UpComingComliancesScreenForIncomeTaxState
-    extends State<UpComingComliancesScreenForIncomeTax> {
+class _UpComingCompliancesScreenForIncomeTaxState
+    extends State<UpComingCompliancesScreenForIncomeTax> {
   static DateTime now = new DateTime.now();
   static DateTime date = new DateTime(now.year, now.month, now.day);
 

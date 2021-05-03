@@ -10,6 +10,7 @@ import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -51,8 +52,8 @@ class _TDSPaymentState extends State<TDSPayment>{
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDateOfPayment,
-        firstDate: DateTime(2019),
-        lastDate: DateTime(2021)
+        firstDate: DateTime(DateTime.now().year -1),
+        lastDate: DateTime(DateTime.now().year + 1),
     );
   
     if(picked != null && picked != selectedDateOfPayment){
@@ -388,33 +389,15 @@ class _TDSPaymentState extends State<TDSPayment>{
         await PaymentRecordToDataBase().addTDSPayment(
             tDSPaymentObject, widget.client, file);
         Navigator.pop(context);
-        // Fluttertoast.showToast(
-        //     msg: "Date has Been Recorded",
-        //     toastLength: Toast.LENGTH_SHORT,
-        //     gravity: ToastGravity.BOTTOM,
-        //     backgroundColor: Color(0xff666666),
-        //     textColor: Colors.white,
-        //     fontSize: 16.0);
+        flutterToast(message: "Data has been recorded");
       }
       else {
         print("error");
       }
     }on PlatformException catch(e){
-      // Fluttertoast.showToast(
-      //     msg: e.message,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      flutterToast(message: e.message);
     }catch(e){
-      // Fluttertoast.showToast(
-      //     msg: e.message,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      flutterToast(message: "Something Went Wrong");
     }
   }
 }

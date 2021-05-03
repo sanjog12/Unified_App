@@ -156,7 +156,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
                           :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
-                        child: Text(
+                        child: Text( "\u{20B9} " +
                           widget.incomeTaxPaymentObject.amountOfPayment,
                           style: TextStyle(
                             color: whiteColor,

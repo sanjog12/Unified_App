@@ -188,7 +188,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 				  tdsPaymentObject: tdsPaymentObject,
 				  keyDB: key,
 			  ))
-		  );
+		  ).whenComplete((){setState(() {});});
 		  }
 	  }
   }
@@ -409,22 +409,10 @@ class _HistoryTDSState extends State<HistoryTDS> {
 		  recordDeletedToast();
 		
 	  }on PlatformException catch(e){
-		  // Fluttertoast.showToast(
-			// 	  msg: e.message.toString(),
-			// 	  toastLength: Toast.LENGTH_SHORT,
-			// 	  gravity: ToastGravity.BOTTOM,
-			// 	  backgroundColor: Color(0xff666666),
-			// 	  textColor: Colors.white,
-			// 	  fontSize: 16.0);
+		  flutterToast(message: e.message);
 	  }catch(e){
 	  	print(e);
-		  // Fluttertoast.showToast(
-			// 	  msg: e.message.toString(),
-			// 	  toastLength: Toast.LENGTH_SHORT,
-			// 	  gravity: ToastGravity.BOTTOM,
-			// 	  backgroundColor: Color(0xff666666),
-			// 	  textColor: Colors.white,
-			// 	  fontSize: 16.0);
+		  flutterToast(message: "Something went wrong");
 	  }
   }
 }

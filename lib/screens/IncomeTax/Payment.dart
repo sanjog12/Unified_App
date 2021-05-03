@@ -25,7 +25,7 @@ class IncomeTaxPayment extends StatefulWidget {
 
 class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _IncomeTaxPaymentFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _incomeTaxPaymentFormKey = GlobalKey<FormState>();
 
   IncomeTaxPaymentObject incomeTaxPaymentObject = IncomeTaxPaymentObject();
   FirebaseStorage firebaseStorage;
@@ -95,7 +95,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                   height: 50.0,
                 ),
                 Form(
-                  key: _IncomeTaxPaymentFormKey,
+                  key: _incomeTaxPaymentFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -144,8 +144,6 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                           TextFormField(
                             decoration:
                                 buildCustomInput(hintText: "Amount of Payment" , prefixText: "\u{20B9}"),
-                            validator: (value) =>
-                                requiredField(value, 'Amount Of Payment'),
                             onSaved: (value) =>
                                 incomeTaxPaymentObject.amountOfPayment = value,
                           ),
@@ -264,8 +262,8 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
 
   Future<void> paymentIncomeTax() async {
     try {
-      if (_IncomeTaxPaymentFormKey.currentState.validate()) {
-        _IncomeTaxPaymentFormKey.currentState.save();
+      if (_incomeTaxPaymentFormKey.currentState.validate()) {
+        _incomeTaxPaymentFormKey.currentState.save();
         this.setState(() {
           buttonLoading = true;
         });

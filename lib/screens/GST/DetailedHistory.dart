@@ -162,7 +162,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 									    :Container(
 								    padding: EdgeInsets.all(15),
 								    decoration: fieldsDecoration,
-								    child: Text(
+								    child: Text("\u{20B9} " +
 									    widget.gstPaymentObject.amountOfPayment,
 								    ),
 							    ),
@@ -381,11 +381,12 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 			 'dueDate' : _gstPaymentObject.dueDate,
 			 'section' : _gstPaymentObject.section,
 			});
-			Navigator.pop(context);
 			recordEditToast();
 			
 		}on PlatformException catch(e){
 			print(e.message);
+			flutterToast(message: e.message);
+		}on FirebaseException catch(e){
 			flutterToast(message: e.message);
 		}catch(e){
 			print(e);
@@ -492,7 +493,10 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 		}on PlatformException catch(e){
 			print(e.message);
 			flutterToast(message: e.message);
-		}catch(e){
+		}on FirebaseException catch(e){
+			flutterToast(message: e.message);
+		}
+		catch(e){
 			print(e);
 			flutterToast(message: "Something went wrong");
 		}

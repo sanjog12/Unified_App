@@ -139,16 +139,14 @@ class _PPFRecordHistoryDetailsViewState
                       edit?TextFormField(
                         initialValue: widget.ppfRecordObject.amount,
                         decoration:
-                        buildCustomInput(hintText: "Account Number"),
-                        validator: (value) =>
-                            requiredField(value, 'Account number'),
+                        buildCustomInput(hintText: "Amount Of Payment" , suffixText: "\u{20B9}"),
                         onChanged: (value) =>
                         _ppfRecordObject.accountNumber = value,
                       )
                           :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
-                        child: Text(
+                        child: Text( "\u{20B9} " +
                           widget.ppfRecordObject.amount,
                           style: TextStyle(
                             color: whiteColor,

@@ -24,7 +24,7 @@ class LICPayment extends StatefulWidget {
 
 class _LICPaymentState extends State<LICPayment> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _TDSPaymentFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _LICPaymentFormKey = GlobalKey<FormState>();
 
   LICPaymentObject licPaymentIObject = LICPaymentObject();
   
@@ -121,7 +121,7 @@ class _LICPaymentState extends State<LICPayment> {
                 height: 50.0,
               ),
               Form(
-                key: _TDSPaymentFormKey,
+                key: _LICPaymentFormKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -136,25 +136,12 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text("Policy Name"),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(color: Colors.red, fontSize: 22),
-                            )
-                          ],
-                        ),
+                        Text("Policy Name"),
                         SizedBox(
                           height: 10.0,
                         ),
                         TextFormField(
                           decoration: buildCustomInput(hintText: "Policy Name"),
-                          validator: (value) =>
-                              requiredField(value, 'Policy Name'),
                           onChanged: (value) {
                             print("test case " +licPaymentIObject.comanyName);
                             licPaymentIObject.policyName = value;
@@ -168,18 +155,7 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text("Policy No"),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            // Text(
-                            //   "*",
-                            //   style: TextStyle(color: Colors.red, fontSize: 22),
-                            // )
-                          ],
-                        ),
+                        Text("Policy No"),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -198,18 +174,7 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text("Premium Due Date"),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(color: Colors.red, fontSize: 22),
-                            )
-                          ],
-                        ),
+                        Text("Premium Due Date"),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -239,26 +204,15 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text("Premium Amount"),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(color: Colors.red, fontSize: 22),
-                            )
-                          ],
-                        ),
+                        Text("Premium Amount"),
                         SizedBox(
                           height: 10.0,
                         ),
                         TextFormField(
                           decoration:
                               buildCustomInput(hintText: "Premium Amount", prefixText: "\u{20B9}"),
-                          validator: (value) =>
-                              requiredField(value, 'Premium Amount'),
+                          // validator: (value) =>
+                          //     requiredField(value, 'Premium Amount'),
                           onSaved: (value) =>
                               licPaymentIObject.premiumAmount = value,
                         ),
@@ -314,8 +268,6 @@ class _LICPaymentState extends State<LICPayment> {
                           
                           decoration:
                               buildCustomInput(hintText: "Premium Paying Term(in months)"),
-                          validator: (value) =>
-                              requiredField(value, 'Premium Paying Term'),
                           onSaved: (value) =>
                               licPaymentIObject.premiumPayingTerm = value,
                         ),
@@ -635,8 +587,8 @@ class _LICPaymentState extends State<LICPayment> {
 
   Future<void> paymentLIC() async {
     try {
-      if (_TDSPaymentFormKey.currentState.validate()) {
-        _TDSPaymentFormKey.currentState.save();
+      if (_LICPaymentFormKey.currentState.validate()) {
+        _LICPaymentFormKey.currentState.save();
         if (_companyName != null) {
           this.setState(() {
             buttonLoading = true;

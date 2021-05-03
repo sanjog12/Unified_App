@@ -11,6 +11,7 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 
@@ -33,13 +34,13 @@ class StateGSTRPayment extends State<GSTPayment>{
   String selectedSection ;
   String showDateOfPaymentDB = ' ';
   String _showDateOfPayment = 'Select Date';
-  String nameOfFile='no file selected';
+  String nameOfFile='No File Selected';
   
   File file;
   
   bool loadingSave = false;
   
-  DateTime selectedDateOfPayment = DateTime.now();
+  DateTime selectedDateOfPayment = DateTime.now().subtract(Duration(hours: 24));
   
   GSTPaymentObject gstPaymentObject = GSTPaymentObject();
   
@@ -52,7 +53,7 @@ class StateGSTRPayment extends State<GSTPayment>{
         context: context,
         initialDate: selectedDateOfPayment,
         firstDate: DateTime(2019),
-        lastDate: DateTime(2021)
+        lastDate: DateTime(DateTime.now().year +2)
     );
   
     if(picked != null && picked != selectedDateOfPayment){
@@ -76,6 +77,9 @@ class StateGSTRPayment extends State<GSTPayment>{
       
         appBar: AppBar(
           title: Text("GST Payment"),
+          actions: [
+            helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST")
+          ],
         ),
         
         
@@ -107,11 +111,11 @@ class StateGSTRPayment extends State<GSTPayment>{
                       Container(
                         child: DropdownButtonFormField(
                           isExpanded: true,
+                          
                           hint: Text('Section'),
                           validator: (String value){
                             return requiredField(value, 'Constitution');
                           },
-      
                           decoration: buildCustomInput(),
                           items: [
                             DropdownMenuItem(
@@ -276,7 +280,6 @@ class StateGSTRPayment extends State<GSTPayment>{
                         ),
                       ),
                   SizedBox(height: 20,),
-                  helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
                   SizedBox(
                     height: 30.0,
                   ),
@@ -302,13 +305,7 @@ class StateGSTRPayment extends State<GSTPayment>{
       print('3');
       await PaymentRecordToDataBase().addGSTPayment(gstPaymentObject, widget.client, file);
       Navigator.pop(context);
-      // Fluttertoast.showToast(
-      //     msg: "Date has Been Recorded",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      flutterToast(message: "Date has Been Recorded");
       
       
     }else{
@@ -316,25 +313,13 @@ class StateGSTRPayment extends State<GSTPayment>{
     }
     }on PlatformException catch(e){
       print('here');
-      // Fluttertoast.showToast(
-      //     msg: e.message,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      flutterToast(message: e.message.toString());
       setState(() {
         loadingSave=false;
       });
     }catch(e){
       print(e);
-      // Fluttertoast.showToast(
-      //     msg: e.message,
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      flutterToast(message: "Something went wrong");
       setState(() {
         loadingSave=false;
       });
