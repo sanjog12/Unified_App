@@ -280,7 +280,7 @@ class _DashboardState extends State<Dashboard> {
                                         vertical: 10.0),
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Colors.white,
+                                          color: listUpcomingCompliances[index].notMissed?Colors.white:Colors.red,
                                           width: 1.0,
                                         )
                                     ),

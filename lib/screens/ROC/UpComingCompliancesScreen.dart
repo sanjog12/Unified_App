@@ -54,6 +54,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	
 	
 	 GestureDetector makeWidget(String formType, int days) {
+	 	String date = DateChange.addDayToDate(widget.stringAGMDate, days);
 		return GestureDetector(
 			onTap: () async{
 				await saveSRNofForms(formType, context);
@@ -84,7 +85,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		  				    ),),
 		  					  
 		  					  
-		  					  Text(DateChange.addDayToDate(widget.stringAGMDate, days),textAlign: TextAlign.end,style: TextStyle(
+		  					  Text(date,textAlign: TextAlign.end,style: TextStyle(
 								    fontWeight: FontWeight.bold,
 							    ),),
 							    
@@ -150,6 +151,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				.child(firebaseUserId)
 				.child(widget.client.email.replaceAll('.', ','))
 		    .child(widget.stringAGMDate);
+		
 		dfb.once().then((DataSnapshot snapshot){
 			Map<dynamic,dynamic> values = snapshot.value;
 			if(values != null){

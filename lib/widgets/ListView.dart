@@ -4,7 +4,7 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';
 import 'package:unified_reminder/screens/EPF/UpcomingCompliancesEPF.dart';
 import 'package:unified_reminder/screens/ESIC/HistoryESI.dart';
-import 'package:unified_reminder/screens/ESIC/Upcomingcompliances2.dart';
+import 'package:unified_reminder/screens/ESIC/UpcomingCompliancesESIC.dart';
 import 'package:unified_reminder/screens/FD/History.dart';
 import 'package:unified_reminder/screens/FD/Record.dart';
 import 'package:unified_reminder/screens/GST/HistoryGST.dart';
@@ -21,7 +21,7 @@ import 'package:unified_reminder/screens/PPF/Record.dart';
 import 'package:unified_reminder/screens/ROC/History.dart';
 import 'package:unified_reminder/screens/ROC/UpComingCompliancesScreen.dart';
 import 'package:unified_reminder/screens/TDS/History.dart';
-import 'package:unified_reminder/screens/TDS/UpcommingCompliances2.dart';
+import 'package:unified_reminder/screens/TDS/UpcommingCompliancesTDS.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 
 	 FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;

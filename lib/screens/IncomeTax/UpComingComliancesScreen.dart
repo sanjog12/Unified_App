@@ -105,7 +105,7 @@ class _UpComingCompliancesScreenForIncomeTaxState
             Expanded(
               child: FutureBuilder<List<UpComingComplianceObject>>(
                 future: UpComingComplianceDatabaseHelper()
-                    .getUpComingComplincesForMonthOfIncomeTax(widget.client),
+                    .getUpComingCompliancesForMonthOfIncomeTax(widget.client),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
                   if (snapshot.hasData) {

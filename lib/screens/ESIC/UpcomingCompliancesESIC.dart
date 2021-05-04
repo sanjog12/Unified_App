@@ -59,30 +59,60 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
 												DateTime t = DateTime.now();
 												DateTime t2 = DateTime(t.year,t.month,int.parse(snapshot.data[index].date));
 												String date = DateFormat('dd MMMM').format(t2);
-												print(t2);
-												return Container(
-													decoration: roundedCornerButton,
-													margin: EdgeInsets.symmetric(vertical: 10.0),
-													child: ListTile(
-														title: Text('${snapshot.data[index].label} due on $date'),
-														onTap: (){
-															print(snapshot.data[index].key);
-															if(snapshot.data[index].key != 'Monthly_payment'){
-																Navigator.push(context, MaterialPageRoute(
-																				builder: (context)=> GSTReturnFilling(
-																					client: widget.client,
-																				)
-																		));
-															}
-															else {
-																Navigator.push(context, MaterialPageRoute(
-																				builder: (context) => MonthlyContributionESIC(
-																							client: widget.client,
-																						)
-																		));
-															}
-														},
-													),
+												return Column(
+												  children: [
+												    snapshot.data[index].notMissed?Container(
+												    	decoration: roundedCornerButton,
+												    	margin: EdgeInsets.symmetric(vertical: 10.0),
+												    	child: ListTile(
+												    		title: Text('${snapshot.data[index].label} due on $date'),
+												    		onTap: (){
+												    			print(snapshot.data[index].key);
+												    			if(snapshot.data[index].key != 'Monthly_payment'){
+												    				Navigator.push(context, MaterialPageRoute(
+												    								builder: (context)=> GSTReturnFilling(
+												    									client: widget.client,
+												    								)
+												    						));
+												    			}
+												    			else {
+												    				Navigator.push(context, MaterialPageRoute(
+												    								builder: (context) => MonthlyContributionESIC(
+												    											client: widget.client,
+												    										)
+												    						));
+												    			}
+												    		},
+												    	),
+												    ): Container(),
+													
+													  !snapshot.data[index].notMissed?Container(
+														  decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
+														  margin: EdgeInsets.symmetric(vertical: 10.0),
+														  child: ListTile(
+															  title: Text('${snapshot.data[index].label} due on $date'),
+															  subtitle: Text("Missed Compliances"),
+															  onTap: (){
+																  print(snapshot.data[index].key);
+																  if(snapshot.data[index].key != 'Monthly_payment'){
+																	  Navigator.push(context, MaterialPageRoute(
+																			  builder: (context)=> GSTReturnFilling(
+																				  client: widget.client,
+																			  )
+																	  ));
+																  }
+																  else {
+																	  Navigator.push(context, MaterialPageRoute(
+																			  builder: (context) => MonthlyContributionESIC(
+																				  client: widget.client,
+																			  )
+																	  ));
+																  }
+															  },
+														  ),
+													  ):Container(),
+													  
+												  ],
 												);
 											},
 										);

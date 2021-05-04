@@ -27,7 +27,7 @@ class UpComingComplianceDatabaseHelper {
     TodayDateObject todayDate,
     String snapshotKey,
   ) async {
-    List<doneComplianceObject> clientDones = [];
+    List<doneComplianceObject> clientDone = [];
 //    print('values1');
 
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -46,13 +46,13 @@ class UpComingComplianceDatabaseHelper {
       if (values != null) {
 
         values.forEach((key, value) {
-          clientDones.add(doneComplianceObject(key: key, value: value));
+          clientDone.add(doneComplianceObject(key: key, value: value));
         });
       }
 
-      clientDones.add(doneComplianceObject(key: null, value: null));
+      clientDone.add(doneComplianceObject(key: null, value: null));
     });
-    return clientDones;
+    return clientDone;
   }
   
   
@@ -94,10 +94,10 @@ class UpComingComplianceDatabaseHelper {
                 .child(todayDateObject.month);
 
             await dbf.once().then((DataSnapshot snapshot) {
-                Map<dynamic, dynamic> valuesdate = snapshot.value;
-                if (valuesdate != null) {
+                Map<dynamic, dynamic> valuesDate = snapshot.value;
+                if (valuesDate != null) {
                   // print(valuesDate);
-                  for(var v in valuesdate.entries){
+                  for(var v in valuesDate.entries){
                     // print(v.key);
                     UpComingComplianceObject upComingComplianceObject =
                     UpComingComplianceObject(
@@ -107,8 +107,13 @@ class UpComingComplianceDatabaseHelper {
                       label: v.value['label'].toString(),
                     );
                     bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
-                    if(!isPassedDueDate)
+                    if(!isPassedDueDate){
+                      upComingComplianceObject.notMissed = true;
                       upComingComplianceData.add(upComingComplianceObject);
+                    }else{
+                      upComingComplianceObject.notMissed = false;
+                      upComingComplianceData.add(upComingComplianceObject);
+                    }
                   }
                 }else {
                   UpComingComplianceObject upComingComplianceObject =
@@ -135,8 +140,8 @@ class UpComingComplianceDatabaseHelper {
                 .child('INCOME_TAX');
             
             await dbf.once().then((DataSnapshot snapshot) async{
-              Map<dynamic, dynamic> valuesdata = await snapshot.value;
-              if (valuesdata == null) {
+              Map<dynamic, dynamic> valuesData = await snapshot.value;
+              if (valuesData == null) {
                 upComingComplianceData.add(UpComingComplianceObject(
                   name: client.name,
                   date: ' ',
@@ -144,21 +149,26 @@ class UpComingComplianceDatabaseHelper {
                 ));
               } else {
                 for(var v in doneCompliances){
-                  valuesdata.remove(v.key);
+                  valuesData.remove(v.key);
                 }
-                for(var v in valuesdata.entries){
+                for(var v in valuesData.entries){
                   // print(client.name + "Income Tax added1");
 
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),v.value['date']));
                   if(!isPassedDueDate){
                   upComingComplianceData.add(
                       UpComingComplianceObject(
-                      name: client.name,
-                      key: "Income Tax",
-                      date: v.value['date'].toString(),
-                      label: v.value['label']
-                  ));}
-                  // print(client.name + "Income Tax added2");
+                      name: client.name, key: "Income Tax", date: v.value['date'].toString(),
+                      label: v.value['label'] , notMissed: true,
+                  ));
+                  }else{
+                    upComingComplianceData.add(
+                        UpComingComplianceObject(
+                            name: client.name, key: "Income Tax", notMissed: false,
+                            date: v.value['date'].toString(), label: v.value['label']
+                        ));
+                  }
+                  
                 }
               }
             });
@@ -195,11 +205,15 @@ class UpComingComplianceDatabaseHelper {
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
                   if(!isPassedDueDate){
                     upComingComplianceData.add(UpComingComplianceObject(
-                      name: client.name,
-                      date: v.value['date'].toString(),
-                      label:v.value['label'],
-                      key: "TDS",
-                    ));}
+                      name: client.name, date: v.value['date'].toString(),
+                      label:v.value['label'], key: "TDS", notMissed: true,
+                    ));
+                  } else{
+                    upComingComplianceData.add(UpComingComplianceObject(
+                      name: client.name, date: v.value['date'].toString(),
+                      label:v.value['label'], key: "TDS", notMissed: false,
+                    ));
+                  }
                   // print(client.name + "TDS added2");
                 }
               }
@@ -240,11 +254,15 @@ class UpComingComplianceDatabaseHelper {
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'].toString())));
                   if(!isPassedDueDate){
                     upComingComplianceData.add(UpComingComplianceObject(
-                      name: client.name,
-                      date: v.value['date'].toString(),
-                      label: v.value['label'],
-                      key: "GST",
-                    ));}
+                      name: client.name, date: v.value['date'].toString(),
+                      label: v.value['label'], key: "GST", notMissed: true,
+                    ));
+                  }else{
+                    upComingComplianceData.add(UpComingComplianceObject(
+                      name: client.name, date: v.value['date'].toString(),
+                      label: v.value['label'], key: "GST", notMissed: false,
+                    ));
+                  }
                 }
               }
               },
@@ -318,9 +336,14 @@ class UpComingComplianceDatabaseHelper {
                     bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),
                         int.parse(todayDateObject.month),
                         int.parse(upComingComplianceObject.date)));
-                    
-                    if(!isPassedDueDate)
+
+                    if(!isPassedDueDate) {
+                      upComingComplianceObject.notMissed = true;
                       upComingComplianceData.add(upComingComplianceObject);
+                    }else{
+                      upComingComplianceObject.notMissed = false;
+                      upComingComplianceData.add(upComingComplianceObject);
+                    }
                   }
                 }
               },
@@ -358,8 +381,14 @@ class UpComingComplianceDatabaseHelper {
                       key: "ESI" ?? '');
                   // print(upComingComplianceObject.label);
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
-                  if(!isPassedDueDate)
+                  if(!isPassedDueDate) {
+                    upComingComplianceObject.notMissed = true;
                     upComingComplianceData.add(upComingComplianceObject);
+                  }else{
+                    upComingComplianceObject.notMissed = false;
+                    upComingComplianceData.add(upComingComplianceObject);
+                  }
+                  
                 }
               }
             });
@@ -376,11 +405,11 @@ class UpComingComplianceDatabaseHelper {
   
   
   Future<List<UpComingComplianceObject>>
-      getUpComingComplincesForMonthOfIncomeTax(Client client) async {
+      getUpComingCompliancesForMonthOfIncomeTax(Client client) async {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
     
-    List<UpComingComplianceObject> upComingComplinceData = [];
+    List<UpComingComplianceObject> upComingComplianceData = [];
 
     List<doneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
         todayDateObject, "INCOME_TAX");
@@ -402,7 +431,7 @@ class UpComingComplianceDatabaseHelper {
                 date: ' ',
                 name: ' ',
                 label: 'No Income-Tax Compliance in this month');
-        upComingComplinceData.add(upComingComplianceObject);
+        upComingComplianceData.add(upComingComplianceObject);
       }else {
         print(doneCompliances.length);
         for(var v in doneCompliances){
@@ -416,13 +445,18 @@ class UpComingComplianceDatabaseHelper {
               label: v.value['label'] ?? '',
               key: v.key ?? '');
           print(upComingComplianceObject.label);
-          bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
-          if(!t)
-            upComingComplinceData.add(upComingComplianceObject);
+          bool missedDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
+          if(!missedDate) {
+            upComingComplianceObject.notMissed = true;
+            upComingComplianceData.add(upComingComplianceObject);
+          }else{
+            upComingComplianceObject.notMissed = false;
+            upComingComplianceData.add(upComingComplianceObject);
+          }
         }
       }
     });
-    return upComingComplinceData;
+    return upComingComplianceData;
   }
 
   
@@ -467,9 +501,15 @@ class UpComingComplianceDatabaseHelper {
                 label: v.value['label'] ?? '',
                 key: v.key ?? '');
             print(upComingComplianceObject.label);
-            bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
-            if(!t)
+            bool missedDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
+            if(!missedDate){
+              upComingComplianceObject.notMissed = true;
               upComingComplianceData.add(upComingComplianceObject);
+            }else{
+              upComingComplianceObject.notMissed =false;
+              upComingComplianceData.add(upComingComplianceObject);
+            }
+            
           }
 //          valuesdate.forEach((key, values) {
 //            UpComingComplianceObject upComingComplianceObject =
@@ -518,9 +558,14 @@ class UpComingComplianceDatabaseHelper {
               label: v.value['label'] ?? '',
               key: v.key ?? '');
           print(upComingComplianceObject.label);
-          bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
-          if(!t)
+          bool missedDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
+          if(!missedDate){
+            upComingComplianceObject.notMissed = true;
             upComingComplianceData.add(upComingComplianceObject);
+          }else{
+            upComingComplianceObject.notMissed= false;
+            upComingComplianceData.add(upComingComplianceObject);
+          }
         }
       }
     });
@@ -615,8 +660,13 @@ class UpComingComplianceDatabaseHelper {
                   int.parse(todayDateObject.month),
                   int.parse(upComingComplianceObject.date)));
               print(isPassedDueDate);
-              if (!isPassedDueDate)
+              if (!isPassedDueDate) {
+                upComingComplianceObject.notMissed = true;
                 upComingComplianceData.add(upComingComplianceObject);
+              }else{
+                upComingComplianceObject.notMissed = false;
+                upComingComplianceData.add(upComingComplianceObject);
+              }
             }
           }
       },
@@ -664,10 +714,17 @@ class UpComingComplianceDatabaseHelper {
                 label: v.value['label'] ?? '',
                 key: v.key ?? '',
             );
-            print(upComingComplianceObject.label);
-            bool t = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
-            if(!t)
+            
+            bool missedDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(upComingComplianceObject.date)));
+            if(!missedDate){
+              upComingComplianceObject.notMissed = true;
               upComingComplianceData.add(upComingComplianceObject);
+            }
+            else{
+              upComingComplianceObject.notMissed = false;
+              upComingComplianceData.add(upComingComplianceObject);
+            }
+            
           }
         }
       },
@@ -685,7 +742,7 @@ class UpComingComplianceDatabaseHelper {
 //        print(upComingComplianceData.length);
 //      }
 //    }
-    print("returning");
+    
     return upComingComplianceData;
   }
   

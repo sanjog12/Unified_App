@@ -37,17 +37,14 @@ class _UpComingCompliancesScreenForLICState
   
   
 
-  bool getSingleDone(List<doneComplianceObject> dones, String subkey) {
-    print(dones[0].key);
-    if (dones[0].key != null) {
+  bool getSingleDone(List<doneComplianceObject> done, String subKey) {
+    print(done[0].key);
+    if (done[0].key != null) {
       doneComplianceObject singleDone;
-      dones.forEach((element) {
+      done.forEach((element) {
         print(element.key);
-//      String oo = element.key.replaceAll(' ', '');
-////      print(oo);
-        if (subkey == element.key) {
+        if (subKey == element.key) {
           singleDone = element;
-//          print(element.key);
         }
       });
 
@@ -94,14 +91,29 @@ class _UpComingCompliancesScreenForLICState
                               ),
                             );
                           },
-                          child: Container(
-                            decoration: roundedCornerButton,
-                            margin: EdgeInsets.symmetric(vertical: 10.0),
-                            child: ListTile(
-                              title: Text(
-                                  '${snapshot.data[index].label} for ${snapshot.data[index].name} '
-                                      '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
-                            ),
+                          child: Column(
+                            children: [
+                              snapshot.data[index].notMissed?Container(
+                                decoration: roundedCornerButton,
+                                margin: EdgeInsets.symmetric(vertical: 10.0),
+                                child: ListTile(
+                                  title: Text(
+                                      '${snapshot.data[index].label} for ${snapshot.data[index].name} '
+                                          '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
+                                ),
+                              ):Container(),
+  
+                              !snapshot.data[index].notMissed?Container(
+                                decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
+                                margin: EdgeInsets.symmetric(vertical: 10.0),
+                                child: ListTile(
+                                  title: Text(
+                                      '${snapshot.data[index].label} for ${snapshot.data[index].name} '
+                                          '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
+                                  subtitle: Text("Missed Compliances"),
+                                ),
+                              ):Container(),
+                            ],
                           ),
                         );
                       },

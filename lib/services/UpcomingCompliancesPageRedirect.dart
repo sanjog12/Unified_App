@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/screens/EPF/UpcomingCompliancesEPF.dart';
-import 'package:unified_reminder/screens/ESIC/Upcomingcompliances2.dart';
+import 'package:unified_reminder/screens/ESIC/UpcomingCompliancesESIC.dart';
 import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';
 import 'package:unified_reminder/screens/IncomeTax/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
-import 'package:unified_reminder/screens/TDS/UpcommingCompliances2.dart';
+import 'package:unified_reminder/screens/TDS/UpcommingCompliancesTDS.dart';
 
 void jumpToPage(BuildContext context, String condition, List<Client> clientList,String name){
 	

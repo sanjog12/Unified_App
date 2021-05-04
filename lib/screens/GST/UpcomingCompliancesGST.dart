@@ -64,36 +64,64 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 										    	DateTime t = DateTime.now();
 											    DateTime t2 = DateTime(t.year,t.month,int.parse(snapshot.data[index].date));
 											    String date = DateFormat('dd MMMM').format(t2);
-										    	return Container(
-												    decoration: roundedCornerButton,
-												    margin: EdgeInsets.symmetric(vertical: 10.0),
-												    child: ListTile(
-													    title: Text('${snapshot.data[index].label} due on $date'),
-													    onTap: (){
-													    	print(snapshot.data[index].key);
-													    	if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
-															    Navigator.push(context,
-																	    MaterialPageRoute(
-																			    builder: (context)=> GSTReturnFilling(
+										    	return Column(
+										    	  children: [
+										    	    snapshot.data[index].notMissed?Container(
+												        decoration: roundedCornerButton,
+												        margin: EdgeInsets.symmetric(vertical: 10.0),
+												        child: ListTile(
+													        title: Text('${snapshot.data[index].label} due on $date'),
+													        onTap: (){
+													        	print(snapshot.data[index].key);
+													        	if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
+													        		Navigator.push(context, MaterialPageRoute(builder: (context)=> GSTReturnFilling(
 																				    client: widget.client,
-																			    )
-																	    )
-															    );
-														    }
-													    	else {
-															    Navigator.push(context,
-																	    MaterialPageRoute(
-																			    builder: (context) =>
-																					    GSTPayment(
-																						    upComingComplianceObject: snapshot.data[index],
-																						    client: widget.client,
-																					    )
-																	    )
-															    );
-														    }
-													    },
-												    ),
-											    );
+															        ),
+															        ));
+													        	}
+													        	else {
+													        		Navigator.push(context,
+																	        MaterialPageRoute(
+																			        builder: (context) =>
+																					        GSTPayment(upComingComplianceObject: snapshot.data[index],
+																						        client: widget.client,
+																					        )
+																	        )
+															        );
+													        	}
+													        	},
+												        ),
+											        ):Container(),
+												
+												      !snapshot.data[index].notMissed?Container(
+													      decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
+													      margin: EdgeInsets.symmetric(vertical: 10.0),
+													      child: ListTile(
+														      title: Text('${snapshot.data[index].label} due on $date'),
+														      subtitle: Text("Missed Compliances"),
+														      onTap: (){
+															      print(snapshot.data[index].key);
+															      if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
+																      Navigator.push(context, MaterialPageRoute(builder: (context)=> GSTReturnFilling(
+																	      client: widget.client,
+																      ),
+																      ));
+															      }
+															      else {
+																      Navigator.push(context,
+																		      MaterialPageRoute(
+																				      builder: (context) =>
+																						      GSTPayment(upComingComplianceObject: snapshot.data[index],
+																							      client: widget.client,
+																						      )
+																		      )
+																      );
+															      }
+														      },
+													      ),
+												      ):Container()
+										    	  ],
+										    	);
 											  },
 									    );
 								    }else{

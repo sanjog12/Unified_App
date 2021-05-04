@@ -87,42 +87,63 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 								        ],
 								      );
 							      }
-					      		print(snapshot.data.length);
+					      		
 					      		return ListView.builder(
-									          itemCount: snapshot.data.length ,
-									          itemBuilder: (BuildContext context, int index){
-									          	return Container(
-											          padding: EdgeInsets.all(15),
-									          	  child: Container(
-											          decoration: roundedCornerButton,
-									          	    child: ListTile(
-											          title: Text(
-													          '${snapshot.data[index].label} due on ${snapshot.data[index].date} '
+									      itemCount: snapshot.data.length ,
+									      itemBuilder: (BuildContext context, int index){
+									      	return Container(
+											      padding: EdgeInsets.all(15),
+											      child: Column(
+											        children: [
+											          snapshot.data[index].notMissed?Container(
+												          decoration: roundedCornerButton,
+												          child: ListTile(
+													          title: Text('${snapshot.data[index].label} due on ${snapshot.data[index].date} '
 															          '${DateFormat('MMMM').format(DateTime.now())}'
-											          ),
-											          onTap: (){
-											          	if(snapshot.data[index].label.split(" ")[1] == "payment"){
-											          		Navigator.push(context,
-														          MaterialPageRoute(
-															          builder: (context)=> TDSPayment(
+													          ),
+													          onTap: (){
+													          	if(snapshot.data[index].label.split(" ")[1] == "payment"){
+													          		Navigator.push(context, MaterialPageRoute(builder: (context)=> TDSPayment(
 																          client: widget.client,
+															          )));
+													          	}else{
+													          		Navigator.push(context, MaterialPageRoute(
+																	          builder: (context)=> TDSQuarterly(
+																		          client: widget.client,
+																	          )
 															          )
-														          )
-													          );
-												          }else{
-											          		Navigator.push(context,
-														          MaterialPageRoute(
-															          builder: (context)=> TDSQuarterly(
-																          client: widget.client,
-															          )
-														          )
-													          );
-												          }
-											          },
-										              ),
-										            ),
-										          );
-									          });
+															          );
+													          	}
+													          	},
+												          ),
+											          ):Container(),
+												        
+												        !snapshot.data[index].notMissed?Container(
+													        decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
+													        child: ListTile(
+														        title: Text('${snapshot.data[index].label} due on ${snapshot.data[index].date} '
+																        '${DateFormat('MMMM').format(DateTime.now())}'
+														        ),
+														        onTap: (){
+															        if(snapshot.data[index].label.split(" ")[1] == "payment"){
+																        Navigator.push(context, MaterialPageRoute(builder: (context)=> TDSPayment(
+																	        client: widget.client,
+																        )));
+															        }else{
+																        Navigator.push(context, MaterialPageRoute(
+																		        builder: (context)=> TDSQuarterly(
+																			        client: widget.client,
+																		        )
+																        )
+																        );
+															        }
+														        },
+													        ),
+												        ):Container(),
+											        ],
+											      ),
+										      );
+									      });
 					      	}else{
 					      		return Container(
 								      height: 30.0,
