@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
 import 'package:unified_reminder/services/DocumentPaths.dart';
@@ -26,15 +25,7 @@ class FirestoreService {
       return false;
     }
   }
-
-//  Future<dynamic> getUserCompliances() async {
-//    String userFirebaseId = await SharedPrefs.getStringPreference("uid");
-//
-//    return _firestore
-//        .collection(FsUserCompliances)
-//        .document(userFirebaseId)
-//        .snapshots();
-//  }
+  
 
   Stream<List<Client>> getClients(String firebaseUserId) async* {
     List<Client> clientsData = [];
@@ -66,6 +57,8 @@ class FirestoreService {
     
     yield clientsData;
   }
+  
+  
   
   Future<void> editClientData(Client client,String firebaseUID, List<String> temp, List<Compliance> compliances) async{
     
@@ -128,6 +121,7 @@ class FirestoreService {
 
 //  Future<bool> addClientRecord(Client )
 
+  
   Future<bool> addClient(Client client, List<Compliance> compliances, String code) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
@@ -175,4 +169,36 @@ class FirestoreService {
       return false;
     }
   }
+  
+  
+  
+  Future<void> deleteOtherUserDetails(List<Client> clientList) async{
+  
+    List<String> clientEmail = [];
+    
+    for(var client in clientList){
+      clientEmail.add(client.email);
+    }
+  
+    DatabaseReference databaseReference = firebaseDatabase
+        .reference()
+        .child(FsUserCompliances)
+        .child(FirebaseAuth.instance.currentUser.uid.toString())
+        .child('compliances');
+    
+    databaseReference.once().then((value){
+      Map map = value.value;
+      for(var key in map.keys){
+        if(!clientEmail.contains(key)){
+          databaseReference.child(key).remove();
+          firebaseDatabase.reference()
+              .child('usersUpcomingCompliances')
+              .child('ZYESNIU7vnfmfL8CqfZPJIsNbNd2')
+              .child(key).remove();
+        }
+      }
+    });
+    
+  }
+  
 }

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:random_string/random_string.dart';
@@ -21,76 +23,58 @@ class NotificationServices{
 	
 	void initializeSetting() async{
 		tz.initializeTimeZones();
-		androidInitializationSettings = AndroidInitializationSettings("logo");
+		androidInitializationSettings = AndroidInitializationSettings("new_logo");
+		// AndroidNotificationSound();
 		iosInitializationSettings = IOSInitializationSettings();
 		initializationSettings = InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings);
-		await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: onSelectNotification);
+		// await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: onSelectNotification);
 	}
 	
 	
-	void showNotification(String titleString, String bodyString) async{
-		await _notification(titleString,bodyString);
+	// void showNotification(String titleString, String bodyString) async{
+	// 	await _notification(titleString,bodyString);
+	// }
+	//
+	//
+	// Future<void> _notification(String titleString, String bodyString) async{
+	// 	AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+	// 		'Channel _ID',
+	// 		'Channel title',
+	// 		'channel body',
+	// 		priority: Priority.high,
+	// 		importance: Importance.max,
+	// 		ticker: 'test',
+	//
+	// 	);
+	//
+	// 	IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+	//
+	// 	NotificationDetails notificationDetails = NotificationDetails();
+	// 	await flutterLocalNotificationsPlugin.show(0, titleString, bodyString, notificationDetails);
+	// }
+	
+	
+	
+	Future<void> reminderNotificationService(String notificationId ,String titleString, String bodyString,DateTime scheduleTime) async{
+		
+		FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+		firebaseDatabase
+				.reference()
+				.child('ScheduledNotifications')
+		    .child(scheduleTime.year.toString())
+		    .child(scheduleTime.month.toString())
+				.push()
+				.set({
+			'notificationID' : notificationId,
+			'titleString' : titleString,
+			'bodyString' : bodyString,
+			'time' : scheduleTime.toString(),
+			'uid' : FirebaseAuth.instance.currentUser.uid,
+		});
 	}
 	
-	
-	void setReminderNotification({int id ,String titleString, String bodyString, DateTime scheduleTime}) async{
-		await reminderNotificationService(id: id,titleString: titleString, bodyString: bodyString,scheduleTime: scheduleTime);
-	}
-	
-	
-	
-	Future<void> _notification(String titleString, String bodyString) async{
-		AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-			'Channel _ID',
-			'Channel title',
-			'channel body',
-			priority: Priority.high,
-			importance: Importance.max,
-			ticker: 'test',
-			
-		);
-		
-		IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
-		
-		NotificationDetails notificationDetails = NotificationDetails();
-		await flutterLocalNotificationsPlugin.show(0, titleString, bodyString, notificationDetails);
-	}
-	
-	
-	
-	Future<void> reminderNotificationService({int id ,String titleString, String bodyString,DateTime scheduleTime}) async{
-		
-		
-		AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-			'Channel _ID',
-			'Channel title',
-			'channel body',
-			priority: Priority.high,
-			importance: Importance.max,
-			ticker: 'test',
-			enableLights: true,
-		);
-		
-		tz.TZDateTime time = tz.TZDateTime.from(
-			scheduleTime,
-			tz.local,
-		);
-		
-		_notification("Test", "test body");
-		NotificationDetails notificationDetails = NotificationDetails();
-		await flutterLocalNotificationsPlugin.zonedSchedule(id, titleString, bodyString, time, notificationDetails,
-				androidAllowWhileIdle: true,uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime );
-	}
-	
-	Future<void> onSelectNotification(String payLoad) async{
-		
-		if(payLoad != null){
-			print(payLoad);
-		}
-	}
-	
-	Future<void> deleteNotification(int id) async{
-		await flutterLocalNotificationsPlugin.cancel(id);
+	Future<void> deleteNotification(String id) async{
+		// await flutterLocalNotificationsPlugin.cancel(id);
 	}
 	
 	Future<void> notificationRecord(Client client,String id,DateTime time) async{

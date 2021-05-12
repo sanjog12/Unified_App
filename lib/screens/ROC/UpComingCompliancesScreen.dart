@@ -613,26 +613,29 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	  try {
 		  print("inside try");
 		  
-		  updateDBUpcoming('Form ADT-1', DateChange.addDayToDate(
-				  convertDate(selectedDateOfAgmSubmission), 15).split('-')[1], DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 15).split('-')[0]);
-		  try{
-		  	notificationServices.deleteNotification(1001);
-		  }catch(e){print('1001' + e.toString());}
 		  
-		  notificationServices.reminderNotificationService(id: 1001 , titleString: "From ADT-1 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 1,hours: 13)));
+		  updateDBUpcoming('Form ADT-1', DateChange.addDayToDate(
+				  convertDate(selectedDateOfAgmSubmission), 15).split('-')[1],
+				  DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 15).split('-')[0]);
+		  try{
+		  	notificationServices.deleteNotification('ROC1001');
+		  }catch(e){print('1001' + e.toString());}
+		  notificationServices.reminderNotificationService('ROC1001' , "From ADT-1 for ${widget.client.name}",
+				  "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
+				  selectedDateOfAgmSubmission.add(Duration(days: 1,hours: 13)));
+		  
+		  
+		  
 		  updateDBUpcoming('From AOC-4 & AOC-4 CFS', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  
 		  try{
-		  	notificationServices.deleteNotification(1002);
+		  	notificationServices.deleteNotification('ROC1002');
 		  }catch(e){print('1002' + e.toString());}
-		  notificationServices.reminderNotificationService(id: 1002 , titleString: "From AOC-4 & AOC-4 CFS for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 1,hours: 13)));
+		  notificationServices.reminderNotificationService('ROC1002' , "From AOC-4 & AOC-4 CFS for ${widget.client.name}",
+				  "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
+				  selectedDateOfAgmSubmission.add(Duration(days: 1,hours: 13)));
 		  
 		  
 		  
@@ -641,11 +644,11 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
 		  try{
-		  	notificationServices.deleteNotification(1003);
+		  	notificationServices.deleteNotification('ROC1003');
 		  }catch(e){print("1003" +e.toString());}
-		  notificationServices.reminderNotificationService(id: 1003 , titleString: "From AOC-4(XBRL) for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
+		  notificationServices.reminderNotificationService('ROC1003' , "From AOC-4(XBRL) for ${widget.client.name}",
+				  "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
+				  selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
 		
 		  
 		  
@@ -654,11 +657,11 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 60).split('-')[0]);
 		  try{
-		  	notificationServices.deleteNotification(1004);
+		  	notificationServices.deleteNotification('ROC1004');
 		  }catch(e){print("1004"+ e.toString());}
-		  notificationServices.reminderNotificationService(id: 1004 , titleString: "From MGT-7 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 52,hours: 13)));
+		  notificationServices.reminderNotificationService('ROC1004' ,"From MGT-7 for ${widget.client.name}",
+				  "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
+				  selectedDateOfAgmSubmission.add(Duration(days: 52,hours: 13)));
 		
 		  
 		  
@@ -667,11 +670,11 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
 		  try{
-		  	notificationServices.deleteNotification(1005);
+		  	notificationServices.deleteNotification('ROC1005');
 		  }catch(e){print("1005" +e.toString());}
-		  notificationServices.reminderNotificationService(id: 1005 , titleString: "From CRA-4 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
+		  notificationServices.reminderNotificationService('ROC1005' , "From CRA-4 for ${widget.client.name}",
+				  "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
+				  selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
 		
 		  
 		  
@@ -680,11 +683,11 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
 		  try {
-			  notificationServices.deleteNotification(1006);
+			  notificationServices.deleteNotification('ROC1006');
 		  }catch(e){print("1006"+e.toString());}
-		  notificationServices.reminderNotificationService(id: 1006 , titleString: "From MGT-14 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
+		  notificationServices.reminderNotificationService('ROC1006' , "From MGT-14 for ${widget.client.name}",
+				  "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
+				  selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
 		  
 		  
 		  

@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/Bloc/DashboardProvider.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
+import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -42,6 +47,14 @@ class _BootstrapperState extends State<Bootstrapper>{
     try {
       // await MobileAds.instance.initialize();
       await Firebase.initializeApp();
+      // String host = '10.0.2.2:8080';
+      //
+      // FirebaseFirestore firestore = FirebaseFirestore.instance;
+      // firestore.settings = Settings(
+      //   host: host,
+      //   sslEnabled: false,
+      // );
+      
       setState(() {
         initialized = true;
       });

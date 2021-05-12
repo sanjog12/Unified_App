@@ -590,14 +590,14 @@ class UpComingComplianceDatabaseHelper {
         .child(todayDateObject.year)
         .child(todayDateObject.month);
   
-    await dbf.once().then(
-          (DataSnapshot snapshot) {
+    await dbf.once().then((DataSnapshot snapshot) {
         Map<dynamic, dynamic> valuesDate = snapshot.value;
+        UpComingComplianceObject upComingComplianceObject;
         if (valuesDate != null) {
           print(valuesDate);
           valuesDate.forEach((key, value){
             print(key);
-            UpComingComplianceObject upComingComplianceObject =
+            upComingComplianceObject =
             UpComingComplianceObject(
               name: value["type"] ?? '',
               date: value["date"] ?? '',
@@ -606,10 +606,22 @@ class UpComingComplianceDatabaseHelper {
             upComingComplianceData.add(upComingComplianceObject);
           });
         }else {
-          UpComingComplianceObject upComingComplianceObject =
+          upComingComplianceObject =
           UpComingComplianceObject(
               date: 'this month of', label: 'No LIC Compliance',name: '');
   
+          upComingComplianceData.add(upComingComplianceObject);
+        }
+        bool isPassedDueDate = DateTime.now().isAfter(
+            DateTime(int.parse(todayDateObject.year),
+                int.parse(todayDateObject.month),
+                int.parse(upComingComplianceObject.date)));
+        print(isPassedDueDate);
+        if (!isPassedDueDate) {
+          upComingComplianceObject.notMissed = true;
+          upComingComplianceData.add(upComingComplianceObject);
+        }else{
+          upComingComplianceObject.notMissed = false;
           upComingComplianceData.add(upComingComplianceObject);
         }
       },

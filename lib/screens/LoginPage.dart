@@ -6,6 +6,7 @@ import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/RegisterPage.dart';
+import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/services/AuthService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';

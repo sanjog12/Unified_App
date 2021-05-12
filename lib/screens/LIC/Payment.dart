@@ -24,7 +24,7 @@ class LICPayment extends StatefulWidget {
 
 class _LICPaymentState extends State<LICPayment> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _LICPaymentFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _lICPaymentFormKey = GlobalKey<FormState>();
 
   LICPaymentObject licPaymentIObject = LICPaymentObject();
   
@@ -46,8 +46,8 @@ class _LICPaymentState extends State<LICPayment> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: i==0?selectedDatePremiumDate:selectedDateCommencement,
-        firstDate: DateTime(DateTime.now().year-1),
-        lastDate: DateTime(DateTime.now().year+1),
+        firstDate: DateTime(DateTime.now().year-10),
+        lastDate: DateTime(DateTime.now().year+10),
     );
     
     if(picked != null && picked != selectedDatePremiumDate && i==0){
@@ -55,19 +55,17 @@ class _LICPaymentState extends State<LICPayment> {
         print('Checking ' + widget.client.company);
         selectedDatePremiumDate= picked;
         print(picked);
-        selectedDatePremiumDateDB = DateFormat('dd').format(picked)+"-of the month";
+        selectedDatePremiumDateDB = DateFormat('dd').format(picked)+" - of each month";
         licPaymentIObject.premiumDueDate = selectedDatePremiumDateDB;
-        
       });
     }
-    else if(picked != null && picked != selectedDatePremiumDate && i==1){
+    else if(picked != null && picked != selectedDateCommencement && i==1){
       setState(() {
         print('Checking ' + widget.client.company);
         selectedDateCommencement= picked;
         print(picked);
         selectedDateCommencementDB = DateFormat('dd-MM-yyyy').format(picked);
         licPaymentIObject.dateOfCommoncement = selectedDateCommencementDB;
-    
       });
     }
     else if(picked != null && picked != selectedDateMaturityDate && i==2){
@@ -77,9 +75,9 @@ class _LICPaymentState extends State<LICPayment> {
         print(picked);
         selectedDateMaturityDateDB = DateFormat('dd-MM-yyyy').format(picked);
         licPaymentIObject.maturityDate = selectedDateMaturityDateDB;
-    
       });
     }
+    FocusScope.of(context).requestFocus(new FocusNode());
   }
 
   @override
@@ -121,7 +119,7 @@ class _LICPaymentState extends State<LICPayment> {
                 height: 50.0,
               ),
               Form(
-                key: _LICPaymentFormKey,
+                key: _lICPaymentFormKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -142,6 +140,7 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                         TextFormField(
                           decoration: buildCustomInput(hintText: "Policy Name"),
+                          textInputAction: TextInputAction.next,
                           onChanged: (value) {
                             print("test case " +licPaymentIObject.comanyName);
                             licPaymentIObject.policyName = value;
@@ -163,7 +162,7 @@ class _LICPaymentState extends State<LICPayment> {
                           decoration: buildCustomInput(hintText: "Policy No"),
                           // validator: (value) =>
                           //     requiredField(value, 'Policy No'),
-                          onSaved: (value) =>
+                          onChanged: (value) =>
                               licPaymentIObject.policyNo = value,
                         ),
                       ],
@@ -174,7 +173,18 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text("Premium Due Date"),
+                        Row(
+                          children: [
+                            Text("Premium Due Date"),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "*",
+                              style: TextStyle(color: Colors.red, fontSize: 22),
+                            )
+                          ],
+                        ),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -191,6 +201,7 @@ class _LICPaymentState extends State<LICPayment> {
                                 onPressed: () {
                                   selectDateTime(context,0);
                                 },
+                                
                                 child: Icon(Icons.date_range),
                               ),
                             ],
@@ -211,10 +222,8 @@ class _LICPaymentState extends State<LICPayment> {
                         TextFormField(
                           decoration:
                               buildCustomInput(hintText: "Premium Amount", prefixText: "\u{20B9}"),
-                          // validator: (value) =>
-                          //     requiredField(value, 'Premium Amount'),
-                          onSaved: (value) =>
-                              licPaymentIObject.premiumAmount = value,
+                          onChanged: (value){licPaymentIObject.premiumAmount = value;},
+                          keyboardType: TextInputType.number,
                         ),
                       ],
                     ),
@@ -230,7 +239,15 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text("Date Of Commencement"),
+                        Row(
+                          children: [
+                            Text("Date Of Commencement"),
+                            SizedBox(width: 5,),
+                            Text(
+                              "*", style: TextStyle(color: Colors.red, fontSize: 22),
+                            )
+                          ],
+                        ),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -265,11 +282,12 @@ class _LICPaymentState extends State<LICPayment> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          
                           decoration:
-                              buildCustomInput(hintText: "Premium Paying Term(in months)"),
-                          onSaved: (value) =>
+                              buildCustomInput(hintText: "Premium Paying Term", suffixText: "Months"),
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value) =>
                               licPaymentIObject.premiumPayingTerm = value,
+                          keyboardType: TextInputType.number,
                         ),
                       ],
                     ),
@@ -285,7 +303,7 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                         TextFormField(
                           decoration: buildCustomInput(hintText: "Policy Term"),
-                          onSaved: (value) =>
+                          onChanged: (value) =>
                               licPaymentIObject.policyTerm = value,
                         ),
                       ],
@@ -302,9 +320,10 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                         TextFormField(
                           decoration: buildCustomInput(hintText: "Branch"),
+                          textInputAction: TextInputAction.next,
 //                          validator: (value) =>
 //                              requiredField(value, 'Policy Term'),
-                          onSaved: (value) => licPaymentIObject.branch = value,
+                          onChanged: (value) => licPaymentIObject.branch = value,
                         ),
                       ],
                     ),
@@ -314,22 +333,26 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text("Agent Details"),
+                        Text("Agent Details", style: TextStyle(color: Colors.blue),),
                         SizedBox(
                           height: 10.0,
                         ),
+                        
+                        
                         Text("Name"),
                         SizedBox(
                           height: 10.0,
                         ),
                         TextFormField(
                           decoration: buildCustomInput(hintText: "Agent Name"),
-                          onSaved: (value) =>
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value) =>
                               licPaymentIObject.agenName = value,
                         ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
+                        
+                        SizedBox(height: 15.0,),
+                        
+                        
                         Text("Contact Number"),
                         SizedBox(
                           height: 10.0,
@@ -337,7 +360,9 @@ class _LICPaymentState extends State<LICPayment> {
                         TextFormField(
                           decoration:
                               buildCustomInput(hintText: "Contact Number"),
-                          onSaved: (value) =>
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) =>
                               licPaymentIObject.agentContactNumber = value,
                         ),
                       ],
@@ -395,9 +420,10 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                         TextFormField(
                           decoration: buildCustomInput(hintText: " Name"),
+                          textInputAction: TextInputAction.next,
 //                          validator: (value) =>
 //                              requiredField(value, 'Policy Term'),
-                          onSaved: (value) =>
+                          onChanged: (value) =>
                               licPaymentIObject.nomineeName = value,
                         ),
                       ],
@@ -408,7 +434,16 @@ class _LICPaymentState extends State<LICPayment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text("Maturity Date"),
+                        Row(
+                          children: [
+                            Text("Maturity Date"),
+                            SizedBox(width: 5,),
+                            Text(
+                              "*",
+                              style: TextStyle(color: Colors.red, fontSize: 22),
+                            )
+                          ],
+                        ),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -488,7 +523,6 @@ class _LICPaymentState extends State<LICPayment> {
           validator: (String value) {
             return requiredField(value, "Frequency");
           },
-          onSaved: (value) => licPaymentIObject.frequancey = value,
 //                          decoration: buildCustomInput(),
           items: [
             DropdownMenuItem(
@@ -509,11 +543,13 @@ class _LICPaymentState extends State<LICPayment> {
             ),
           ],
           value: _frequency,
-          onChanged: (String v) {
+          onChanged: (String value) {
+            FocusScope.of(context).requestFocus(new FocusNode());
             this.setState(() {
-              _frequency = v;
-              licPaymentIObject.frequancey = v;
+              _frequency = value;
+              licPaymentIObject.frequancey = value;
             });
+            FocusScope.of(context).unfocus();
           },
         ),
       ],
@@ -561,6 +597,7 @@ class _LICPaymentState extends State<LICPayment> {
                     isExpanded: true,
                     hint: Text('Companies'),
                     onChanged: (String value) {
+                      FocusScope.of(context).requestFocus(new FocusNode());
                       setState(() {
                         _companyName = value;
                         licPaymentIObject.comanyName = value;
@@ -587,8 +624,18 @@ class _LICPaymentState extends State<LICPayment> {
 
   Future<void> paymentLIC() async {
     try {
-      if (_LICPaymentFormKey.currentState.validate()) {
-        _LICPaymentFormKey.currentState.save();
+      if (_lICPaymentFormKey.currentState.validate()) {
+        _lICPaymentFormKey.currentState.save();
+        if(selectedDatePremiumDateDB == 'Select Date'){
+          throw PlatformException(code: '1001', message: 'Please select Premium Due Date');
+        }
+        if(selectedDateMaturityDateDB == 'Select Date'){
+          throw PlatformException(code: '1001', message: 'Please select Policy Maturity Date');
+        }
+        if(selectedDateCommencementDB == 'Select Date'){
+          throw PlatformException(code: '1001', message: 'Please select Policy Commencement Date');
+        }
+        
         if (_companyName != null) {
           this.setState(() {
             buttonLoading = true;

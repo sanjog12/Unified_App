@@ -73,13 +73,15 @@ class AuthService {
       print('67');
       FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
       dbf = firebaseDatabase.reference();
-      await firebaseMessaging.getToken().then((value){
-        dbf
-            .child("FCMTokens")
-            .child(value)
-            .set({
-          'token':value
-        });
+      await firebaseMessaging.getToken().then(( String value){
+        String uid = FirebaseAuth.instance.currentUser.uid?? null;
+        if(uid != "null") {
+          dbf = firebaseDatabase.reference();
+          dbf
+              .child("FCMTokens")
+              .child(uid)
+              .set({value.substring(0, 10): value});
+        }
       });
       print('12');
       UserCredential loginUser = await _auth.signInWithEmailAndPassword(
@@ -99,7 +101,7 @@ class AuthService {
   }
   
   
-  Future<UserBasic> googlesignup(userType) async{
+  Future<UserBasic> googleSignup(userType) async{
   	try{
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;

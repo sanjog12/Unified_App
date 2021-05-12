@@ -499,8 +499,7 @@ class PaymentRecordToDataBase {
     }
   }
 
-  Future<bool> addLICPayment(
-      LICPaymentObject licPaymentIObject, Client client, File file) async {
+  Future<bool> addLICPayment(LICPaymentObject licPaymentIObject, Client client, File file) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
     String id = randomNumeric(8);
@@ -565,7 +564,7 @@ class PaymentRecordToDataBase {
         });
       }
         String premiumDate = licPaymentIObject.dateOfCommoncement;
-        DateTime t = DateTime(int.parse(licPaymentIObject.maturityDate.split('-')[2]),
+        DateTime maturityDate = DateTime(int.parse(licPaymentIObject.maturityDate.split('-')[2]),
           int.parse(licPaymentIObject.maturityDate.split('-')[1]),
           int.parse(licPaymentIObject.maturityDate.split('-')[0])
         );
@@ -574,18 +573,17 @@ class PaymentRecordToDataBase {
             int.parse(licPaymentIObject.dateOfCommoncement.split('-')[0])
         );
         
-        while(t.isAfter(other)){
+        while(maturityDate.isAfter(other)){
           try {
-            notificationServices.setReminderNotification(
-                id: int.parse(id), titleString: "LIC of ${client.name}",
-                bodyString: "Premium due date of ${licPaymentIObject
-                    .policyName} in 7 days, make sure to pay before due date",
-                scheduleTime: other.subtract(Duration(days: 6, hours: 14))
+            notificationServices.reminderNotificationService('LIC10001',
+                "LIC of ${client.name}",
+                "Premium due date of ${licPaymentIObject.policyName} in 7 days, make sure to pay before due date",
+                other.subtract(Duration(days: 6, hours: 14))
             );
           }catch(e){
             print(e);
           }
-          print("t" + t.toString());
+          print("maturityDate" + maturityDate.toString());
           print("other" + other.toString());
           print(licPaymentIObject.frequancey);
           
@@ -623,7 +621,7 @@ class PaymentRecordToDataBase {
             other = DateTime(other.year,other.month +6 , other.day);
             print("Other in if " + other.toString());
           }
-          else if(licPaymentIObject.frequancey == 'yearly'){
+          else{
             premiumDate = DateChange.addMonthToDate(premiumDate, 12);
             print("premium Date " + premiumDate);
             other = DateTime(other.year +1,other.month  , other.day);

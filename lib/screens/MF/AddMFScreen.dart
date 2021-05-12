@@ -487,18 +487,16 @@ class _AddMFScreenState extends State<AddMFScreen> {
                                 child: TextButton(
                                   child: Text("Save Portfolio"),
                                   onPressed: () {
-                                    int notificationID = notificationServices.getRandomInt();
 //                                    if(fetchDetails)
 //                                      fetchPreviousNAV();
                                     mFRecord();
-                                    DateTime n = DateTime.now().subtract(Duration(hours: 60));
+                                    DateTime scheduledDate = DateTime.now().subtract(Duration(hours: 60));
                                     notificationServices.reminderNotificationService(
-                                      id: notificationID,
-                                      scheduleTime: n,
-                                      titleString: "${selectedMutualFundObject.name}",
-                                      bodyString: "SIP Payment due date is on ${DateFormat("dd MMMM").format(selectedDate)}"
+                                      'MF10001',
+                                      "${selectedMutualFundObject.name}",
+                                      "SIP Payment due date is on ${DateFormat("dd MMMM").format(selectedDate)}",
+                                      scheduledDate,
                                     );
-                                    notificationServices.notificationRecord(widget.client, notificationID.toString(), selectedDate);
                                   },
                                 ),
                               ),

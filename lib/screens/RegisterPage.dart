@@ -533,7 +533,7 @@ class _RegisterPageState extends State<RegisterPage> {
     
       _userBasic.userType = 'bus';
     
-      UserBasic googleUser = await _authService.googlesignup(
+      UserBasic googleUser = await _authService.googleSignup(
           _userBasic.userType);
       this.setState(() {
         googleSignInButton = false;

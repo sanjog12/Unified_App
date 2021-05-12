@@ -16,6 +16,7 @@ import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/ApplicableCompliances.dart';
+import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/services/UpcomingCompliancesPageRedirect.dart';
@@ -74,17 +75,17 @@ class _DashboardState extends State<Dashboard> {
     print("entered getClient function ");
     await dbf.once().then((DataSnapshot snapshot) async{
       Map<dynamic,dynamic> map = await snapshot.value;
-        map.forEach((key, value) {
+        for(var data in map.entries) {
           if (map.isNotEmpty) {
             setState(() {
             clientList.add(Client(
-                value["name"],
-                value["constitution"],
-                value["company"],
-                value["natureOfBusiness"],
-                value["email"].toString().replaceAll('.', ','),
-                value["phone"],
-                key),
+                data.value["name"],
+                data.value["constitution"],
+                data.value["company"],
+                data.value["natureOfBusiness"],
+                data.value["email"].toString().replaceAll('.', ','),
+                data.value["phone"],
+                data.key),
             );
             });
           }
@@ -93,8 +94,10 @@ class _DashboardState extends State<Dashboard> {
               clientList.add(Client('Please add client First', ' ', ' ', '_natureOfBusiness', '_email', '_phone', '_key'));
             });
           }
-        });
+        }
     });
+
+    FirestoreService().deleteOtherUserDetails(clientList);
   }
   
   

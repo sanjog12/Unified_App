@@ -19,7 +19,7 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   final FirestoreService firestoreService = FirestoreService();
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-  NotificationServices notificationServices = NotificationServices();
+  static NotificationServices notificationServices = NotificationServices();
   DatabaseReference dbf;
   String firebaseUserId;
   FirebaseAuth user;
@@ -37,48 +37,55 @@ class _WrapperState extends State<Wrapper> {
     return Future<void>.value();
   }
 
-  firebaseMessagingFCM() async{
+  
+  static firebaseMessagingFCM() async{
+  
+    final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+    DatabaseReference dbf;
     notificationServices.initializeSetting();
     print("called");
     FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-    // firebaseMessaging.(
-    //   onMessage: (Map<String,dynamic> message) async{
-    //     print("on Message" + message.toString());
-    //     for(var v in message.values){
-    //       title = v["title"];
-    //       body = v["body"];
-    //     }
-    //     notificationServices.setReminderNotification(id: 90,titleString: title,bodyString: body,scheduleTime: DateTime.now().add(Duration(seconds: 5)));
-    //   },
-    //   onBackgroundMessage:backgroundMessage,
-    //   onLaunch: (Map<String,dynamic> message) async{
-    //     print("on Launch" + message.toString());
-    //   },
-    //   onResume: (Map<String,dynamic> message) async{
-    //     print("on Resume" + message.toString());
-    //   },
-    // );
-    firebaseMessaging.requestPermission(sound: true, criticalAlert: true);
-    await firebaseMessaging.getToken().then((value){
-      print(value);
-      dbf = firebaseDatabase.reference();
-      dbf
-          .child("FCMTokens")
-          .child(value)
-          .set({
-        'token':value
-      });
+    RemoteMessage initialMessage = await firebaseMessaging.getInitialMessage();
+    
+    await firebaseMessaging.setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+    
+    // FirebaseMessaging.onMessage.forEach((element) {element.notification.android.color})
+    NotificationSettings settings = await firebaseMessaging.requestPermission(sound: true, criticalAlert: true,alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      provisional: false,);
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+    
+    
+    await firebaseMessaging.getToken().then(( String value){
+      String uid = FirebaseAuth.instance.currentUser.uid?? "null";
+      if(uid != "null") {
+        dbf = firebaseDatabase.reference();
+        dbf
+            .child("FCMTokens")
+            .child(uid)
+            .set({value.substring(0, 10): value});
+      }
     });
-    print("conpleted");
   }
   
   
   @override
   void initState() {
     super.initState();
-    firebaseMessagingFCM();
     getUserFirebaseId();
-//    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
+    firebaseMessagingFCM();
   }
 
   Future<String> getUserFirebaseId() async {

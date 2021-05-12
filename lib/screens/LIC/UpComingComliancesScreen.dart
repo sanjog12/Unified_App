@@ -73,8 +73,7 @@ class _UpComingCompliancesScreenForLICState
             Expanded(
               child: FutureBuilder<List<UpComingComplianceObject>>(
                 future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfLIC(widget.client),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
@@ -82,14 +81,6 @@ class _UpComingCompliancesScreenForLICState
                         print(snapshot.data);
                         return GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LICPayment(
-                                  client: widget.client,
-                                ),
-                              ),
-                            );
                           },
                           child: Column(
                             children: [
