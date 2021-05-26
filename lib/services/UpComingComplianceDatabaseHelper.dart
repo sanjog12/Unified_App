@@ -63,7 +63,7 @@ class UpComingComplianceDatabaseHelper {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
-    List<UpComingComplianceObject> upComingComplianceData = [];
+    List<UpComingComplianceObject> upComingComplianceData = List.empty(growable: true);
   
     firebaseUID = await SharedPrefs.getStringPreference('uid');
     
@@ -115,11 +115,6 @@ class UpComingComplianceDatabaseHelper {
                       upComingComplianceData.add(upComingComplianceObject);
                     }
                   }
-                }else {
-                  UpComingComplianceObject upComingComplianceObject =
-                  UpComingComplianceObject(
-                      date: ' ', label: ' ',name: client.name);
-                  upComingComplianceData.add(upComingComplianceObject);
                 }
               },
             );
@@ -141,13 +136,7 @@ class UpComingComplianceDatabaseHelper {
             
             await dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic, dynamic> valuesData = await snapshot.value;
-              if (valuesData == null) {
-                upComingComplianceData.add(UpComingComplianceObject(
-                  name: client.name,
-                  date: ' ',
-                  label: " ",
-                ));
-              } else {
+              if (valuesData != null) {
                 for(var v in doneCompliances){
                   valuesData.remove(v.key);
                 }
@@ -189,18 +178,12 @@ class UpComingComplianceDatabaseHelper {
                 .child('TDS');
             
             await dbf.once().then((DataSnapshot snapshot) {
-              Map<dynamic, dynamic> valuesdate = snapshot.value;
-              if (valuesdate == null) {
-                upComingComplianceData.add(UpComingComplianceObject(
-                  name: client.name,
-                  date: " ",
-                  label: " ",
-                ));
-              } else {
+              Map<dynamic, dynamic> valuesDate = snapshot.value;
+              if (valuesDate != null) {
                 for(var v in doneCompliances){
-                  valuesdate.remove(v.key);
+                  valuesDate.remove(v.key);
                 }
-                for(var v in valuesdate.entries){
+                for(var v in valuesDate.entries){
                   // print(client.name + "TDS added1");
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
                   if(!isPassedDueDate){
@@ -239,13 +222,7 @@ class UpComingComplianceDatabaseHelper {
             await dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic, dynamic> valuesDate = snapshot.value;
               
-              if (valuesDate == null) {
-                upComingComplianceData.add(UpComingComplianceObject(
-                  name: client.name,
-                  date: " ",
-                  label: " ",
-                ));
-              } else {
+              if (valuesDate != null) {
                 for(var v in doneCompliances){
                   valuesDate.remove(v.key);
                 }
@@ -279,23 +256,24 @@ class UpComingComplianceDatabaseHelper {
                 .child('ROC')
                 .child(todayDateObject.month.toString());
             dbf.once().then((DataSnapshot snapshot) async{
-              Map<dynamic,dynamic> v = snapshot.value;
-              if(v == null){
-                upComingComplianceData.add(UpComingComplianceObject(
-                  name: client.name,
-                  date: " ",
-                  label: " ",
-                ));
-              }
-              else{
-                v.forEach((key, values){
-                  // print('ROC   ' +key);
-                  upComingComplianceData.add(UpComingComplianceObject(
-                    name: client.name,
-                    key: "ROC",
-                    date: values['date'],
-                    label: values['label'],
-                  ));
+              Map<dynamic,dynamic> valuesData = snapshot.value;
+              if(valuesData != null){
+                valuesData.forEach((key, values){
+                  UpComingComplianceObject upComingComplianceObject =UpComingComplianceObject(
+                    name: client.name, key: "ROC",
+                    date: values['date'], label: values['label'], notMissed: true,
+                  );
+                  bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),
+                      int.parse(todayDateObject.month),
+                      int.parse(upComingComplianceObject.date)));
+
+                  if(!isPassedDueDate) {
+                    upComingComplianceObject.notMissed = true;
+                    upComingComplianceData.add(upComingComplianceObject);
+                  }else{
+                    upComingComplianceObject.notMissed = false;
+                    upComingComplianceData.add(upComingComplianceObject);
+                  }
                 });
               }
             });
@@ -317,12 +295,7 @@ class UpComingComplianceDatabaseHelper {
   
             await dbf.once().then((DataSnapshot snapshot) {
                 Map<dynamic, dynamic> valuesDate = snapshot.value;
-                if (valuesDate == null) {
-                  UpComingComplianceObject upComingComplianceObject =
-                  UpComingComplianceObject(
-                      date: ' ', label: ' ',name: client.name);
-                  upComingComplianceData.add(upComingComplianceObject);
-                } else {
+                if (valuesDate != null) {
                   for(var compliances in doneCompliances){
                     valuesDate.remove(compliances.key);
                   }
@@ -366,8 +339,7 @@ class UpComingComplianceDatabaseHelper {
   
             await dbf.once().then((DataSnapshot snapshot) async{
               Map<dynamic, dynamic> valuesDate = await snapshot.value;
-              if (valuesDate == null) {
-              } else {
+              if (valuesDate != null) {
                 for(var compliances in doneCompliances){
                   valuesDate.remove(compliances.key);
                 }
@@ -397,7 +369,12 @@ class UpComingComplianceDatabaseHelper {
       });
       
     }
-    
+    upComingComplianceData.sort((a,b){
+      return int.tryParse(a.date).compareTo(int.tryParse(b.date,));
+    });
+    if(upComingComplianceData.length == 0){
+      upComingComplianceData.add(UpComingComplianceObject(date: '', label: '', name: '', key: ''));
+    }
     return upComingComplianceData;
   }
 

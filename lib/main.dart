@@ -1,27 +1,27 @@
-import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/Bloc/DashboardProvider.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
-import 'package:unified_reminder/services/FirestoreService.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
+final navigatorKey = GlobalKey<NavigatorState>();
 
-
-void main() {
-  // Firebase.initializeApp();
+void main() async{
+  
   WidgetsFlutterBinding.ensureInitialized();
-
-  // MobileAds.instance.initialize();
   final initAds = MobileAds.instance.initialize();
   final adState = AdState(initAds);
+
+  FirebaseMessaging.onBackgroundMessage(backGroundNotificationHandler);
+  
   runApp(
     MultiProvider(
       providers: [
@@ -42,24 +42,30 @@ class _BootstrapperState extends State<Bootstrapper>{
   bool initialized = false;
   bool error = false;
   
+  
   // Define an async function to initialize FlutterFire
   void initializeFlutterFire() async {
     try {
       // await MobileAds.instance.initialize();
       await Firebase.initializeApp();
-      // String host = '10.0.2.2:8080';
-      //
-      // FirebaseFirestore firestore = FirebaseFirestore.instance;
-      // firestore.settings = Settings(
-      //   host: host,
-      //   sslEnabled: false,
-      // );
+      AwesomeNotifications().initialize(
+          'resource://drawable/ic_stat_name',
+          [
+            NotificationChannel(
+                channelKey: 'basic_channel',
+                channelName: 'Basic notifications',
+                channelDescription: 'Notification channel for basic tests',
+                defaultColor: Color(0xFF9D50DD),
+                ledColor: Colors.white
+            )
+          ]
+      );
       
+
       setState(() {
         initialized = true;
       });
     } catch(e) {
-      // Set `_error` state to true if Firebase initialization fails
       setState(() {
         error = true;
       });
@@ -69,12 +75,14 @@ class _BootstrapperState extends State<Bootstrapper>{
   @override
   void initState() {
     initializeFlutterFire();
+    AwesomeNotifications().actionStream.forEach((element) {print(element.buttonKeyPressed);});
     super.initState();
   }
   
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
         brightness: Brightness.dark,

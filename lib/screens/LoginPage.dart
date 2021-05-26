@@ -47,8 +47,10 @@ class _LoginPageState extends State<LoginPage>{
           SharedPrefs.setStringPreference("loginTutorial", "done");
         });
       }
+    }on MissingPluginException catch(e){
+      debugPrint(e.message);
     }catch(e){
-      debugPrint(e);
+      print(e);
     }
   }
 

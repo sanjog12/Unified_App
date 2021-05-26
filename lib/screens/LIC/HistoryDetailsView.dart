@@ -85,7 +85,7 @@ class _LICPaymentRecordHistoryDetailsViewState
         selectedDateCommencement= picked;
         print(picked);
         selectedDateCommencementDB = DateFormat('dd-MM-yyyy').format(picked);
-        _licPaymentObject.dateOfCommoncement = selectedDateCommencementDB;
+        _licPaymentObject.dateOfCommencement = selectedDateCommencementDB;
       
       });
     }
@@ -95,7 +95,7 @@ class _LICPaymentRecordHistoryDetailsViewState
         selectedDateMaturityDate= picked;
         print(picked);
         selectedDateMaturityDateDB = DateFormat('dd-MM-yyyy').format(picked);
-        _licPaymentObject.dateOfCommoncement = selectedDateMaturityDateDB;
+        _licPaymentObject.dateOfCommencement = selectedDateMaturityDateDB;
       
       });
     }
@@ -110,9 +110,9 @@ class _LICPaymentRecordHistoryDetailsViewState
   void initState() {
     super.initState();
     _licPaymentObject = widget.licPaymentObject;
-    nameOfFile = widget.licPaymentObject.attachement;
+    nameOfFile = widget.licPaymentObject.attachment;
     selectedDateMaturityDateDB = widget.licPaymentObject.maturityDate;
-    selectedDateCommencementDB = widget.licPaymentObject.dateOfCommoncement;
+    selectedDateCommencementDB = widget.licPaymentObject.dateOfCommencement;
     selectedDatePremiumDateDB = widget.licPaymentObject.premiumDueDate;
   }
   
@@ -151,16 +151,16 @@ class _LICPaymentRecordHistoryDetailsViewState
                     height: 10.0,
                   ),
                   edit?TextFormField(
-                    initialValue: widget.licPaymentObject.comanyName,
+                    initialValue: widget.licPaymentObject.companyName,
                     decoration: buildCustomInput(hintText: "Company Name"),
                     onSaved: (value) =>
-                    _licPaymentObject.comanyName = value,
+                    _licPaymentObject.companyName = value,
                   )
                       :Container(
                     padding: EdgeInsets.all(15),
                     decoration: fieldsDecoration,
-                    child: Text(widget.licPaymentObject.comanyName != null?
-                      widget.licPaymentObject.comanyName:" ",
+                    child: Text(widget.licPaymentObject.companyName != null?
+                      widget.licPaymentObject.companyName:" ",
                       style: TextStyle(
                         color: whiteColor,
                       ),
@@ -304,12 +304,12 @@ class _LICPaymentRecordHistoryDetailsViewState
                     height: 10.0,
                   ),
                   edit?DropdownButtonFormField(
-                    hint: Text(widget.licPaymentObject.frequancey),
+                    hint: Text(widget.licPaymentObject.frequency),
                     decoration: dropDownDecoration(),
                     validator: (String value) {
                       return requiredField(value, "Frequency");
                     },
-                    onSaved: (value) => _licPaymentObject.frequancey = value,
+                    onSaved: (value) => _licPaymentObject.frequency = value,
 //                          decoration: buildCustomInput(),
                     items: [
                       DropdownMenuItem(
@@ -333,14 +333,14 @@ class _LICPaymentRecordHistoryDetailsViewState
                     onChanged: (String v) {
                       this.setState(() {
                         frequency = v;
-                        _licPaymentObject.frequancey = v;
+                        _licPaymentObject.frequency = v;
                       });
                     },
                   ):Container(
                     padding: EdgeInsets.all(15),
                     decoration: fieldsDecoration,
                     child: Text(
-                      widget.licPaymentObject.frequancey,
+                      widget.licPaymentObject.frequency,
                       style: TextStyle(
                         color: whiteColor,
                       ),
@@ -380,8 +380,8 @@ class _LICPaymentRecordHistoryDetailsViewState
                     padding: EdgeInsets.all(15),
                     decoration: fieldsDecoration,
                     child: Text(
-                      widget.licPaymentObject.dateOfCommoncement != null?
-                      widget.licPaymentObject.dateOfCommoncement:"*Enter",
+                      widget.licPaymentObject.dateOfCommencement != null?
+                      widget.licPaymentObject.dateOfCommencement:"*Enter",
                       style: TextStyle(
                         color: whiteColor,
                       ),
@@ -493,16 +493,16 @@ class _LICPaymentRecordHistoryDetailsViewState
                         height: 10.0,
                       ),
                       edit?TextFormField(
-                        initialValue: widget.licPaymentObject.agenName,
+                        initialValue: widget.licPaymentObject.agentName,
                         decoration: buildCustomInput(hintText: "Agent Name"),
                         onChanged: (value) =>
-                        _licPaymentObject.agenName = value,
+                        _licPaymentObject.agentName = value,
                       )
                           :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: Text(
-                          widget.licPaymentObject.agenName,
+                          widget.licPaymentObject.agentName,
                           style: TextStyle(
                             color: whiteColor,
                           ),
@@ -624,7 +624,7 @@ class _LICPaymentRecordHistoryDetailsViewState
               edit?Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text(widget.licPaymentObject.attachement!= "null"?'Add New File': "Add Challan"),
+                  Text(widget.licPaymentObject.attachment!= "null"?'Add New File': "Add Challan"),
                   SizedBox(height: 10,),
                   Container(
                     height: 50,
@@ -652,7 +652,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                 ],
               ):Container(),
   
-              widget.licPaymentObject.attachement!= "null"?
+              widget.licPaymentObject.attachment!= "null"?
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -673,7 +673,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                         Navigator.push(context,
                             MaterialPageRoute(
                               builder: (context)=> PDFViewer(
-                                pdf: widget.licPaymentObject.attachement,
+                                pdf: widget.licPaymentObject.attachment,
                               ),
                             )
                         );
@@ -749,14 +749,14 @@ class _LICPaymentRecordHistoryDetailsViewState
     print(firebaseUserId);
     print(widget.client.email);
     print(widget.keyDB);
-    print(_licPaymentObject.agenName);
+    print(_licPaymentObject.agentName);
     try{
       if(newFile == true){
         print("1");
         FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-        if(widget.licPaymentObject.attachement != "null"){
+        if(widget.licPaymentObject.attachment != "null"){
           print("2");
-          String path =  firebaseStorage.ref().child('files').child(widget.licPaymentObject.attachement).fullPath;
+          String path =  firebaseStorage.ref().child('files').child(widget.licPaymentObject.attachment).fullPath;
           print("3");
           await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
         }
@@ -850,11 +850,11 @@ class _LICPaymentRecordHistoryDetailsViewState
     print(widget.client.email);
     print(widget.keyDB);
     try {
-      if(_licPaymentObject.attachement != 'null') {
+      if(_licPaymentObject.attachment != 'null') {
         String path = firebaseStorage
             .ref()
             .child('files')
-            .child(widget.licPaymentObject.attachement)
+            .child(widget.licPaymentObject.attachment)
             .fullPath;
         await firebaseStorage.ref().child(path).delete().then((_) =>
             print("Done Task"));
@@ -921,7 +921,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                       String path = firebaseStorage
                           .ref()
                           .child('files')
-                          .child(widget.licPaymentObject.attachement)
+                          .child(widget.licPaymentObject.attachment)
                           .fullPath;
                       firebaseStorage = FirebaseStorage.instance;
                       await firebaseStorage.ref().child(path).delete();

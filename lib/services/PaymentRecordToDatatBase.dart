@@ -23,7 +23,7 @@ import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
 import 'package:unified_reminder/models/payment/ROCPaymentObject.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
-import 'package:unified_reminder/services/LocalNotificationServices.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
@@ -504,7 +504,6 @@ class PaymentRecordToDataBase {
     dbf = firebaseDatabase.reference();
     String id = randomNumeric(8);
     NotificationServices notificationServices = NotificationServices();
-    notificationServices.initializeSetting();
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -518,17 +517,17 @@ class PaymentRecordToDataBase {
             .push()
             .set({
           'id':id??"",
-          'comanyName': licPaymentIObject.comanyName??"",
+          'comanyName': licPaymentIObject.companyName??"",
           'policyName': licPaymentIObject.policyName??"",
           'policyNo': licPaymentIObject.policyNo??"",
           'premiumDueDate': licPaymentIObject.premiumDueDate??"",
           'premiumAmount': licPaymentIObject.premiumAmount??"",
-          'frequancey': licPaymentIObject.frequancey??"",
-          'dateOfCommoncement': licPaymentIObject.dateOfCommoncement??"",
+          'frequancey': licPaymentIObject.frequency??"",
+          'dateOfCommoncement': licPaymentIObject.dateOfCommencement??"",
           'premiumPayingTerm': licPaymentIObject.premiumPayingTerm??"",
           'policyTerm': licPaymentIObject.policyTerm??"",
           'branch': licPaymentIObject.branch??"",
-          'agenName': licPaymentIObject.agenName??"",
+          'agenName': licPaymentIObject.agentName??"",
           'agentContactNumber': licPaymentIObject.agentContactNumber??"",
           'attachement': licPaymentIObject.agentContactNumber??"",
           'nomineeName': licPaymentIObject.nomineeName??"",
@@ -545,17 +544,17 @@ class PaymentRecordToDataBase {
             .push()
             .set({
           'id':id??"",
-          'comanyName': licPaymentIObject.comanyName??"",
+          'comanyName': licPaymentIObject.companyName??"",
           'policyName': licPaymentIObject.policyName??"",
           'policyNo': licPaymentIObject.policyNo??"",
           'premiumDueDate': licPaymentIObject.premiumDueDate??"",
           'premiumAmount': licPaymentIObject.premiumAmount??"",
-          'frequancey': licPaymentIObject.frequancey??"",
-          'dateOfCommoncement': licPaymentIObject.dateOfCommoncement??"",
+          'frequancey': licPaymentIObject.frequency??"",
+          'dateOfCommoncement': licPaymentIObject.dateOfCommencement??"",
           'premiumPayingTerm': licPaymentIObject.premiumPayingTerm??"",
           'policyTerm': licPaymentIObject.policyTerm??"",
           'branch': licPaymentIObject.branch??"",
-          'agenName': licPaymentIObject.agenName??"",
+          'agenName': licPaymentIObject.agentName??"",
           'agentContactNumber': licPaymentIObject.agentContactNumber??"",
           'attachement': licPaymentIObject.agentContactNumber??"",
           'nomineeName': licPaymentIObject.nomineeName??"",
@@ -563,14 +562,14 @@ class PaymentRecordToDataBase {
           'attachment': fileName??"",
         });
       }
-        String premiumDate = licPaymentIObject.dateOfCommoncement;
+        String premiumDate = licPaymentIObject.dateOfCommencement;
         DateTime maturityDate = DateTime(int.parse(licPaymentIObject.maturityDate.split('-')[2]),
           int.parse(licPaymentIObject.maturityDate.split('-')[1]),
           int.parse(licPaymentIObject.maturityDate.split('-')[0])
         );
-        DateTime other = DateTime(int.parse(licPaymentIObject.dateOfCommoncement.split('-')[2]),
-            int.parse(licPaymentIObject.dateOfCommoncement.split('-')[1]),
-            int.parse(licPaymentIObject.dateOfCommoncement.split('-')[0])
+        DateTime other = DateTime(int.parse(licPaymentIObject.dateOfCommencement.split('-')[2]),
+            int.parse(licPaymentIObject.dateOfCommencement.split('-')[1]),
+            int.parse(licPaymentIObject.dateOfCommencement.split('-')[0])
         );
         
         while(maturityDate.isAfter(other)){
@@ -585,7 +584,7 @@ class PaymentRecordToDataBase {
           }
           print("maturityDate" + maturityDate.toString());
           print("other" + other.toString());
-          print(licPaymentIObject.frequancey);
+          print(licPaymentIObject.frequency);
           
           dbf = firebaseDatabase.reference();
           await dbf
@@ -603,19 +602,19 @@ class PaymentRecordToDataBase {
             'type':'${licPaymentIObject.policyName}'??"",
           });
           
-          if(licPaymentIObject.frequancey == 'monthly'){
+          if(licPaymentIObject.frequency == 'monthly'){
             premiumDate = DateChange.addMonthToDate(premiumDate, 1);
             print("premium Date " + premiumDate);
             other = DateTime(other.year,other.month +1 , other.day);
             print("Other in if " + other.toString());
           }
-          else if(licPaymentIObject.frequancey == 'quarterly'){
+          else if(licPaymentIObject.frequency == 'quarterly'){
             premiumDate = DateChange.addMonthToDate(premiumDate, 3);
             print("premium Date " + premiumDate);
             other = DateTime(other.year,other.month +3 , other.day);
             print("Other in if " + other.toString());
           }
-          else if(licPaymentIObject.frequancey == 'halfYearly'){
+          else if(licPaymentIObject.frequency == 'halfYearly'){
             premiumDate = DateChange.addMonthToDate(premiumDate, 6);
             print("premium Date " + premiumDate);
             other = DateTime(other.year,other.month +6 , other.day);

@@ -285,12 +285,12 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 //      print(values);
       if (values != null) {
-        licPaymentObject.comanyName = values['comanyName']??"";
-        licPaymentObject.agenName = values['agenName']??"";
+        licPaymentObject.companyName = values['comanyName']??"";
+        licPaymentObject.agentName = values['agenName']??"";
         licPaymentObject.agentContactNumber = values['agentContactNumber']??"";
         licPaymentObject.branch = values['branch']??"";
-        licPaymentObject.dateOfCommoncement = values['dateOfCommoncement']??"";
-        licPaymentObject.frequancey = values['frequancey']??"";
+        licPaymentObject.dateOfCommencement = values['dateOfCommoncement']??"";
+        licPaymentObject.frequency = values['frequancey']??"";
         licPaymentObject.maturityDate = values['maturityDate']??"";
         licPaymentObject.nomineeName = values['nomineeName']??"";
         licPaymentObject.policyName = values['policyName']??"";
@@ -299,7 +299,7 @@ class SingleHistoryDatabaseHelper {
         licPaymentObject.premiumAmount = values['premiumAmount']??"";
         licPaymentObject.premiumDueDate = values['premiumDueDate']??"";
         licPaymentObject.premiumPayingTerm = values['premiumPayingTerm']??"";
-        licPaymentObject.attachement = values['attachment']??"";
+        licPaymentObject.attachment = values['attachment']??"";
       }
     });
     return licPaymentObject;

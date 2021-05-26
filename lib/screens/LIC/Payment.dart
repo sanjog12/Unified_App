@@ -28,13 +28,8 @@ class _LICPaymentState extends State<LICPayment> {
 
   LICPaymentObject licPaymentIObject = LICPaymentObject();
   
-  DateTime selectedDatePremiumDate = DateTime.now();
   String selectedDatePremiumDateDB= 'Select Date';
-
-  DateTime selectedDateMaturityDate = DateTime.now();
   String selectedDateMaturityDateDB= 'Select Date';
-
-  DateTime selectedDateCommencement = DateTime.now();
   String selectedDateCommencementDB= 'Select Date';
   
   String _companyName, _frequency;
@@ -42,42 +37,17 @@ class _LICPaymentState extends State<LICPayment> {
   String nameOfFile = "Select File";
   File file;
   
-  Future<Null> selectDateTime(BuildContext context, int i) async{
-    final DateTime picked = await showDatePicker(
+  Future<DateTime> selectDateTime(BuildContext context) async{
+    DateTime selectedDate = DateTime.now();
+    final DateTime pickedDate = await showDatePicker(
         context: context,
-        initialDate: i==0?selectedDatePremiumDate:selectedDateCommencement,
+        initialDate: selectedDate,
         firstDate: DateTime(DateTime.now().year-10),
         lastDate: DateTime(DateTime.now().year+10),
     );
     
-    if(picked != null && picked != selectedDatePremiumDate && i==0){
-      setState(() {
-        print('Checking ' + widget.client.company);
-        selectedDatePremiumDate= picked;
-        print(picked);
-        selectedDatePremiumDateDB = DateFormat('dd').format(picked)+" - of each month";
-        licPaymentIObject.premiumDueDate = selectedDatePremiumDateDB;
-      });
-    }
-    else if(picked != null && picked != selectedDateCommencement && i==1){
-      setState(() {
-        print('Checking ' + widget.client.company);
-        selectedDateCommencement= picked;
-        print(picked);
-        selectedDateCommencementDB = DateFormat('dd-MM-yyyy').format(picked);
-        licPaymentIObject.dateOfCommoncement = selectedDateCommencementDB;
-      });
-    }
-    else if(picked != null && picked != selectedDateMaturityDate && i==2){
-      setState(() {
-        print('Checking ' + widget.client.company);
-        selectedDateMaturityDate= picked;
-        print(picked);
-        selectedDateMaturityDateDB = DateFormat('dd-MM-yyyy').format(picked);
-        licPaymentIObject.maturityDate = selectedDateMaturityDateDB;
-      });
-    }
     FocusScope.of(context).requestFocus(new FocusNode());
+    return pickedDate;
   }
 
   @override
@@ -142,7 +112,7 @@ class _LICPaymentState extends State<LICPayment> {
                           decoration: buildCustomInput(hintText: "Policy Name"),
                           textInputAction: TextInputAction.next,
                           onChanged: (value) {
-                            print("test case " +licPaymentIObject.comanyName);
+                            print("test case " +licPaymentIObject.companyName);
                             licPaymentIObject.policyName = value;
                           }
                         ),
@@ -198,8 +168,12 @@ class _LICPaymentState extends State<LICPayment> {
                                 '$selectedDatePremiumDateDB',
                               ),
                               TextButton(
-                                onPressed: () {
-                                  selectDateTime(context,0);
+                                onPressed: () async{
+                                  DateTime selectedDate = await selectDateTime(context);
+                                  setState(() {
+                                    selectedDatePremiumDateDB = "${DateFormat('dd').format(selectedDate)} - of each month";
+                                    licPaymentIObject.premiumDueDate = selectedDatePremiumDateDB;
+                                  });
                                 },
                                 
                                 child: Icon(Icons.date_range),
@@ -261,8 +235,12 @@ class _LICPaymentState extends State<LICPayment> {
                                 '$selectedDateCommencementDB',
                               ),
                               TextButton(
-                                onPressed: () {
-                                  selectDateTime(context,1);
+                                onPressed: () async{
+                                  DateTime selectedDate = await selectDateTime(context);
+                                  setState(() {
+                                    selectedDateCommencementDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+                                    licPaymentIObject.dateOfCommencement = selectedDateCommencementDB;
+                                  });
                                 },
                                 child: Icon(Icons.date_range),
                               ),
@@ -347,7 +325,7 @@ class _LICPaymentState extends State<LICPayment> {
                           decoration: buildCustomInput(hintText: "Agent Name"),
                           textInputAction: TextInputAction.next,
                           onChanged: (value) =>
-                              licPaymentIObject.agenName = value,
+                              licPaymentIObject.agentName = value,
                         ),
                         
                         SizedBox(height: 15.0,),
@@ -389,7 +367,7 @@ class _LICPaymentState extends State<LICPayment> {
                               setState(() {
                                 nameOfFile = temp.last;
                               });
-                              licPaymentIObject.attachement = nameOfFile;
+                              licPaymentIObject.attachment = nameOfFile;
                             },
           
                             child: Row(
@@ -457,8 +435,12 @@ class _LICPaymentState extends State<LICPayment> {
                           '$selectedDateMaturityDateDB',
                           ),
                          TextButton(
-                          onPressed: () {
-                            selectDateTime(context,2);
+                          onPressed: () async{
+                            DateTime selectedDate = await selectDateTime(context);
+                            setState(() {
+                              selectedDateMaturityDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+                              licPaymentIObject.maturityDate = selectedDateMaturityDateDB;
+                            });
                           },
                           child: Icon(Icons.date_range),
                         ),
@@ -547,7 +529,7 @@ class _LICPaymentState extends State<LICPayment> {
             FocusScope.of(context).requestFocus(new FocusNode());
             this.setState(() {
               _frequency = value;
-              licPaymentIObject.frequancey = value;
+              licPaymentIObject.frequency = value;
             });
             FocusScope.of(context).unfocus();
           },
@@ -600,7 +582,7 @@ class _LICPaymentState extends State<LICPayment> {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       setState(() {
                         _companyName = value;
-                        licPaymentIObject.comanyName = value;
+                        licPaymentIObject.companyName = value;
                         print("value" +value);
 //                    _teacherData.teacherHoldClass = value;
                     });

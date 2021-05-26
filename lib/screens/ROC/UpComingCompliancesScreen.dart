@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/services/LocalNotificationServices.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -201,7 +201,6 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	@override
   void initState() {
     super.initState();
-    notificationServices.initializeSetting();
     showCard();
 	}
 	

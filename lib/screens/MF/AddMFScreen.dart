@@ -8,7 +8,7 @@ import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/MutualFundObject.dart';
 import 'package:unified_reminder/models/MutualFundRecordObject.dart';
 import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/services/LocalNotificationServices.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -54,23 +54,15 @@ class _AddMFScreenState extends State<AddMFScreen> {
   
   
   
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
+  Future<DateTime> selectDateTime(BuildContext context) async{
+    DateTime initialDate = DateTime.now();
+    final DateTime pickedDate = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
-	    firstDate: DateTime(2000),
-	    lastDate: DateTime.now()
+        initialDate: initialDate,
+        firstDate: DateTime(2000),
+        lastDate: DateTime.now()
     );
-  
-    if(picked != null && picked != selectedDate){
-      setState(() {
-        print("picked Date :"+picked.toString());
-        selectedDate = picked;
-        _selectedDateRaw = picked.toString();
-        _selectedDate = DateFormat("dd-MM-yyyy").format(picked);
-        print('$selectedDate' +  '$_selectedDate');
-      });
-    }
+    return pickedDate;
   }
   
   
@@ -109,8 +101,6 @@ class _AddMFScreenState extends State<AddMFScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getJsonData();
     });
-    
-    notificationServices.initializeSetting();
   }
   
   
@@ -197,8 +187,12 @@ class _AddMFScreenState extends State<AddMFScreen> {
                             '$_selectedDate',
                           ),
                           TextButton(
-                            onPressed: () {
-                              selectDateTime(context);
+                            onPressed: () async{
+                              DateTime selectedDate = await selectDateTime(context);
+                              setState(() {
+                                _selectedDateRaw = selectedDate.toString();
+                                _selectedDate = DateFormat("dd-MM-yyyy").format(selectedDate);
+                              });
                             },
                             child: Icon(Icons.date_range),
                           ),
@@ -234,8 +228,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
                 ),
                 
                 
-                listShow
-                    ? Container(
+                listShow ? Container(
                         height: 150,
                         child: FutureBuilder<List<MutualFundObject>>(
                           future: getJsonData(),
@@ -247,8 +240,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
                                 alignment: Alignment.center,
                                 child: ListView.builder(
                                   itemCount: snapshot.data.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
+                                  itemBuilder: (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -319,9 +311,7 @@ class _AddMFScreenState extends State<AddMFScreen> {
                                     .getMutualFundDetailsData(
                                         selectedMutualFundObject.code,
                                         _selectedDateRaw),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<MutualFundDetailObject>
-                                          snapshot) {
+                                builder: (BuildContext context, AsyncSnapshot<MutualFundDetailObject>snapshot) {
                                   if (snapshot.data != null) {
                                     mutualFundDetailObject = snapshot.data;
                                     return Container(

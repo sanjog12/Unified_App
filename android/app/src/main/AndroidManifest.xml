@@ -15,7 +15,7 @@
          FlutterApplication and put your custom class here. -->
 
     <application
-        android:name=".Application"
+        android:name="com.example.unified_reminder.Application"
         android:label="Tax Reminder"
         android:icon="@drawable/new_logo"
         android:logo="@drawable/new_logo"
@@ -24,7 +24,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4569649492742996~2564391573"/>
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.unified_reminder.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode">
@@ -50,6 +50,8 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="high_importance_channel" />
-
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
     </application>
 </manifest>

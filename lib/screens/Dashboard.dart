@@ -65,6 +65,7 @@ class _DashboardState extends State<Dashboard> {
 
   
   Future<void> getClients() async{
+    
     firebaseUID = await SharedPrefs.getStringPreference('uid');
     dbf = firebaseDatabase
         .reference()
@@ -275,7 +276,7 @@ class _DashboardState extends State<Dashboard> {
                               itemCount: listUpcomingCompliances.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return listUpcomingCompliances[index].label !=
-                                    ' ' ? Container(
+                                    '' ? Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 15.0),
                                   child: Container(
@@ -283,7 +284,7 @@ class _DashboardState extends State<Dashboard> {
                                         vertical: 10.0),
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: listUpcomingCompliances[index].notMissed?Colors.white:Colors.red,
+                                          color: listUpcomingCompliances[index].notMissed ?Colors.white :Colors.red,
                                           width: 1.0,
                                         )
                                     ),
@@ -340,7 +341,7 @@ class _DashboardState extends State<Dashboard> {
                               }):
                       clientList.isEmpty
                           ? Container(child: Text("Loading Clients"),)
-                          : Container(child: CircularProgressIndicator(),),
+                          : Container(padding: EdgeInsets.all(5),child: CircularProgressIndicator(),),
                       ],
                     ),
                   ),
