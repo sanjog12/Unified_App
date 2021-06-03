@@ -1,13 +1,18 @@
 // import 'package:flutter/widgets.dart';
 // import 'package:intl/intl.dart';
+import 'dart:collection';
+
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 // import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 
 import 'networking.dart';
 
+
+LinkedHashMap<String,dynamic> cache = LinkedHashMap.of({'meta':{'scheme_code':"1234567890"}});
+
+
 class MutualFundHelper {
-  
   
   String open_api_url = 'https://api.mfapi.in/mf';
   
@@ -55,7 +60,6 @@ class MutualFundHelper {
 
   Future<MutualFundDetailObject> getTodayNav(String code) async{
     print("today NAV");
-    print(code);
     MutualFundDetailObject mutualFundDetailObject ;
     MutualFundDetailObject d;
     String date = DateTime.now().toString();
@@ -86,26 +90,37 @@ class MutualFundHelper {
   
   Future<MutualFundDetailObject> getMutualFundNAV(
       String code, String date, String actualDate) async {
-//    print("inside getMutualFund");
-//    print(code);
-//    print(date);
-    String url = '$open_api_url/$code';
-    NetworkHelper networkHelper = NetworkHelper(url: url);
-    MutualFundDetailObject mutualFundDetailObject ;
 
-    var getMutualFundData = await networkHelper.getDate();
-    print(url);
+    MutualFundDetailObject mutualFundDetailObject;
+    // print(cache['meta']['scheme_code'] == code);
     
-    for (var item in getMutualFundData['data']) {
+    String url = '$open_api_url/$code';
+    
+    print("here" + cache.toString());
+    if(cache['meta']['scheme_code'] != code) {
+      print("not cached");
+      NetworkHelper networkHelper = NetworkHelper(url: url);
+      var getMutualFundData = await networkHelper.getDate();
+      cache = getMutualFundData;
+    }
+
+    // print("test code ${cache['meta']['scheme_code'] == code}");
+    
+    for (LinkedHashMap<String,dynamic> item in cache['data']) {
+      var v = item.values..firstWhere((element){
+        return element == date;
+      },orElse: null);
+      
+      print(v);
+      
       if (item['date'] == date) {
-//        print('found');
         mutualFundDetailObject =
             MutualFundDetailObject(date: actualDate, nav: item['nav']);
         break;
       }
       else{
-//        print('else');
-      mutualFundDetailObject = null;}
+        mutualFundDetailObject = null;
+      }
     }
     
 //    if(mutualFundDetailObject.nav != null)

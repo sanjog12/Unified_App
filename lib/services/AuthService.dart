@@ -34,6 +34,7 @@ class AuthService {
 		  _auth.signOut();
       _googleSignIn.signOut();
 		  SharedPrefs.setStringPreference("uid",null);
+		  
 		  print("done");
 	  }catch(e){
   	  print("error");

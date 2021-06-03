@@ -7,7 +7,7 @@ import 'package:progress_indicators/progress_indicators.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
-import 'package:unified_reminder/screens/MF/MFAllRecords.dart';
+import 'package:unified_reminder/screens/MF/RecordDetails.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
@@ -15,17 +15,18 @@ import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
-class HistoryMFTry extends StatefulWidget {
+HashMap<String,MutualFundDetailObject> storedNav = HashMap<String,MutualFundDetailObject>();
+
+class MfRecords extends StatefulWidget {
 	final Client client;
-  const HistoryMFTry({Key key, this.client}) : super(key: key);
+  const MfRecords({Key key, this.client}) : super(key: key);
 	
   @override
-  _HistoryMFTryState createState() => _HistoryMFTryState();
+  _MfRecordsState createState() => _MfRecordsState();
 }
 
-class _HistoryMFTryState extends State<HistoryMFTry> {
+class _MfRecordsState extends State<MfRecords> {
 	
-	HashMap<String,MutualFundDetailObject> storedNav = HashMap<String,MutualFundDetailObject>();
 	
 	List<HistoryForMF> history = [];
 	bool gotHistory = false;
@@ -244,7 +245,7 @@ class _HistoryMFTryState extends State<HistoryMFTry> {
 										    }
 									    	Navigator.push(context,
 											    MaterialPageRoute(
-												    builder:(context)=> HistoryView(
+												    builder:(context)=>RecordDetail(
 													    storedNav: storedNav,
 													    client: widget.client,
 													    historyForMF: history[index],

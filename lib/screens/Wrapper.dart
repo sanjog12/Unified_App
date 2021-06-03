@@ -26,7 +26,6 @@ class _WrapperState extends State<Wrapper> {
   void initState() {
     super.initState();
     getUserFirebaseId();
-    NotificationServices.firebaseMessagingFCM();
   }
 
   
@@ -45,24 +44,25 @@ class _WrapperState extends State<Wrapper> {
       builder: Builder(
         builder: (context)=>LoginPage()
       ),
-    )
-        : StreamBuilder(
-            stream: firestoreService.getUserDetails(firebaseUserId),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                print("hash data");
-                return ShowCaseWidget(
-                  builder: Builder(
-                    builder: (context)=>Dashboard(),
-                  ),
-                );
-              }
-              return ShowCaseWidget(
-                builder: Builder(
-                  builder: (context)=>Dashboard(),
-                ),
-              );
-            },
+    ):
+    StreamBuilder(
+      stream: firestoreService.getUserDetails(firebaseUserId),
+      builder: (BuildContext context, snapshot) {
+        NotificationServices.firebaseMessagingFCM();
+        if (snapshot.hasData) {
+          print("hash data");
+          return ShowCaseWidget(
+            builder: Builder(
+              builder: (context)=>Dashboard(),
+            ),
           );
+        }
+        return ShowCaseWidget(
+          builder: Builder(
+            builder: (context)=>Dashboard(),
+          ),
+        );
+      },
+    );
   }
 }

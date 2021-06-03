@@ -34,6 +34,7 @@ dependencies:
 
   #f
   flutter_pdfview:
+  fl_chart: ^0.36.1
   flutter_datetime_picker:
   firebase_auth:
   fluttertoast: ^8.0.3
@@ -66,7 +67,6 @@ dependencies:
   #s
   shared_preferences:
   showcaseview: ^0.1.5
-  syncfusion_flutter_charts: ^18.4.48
 
   #u
   url_launcher: ^6.0.3

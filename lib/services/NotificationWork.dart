@@ -18,6 +18,7 @@ class NotificationServices{
 		final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 		DatabaseReference dbf;
 		FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+		String uid = FirebaseAuth.instance.currentUser.uid;
 		
 		await firebaseMessaging.setForegroundNotificationPresentationOptions(
 			alert: true,
@@ -42,21 +43,32 @@ class NotificationServices{
 		
 		
 		await firebaseMessaging.getToken().then(( String value){
-			String uid = FirebaseAuth.instance.currentUser.uid?? "null";
 			if(uid != "null") {
 				dbf = firebaseDatabase.reference();
 				dbf
 						.child("FCMTokens")
-						.child(uid)
-						.set({value.substring(0, 10): value});
+						.child(uid).push()
+						.set(value);
 			}
 		});
 		
+		// firebaseMessaging.onTokenRefresh.forEach((element) {
+		//
+		// });
+		
 		FirebaseMessaging.instance.unsubscribeFromTopic('general');
 		
+		FirebaseMessaging.instance.onTokenRefresh.forEach((String element) {
+			dbf = firebaseDatabase.reference();
+			dbf
+					.child("FCMTokens")
+					.child(uid).push()
+					.set(element);
+		});
+		
 		FirebaseMessaging.onMessage.forEach((element) {
-			print("got text");
-			return showDialog(context: navigatorKey.currentContext,
+			return showDialog(
+					context: navigatorKey.currentContext,
 					builder: (context) => AlertDialog(
 						title: Column(
 						  children: [
@@ -77,7 +89,7 @@ class NotificationServices{
 									
 									},
 									child: Text("Remind on Due Date"),
-							):null,
+							):Container(),
 						],
 					)
 			);

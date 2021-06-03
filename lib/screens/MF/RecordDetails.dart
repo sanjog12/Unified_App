@@ -1,12 +1,12 @@
 import 'dart:collection';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
@@ -19,7 +19,8 @@ import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 
-class HistoryView extends StatefulWidget {
+
+class RecordDetail extends StatefulWidget {
 	
 	final HashMap<String,MutualFundDetailObject> storedNav;
 	final HistoryForMF historyForMF ;
@@ -28,14 +29,14 @@ class HistoryView extends StatefulWidget {
 	final String currentValue;
 	final String totalInvestment;
 
-  const HistoryView({Key key, this.historyForMF, this.currentValue, this.totalUnits, this.totalInvestment, this.client, this.storedNav}) : super(key: key);
+  const RecordDetail({Key key, this.historyForMF, this.currentValue, this.totalUnits, this.totalInvestment, this.client, this.storedNav}) : super(key: key);
   
   @override
-  _HistoryViewState createState() => _HistoryViewState();
+  _RecordDetailState createState() => _RecordDetailState();
 }
 
 
-class _HistoryViewState extends State<HistoryView> {
+class _RecordDetailState extends State<RecordDetail> {
 	
 	int iterations =10 ;
 	double progressIndicator = 0.0;
@@ -494,14 +495,28 @@ class _HistoryViewState extends State<HistoryView> {
 											},
 									): Container(),
 									
-									widget.historyForMF.type == 'SIP' ?
-											SfCartesianChart(
-												primaryXAxis: CategoryAxis(),
-												title: ChartTitle(text: "Mutual Fund"),
-												legend: Legend(isVisible: true),
-												
-												
-											):Container(),
+									// widget.historyForMF.type == 'SIP' ?
+									// 		Container(
+									// 			height: 100,
+									// 		  child: LineChart(
+									// 		  	LineChartData(
+									// 		  		minX: 0,
+									// 		  		maxX: 100,
+									// 				  minY: 0,
+									// 				  maxY: 100,
+									// 		  		lineBarsData: [
+									// 		  			LineChartBarData(
+									// 		  				spots: [
+									// 		  					FlSpot(10,10),
+									// 		  					FlSpot(20,10),
+									// 		  					FlSpot(30,10),
+									// 		  				]
+									// 		  			)
+									// 		  		],
+									// 		  	)
+									// 		  ),
+									// 		)
+									// 		:Container(),
 								
 								],
 							),
