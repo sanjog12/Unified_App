@@ -8,7 +8,7 @@ import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/LoginPage.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/NotificationWork.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 
 
 

@@ -9,7 +9,7 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/AddSingleClient.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
-import 'package:unified_reminder/services/DocumentPaths.dart';
+import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';

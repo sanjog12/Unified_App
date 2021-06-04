@@ -11,7 +11,7 @@ class SharedPrefs {
     return prefs.getString(key);
   }
 
-  static removePrefeence(String key) async {
+  static removePreference(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove("key");
     return;

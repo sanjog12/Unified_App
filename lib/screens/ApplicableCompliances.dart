@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/compliance.dart';
-import 'package:unified_reminder/services/DocumentPaths.dart';
+import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/widgets/ListView.dart';
 
@@ -25,6 +25,11 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
   String firebaseUserId;
+  AnimationController animationController;
+  Animation animation;
+  List<Compliance> listCompliances = [];
+  bool loaded = false;
+  GlobalKey<AnimatedListState> _myListKey = GlobalKey<AnimatedListState>();
   
   BannerAd bannerAd;
 
@@ -57,9 +62,21 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   void initState() {
     super.initState();
     firebaseUserId = FirebaseAuth.instance.currentUser.uid;
+    _getUserCompliances().then((value) async{
+      listCompliances = value;
+      setState(() {
+        loaded = true;
+      });
+      await Future.delayed(Duration(milliseconds: 200));
+      for(int i =0 ; i< listCompliances.length-1;i++){
+        _myListKey.currentState.insertItem(i);
+        await Future.delayed(Duration(milliseconds: 300));
+      }
+    });
     print(widget.client.toString());
   
   }
+  
   
   
   
@@ -103,62 +120,55 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
             widget.client == null
                 ? SizedBox()
                 : Text(
-                    "${widget.client.name}".toUpperCase(),
-                    style: _theme.textTheme.headline6.merge(
-                      TextStyle(
-                        fontSize: 24.0,
-                      ),
-                    ),
-                  ),
+              "${widget.client.name}".toUpperCase(),
+              style: _theme.textTheme.headline6.merge(
+                TextStyle(
+                  fontSize: 24.0,
+                ),
+              ),
+            ),
             SizedBox(
               height: 5.0,
             ),
             widget.client == null
                 ? SizedBox()
-                : Text(
-                    "${widget.client.email}",
-                    style: _theme.textTheme.bodyText2.merge(
-                      TextStyle(
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
+                : Text("${widget.client.email}",
+              style: _theme.textTheme.bodyText2.merge(
+                TextStyle(
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
             SizedBox(
               height: 30.0,
             ),
             Expanded(
-              child: FutureBuilder<List<Compliance>>(
-                future: _getUserCompliances(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Compliance>> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context,int index){
-                        return Container(
-                          padding: EdgeInsets.all(10),
-                          child: ExpansionTile(
-                              title: Text(snapshot.data[index].title),
-                              children: <Widget>[
-                                listItem(snapshot.data[index].title,widget.client,context)
-                              ],
-                            ),
-                        );
-                        }
-                    );
-                  }else{
-                    return Container(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>
-                            (Colors.white),
+              child: AnimatedList(
+                  key: _myListKey,
+                  initialItemCount: listCompliances.length,
+                  itemBuilder: (BuildContext context,int index,Animation animation){
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1, 0),
+                        end: Offset(0, 0),
+                      ).animate(animation),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: ExpansionTile(
+                          title: Text(listCompliances[index].title),
+                          children: <Widget>[
+                            listItem(listCompliances[index].title,widget.client,context)
+                          ],
                         ),
                       ),
-                    );}
-                },
-              ),
+                    );
+                  }),
             ),
             
+            !loaded?Container(
+              child: LinearProgressIndicator(),
+            ):Container(),
+                
             bannerAd == null
                 ?SizedBox(height: 10,)
                 :Container(height: 50, child: AdWidget(ad: bannerAd,),),

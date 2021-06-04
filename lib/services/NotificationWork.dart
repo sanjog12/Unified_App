@@ -47,7 +47,7 @@ class NotificationServices{
 				dbf = firebaseDatabase.reference();
 				dbf
 						.child("FCMTokens")
-						.child(uid).push()
+						.child(uid)
 						.set(value);
 			}
 		});

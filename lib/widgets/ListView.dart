@@ -22,7 +22,7 @@ import 'package:unified_reminder/screens/ROC/History.dart';
 import 'package:unified_reminder/screens/ROC/UpComingCompliancesScreen.dart';
 import 'package:unified_reminder/screens/TDS/History.dart';
 import 'package:unified_reminder/screens/TDS/UpcommingCompliancesTDS.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 
 	 FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 	 DatabaseReference dfb;

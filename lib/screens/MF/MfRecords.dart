@@ -47,41 +47,41 @@ class _MfRecordsState extends State<MfRecords> {
 	Future<void> totalUnitsCalculate() async{
 		print("total Units Calculate");
 		print(history.length);
-		for(int i =0 ; i< history.length;i++) {
-			print(i);
-			double amount = double.parse(history[i].amount);
-			print("amount :"+amount.toString());
-			if (history[i].type == "Lump sum") {
-				print('lump sum');
-				double totalUnite = double.parse(history[i].amount)/double.parse(history[i].mutualFundDetailObject.nav);
+		for(int index =0 ; index< history.length;index++) {
+			// print(index);
+			double amount = double.parse(history[index].amount);
+			// print("amount :"+amount.toString());
+			if (history[index].type == "Lump sum") {
+				// print('lump sum');
+				double totalUnite = double.parse(history[index].amount)/double.parse(history[index].mutualFundDetailObject.nav);
 				print(totalUnite);
 				setState(() {
-					listOfTotalUnits[i]= totalUnite.toStringAsFixed(4);
-					period[i]=amount*1;
+					listOfTotalUnits[index]= totalUnite.toStringAsFixed(4);
+					period[index]=amount*1;
 				});
-				print(double.parse(listOfTotalUnits[i]));
+				print(double.parse(listOfTotalUnits[index]));
 			}
 			else {
-				print('else');
-				await getDate(i);
-				print("else 2");
+				// print('else');
+				await getDeletedDateData(index);
+				// print("else 2");
 				double d=0;
 				for(var v in mutualFund){
 					print(v.nav);
 					d = d + amount /double.parse(v.nav);
 				}
-				print(d.toStringAsFixed(4));
+				// print(d.toStringAsFixed(4));
 				setState(() {
-					listOfTotalUnits[i] = d.toStringAsFixed(4);
-					period[i] = mutualFund.length*amount;
-					print(period[i]);
+					listOfTotalUnits[index] = d.toStringAsFixed(4);
+					period[index] = mutualFund.length*amount;
+					// print(period[index]);
 				});
 			}
 		}
 	}
 	
 	Future<void> getObject() async{
-		print("Calling");
+		// print("Calling");
 		history = await  HistoriesDatabaseHelper().getHistoryOfFMRecordTry(widget.client);
 		setState(() {
 		  gotHistory = true;
@@ -89,13 +89,13 @@ class _MfRecordsState extends State<MfRecords> {
 	}
 	
 	
-	Future<void> getDate(int i) async {
-		deletedDateList = await SingleHistoryDatabaseHelper().getDeletedRecordDates(widget.client, history[i].keyDate);
-		print(deletedDateList);
+	Future<void> getDeletedDateData(int index) async {
+		deletedDateList = await SingleHistoryDatabaseHelper().getDeletedRecordDates(widget.client, history[index].keyDate);
+		// print(deletedDateList);
 		
-		iterations = int.parse(history[i].mutualFundObject.numberOfInstalments);
-		print('Iteration'+ iterations.toString());
-		temp = await getNAV(history[i].mutualFundObject.code, history[i].mutualFundDetailObject.date,
+		iterations = int.parse(history[index].mutualFundObject.numberOfInstalments);
+		// print('Iteration'+ iterations.toString());
+		temp = await getNAV(history[index].mutualFundObject.code, history[index].mutualFundDetailObject.date,
 				iterations, deletedDateList);
 		
 //		temp.removeLast();
@@ -112,14 +112,14 @@ class _MfRecordsState extends State<MfRecords> {
   void initState() {
     super.initState();
     getObject().whenComplete((){
-    	print("when Completed");
-    	print(history.length);
+    	// print("when Completed");
+    	// print(history.length);
     	listOfTotalUnits = List.filled(history.length, "null");
-    	print("1");
+    	// print("1");
     	period = List.filled(history.length, null);
-    	print("2");
+    	// print("2");
     	totalUnitsCalculate();
-    	print("back");
+    	// print("back");
     });
   }
   
@@ -285,37 +285,47 @@ class _MfRecordsState extends State<MfRecords> {
 	
 	
 	
-	Future<List<MutualFundDetailObject>> getNAV(String code, String startDate, int i, List<String> deletedList) async {
+	Future<List<MutualFundDetailObject>> getNAV(String code, String actualDate, int maxIteration, List<String> deletedList) async {
 		String tempDate;
-		List<MutualFundDetailObject> mutualFundDetailObject = [];
-		MutualFundDetailObject mutualFundDetailObject2 = MutualFundDetailObject();
-		print(mutualFundDetailObject2);
-		int i2=0;
-		while (mutualFundDetailObject2 != null) {
-			if (i2 >= i)
+		List<MutualFundDetailObject> listMfDetails = [];
+		MutualFundDetailObject mfDetails = MutualFundDetailObject();
+		print(mfDetails);
+		int countIteration=0;
+		
+		while (mfDetails != null) {
+			if (countIteration >= maxIteration)
 				break;
-			tempDate = startDate;
-			for (int i = 0; i < 4; i++) {
-				print(tempDate);
-				mutualFundDetailObject2 =
-				await MutualFundHelper().getMutualFundNAV(code, tempDate, startDate);
-				if (mutualFundDetailObject2 != null)
-					break;
-				else
-					tempDate = DateChange.addDayToDate(tempDate, 1);
-			}
-			if (mutualFundDetailObject2 != null){
-				if (!deletedList.contains(mutualFundDetailObject2.date)) {
-					mutualFundDetailObject.add(mutualFundDetailObject2);
-					print(mutualFundDetailObject2.date +code);
-					storedNav[mutualFundDetailObject2.date +code] = mutualFundDetailObject2;
+			tempDate = actualDate;
+			
+			if(!storedNav.containsKey(tempDate + code)) {
+				for (int i = 0; i < 4; i++) {
+					// print(tempDate);
+					mfDetails =
+					await MutualFundHelper().getMutualFundNAV(code, tempDate, actualDate);
+					if (mfDetails != null)
+						break;
+					else
+						tempDate = DateChange.addDayToDate(tempDate, 1);
 				}
+				
+				
+				if (mfDetails != null) {
+					if (!deletedList.contains(mfDetails.date)) {
+						listMfDetails.add(mfDetails);
+						
+						// print(mfDetails.date + code);
+						storedNav[mfDetails.date + code] = mfDetails;
+					}
+				}
+			}else{
+				listMfDetails.add(
+						MutualFundDetailObject(date: storedNav[tempDate + code].date, nav: storedNav[tempDate + code].nav)
+				);
 			}
-			startDate = DateChange.addMonthToDate(startDate,1);
-			i2++;
+			actualDate = DateChange.addMonthToDate(actualDate,1);
+			countIteration++;
 		}
-		print("returning");
-		return mutualFundDetailObject;
+		return listMfDetails;
 	}
 	
 }

@@ -5,7 +5,7 @@ import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dar
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
 import 'package:unified_reminder/screens/GST/DetailedHistory.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
-import 'package:unified_reminder/services/PDFView.dart';
+import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';

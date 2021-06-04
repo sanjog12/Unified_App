@@ -11,7 +11,7 @@ import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dar
 import 'package:unified_reminder/models/history/HistoryMF.dart';
 
 import 'MutualFundHelper.dart';
-import 'SharedPrefs.dart';
+import 'GeneralServices/SharedPrefs.dart';
 
 class HistoriesDatabaseHelper {
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
@@ -447,11 +447,11 @@ class HistoriesDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
         values.forEach((key, values) async{
-          print("1");
-          print("2");
+          // print("1");
+          // print("2");
           HistoryForMF historyForMF =
           HistoryForMF(
-//            key: key,
+           key: key,
             amount: await values['amount'],
             mutualFundObject: MutualFundObject(
               name: await values['name'],
@@ -462,10 +462,10 @@ class HistoriesDatabaseHelper {
               nav: await values['nav'],
             ),
           );
-          print("3");
+          // print("3");
 //            print("Nav value  :" + historyForMF.todayNav);
           historyData.add(historyForMF);
-          print("4");
+          // print("4");
         });
       } else {
         historyData.add(HistoryForMF(
@@ -479,10 +479,10 @@ class HistoriesDatabaseHelper {
       Client client) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
 
-    print(client.name);
+    // print(client.name);
     String clientEmail = client.email.replaceAll('.', ',');
 
-    print(clientEmail);
+    // print(clientEmail);
 
     List<HistoryComplinceObject> historyData = [];
 
@@ -497,7 +497,7 @@ class HistoriesDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
         values.forEach((key, values) {
-          print(key);
+          // print(key);
           HistoryComplinceObject historyComplinceObject =
               HistoryComplinceObject(
             date: values['date'],
@@ -595,7 +595,7 @@ class HistoriesDatabaseHelper {
     await dbf.once().then((DataSnapshot snapshot) async{
       Map<dynamic, dynamic> values = await snapshot.value;
       if (values != null) {
-        print(values);
+        // print(values);
         List<dynamic> keyList= values.keys.toList();
         int i =0;
         for(var v in values.values) {
@@ -617,8 +617,8 @@ class HistoriesDatabaseHelper {
               numberOfInstalments: await v['No of Installment'],
             )
           );
-          print(historyForMF.key);
-          print(historyForMF.keyDate);
+          // print(historyForMF.key);
+          // print(historyForMF.keyDate);
           historyData.add(historyForMF);
           i++;
         }
@@ -666,7 +666,7 @@ class HistoriesDatabaseHelper {
         ));
       }
     });
-    print(historyData.length);
+    // print(historyData.length);
     print("returning");
     return historyData;
   }

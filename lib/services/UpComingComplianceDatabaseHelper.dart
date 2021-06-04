@@ -4,8 +4,8 @@ import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/doneComplianceObject.dart';
-import 'DocumentPaths.dart';
-import 'SharedPrefs.dart';
+import 'GeneralServices/DocumentPaths.dart';
+import 'GeneralServices/SharedPrefs.dart';
 
 
 
@@ -143,7 +143,7 @@ class UpComingComplianceDatabaseHelper {
                 for(var v in valuesData.entries){
                   // print(client.name + "Income Tax added1");
 
-                  bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),v.value['date']));
+                  bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
                   if(!isPassedDueDate){
                   upComingComplianceData.add(
                       UpComingComplianceObject(

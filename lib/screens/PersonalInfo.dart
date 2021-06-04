@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/personalDetail.dart';
-import 'package:unified_reminder/services/AuthService.dart';
+import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';

@@ -1,12 +1,13 @@
 // import 'package:flutter/widgets.dart';
 // import 'package:intl/intl.dart';
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 // import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 
-import 'networking.dart';
+import 'GeneralServices/networking.dart';
 
 
 LinkedHashMap<String,dynamic> cache = LinkedHashMap.of({'meta':{'scheme_code':"1234567890"}});
@@ -69,10 +70,10 @@ class MutualFundHelper {
     String selectedDateString = '${dateData[2]}-${dateData[1]}-${dateData[0]}';
     String checkDate = DateChange.addDayToDate(selectedDateString, -1);
 
-    print(mutualFundDetailObject);
+    // print(mutualFundDetailObject);
 
     while(true){
-      print(checkDate);
+      // print(checkDate);
       if(mutualFundDetailObject != null ) {
         d = mutualFundDetailObject;
         break;
@@ -81,7 +82,7 @@ class MutualFundHelper {
           code, checkDate, checkDate);
       checkDate = DateChange.addDayToDate(checkDate, -1);
     }
-    print(d.date);
+    // print(d.date);
     print("returning");
     return d;
   }
@@ -96,35 +97,28 @@ class MutualFundHelper {
     
     String url = '$open_api_url/$code';
     
-    print("here" + cache.toString());
+    print("Code :" + cache['meta']['scheme_code'].toString());
     if(cache['meta']['scheme_code'] != code) {
       print("not cached");
       NetworkHelper networkHelper = NetworkHelper(url: url);
       var getMutualFundData = await networkHelper.getDate();
       cache = getMutualFundData;
     }
-
-    // print("test code ${cache['meta']['scheme_code'] == code}");
     
-    for (LinkedHashMap<String,dynamic> item in cache['data']) {
-      var v = item.values..firstWhere((element){
-        return element == date;
-      },orElse: null);
+    List<LinkedHashMap<String,dynamic>> dateData = List.from(cache['data']);
+    LinkedHashMap<String, dynamic> result  = dateData.firstWhere((element) => element['date'] == date,orElse: (){
+      return LinkedHashMap.from({"date": " ","nav":" "});
+    });
+    
+    print(result['date']  +  "  " + result['nav']);
       
-      print(v);
-      
-      if (item['date'] == date) {
-        mutualFundDetailObject =
-            MutualFundDetailObject(date: actualDate, nav: item['nav']);
-        break;
-      }
-      else{
-        mutualFundDetailObject = null;
-      }
+    if (result['date'] != " ") {
+      mutualFundDetailObject = MutualFundDetailObject(date: actualDate, nav: result['nav']);
+    }
+    else{
+      mutualFundDetailObject = null;
     }
     
-//    if(mutualFundDetailObject.nav != null)
-//      print(mutualFundDetailObject.nav);
     print('returning ');
     return mutualFundDetailObject;
   }

@@ -17,7 +17,7 @@ import 'package:unified_reminder/models/client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/ApplicableCompliances.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/services/UpcomingCompliancesPageRedirect.dart';
 import 'package:unified_reminder/styles/colors.dart';
@@ -275,8 +275,7 @@ class _DashboardState extends State<Dashboard> {
                               shrinkWrap: true,
                               itemCount: listUpcomingCompliances.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return listUpcomingCompliances[index].label !=
-                                    '' ? Container(
+                                return listUpcomingCompliances[index].label != '' ? Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 15.0),
                                   child: Container(
@@ -371,9 +370,20 @@ class _DashboardState extends State<Dashboard> {
                                 return ListTile(
                                   onTap: () {
                                     if(clientList[index].key != 'Please add client First'){
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) =>ApplicableCompliances(client: clientList[index],
-                                        )));}
+                                    Navigator.of(context).push(PageRouteBuilder(
+                                      transitionsBuilder: (context,animation,animationTime,child){
+                                        animation = CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn);
+                                        return ScaleTransition(
+                                          alignment: Alignment.bottomCenter,
+                                          scale: animation,
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration: Duration(seconds: 1),
+                                      pageBuilder: (context,animation,animationTime) => ApplicableCompliances(client: clientList[index],
+                                      ),
+                                    ));
+                                    }
                                     },
                                   contentPadding: EdgeInsets.symmetric(
                                     vertical: 10.0,

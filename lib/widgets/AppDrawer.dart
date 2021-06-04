@@ -7,8 +7,8 @@ import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Clients.dart';
 import 'package:unified_reminder/screens/LoginPage.dart';
 import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Screens/PaymentHistoryScreen.dart';
-import 'package:unified_reminder/services/AuthService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -90,7 +90,7 @@ class AppDrawer extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     bannerAd.dispose();
-                    SharedPrefs.removePrefeence("uid");
+                    SharedPrefs.removePreference("uid");
                     AuthService().logOutUser();
                     Navigator.popUntil(context,ModalRoute.withName("/dashboard"));
                     Navigator.push(context, MaterialPageRoute(
