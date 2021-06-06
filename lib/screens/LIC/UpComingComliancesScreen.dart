@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/doneComplianceObject.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/DoneComplianceObject.dart';
 import 'package:unified_reminder/screens/LIC/Payment.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -37,10 +37,10 @@ class _UpComingCompliancesScreenForLICState
   
   
 
-  bool getSingleDone(List<doneComplianceObject> done, String subKey) {
+  bool getSingleDone(List<DoneComplianceObject> done, String subKey) {
     print(done[0].key);
     if (done[0].key != null) {
-      doneComplianceObject singleDone;
+      DoneComplianceObject singleDone;
       done.forEach((element) {
         print(element.key);
         if (subKey == element.key) {

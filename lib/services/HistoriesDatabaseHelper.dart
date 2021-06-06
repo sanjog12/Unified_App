@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/MutualFundObject.dart';
 import 'package:unified_reminder/models/PaymentHistory.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForIncomeTax.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForROC.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';

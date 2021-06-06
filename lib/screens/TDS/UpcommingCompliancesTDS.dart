@@ -5,8 +5,8 @@ import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/doneComplianceObject.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/DoneComplianceObject.dart';
 import 'package:unified_reminder/screens/TDS/Payment.dart';
 import 'package:unified_reminder/screens/TDS/QuarterlyReturns.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
@@ -35,10 +35,10 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 	TodayDateObject todayDateObject;
 	
 	
-	bool getSingleDone(List<doneComplianceObject> dones, String subkey) {
+	bool getSingleDone(List<DoneComplianceObject> dones, String subkey) {
 		print(dones[0].key);
 		if (dones[0].key != null) {
-			doneComplianceObject singleDone;
+			DoneComplianceObject singleDone;
 			dones.forEach((element) {
 				print(element.key);
 				if (subkey == element.key) {

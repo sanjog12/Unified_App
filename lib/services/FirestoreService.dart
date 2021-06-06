@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/compliance.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/Compliance.dart';
 import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 

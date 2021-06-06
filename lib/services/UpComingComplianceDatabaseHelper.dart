@@ -2,8 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 // import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/doneComplianceObject.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/DoneComplianceObject.dart';
 import 'GeneralServices/DocumentPaths.dart';
 import 'GeneralServices/SharedPrefs.dart';
 
@@ -22,12 +22,12 @@ class UpComingComplianceDatabaseHelper {
   List<String> todayDateData = fullDate.toString().split('-');
   TodayDateObject todayDateObject;
 
-  Future<List<doneComplianceObject>> getClientDoneCompliances(
+  Future<List<DoneComplianceObject>> getClientDoneCompliances(
     String clientEmail,
     TodayDateObject todayDate,
     String snapshotKey,
   ) async {
-    List<doneComplianceObject> clientDone = [];
+    List<DoneComplianceObject> clientDone = [];
 //    print('values1');
 
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -46,11 +46,11 @@ class UpComingComplianceDatabaseHelper {
       if (values != null) {
 
         values.forEach((key, value) {
-          clientDone.add(doneComplianceObject(key: key, value: value));
+          clientDone.add(DoneComplianceObject(key: key, value: value));
         });
       }
 
-      clientDone.add(doneComplianceObject(key: null, value: null));
+      clientDone.add(DoneComplianceObject(key: null, value: null));
     });
     return clientDone;
   }
@@ -121,7 +121,7 @@ class UpComingComplianceDatabaseHelper {
           }
           
           if(registeredCompliancesData['title'] == 'Income Tax'){
-            List<doneComplianceObject> doneCompliances = [];
+            List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "INCOME_TAX");
             }catch(e){
@@ -165,7 +165,7 @@ class UpComingComplianceDatabaseHelper {
   
           if(registeredCompliancesData['title']=='TDS'){
             // print("TDS");
-            List<doneComplianceObject> doneCompliances = [];
+            List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "TDS");
             }catch(e){
@@ -205,7 +205,7 @@ class UpComingComplianceDatabaseHelper {
           }
           
           if(registeredCompliancesData['title'] == 'GST'){
-            List<doneComplianceObject> doneCompliances = [];
+            List<DoneComplianceObject> doneCompliances = [];
             try{
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email.replaceAll('.', ','),
                   todayDateObject, "GST");
@@ -280,7 +280,7 @@ class UpComingComplianceDatabaseHelper {
           }
           
           if(registeredCompliancesData['title'] == 'EPF'){
-            List<doneComplianceObject> doneCompliances = [];
+            List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
             }catch(e){
@@ -324,7 +324,7 @@ class UpComingComplianceDatabaseHelper {
           }
           
           if(registeredCompliancesData['title'] == 'ESI'){
-            List<doneComplianceObject> doneCompliances = [];
+            List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
             }catch(e){
@@ -388,7 +388,7 @@ class UpComingComplianceDatabaseHelper {
     
     List<UpComingComplianceObject> upComingComplianceData = [];
 
-    List<doneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
+    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
         todayDateObject, "INCOME_TAX");
 
     dbf = firebaseDatabase
@@ -443,7 +443,7 @@ class UpComingComplianceDatabaseHelper {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
   
-    List<doneComplianceObject> doneCompliances = [];
+    List<DoneComplianceObject> doneCompliances = [];
     try {
       doneCompliances = await UpComingComplianceDatabaseHelper()
           .getClientDoneCompliances(client.email,
@@ -508,7 +508,7 @@ class UpComingComplianceDatabaseHelper {
   
   Future<List<UpComingComplianceObject>> getUpComingCompliancesForMonthOfESI(Client client) async {
   
-    List<doneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
+    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
     
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
@@ -615,7 +615,7 @@ class UpComingComplianceDatabaseHelper {
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
 
-    List<doneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "GST");
+    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "GST");
     
     print(doneCompliances.first);
     print("done compliances length" + doneCompliances.length.toString());
@@ -671,7 +671,7 @@ class UpComingComplianceDatabaseHelper {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
-    List<doneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
+    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
         todayDateObject, "EPF");
     List<UpComingComplianceObject> upComingComplianceData = [];
   

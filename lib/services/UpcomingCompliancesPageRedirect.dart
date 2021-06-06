@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/screens/EPF/UpcomingCompliancesEPF.dart';
 import 'package:unified_reminder/screens/ESIC/UpcomingCompliancesESIC.dart';
 import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';

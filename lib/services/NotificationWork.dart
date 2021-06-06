@@ -1,3 +1,4 @@
+import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -16,6 +17,7 @@ class NotificationServices{
 	static firebaseMessagingFCM() async{
 		
 		final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+		DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 		DatabaseReference dbf;
 		FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 		String uid = FirebaseAuth.instance.currentUser.uid;
@@ -26,6 +28,7 @@ class NotificationServices{
 			sound: true,
 		);
 		
+		firebaseMessaging.setAutoInitEnabled(false);
 		
 		
 		NotificationSettings settings = await firebaseMessaging.requestPermission(sound: true, criticalAlert: true,alert: true,
@@ -42,57 +45,70 @@ class NotificationServices{
 		}
 		
 		
-		await firebaseMessaging.getToken().then(( String value){
+		await firebaseMessaging.getToken().then(( String value) async{
 			if(uid != "null") {
+				AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+				print(androidDeviceInfo.androidId.substring(0,10));
 				dbf = firebaseDatabase.reference();
 				dbf
 						.child("FCMTokens")
 						.child(uid)
+						.child("-${androidDeviceInfo.androidId.substring(0,10)}")
 						.set(value);
 			}
 		});
 		
-		// firebaseMessaging.onTokenRefresh.forEach((element) {
-		//
-		// });
+		firebaseMessaging.onTokenRefresh.forEach((element) {
+
+		});
 		
 		FirebaseMessaging.instance.unsubscribeFromTopic('general');
 		
-		FirebaseMessaging.instance.onTokenRefresh.forEach((String element) {
+		FirebaseMessaging.instance.onTokenRefresh.forEach((String element) async{
+			AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+			print(androidDeviceInfo.androidId.substring(0,10));
 			dbf = firebaseDatabase.reference();
 			dbf
 					.child("FCMTokens")
-					.child(uid).push()
+					.child(uid).child("-${androidDeviceInfo.androidId.substring(0,10)}")
 					.set(element);
 		});
 		
-		FirebaseMessaging.onMessage.forEach((element) {
-			return showDialog(
+		FirebaseMessaging.onMessage.first.then((element){
+			return showGeneralDialog(
+					barrierColor: Colors.black.withOpacity(0.5),
+					transitionBuilder: (context, a1, a2, widget) {
+						final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;
+						return Transform(
+							transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+							child: AlertDialog(
+								title: Column(
+									children: [
+										Text(element.data['title']),
+										Divider(color: Colors.blue,thickness: 1,),
+									],
+								),
+								content: Text(element.data['body']),
+								actions: [
+									TextButton(
+											onPressed: (){
+												Navigator.pop(context);
+											},
+											child: Text("OK")),
+									element.data["daysRemaining"].toString() == "3"
+											?TextButton(
+										onPressed: (){
+										
+										},
+										child: Text("Remind on Due Date"),
+									):Container(),
+								],
+							),
+						);
+					},
+					transitionDuration: Duration(milliseconds: 200),
 					context: navigatorKey.currentContext,
-					builder: (context) => AlertDialog(
-						title: Column(
-						  children: [
-						    Text(element.data['title']),
-							  Divider(color: Colors.blue,thickness: 1,),
-						  ],
-						),
-						content: Text(element.data['body']),
-						actions: [
-							TextButton(
-								onPressed: (){
-									Navigator.pop(context);
-									},
-								child: Text("OK")),
-							element.data["daysRemaining"].toString() == "3"
-									?TextButton(
-									onPressed: (){
-									
-									},
-									child: Text("Remind on Due Date"),
-							):Container(),
-						],
-					)
-			);
+					pageBuilder: (context, animation1, animation2) {});
 		});
 	}
 	

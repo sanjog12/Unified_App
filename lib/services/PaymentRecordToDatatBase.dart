@@ -12,7 +12,7 @@ import 'package:random_string/random_string.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:unified_reminder/models/MutualFundRecordObject.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/models/payment/ESIMonthlyContributionObejct.dart';
 import 'package:unified_reminder/models/payment/FDRecordObject.dart';

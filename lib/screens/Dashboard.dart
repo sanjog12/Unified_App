@@ -13,7 +13,7 @@ import 'package:showcaseview/showcase.dart';
 import 'package:showcaseview/showcase_widget.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/ApplicableCompliances.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
@@ -369,21 +369,22 @@ class _DashboardState extends State<Dashboard> {
 //                            client = snapshot.data[index];
                                 return ListTile(
                                   onTap: () {
-                                    if(clientList[index].key != 'Please add client First'){
-                                    Navigator.of(context).push(PageRouteBuilder(
-                                      transitionsBuilder: (context,animation,animationTime,child){
-                                        animation = CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn);
-                                        return ScaleTransition(
-                                          alignment: Alignment.bottomCenter,
-                                          scale: animation,
-                                          child: child,
-                                        );
-                                      },
-                                      transitionDuration: Duration(seconds: 1),
-                                      pageBuilder: (context,animation,animationTime) => ApplicableCompliances(client: clientList[index],
-                                      ),
-                                    ));
-                                    }
+                                      if(clientList[index].key != 'Please add client First'){
+                                        Navigator.of(context).push(PageRouteBuilder(
+                                          transitionsBuilder: (context,animation,animationTime,child){
+                                            return SlideTransition(
+                                              position: Tween<Offset>(
+                                                begin: const Offset(1, 0),
+                                                end: Offset(0, 0),
+                                              ).animate(animation),
+                                              child: child,
+                                            );
+                                          },
+                                          transitionDuration: Duration(milliseconds: 500),
+                                          pageBuilder: (context,animation,animationTime) => ApplicableCompliances(client: clientList[index],
+                                          ),
+                                        ));
+                                      }
                                     },
                                   contentPadding: EdgeInsets.symmetric(
                                     vertical: 10.0,

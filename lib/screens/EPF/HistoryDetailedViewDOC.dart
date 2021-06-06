@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 // import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';

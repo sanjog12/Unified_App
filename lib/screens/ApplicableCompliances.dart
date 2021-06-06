@@ -4,8 +4,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/compliance.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/Compliance.dart';
+import 'package:unified_reminder/services/GeneralServices/Caching.dart';
 import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/widgets/ListView.dart';
@@ -84,24 +85,30 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
     List<Compliance> clientsData = [];
     String clientEmail = widget.client.email.replaceAll('.', ',');
 
-    dbf = firebaseDatabase
-        .reference()
-        .child(FsUserCompliances)
-        .child(firebaseUserId)
-        .child('compliances')
-        .child(clientEmail);
-
-    await dbf.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, values) {
-        Compliance compliance = Compliance(
-            userEmail: values['clientEmail'],
-            title: values['title'],
-            value: values['value'],
-            checked: null);
-        clientsData.add(compliance);
+    if(compliancesCache.containsKey(clientEmail)) {
+      dbf = firebaseDatabase
+          .reference()
+          .child(FsUserCompliances)
+          .child(firebaseUserId)
+          .child('compliances')
+          .child(clientEmail);
+  
+      await dbf.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        values.forEach((key, values) {
+          Compliance compliance = Compliance(
+              userEmail: values['clientEmail'],
+              title: values['title'],
+              value: values['value'],
+              checked: null);
+          clientsData.add(compliance);
+        });
       });
-    });
+      compliancesCache[clientEmail] = clientsData;
+    }
+    else{
+      clientsData = compliancesCache[clientEmail];
+    }
     return clientsData;
   }
   

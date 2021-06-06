@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
@@ -44,6 +44,7 @@ class _RecordDetailState extends State<RecordDetail> {
 	bool loadDelete = false;
 	bool confirmation = false;
 	bool waiting = true;
+	double i =0;
 	String firebaseUserId;
 	List<MutualFundDetailObject> mutualFund = [];
 	List<MutualFundDetailObject> mutualFundTemp = [];
@@ -59,14 +60,6 @@ class _RecordDetailState extends State<RecordDetail> {
 		print(widget.historyForMF.type);
 	}
 	
-	getListOfNav() async* {
-		temp.removeLast();
-		setState((){
-		  mutualFund = temp;
-		  loadingNav = false;
-		});
-		print('Size of ' + mutualFund.length.toString());
-	}
 	
 	fireUser() async{
 		firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -440,8 +433,8 @@ class _RecordDetailState extends State<RecordDetail> {
 									SizedBox(height: 30),
 									
 									widget.historyForMF.type == 'SIP' ?
-									StreamBuilder<List<MutualFundDetailObject>>(
-										stream: getNAV(),
+									FutureBuilder<List<MutualFundDetailObject>>(
+										future: getNAV(),
 										builder: (BuildContext context, AsyncSnapshot<List<MutualFundDetailObject>> snapShot){
 											if(snapShot.hasData){
 											return Column(
@@ -488,36 +481,34 @@ class _RecordDetailState extends State<RecordDetail> {
 													    )).values.toList(),
 												    ),
 											    ),
-												  SizedBox(height: 30,)
+												  SizedBox(height: 30,),
+												
+												  // Container(
+													//   height: 200,
+													//   child: LineChart(
+													// 	  LineChartData(
+													// 		  minX: 0,
+													// 		  maxX: 12,
+													// 		  minY: 0,
+													// 		  maxY: 100,
+													// 		  titlesData: FlTitlesData(
+													// 			  leftTitles: SideTitles(),
+													// 		  ),
+													// 		  lineBarsData: [
+													// 		  	LineChartBarData(
+													// 				  spots: snapShot.data.map((e) {
+													// 				  	return FlSpot(i++,double.parse(e.nav));}).toList(),
+													// 			  )
+													// 		  ],
+													// 	  ),
+													// 	  swapAnimationCurve: Curves.bounceOut,
+													//   ),
+												  // )
 											  ],
 											);}
 											return CircularProgressIndicator();
 											},
 									): Container(),
-									
-									// widget.historyForMF.type == 'SIP' ?
-									// 		Container(
-									// 			height: 100,
-									// 		  child: LineChart(
-									// 		  	LineChartData(
-									// 		  		minX: 0,
-									// 		  		maxX: 100,
-									// 				  minY: 0,
-									// 				  maxY: 100,
-									// 		  		lineBarsData: [
-									// 		  			LineChartBarData(
-									// 		  				spots: [
-									// 		  					FlSpot(10,10),
-									// 		  					FlSpot(20,10),
-									// 		  					FlSpot(30,10),
-									// 		  				]
-									// 		  			)
-									// 		  		],
-									// 		  	)
-									// 		  ),
-									// 		)
-									// 		:Container(),
-								
 								],
 							),
 							
@@ -530,7 +521,7 @@ class _RecordDetailState extends State<RecordDetail> {
 	}
 	
 	
-	Stream<List<MutualFundDetailObject>> getNAV() async* {
+	Future<List<MutualFundDetailObject>> getNAV() async {
 		String code = widget.historyForMF.mutualFundObject.code;
 		String startDate = widget.historyForMF.mutualFundDetailObject.date;
 		deletedDateList = await SingleHistoryDatabaseHelper().getDeletedRecordDates(widget.client, widget.historyForMF.keyDate);
@@ -565,8 +556,8 @@ class _RecordDetailState extends State<RecordDetail> {
 		}
 			startDate = DateChange.addMonthToDate(startDate,1);
 			countInstallment++;
-			yield mutualFund;
 		}
+		return mutualFund;
   }
 	
 	Future<void> showConfirmation(BuildContext context) async{

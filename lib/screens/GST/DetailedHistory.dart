@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
 import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';

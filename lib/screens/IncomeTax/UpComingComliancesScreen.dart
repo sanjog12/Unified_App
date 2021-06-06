@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/screens/IncomeTax/Payment.dart';
 import 'package:unified_reminder/screens/IncomeTax/ReturnFilling.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';

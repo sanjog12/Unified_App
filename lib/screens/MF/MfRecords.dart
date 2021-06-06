@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/screens/MF/RecordDetails.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
@@ -133,8 +133,7 @@ class _MfRecordsState extends State<MfRecords> {
 	    
 	    body: history.length != 0?Container(
 		    padding: EdgeInsets.all(20),
-		    child: gotHistory
-					    ?Container(
+		    child: gotHistory ? Container(
 				    child: ListView.builder(
 					    itemCount: history.length,
 						    itemBuilder: (BuildContext context, index){

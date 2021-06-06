@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:showcaseview/showcase_widget.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/AddSingleClient.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';

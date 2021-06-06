@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/LICPaymentIObject.dart';
 import 'package:unified_reminder/services/DropDownValuesHelper.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';

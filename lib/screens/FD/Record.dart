@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/FDRecordObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';

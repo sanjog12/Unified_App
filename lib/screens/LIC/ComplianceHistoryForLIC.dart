@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/LICPaymentIObject.dart';
 import 'package:unified_reminder/screens/LIC/HistoryDetailsView.dart';

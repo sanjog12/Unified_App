@@ -2,7 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
