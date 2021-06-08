@@ -58,9 +58,6 @@ class NotificationServices{
 			}
 		});
 		
-		firebaseMessaging.onTokenRefresh.forEach((element) {
-
-		});
 		
 		FirebaseMessaging.instance.unsubscribeFromTopic('general');
 		
@@ -74,41 +71,36 @@ class NotificationServices{
 					.set(element);
 		});
 		
-		FirebaseMessaging.onMessage.first.then((element){
-			return showGeneralDialog(
+		
+		FirebaseMessaging.onMessage.forEach((element) {
+			return showDialog(
 					barrierColor: Colors.black.withOpacity(0.5),
-					transitionBuilder: (context, a1, a2, widget) {
-						final curvedValue = Curves.easeInOutBack.transform(a1.value) -   1.0;
-						return Transform(
-							transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
-							child: AlertDialog(
-								title: Column(
-									children: [
-										Text(element.data['title']),
-										Divider(color: Colors.blue,thickness: 1,),
-									],
-								),
-								content: Text(element.data['body']),
-								actions: [
-									TextButton(
-											onPressed: (){
-												Navigator.pop(context);
-											},
-											child: Text("OK")),
-									element.data["daysRemaining"].toString() == "3"
-											?TextButton(
-										onPressed: (){
-										
-										},
-										child: Text("Remind on Due Date"),
-									):Container(),
+					context: navigatorKey.currentContext,
+					builder: (context) {
+						return AlertDialog(
+							title: Column(
+								children: [
+									Text(element.data['title']),
+									Divider(color: Colors.blue,thickness: 1,),
 								],
 							),
+							content: Text(element.data['body']),
+							actions: [
+								TextButton(
+										onPressed: (){
+											Navigator.pop(context);
+										},
+										child: Text("OK")),
+								element.data["daysRemaining"].toString() == "3"
+										?TextButton(
+									onPressed: (){
+									
+									},
+									child: Text("Remind on Due Date"),
+								):Container(),
+							],
 						);
-					},
-					transitionDuration: Duration(milliseconds: 200),
-					context: navigatorKey.currentContext,
-					pageBuilder: (context, animation1, animation2) {});
+					});
 		});
 	}
 	

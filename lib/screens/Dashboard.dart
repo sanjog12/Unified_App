@@ -233,7 +233,6 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      
       body: Container(
         padding: EdgeInsets.all(24.0),
         child: Column(
@@ -243,23 +242,19 @@ class _DashboardState extends State<Dashboard> {
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
-                  Text(
-                    "Your Clients",
+                  Text("Your Clients",
                     style: _theme.textTheme.headline6.merge(
                       TextStyle(
                         fontSize: 26.0,
                       ),
                     ),
                   ),
-                  Text(
-                    "Clients you manage.",
+                  Text("Clients you manage.",
                     style: TextStyle(
                       height: 1.5,
                     ),
                   ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
+                  SizedBox(height: 30.0,),
                     
                   Showcase(
                     shapeBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -269,82 +264,76 @@ class _DashboardState extends State<Dashboard> {
                       title: Text('Upcoming Compliances'),
                       children:<Widget>[
                         loading == false?
-                          ListView.builder(
-                              controller: controller,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: listUpcomingCompliances.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return listUpcomingCompliances[index].label != '' ? Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15.0),
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 10.0),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: listUpcomingCompliances[index].notMissed ?Colors.white :Colors.red,
-                                          width: 1.0,
-                                        )
-                                    ),
-                                    child: ListTile(
-                                      title: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .stretch,
-                                        children: <Widget>[
-                                          SizedBox(height: 10,),
-                                          Text(listUpcomingCompliances[index]
-                                              .name != null
-                                              ? listUpcomingCompliances[index]
-                                              .name
-                                              : ' ',
-                                              style: _theme.textTheme.headline6
-                                                  .merge(TextStyle(
-                                                fontSize: 15,
-                                              )),
-                                            overflow: TextOverflow.fade,
-                                          ),
-                                          Divider(
-                                            thickness: 1.5,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                        ],
+                        ListView.builder(
+                          controller: controller,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: listUpcomingCompliances.length,
+                            itemBuilder: (BuildContext context, int index) {
+                            return listUpcomingCompliances[index].label != '' ? Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.0),
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: listUpcomingCompliances[index].notMissed ?Colors.white :Colors.red,
+                                      width: 1.0,
+                                    )
+                                ),
+                                child: ListTile(
+                                  title: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      SizedBox(height: 10,),
+                                      Text(listUpcomingCompliances[index].name != null
+                                          ? listUpcomingCompliances[index].name
+                                          : ' ',
+                                        style: _theme.textTheme.headline6.merge(TextStyle(
+                                          fontSize: 15,
+                                        )),
+                                        overflow: TextOverflow.fade,
                                       ),
-              
-                                      subtitle: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .stretch,
-                                        children: <Widget>[
-                                          Text(
-                                            ' - ${listUpcomingCompliances[index]
-                                                .label} due on ${listUpcomingCompliances[index]
-                                                .date}  '
-                                                '${DateFormat("MMMM").format(
-                                                DateTime.now())}',
-                                            style: _theme.textTheme.bodyText2,),
-                                          SizedBox(height: 10,)
-                                        ],
+                                      Divider(
+                                        thickness: 1.5,
                                       ),
-                                      onLongPress: () {
-                                        jumpToPage(context,
-                                            listUpcomingCompliances[index].key,
-                                            clientList,
-                                            listUpcomingCompliances[index]
-                                                .name);
-                                      },
-                                    ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    ],
                                   ),
-                                ) : Container();
-                              }):
-                      clientList.isEmpty
-                          ? Container(child: Text("Loading Clients"),)
-                          : Container(padding: EdgeInsets.all(5),child: CircularProgressIndicator(),),
+              
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      Text(
+                                        ' - ${listUpcomingCompliances[index].label} '
+                                            'due on ${listUpcomingCompliances[index].date}  '
+                                                '${DateFormat("MMMM").format(
+                                            DateTime.now())}',
+                                        style: _theme.textTheme.bodyText2,),
+                                      SizedBox(height: 10,)
+                                    ],
+                                  ),
+                                  onLongPress: () {
+                                    jumpToPage(context,
+                                        listUpcomingCompliances[index].key,
+                                        clientList,
+                                        listUpcomingCompliances[index]
+                                            .name);
+                                    },
+                                ),
+                              ),
+                            ) : Container();
+                          })
+                            : clientList.isEmpty
+                            ? Container(child: Text("Loading Clients"),)
+                            : Container(padding: EdgeInsets.all(5),child: CircularProgressIndicator(),),
                       ],
                     ),
                   ),
-                    
+                  
                   SizedBox(height: 30,),
                   Showcase(
                     key: third,
@@ -366,26 +355,23 @@ class _DashboardState extends State<Dashboard> {
                               itemCount: clientList.length,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (BuildContext context, int index) {
-//                            client = snapshot.data[index];
                                 return ListTile(
                                   onTap: () {
-                                      if(clientList[index].key != 'Please add client First'){
-                                        Navigator.of(context).push(PageRouteBuilder(
-                                          transitionsBuilder: (context,animation,animationTime,child){
-                                            return SlideTransition(
-                                              position: Tween<Offset>(
-                                                begin: const Offset(1, 0),
-                                                end: Offset(0, 0),
-                                              ).animate(animation),
-                                              child: child,
-                                            );
-                                          },
-                                          transitionDuration: Duration(milliseconds: 500),
-                                          pageBuilder: (context,animation,animationTime) => ApplicableCompliances(client: clientList[index],
-                                          ),
-                                        ));
-                                      }
-                                    },
+                                    if(clientList[index].key != 'Please add client First'){
+                                      Navigator.of(context).push(PageRouteBuilder(
+                                        transitionsBuilder: (context,animation,animationTime,child){
+                                          return SlideTransition(
+                                            position: Tween<Offset>(
+                                              begin: const Offset(1, 0),
+                                              end: Offset(0, 0),
+                                            ).animate(animation),
+                                            child: child,
+                                          );},
+                                        transitionDuration: Duration(milliseconds: 500),
+                                        pageBuilder: (context,animation,animationTime) => ApplicableCompliances(client: clientList[index],
+                                        ),
+                                      ));
+                                    }},
                                   contentPadding: EdgeInsets.symmetric(
                                     vertical: 10.0,
                                   ),
@@ -394,13 +380,10 @@ class _DashboardState extends State<Dashboard> {
                                 );
                               }),
                         )
-                        
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
+                  SizedBox(height: 30,),
                 ],
               ),
             ),

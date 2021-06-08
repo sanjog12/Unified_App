@@ -63,7 +63,7 @@ class AuthService {
     try {
       UserCredential newUser = await _auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
-      await newUser.user.sendEmailVerification();
+      // await newUser.user.sendEmailVerification();
       flutterToast(message: "A verification link has been send to your Entered mail");
       _firestore.collection(FsUsersPath).doc(newUser.user.uid).set({
         "fullname": user.fullName,
@@ -87,7 +87,7 @@ class AuthService {
       print('12');
       UserCredential loginUser = await _auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
-      SharedPrefs.setStringPreference("uid", loginUser.user.uid);
+      // SharedPrefs.setStringPreference("uid", loginUser.user.uid);
       print('34');
       return UserBasic(
         email: newUser.user.email,

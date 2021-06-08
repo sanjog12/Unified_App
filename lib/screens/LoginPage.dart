@@ -275,7 +275,6 @@ class _LoginPageState extends State<LoginPage>{
                             UserBasic userBasic = await _auth.googleLogIn();
                             print("userbasic check" +userBasic.email);
                             if (userBasic != null) {
-                              NotificationServices.firebaseMessagingFCM();
                               Navigator.pop(context);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -439,7 +438,6 @@ class _LoginPageState extends State<LoginPage>{
 
         UserBasic userBasic = await _auth.loginUser(authDetails,context);
         if (userBasic != null) {
-          NotificationServices.firebaseMessagingFCM();
           Navigator.pop(context);
           Navigator.of(context).push(
             MaterialPageRoute(

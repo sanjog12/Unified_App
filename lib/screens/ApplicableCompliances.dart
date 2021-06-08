@@ -64,6 +64,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
     super.initState();
     firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     _getUserCompliances().then((value) async{
+      
       listCompliances = value;
       setState(() {
         loaded = true;
@@ -75,7 +76,6 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
       }
     });
     print(widget.client.toString());
-  
   }
   
   
@@ -85,7 +85,8 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
     List<Compliance> clientsData = [];
     String clientEmail = widget.client.email.replaceAll('.', ',');
 
-    if(compliancesCache.containsKey(clientEmail)) {
+    if(!compliancesCache.containsKey(clientEmail)) {
+      print("true");
       dbf = firebaseDatabase
           .reference()
           .child(FsUserCompliances)
@@ -107,6 +108,8 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
       compliancesCache[clientEmail] = clientsData;
     }
     else{
+      print("false");
+      print(compliancesCache[clientEmail]);
       clientsData = compliancesCache[clientEmail];
     }
     return clientsData;

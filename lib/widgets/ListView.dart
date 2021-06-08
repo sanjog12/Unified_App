@@ -41,17 +41,17 @@ import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 					 .child('ROC')
 					 .child(firebaseUserId)
 					 .child(client.email.replaceAll('.', ','));
-			 print('1');
+			 // print('1');
 			 await dfb.once().then((DataSnapshot snapshot){
-				 print('2');
+				 // print('2');
 				 Map<dynamic,dynamic> values = snapshot.value;
-				 print('3');
+				 // print('3');
 				 stringDateAGM = values.keys.first.toString();
 			 });
-			 print('4');
+			 // print('4');
 			 agmRecorded = true;
 		 }catch(e){
-			 print('error');
+			 // print('error');
 			 agmRecorded = true;
 		 }
 	 }
