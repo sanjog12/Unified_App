@@ -1,5 +1,6 @@
 class LICPaymentObject {
-  String companyName,
+  String id,
+      companyName,
       policyName,
       policyNo,
       premiumDueDate,
@@ -16,6 +17,7 @@ class LICPaymentObject {
       maturityDate;
 
   LICPaymentObject({
+    this.id,
     this.companyName,
     this.policyName,
     this.policyNo,

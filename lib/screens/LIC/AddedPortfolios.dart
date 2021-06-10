@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/LICPaymentIObject.dart';
-import 'package:unified_reminder/screens/LIC/HistoryDetailsView.dart';
+import 'package:unified_reminder/screens/LIC/SinglePortfolioDetail.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
-class ComplianceHistoryForLIC extends StatefulWidget {
+class AddedPortfolios extends StatefulWidget {
   final Client client;
 
-  const ComplianceHistoryForLIC({this.client});
+  const AddedPortfolios({this.client});
   @override
   _ComplianceHistoryForTDSState createState() =>
       _ComplianceHistoryForTDSState();
 }
 
-class _ComplianceHistoryForTDSState extends State<ComplianceHistoryForLIC> {
+class _ComplianceHistoryForTDSState extends State<AddedPortfolios> {
   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("LIC History"),
+        title: Text("LIC Portfolios"),
       ),
       body: Container(
         padding: EdgeInsets.all(15),
@@ -93,13 +93,16 @@ class _ComplianceHistoryForTDSState extends State<ComplianceHistoryForLIC> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LICPaymentRecordHistoryDetailsView(
+            builder: (context) => SinglePortfolioView(
               client: widget.client,
               licPaymentObject: licPaymentObject,
               keyDB: key,
             ),
           ),
-        );
+        ).then((value){
+          setState(() {
+          });
+        });
       }
     }
   }

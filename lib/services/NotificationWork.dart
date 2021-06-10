@@ -118,8 +118,6 @@ class NotificationServices{
 		firebaseDatabase
 				.reference()
 				.child('ScheduledNotifications')
-		    .child(scheduleTime.year.toString())
-		    .child(scheduleTime.month.toString())
 				.push()
 				.set({
 			'notificationID' : notificationId,
@@ -131,10 +129,23 @@ class NotificationServices{
 	}
 	
 	Future<void> deleteNotification(String id) async{
-		// await flutterLocalNotificationsPlugin.cancel(id);
+		
+		FirebaseDatabase.instance.reference()
+				.child('ScheduledNotifications')
+				.orderByChild("notificationID")
+				.equalTo(id).once().then((value){
+					Map<dynamic,dynamic> map = value.value;
+					map.forEach((key, value) {
+						FirebaseDatabase.instance.reference().child("ScheduledNotifications/$key").remove();
+					});
+		});
 	}
 	
 	
+	
+	Future<void> modifyNotification(String id, String date, ) async{
+
+	}
 }
 
 

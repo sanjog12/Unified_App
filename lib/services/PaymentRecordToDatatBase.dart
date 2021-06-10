@@ -24,6 +24,7 @@ import 'package:unified_reminder/models/payment/ROCPaymentObject.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/services/NotificationWork.dart';
+import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
@@ -43,8 +44,7 @@ class PaymentRecordToDataBase {
 //  List<String> todayDateData = fullDate.toString().split('-');
 //  TodayDateObject todayDateObject;
 
-  Future<bool> addTDSPayment(TDSPaymentObject tdsPaymentObject, Client client,
-      File attachmentFile) async {
+  Future<bool> addTDSPayment(TDSPaymentObject tdsPaymentObject, Client client, File attachmentFile) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
     String clientEmail = client.email.replaceAll('.', ',');
@@ -102,14 +102,17 @@ class PaymentRecordToDataBase {
           .set('done');
 
       return true;
-    }on PlatformException catch (e) {
-      print("Here");
-      print(e);
-      throw e;
-    }catch(e){
-      print("error");
-      print(e);
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
 
   Future<bool> addIncomeTaxPayment(
@@ -179,31 +182,35 @@ class PaymentRecordToDataBase {
   }
 
   Future<String> uploadFile(File attachmentFile) async {
-  print("upload file");
-  try {
-    final File file = attachmentFile;
-    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-    String fileName = randomString(8,from: 97 , to: 122) + randomNumeric(4).toString();
-    
-    final Reference ref = firebaseStorage.ref().child('files').child(fileName);
-    
-    final UploadTask uploadTask = ref.putFile(
-      file,
-      SettableMetadata(
-        contentLanguage: 'en',
-        customMetadata: <String, String>{'activity': 'test'},
-      ),
-    );
-
-//    setState(() {
-    _tasks.add(uploadTask);
+    print("upload file");
+    try {
+      final File file = attachmentFile;
+      FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+      String fileName = randomString(8,from: 97 , to: 122) + randomNumeric(4).toString();
+      
+      final Reference ref = firebaseStorage.ref().child('files').child(fileName);
+      
+      final UploadTask uploadTask = ref.putFile(
+        file,
+        SettableMetadata(
+          contentLanguage: 'en',
+          customMetadata: <String, String>{'activity': 'test'},
+        ),
+      );
   
-    return fileName;
-  }catch(e){
-    print(e);
-    return null;
-  }
-//    });
+      _tasks.add(uploadTask);
+    
+      return fileName;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
+    }
   }
 
   Future<bool> addGSTPayment(GSTPaymentObject gstPaymentObject, Client client,
@@ -265,11 +272,17 @@ class PaymentRecordToDataBase {
           .set('done');
 
       return true;
-    } catch (e) {
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
 
   Future<bool> addMonthlyContributionPayment(
@@ -311,11 +324,17 @@ class PaymentRecordToDataBase {
           .set(monthlyContributionPayment);
 
       return true;
-    } catch (e) {
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
   
   
@@ -358,11 +377,17 @@ class PaymentRecordToDataBase {
           .set(monthlyContributionPayment);
       
       return true;
-    } catch (e) {
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
 
   Future<bool> addESIMonthlyContributionPayment(
@@ -410,27 +435,17 @@ class PaymentRecordToDataBase {
           fontSize: 16.0);
 
       return true;
-    }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
-      return false;
-    } catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
 
   Future<bool> addPPFRecord(
@@ -457,10 +472,15 @@ class PaymentRecordToDataBase {
           .set(ppfRecordData);
 
       return true;
-    } catch (e) {
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
   }
 
@@ -469,9 +489,19 @@ class PaymentRecordToDataBase {
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
+    
+    String id = randomNumeric(8);
+    
+    NotificationServices().reminderNotificationService(
+        id,
+        "FD Maturity of ${client.name}",
+        "You client's FD Number: ${fdRecordObject.fixedDepositNo} maturity date is on ${fdRecordObject.maturityDate}",
+        DateTime.parse(fdRecordObject.maturityDate),
+    );
 
     try {
       Map<String, String> fdRecordData = {
+        'id': id,
         'nameOfInstitution': fdRecordObject.nameOfInstitution,
         'fixedDepositNo': fdRecordObject.fixedDepositNo,
         'dateOfInvestment': fdRecordObject.dateOfInvestment,
@@ -493,10 +523,17 @@ class PaymentRecordToDataBase {
           .set(fdRecordData);
 
       return true;
-    } catch (e) {
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
 
   Future<bool> addLICPayment(LICPaymentObject licPaymentIObject, Client client, File file) async {
@@ -514,9 +551,9 @@ class PaymentRecordToDataBase {
             .child('LICPayment')
             .child(firebaseUserId)
             .child(clientEmail)
-            .push()
+            .child("-$id")
             .set({
-          'id':id??"",
+          'id':id,
           'comanyName': licPaymentIObject.companyName??"",
           'policyName': licPaymentIObject.policyName??"",
           'policyNo': licPaymentIObject.policyNo??"",
@@ -541,7 +578,7 @@ class PaymentRecordToDataBase {
             .child('LICPayment')
             .child(firebaseUserId)
             .child(clientEmail)
-            .push()
+            .child('-$id')
             .set({
           'id':id??"",
           'comanyName': licPaymentIObject.companyName??"",
@@ -567,24 +604,25 @@ class PaymentRecordToDataBase {
           int.parse(licPaymentIObject.maturityDate.split('-')[1]),
           int.parse(licPaymentIObject.maturityDate.split('-')[0])
         );
-        DateTime other = DateTime(int.parse(licPaymentIObject.dateOfCommencement.split('-')[2]),
+        DateTime scheduleDate = DateTime(int.parse(licPaymentIObject.dateOfCommencement.split('-')[2]),
             int.parse(licPaymentIObject.dateOfCommencement.split('-')[1]),
-            int.parse(licPaymentIObject.dateOfCommencement.split('-')[0])
+            int.parse(licPaymentIObject.premiumDueDate.split(' ')[0])
         );
         
-        while(maturityDate.isAfter(other)){
+        int prevent = 0;
+        while(maturityDate.isAfter(scheduleDate)){
+          prevent++;
           try {
-            notificationServices.reminderNotificationService('LIC10001',
-                "LIC of ${client.name}",
-                "Premium due date of ${licPaymentIObject.policyName} in 7 days, make sure to pay before due date",
-                other.subtract(Duration(days: 6, hours: 14))
+            notificationServices.reminderNotificationService(id,
+                "LIC of client ${client.name}",
+                "Premium due date of ${licPaymentIObject.policyName} is on ${DateFormat('dd MMMM').format(scheduleDate)}.",
+                scheduleDate
             );
           }catch(e){
             print(e);
           }
           print("maturityDate" + maturityDate.toString());
-          print("other" + other.toString());
-          print(licPaymentIObject.frequency);
+          print("other" + scheduleDate.toString());
           
           dbf = firebaseDatabase.reference();
           await dbf
@@ -605,26 +643,30 @@ class PaymentRecordToDataBase {
           if(licPaymentIObject.frequency == 'monthly'){
             premiumDate = DateChange.addMonthToDate(premiumDate, 1);
             print("premium Date " + premiumDate);
-            other = DateTime(other.year,other.month +1 , other.day);
-            print("Other in if " + other.toString());
+            scheduleDate = DateTime(scheduleDate.year,scheduleDate.month +1 , scheduleDate.day);
+            print("Other in if " + scheduleDate.toString());
           }
           else if(licPaymentIObject.frequency == 'quarterly'){
             premiumDate = DateChange.addMonthToDate(premiumDate, 3);
             print("premium Date " + premiumDate);
-            other = DateTime(other.year,other.month +3 , other.day);
-            print("Other in if " + other.toString());
+            scheduleDate = DateTime(scheduleDate.year,scheduleDate.month +3 , scheduleDate.day);
+            print("Other in if " + scheduleDate.toString());
           }
           else if(licPaymentIObject.frequency == 'halfYearly'){
             premiumDate = DateChange.addMonthToDate(premiumDate, 6);
             print("premium Date " + premiumDate);
-            other = DateTime(other.year,other.month +6 , other.day);
-            print("Other in if " + other.toString());
+            scheduleDate = DateTime(scheduleDate.year,scheduleDate.month +6 , scheduleDate.day);
+            print("Other in if " + scheduleDate.toString());
           }
           else{
             premiumDate = DateChange.addMonthToDate(premiumDate, 12);
             print("premium Date " + premiumDate);
-            other = DateTime(other.year +1,other.month  , other.day);
-            print("Other in if " + other.toString());
+            scheduleDate = DateTime(scheduleDate.year +1,scheduleDate.month  , scheduleDate.day);
+            print("Other in if " + scheduleDate.toString());
+          }
+          
+          if(prevent > 30){
+            break;
           }
         }
         
@@ -632,15 +674,20 @@ class PaymentRecordToDataBase {
       
 
       return true;
-    } catch (e) {
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
 
-  Future<bool> addMFRecord(MutualFundRecordObject mutualFundRecordObject,
-      Client client) async {
+  Future<bool> addMFRecord(MutualFundRecordObject mutualFundRecordObject, Client client) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
 
@@ -669,18 +716,22 @@ class PaymentRecordToDataBase {
           .set(mFRecordData);
       
       return true;
-    } catch (e) {
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
 
   
   
-  Future<bool> addROCPayment(
-      ROCPaymentObject rocPaymentObject,
-      Client client) async {
+  Future<bool> addROCPayment(ROCPaymentObject rocPaymentObject, Client client) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
 
@@ -693,11 +744,6 @@ class PaymentRecordToDataBase {
         'purposeOfEForm': rocPaymentObject.purposeOfEForm,
         'date': rocPaymentObject.date,
         'amount': rocPaymentObject.amount,
-//        'amount': mutualFundRecordObject.amount,
-//        'name': mutualFundRecordObject.mutualFundObject.name,
-//        'code': mutualFundRecordObject.mutualFundObject.code,
-//        'date': mutualFundRecordObject.mutualFundDetailObject.date,
-//        'nav': mutualFundRecordObject.mutualFundDetailObject.nav
       };
 
       dbf
@@ -707,13 +753,20 @@ class PaymentRecordToDataBase {
           .child(clientEmail)
           .push()
           .set(rOCPaymentData);
+      
 
       return true;
-    } catch (e) {
-      print("Here");
-      print(e);
-      return false;
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
+    return false;
   }
   
   

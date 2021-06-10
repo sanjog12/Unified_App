@@ -1,5 +1,5 @@
 class FDRecordObject {
-  String nameOfInstitution,
+  String id,nameOfInstitution,
       fixedDepositNo,
       dateOfInvestment,
       principalAmount,
@@ -11,6 +11,7 @@ class FDRecordObject {
       maturityDate;
 
   FDRecordObject({
+    this.id,
     this.nameOfInstitution,
     this.fixedDepositNo,
     this.dateOfInvestment,

@@ -273,23 +273,18 @@ class _LoginPageState extends State<LoginPage>{
                               gButtonLoading = true;
                             });
                             UserBasic userBasic = await _auth.googleLogIn();
-                            print("userbasic check" +userBasic.email);
+                            // print("userbasic check" +userBasic.email);
                             if (userBasic != null) {
                               Navigator.pop(context);
                               Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context)=> ShowCaseWidget(
-                                    builder: Builder(
-                                      builder: (context)=>Dashboard(
-                                        userBasic: userBasic,
-                                      ),
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowCaseWidget( builder: Builder(
+                                      builder: (context) => Dashboard(userBasic: userBasic,),),
                                     ),
-                                  ),
-                                )
+                                  )
                               );
-                            } else {}
+                            }
                           }on PlatformException catch (e) {
-			                      
                             flutterToast(message: e.message);
                           } catch(e){
                             flutterToast(message: "Can't Sign In at this Moment");
@@ -404,16 +399,9 @@ class _LoginPageState extends State<LoginPage>{
                   print(st);
                   try{
                     _auth.resetPassword(st,context);
-                  }
-                  catch(e){
-                    Fluttertoast.showToast(
-                        msg: e.message,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Color(0xff666666),
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }finally{
+                  } on PlatformException catch(e){
+                    flutterToast(message: e.message);
+                  } finally{
                     loading= false;
                   }
                 },

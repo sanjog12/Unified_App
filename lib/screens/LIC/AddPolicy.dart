@@ -171,7 +171,7 @@ class _LICPaymentState extends State<LICPayment> {
                                 onPressed: () async{
                                   DateTime selectedDate = await selectDateTime(context);
                                   setState(() {
-                                    selectedDatePremiumDateDB = "${DateFormat('dd').format(selectedDate)} - of each month";
+                                    selectedDatePremiumDateDB = "${DateFormat('dd').format(selectedDate)} - of month";
                                     licPaymentIObject.premiumDueDate = selectedDatePremiumDateDB;
                                   });
                                 },
@@ -460,7 +460,7 @@ class _LICPaymentState extends State<LICPayment> {
                           child: Center(
                             child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
                           ),
-                        ):Text("Save Payment"),
+                        ):Text("Add Details"),
                         onPressed: () {
                           paymentLIC();
                         },

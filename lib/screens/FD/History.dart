@@ -31,8 +31,7 @@ class _HistoryForFDState extends State<HistoryForFD> {
               child: FutureBuilder<List<HistoryComplinceObject>>(
                 future: HistoriesDatabaseHelper()
                     .getHistoryOfFDRecord(widget.client),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
                       itemCount: snapshot.data.length,

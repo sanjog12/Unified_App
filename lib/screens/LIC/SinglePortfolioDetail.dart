@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -12,25 +14,24 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/LICPaymentIObject.dart';
-import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
-class LICPaymentRecordHistoryDetailsView extends StatefulWidget {
+class SinglePortfolioView extends StatefulWidget {
   final Client client;
   final LICPaymentObject licPaymentObject;
   final String keyDB;
 
-  const LICPaymentRecordHistoryDetailsView({Key key, this.client, this.licPaymentObject, this.keyDB}) : super(key: key);
+  const SinglePortfolioView({Key key, this.client, this.licPaymentObject, this.keyDB}) : super(key: key);
   
 
   @override
-  _LICPaymentRecordHistoryDetailsViewState createState() =>
-      _LICPaymentRecordHistoryDetailsViewState();
+  _SinglePortfolioViewState createState() =>
+      _SinglePortfolioViewState();
 }
 
-class _LICPaymentRecordHistoryDetailsViewState
-    extends State<LICPaymentRecordHistoryDetailsView> {
+class _SinglePortfolioViewState
+    extends State<SinglePortfolioView> {
   
   bool edit = false;
   bool loadingDelete = false;
@@ -79,7 +80,7 @@ class _LICPaymentRecordHistoryDetailsViewState
       
       });
     }
-    else if(picked != null && picked != selectedDatePremiumDate && i==1){
+    else if(picked != null && picked != selectedDateCommencement&& i==1){
       setState(() {
         print('Checking ' + widget.client.company);
         selectedDateCommencement= picked;
@@ -100,15 +101,13 @@ class _LICPaymentRecordHistoryDetailsViewState
       });
     }
   }
-
-  fireUser() async{
-    firebaseUserId = await SharedPrefs.getStringPreference("uid");
-  }
+  
   
   
   @override
   void initState() {
     super.initState();
+    firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     _licPaymentObject = widget.licPaymentObject;
     nameOfFile = widget.licPaymentObject.attachment;
     selectedDateMaturityDateDB = widget.licPaymentObject.maturityDate;
@@ -213,8 +212,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                     decoration: buildCustomInput(hintText: "Policy No"),
                     onChanged: (value) =>
                     _licPaymentObject.policyNo = value,
-                  )
-                      :Container(
+                  ) :Container(
                     padding: EdgeInsets.all(15),
                     decoration: fieldsDecoration,
                     child: Text(
@@ -375,8 +373,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                         ),
                       ],
                     ),
-                  )
-                      :Container(
+                  ) :Container(
                     padding: EdgeInsets.all(15),
                     decoration: fieldsDecoration,
                     child: Text(
@@ -462,8 +459,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                   initialValue: widget.licPaymentObject.branch,
                   decoration: buildCustomInput(hintText: "Branch"),
                   onChanged: (value) => _licPaymentObject.branch = value,
-                  )
-                    :Container(
+                  ) :Container(
                   padding: EdgeInsets.all(15),
                   decoration: fieldsDecoration,
                   child: Text(
@@ -497,8 +493,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                         decoration: buildCustomInput(hintText: "Agent Name"),
                         onChanged: (value) =>
                         _licPaymentObject.agentName = value,
-                      )
-                          :Container(
+                      ) :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: Text(
@@ -526,8 +521,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                         buildCustomInput(hintText: "Contact Number"),
                         onChanged: (value) =>
                         _licPaymentObject.agentContactNumber = value,
-                      )
-                          :Container(
+                      ) :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: Text(
@@ -557,8 +551,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                         decoration: buildCustomInput(hintText: " Name"),
                         onSaved: (value) =>
                         _licPaymentObject.nomineeName = value,
-                      )
-                          :Container(
+                      ) :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: Text(
@@ -601,8 +594,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                             ),
                           ],
                         ),
-                      )
-                          :Container(
+                      ) :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
                         child: widget.licPaymentObject.maturityDate!=null?Text(
@@ -664,8 +656,13 @@ class _LICPaymentRecordHistoryDetailsViewState
                         children: <Widget>[
                           Text("Click to see challan"),
                           Divider(color: Colors.white,height: 10,),
-                          Container(child: GestureDetector(child: Icon(Icons.delete,color: Colors.red),
-                            onTap: (){print("pressed");deletePDF(context);},),
+                          Container(
+                            child: GestureDetector(
+                              child: Icon(Icons.delete,color: Colors.red),
+                              onTap: (){
+                                print("pressed");
+                                deletePDF(context);
+                              },),
                             color: Colors.white,)
                         ],
                       ),
@@ -690,15 +687,13 @@ class _LICPaymentRecordHistoryDetailsViewState
                   children: <Widget>[
                   Container(
                     decoration: roundedCornerButton,
-                    child: edit
-                        ?TextButton(
+                    child: edit ?TextButton(
                       child: Text("Save Changes"),
                       onPressed: () async{
                         await editRecord();
                         Navigator.pop(context);
                       },
-                    )
-                        :TextButton(
+                    ) :TextButton(
                       child: Text("Edit"),
                       onPressed: (){
                         setState(() {
@@ -714,16 +709,16 @@ class _LICPaymentRecordHistoryDetailsViewState
               Container(
                 decoration: roundedCornerButton,
                 child: TextButton(
-                  child: loadingDelete
-                      ?Center(
+                  child: loadingDelete ?Center(
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>
                         (Colors.white),
                     ),
-                  )
-                      :Text("Delete"),
+                  ) :Text("Delete"),
                   onPressed: () async{
-                    loadingDelete = true;
+                    setState(() {
+                      loadingDelete = true;
+                    });
                     bool temp = false;
                     temp = await showConfirmationDialog(context);
                     if(temp){
@@ -744,9 +739,6 @@ class _LICPaymentRecordHistoryDetailsViewState
   Future<void> editRecord() async{
     print("editRecord");
     dbf = firebaseDatabase.reference();
-    await fireUser();
-    print("got firebaseId");
-    print(firebaseUserId);
     print(widget.client.email);
     print(widget.keyDB);
     print(_licPaymentObject.agentName);
@@ -774,22 +766,38 @@ class _LICPaymentRecordHistoryDetailsViewState
           'attachment': name,
         });
       }
-      dbf
-          .child('complinces')
-          .child('LICPayment')
+      dbf.child('complinces').child('LICPayment')
           .child(firebaseUserId)
           .child(widget.client.email)
           .child(widget.keyDB)
           .update({
-          });
+        'comanyName': _licPaymentObject.companyName??"",
+        'policyName': _licPaymentObject.policyName??"",
+        'policyNo': _licPaymentObject.policyNo??"",
+        'premiumDueDate': _licPaymentObject.premiumDueDate??"",
+        'premiumAmount': _licPaymentObject.premiumAmount??"",
+        'frequancey': _licPaymentObject.frequency??"",
+        'dateOfCommoncement': _licPaymentObject.dateOfCommencement??"",
+        'premiumPayingTerm': _licPaymentObject.premiumPayingTerm??"",
+        'policyTerm': _licPaymentObject.policyTerm??"",
+        'branch': _licPaymentObject.branch??"",
+        'agenName': _licPaymentObject.agentName??"",
+        'agentContactNumber': _licPaymentObject.agentContactNumber??"",
+        'attachement': _licPaymentObject.agentContactNumber??"",
+        'nomineeName': _licPaymentObject.nomineeName??"",
+        'maturityDate': _licPaymentObject.maturityDate??"",
+      });
       recordEditToast();
     
-    }on PlatformException catch(e){
-      print(e.message);
+    } on PlatformException catch (e) {
       flutterToast(message: e.message);
-    }catch(e){
-      print(e);
-      flutterToast(message: "Something went wrong");
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
     }
   }
 
@@ -845,10 +853,8 @@ class _LICPaymentRecordHistoryDetailsViewState
   Future<void> deleteRecord() async{
     dbf = firebaseDatabase.reference();
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-    await fireUser();
-    print(firebaseUserId);
-    print(widget.client.email);
-    print(widget.keyDB);
+    // print(widget.client.email);
+    // print(widget.keyDB);
     try {
       if(_licPaymentObject.attachment != 'null') {
         String path = firebaseStorage
@@ -867,23 +873,23 @@ class _LICPaymentRecordHistoryDetailsViewState
           .child(widget.keyDB)
           .remove();
       
+      NotificationServices().deleteNotification(widget.licPaymentObject.id);
       recordDeletedToast();
       Navigator.pop(context);
-      Navigator.pop(context);
-//      Navigator.push(context,
-//        MaterialPageRoute(
-//          builder: (context)=>ComplianceHistoryForLIC(
-//            client: widget.client,
-//          )
-//        )
-//      );
     
-    }on PlatformException catch(e){
-      print(e.message);
+    } on PlatformException catch (e) {
       flutterToast(message: e.message);
-    }catch(e){
-      print(e);
-      flutterToast(message: "Something went wrong");
+      print(e.message);
+    } on FirebaseException catch (e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
+    } finally{
+      setState(() {
+        loadingDelete = !loadingDelete;
+      });
     }
   }
 
@@ -925,8 +931,7 @@ class _LICPaymentRecordHistoryDetailsViewState
                           .fullPath;
                       firebaseStorage = FirebaseStorage.instance;
                       await firebaseStorage.ref().child(path).delete();
-                      print("here");
-                      await fireUser();
+                      
                       dbf = firebaseDatabase.reference();
                       dbf
                           .child('complinces')
@@ -937,9 +942,11 @@ class _LICPaymentRecordHistoryDetailsViewState
                           .update({
                         'attachment': 'null',
                       });
-                      Navigator.of(context).pop();
                       Navigator.pop(context);
+                      Navigator.pop(context);
+                      _licPaymentObject.attachment = 'null';
                       flutterToast(message: "PDF Deleted");
+                      setState(() {});
                     }catch(e){
                       print(e.toString());
                     }

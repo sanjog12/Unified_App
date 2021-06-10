@@ -11,8 +11,8 @@ import 'package:unified_reminder/screens/GST/HistoryGST.dart';
 import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';
 import 'package:unified_reminder/screens/IncomeTax/ComplianceHistory.dart';
 import 'package:unified_reminder/screens/IncomeTax/UpComingComliancesScreen.dart';
-import 'package:unified_reminder/screens/LIC/ComplianceHistoryForLIC.dart';
-import 'package:unified_reminder/screens/LIC/Payment.dart';
+import 'package:unified_reminder/screens/LIC/AddedPortfolios.dart';
+import 'package:unified_reminder/screens/LIC/AddPolicy.dart';
 import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/screens/MF/AddMFScreen.dart';
 import 'package:unified_reminder/screens/MF/MfRecords.dart';
@@ -397,7 +397,7 @@ import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 						  child: GestureDetector(
 						  	onTap: (){
 								  Navigator.of(context).push(MaterialPageRoute(
-										  builder: (context) => ComplianceHistoryForLIC(
+										  builder: (context) => AddedPortfolios(
 											  client: client,
 										  )));
 						  	},

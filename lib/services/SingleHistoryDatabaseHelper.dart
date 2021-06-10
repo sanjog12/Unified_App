@@ -84,6 +84,8 @@ class SingleHistoryDatabaseHelper {
     return incomeTaxPaymentObject;
   }
 
+  
+  
   Future<GSTPaymentObject> getGSTHistoryDetails(
       Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -113,6 +115,8 @@ class SingleHistoryDatabaseHelper {
     return gstPaymentObject;
   }
 
+  
+  
   Future<EPFMonthlyContributionObject> getEPFHistoryDetails(
       Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -141,6 +145,8 @@ class SingleHistoryDatabaseHelper {
     
     return epfMonthlyContributionObejct;
   }
+  
+  
 
   Future<EPFDetailsOfContributionObject> getEPFDetailedOfContributionHistoryDetails(
       Client client, String key) async {
@@ -172,6 +178,7 @@ class SingleHistoryDatabaseHelper {
   }
   
   
+  
   Future<ESIMonthlyContributionObejct> getESIHistoryDetails(
       Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -201,8 +208,9 @@ class SingleHistoryDatabaseHelper {
     return esiMonthlyContributionObejct;
   }
 
-  Future<PPFRecordObject> getPPFHistoryDetails(
-      Client client, String key) async {
+  
+  
+  Future<PPFRecordObject> getPPFHistoryDetails(Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -248,8 +256,8 @@ class SingleHistoryDatabaseHelper {
         .child(key);
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
-//      print(values);
       if (values != null) {
+        fdRecordObject.id = values['id']??"";
         fdRecordObject.maturityDate = values['dateOfMaturity']??"";
         fdRecordObject.nameOfInstitution = values['nameOfInstitution']??"";
         fdRecordObject.dateOfInvestment = values['dateOfInvestment']??"";
@@ -265,6 +273,8 @@ class SingleHistoryDatabaseHelper {
     return fdRecordObject;
   }
 
+  
+  
   Future<LICPaymentObject> getLICHistoryDetails(
       Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -285,6 +295,7 @@ class SingleHistoryDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
 //      print(values);
       if (values != null) {
+        licPaymentObject.id = values['id'];
         licPaymentObject.companyName = values['comanyName']??"";
         licPaymentObject.agentName = values['agenName']??"";
         licPaymentObject.agentContactNumber = values['agentContactNumber']??"";
@@ -305,6 +316,8 @@ class SingleHistoryDatabaseHelper {
     return licPaymentObject;
   }
 
+  
+  
   Future<ROCFormSubmission> getROCHistoryDetails(
       Client client, String key) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
@@ -381,6 +394,8 @@ class SingleHistoryDatabaseHelper {
     });
     return mutualFundRecordObject;
   }
+  
+  
   
   
   Future<void> deletRecordMF(String key , Client client, String date) async{

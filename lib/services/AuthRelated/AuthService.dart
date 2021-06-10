@@ -33,10 +33,11 @@ class AuthService {
   	try{
 		  _auth.signOut();
       _googleSignIn.signOut();
-		  SharedPrefs.setStringPreference("uid",null);
-		  
-		  print("done");
-	  }catch(e){
+	  } on FirebaseException catch(e){
+  	  flutterToast(message: e.message);
+    } on PlatformException catch(e){
+  	  flutterToast(message: e.message);
+    } catch(e){
   	  print("error");
   		print(e);
 	  }
@@ -48,7 +49,9 @@ class AuthService {
       await _auth.sendPasswordResetEmail(email: st);
       flutterToast(message: "A link has been sent to your registered Email id for resetting your password");
       Navigator.pop(context);
-    }on PlatformException catch(e){
+    } on FirebaseAuthException catch(e){
+      flutterToast(message: e.message);
+    } on PlatformException catch(e){
       print("error");
       print(e.toString());
       flutterToast(message: "Looks like something went wrong.\nTry Again");
@@ -71,7 +74,7 @@ class AuthService {
         "password": user.password,
         "progress": 1,
       });
-      print('67');
+      // print('67');
       FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
       dbf = firebaseDatabase.reference();
       await firebaseMessaging.getToken().then(( String value){
@@ -84,16 +87,21 @@ class AuthService {
               .set({value.substring(0, 10): value});
         }
       });
-      print('12');
+      // print('12');
       UserCredential loginUser = await _auth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
-      // SharedPrefs.setStringPreference("uid", loginUser.user.uid);
-      print('34');
+      // print('34');
       return UserBasic(
         email: newUser.user.email,
         uid: newUser.user.uid,
         fullName: user.fullName,
       );
+    } on FirebaseAuthException catch(e){
+      flutterToast(message: e.message);
+    } on FirebaseException catch(e){
+      flutterToast(message: e.message);
+    } on PlatformException catch(e){
+      flutterToast(message: e.message);
     } catch (e) {
       print("error");
       print(e);
@@ -123,8 +131,9 @@ class AuthService {
       email: loginUser.user.email,
       uid: loginUser.user.uid,
       fullName: loginUser.user.displayName,);
-  	}
-  	on PlatformException catch(e){
+  	} on FirebaseAuthException catch(e){
+  	  flutterToast(message: e.message);
+    } on PlatformException catch(e){
       flutterToast(message: 'Google Sign In failed');
       return null;
     }
@@ -141,30 +150,18 @@ class AuthService {
       UserCredential user = await _auth.signInWithEmailAndPassword(
           email: authDetails.email, password: authDetails.password);
       bool temp = user.user.emailVerified;
-      print(temp);
-      // if(!temp){
-      //   try {
-      //     flutterToast(message: "Your account has not been verified. Verify your account using a link sent to your given email address");
-      //   }catch(e){
-      //     print(e);
-      //   }
-      //   return null;
-      // }
-      SharedPrefs.setStringPreference("uid", user.user.uid);
-
       return UserBasic(
         email: user.user.email,
         uid: user.user.uid,
       );
+    } on FirebaseAuthException catch(e){
+      flutterToast(message: e.message);
     } on PlatformException catch (e) {
-      print(e);
-      throw PlatformException(
-        message: "Wrong username / password",
-        code: "403",
-      );
+      flutterToast(message: e.message);
     } catch (e) {
-      return null;
+      flutterToast(message: "");
     }
+    return null;
   }
   
   
@@ -196,12 +193,14 @@ class AuthService {
         email: loginUser.user.email,
         uid: loginUser.user.uid,
       );
+    } on FirebaseAuthException catch(e){
+      flutterToast(message: e.message);
+    } on PlatformException catch (e) {
+      flutterToast(message: e.message);
+    } catch (e) {
+      flutterToast(message: "");
     }
-    catch(e) {
-      print(e);
-      flutterToast(message: "Something went Wrong");
-      return null;
-    }
+    return null;
   }
 
   Future<bool> setPersonalInformation(PersonalDetail personalDetail) async {
@@ -210,14 +209,12 @@ class AuthService {
       await _firestore
           .collection(FsUsersPath)
           .doc(userFirebaseId)
-          .update(
-        {
+          .update({
           "company_name": personalDetail.companyName,
           "constitution": personalDetail.constitution,
           "nature_of_business": personalDetail.natureOfBusiness,
           "progress": 2
-        },
-      );
+        });
       return true;
     } catch (e) {
       return false;
