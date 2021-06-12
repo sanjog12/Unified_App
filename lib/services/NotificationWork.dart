@@ -124,10 +124,12 @@ class NotificationServices {
         .then((value) {
       Map<dynamic, dynamic> map = value.value;
       map.forEach((key, value) {
-        FirebaseDatabase.instance
-            .reference()
-            .child("ScheduledNotifications/$key")
-            .remove();
+        if(key != null) {
+          FirebaseDatabase.instance
+              .reference()
+              .child("ScheduledNotifications/$key")
+              .remove();
+        }
       });
     });
   }
