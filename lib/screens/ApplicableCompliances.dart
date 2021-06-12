@@ -35,7 +35,6 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   BannerAd bannerAd;
 
   static final AdRequest request = AdRequest(
-    testDevices: <String>['FDB28FC6E21EA8FD4E1EAB3899FBD45C'],
     keywords: <String>['foo', 'bar'],
     contentUrl: 'http://foo.com/bar.html',
     nonPersonalizedAds: true,

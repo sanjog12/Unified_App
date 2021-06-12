@@ -1,7 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:showcaseview/showcase_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/LoginPage.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';

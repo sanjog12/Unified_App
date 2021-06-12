@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:showcaseview/showcase.dart';
-import 'package:showcaseview/showcase_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/RegisterPage.dart';
-import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
-import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';

@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:showcaseview/showcase.dart';
-import 'package:showcaseview/showcase_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/AuthRelated/AuthService.dart';

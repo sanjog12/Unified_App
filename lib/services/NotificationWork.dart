@@ -150,28 +150,12 @@ Future<void> backGroundNotificationHandler(RemoteMessage message) async {
       body: message.data['body'],
       color: Colors.blue,
     ),
-    actionButtons: message.data["daysRemaining"].toString() == "3"
-        ? ([
-            NotificationActionButton(
-              key: "cancel notification",
-              label: "Ok",
-              enabled: true,
-              buttonType: ActionButtonType.Default,
-            ),
-          ])
-        : ([
-            NotificationActionButton(
-              key: "cancel notification",
-              label: "Ok",
-              enabled: true,
-              buttonType: ActionButtonType.Default,
-            ),
-            NotificationActionButton(
-              key: "remind button pressed",
-              label: "Remind on Due Date",
-              enabled: true,
-              buttonType: ActionButtonType.Default,
-            )
-          ]),
+    actionButtons: [
+      NotificationActionButton(
+        key: "cancel notification",
+        label: "Ok",
+        enabled: true,
+        buttonType: ActionButtonType.Default,
+      ),]
   );
 }

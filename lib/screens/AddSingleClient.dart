@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:showcaseview/showcase_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/Compliance.dart';
 import 'package:unified_reminder/models/userbasic.dart';

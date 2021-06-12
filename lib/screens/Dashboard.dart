@@ -9,8 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:showcaseview/showcase.dart';
-import 'package:showcaseview/showcase_widget.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/Client.dart';
@@ -53,7 +52,6 @@ class _DashboardState extends State<Dashboard> {
   BannerAd bannerAd;
 
   static final AdRequest request = AdRequest(
-    testDevices: <String>['FDB28FC6E21EA8FD4E1EAB3899FBD45C'],
     keywords: <String>['foo', 'bar'],
     contentUrl: 'http://foo.com/bar.html',
     nonPersonalizedAds: true,
