@@ -598,23 +598,25 @@ class HistoriesDatabaseHelper {
         // print(values);
         List<dynamic> keyList= values.keys.toList();
         int i =0;
-        for(var v in values.values) {
-          MutualFundDetailObject mutualFundDetailObject = await MutualFundHelper().getTodayNav(v['code']);
+        for(var data in values.values) {
+          MutualFundDetailObject mutualFundDetailObject = await MutualFundHelper().getTodayNav(data['code']);
           historyForMF = HistoryForMF(
             key: keyList[i],
-            amount: await v['amount'],
-            keyDate: await v['keyDate'],
-            type: await v['type'],
-            frequency: await v['No. of Installment'],
+            id: data['id'],
+            sipFrequency: data['sipFrequency'],
+            amount: data['amount'],
+            keyDate: data['keyDate'],
+            type: data['type'],
+            frequency: data['No. of Installment'],
             todayNAV: mutualFundDetailObject,
             mutualFundDetailObject: MutualFundDetailObject(
-              date: await v['date'],
-              nav: await v['nav'],
+              date: data['date'],
+              nav: data['nav'],
             ),
             mutualFundObject: MutualFundObject(
-              code: await v['code'],
-              name: await v['name'],
-              numberOfInstalments: await v['No of Installment'],
+              code: data['code'],
+              name: data['name'],
+              numberOfInstalments: data['No of Installment'],
             )
           );
           // print(historyForMF.key);

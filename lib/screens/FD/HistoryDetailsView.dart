@@ -30,7 +30,6 @@ class FDPaymentRecordHistoryDetailsView extends StatefulWidget {
 
 class _FDPaymentRecordHistoryDetailsViewState
     extends State<FDPaymentRecordHistoryDetailsView> {
-  
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
   bool loadingDelete = false;
@@ -40,16 +39,14 @@ class _FDPaymentRecordHistoryDetailsViewState
   DateTime selectedDateOfInvestment = DateTime.now();
   String selectedDateOfPayment;
 
-
-  Future<void> selectDateTime(BuildContext context) async{
+  Future<void> selectDateTime(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDateOfInvestment ,
+        initialDate: selectedDateOfInvestment,
         firstDate: DateTime(DateTime.now().year - 1),
-        lastDate: DateTime(DateTime.now().year)
-    );
-  
-    if(picked != null && picked != selectedDateOfInvestment){
+        lastDate: DateTime(DateTime.now().year));
+
+    if (picked != null && picked != selectedDateOfInvestment) {
       setState(() {
         print('Checking ' + widget.client.company);
         selectedDateOfInvestment = picked;
@@ -59,21 +56,17 @@ class _FDPaymentRecordHistoryDetailsViewState
     }
   }
 
-
-  fireUser() async{
+  fireUser() async {
     firebaseUserId = await SharedPrefs.getStringPreference("uid");
   }
-  
-  
+
   @override
   void initState() {
     super.initState();
     _fdRecordObject = widget.fdRecordObject;
     selectedDateOfPayment = widget.fdRecordObject.dateOfInvestment;
   }
-  
-  
-  
+
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
@@ -108,30 +101,30 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?TextFormField(
-                        initialValue: widget.fdRecordObject.nameOfInstitution,
-                        decoration: buildCustomInput(
-                            hintText: "Name Of Institution"),
-                        onChanged: (value) =>
-                        _fdRecordObject.nameOfInstitution = value,
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text(
-                          widget.fdRecordObject.nameOfInstitution,
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? TextFormField(
+                              initialValue:
+                                  widget.fdRecordObject.nameOfInstitution,
+                              decoration: buildCustomInput(
+                                  hintText: "Name Of Institution"),
+                              onChanged: (value) =>
+                                  _fdRecordObject.nameOfInstitution = value,
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                widget.fdRecordObject.nameOfInstitution,
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
-                  
                   SizedBox(
                     height: 10.0,
                   ),
-                  
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -139,29 +132,28 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?TextFormField(
-                        initialValue: widget.fdRecordObject.nomineeName,
-                        decoration: buildCustomInput(hintText: "Name"),
-                        onChanged: (value) =>
-                        _fdRecordObject.nomineeName = value,
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text(
-                          widget.fdRecordObject.nomineeName,
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? TextFormField(
+                              initialValue: widget.fdRecordObject.nomineeName,
+                              decoration: buildCustomInput(hintText: "Name"),
+                              onChanged: (value) =>
+                                  _fdRecordObject.nomineeName = value,
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                widget.fdRecordObject.nomineeName,
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
-                  
                   SizedBox(
                     height: 10.0,
                   ),
-                  
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -169,23 +161,25 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?TextFormField(
-                        initialValue: widget.fdRecordObject.fixedDepositNo,
-                        decoration: buildCustomInput(
-                            hintText: "Fixed Deposit Number"),
-                        onChanged: (value) =>
-                        _fdRecordObject.fixedDepositNo = value,
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text(
-                          widget.fdRecordObject.fixedDepositNo,
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? TextFormField(
+                              initialValue:
+                                  widget.fdRecordObject.fixedDepositNo,
+                              decoration: buildCustomInput(
+                                  hintText: "Fixed Deposit Number"),
+                              onChanged: (value) =>
+                                  _fdRecordObject.fixedDepositNo = value,
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                widget.fdRecordObject.fixedDepositNo,
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
                   SizedBox(
@@ -198,23 +192,27 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?TextFormField(
-                        initialValue: widget.fdRecordObject.maturityAmount,
-                        decoration:
-                        buildCustomInput(hintText: "Maturity Amount", prefixText: "\u{20B9}"),
-                        onChanged: (value) =>
-                        _fdRecordObject.maturityAmount = value,
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text( "\u{20B9} " +
-                          widget.fdRecordObject.maturityAmount,
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? TextFormField(
+                              initialValue:
+                                  widget.fdRecordObject.maturityAmount,
+                              decoration: buildCustomInput(
+                                  hintText: "Maturity Amount",
+                                  prefixText: "\u{20B9}"),
+                              onChanged: (value) =>
+                                  _fdRecordObject.maturityAmount = value,
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                "\u{20B9} " +
+                                    widget.fdRecordObject.maturityAmount,
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
                   SizedBox(
@@ -227,34 +225,36 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: fieldsDecoration,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              '$selectedDateOfPayment',
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                selectDateTime(context);
-                              },
-                              child: Icon(Icons.date_range),
-                            ),
-                          ],
-                        ),
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text(
-                          widget.fdRecordObject.dateOfInvestment,
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              decoration: fieldsDecoration,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    '$selectedDateOfPayment',
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      selectDateTime(context);
+                                    },
+                                    child: Icon(Icons.date_range),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                widget.fdRecordObject.dateOfInvestment,
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
                   SizedBox(
@@ -267,23 +267,27 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?TextFormField(
-                        initialValue: widget.fdRecordObject.principalAmount,
-                        decoration:
-                        buildCustomInput(hintText: "Principal Amount", prefixText: "\u{20B9} "),
-                        onChanged: (value) =>
-                        _fdRecordObject.principalAmount = value,
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text( "\u{20B9} " +
-                          widget.fdRecordObject.principalAmount,
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? TextFormField(
+                              initialValue:
+                                  widget.fdRecordObject.principalAmount,
+                              decoration: buildCustomInput(
+                                  hintText: "Principal Amount",
+                                  prefixText: "\u{20B9} "),
+                              onChanged: (value) =>
+                                  _fdRecordObject.principalAmount = value,
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                "\u{20B9} " +
+                                    widget.fdRecordObject.principalAmount,
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
                   SizedBox(
@@ -296,24 +300,26 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?TextFormField(
-                        initialValue: widget.fdRecordObject.rateOfInterest ,
-                        
-                        decoration:
-                        buildCustomInput(hintText: "Rate Of Interest", suffixText: " %"),
-                        onChanged: (value) =>
-                        _fdRecordObject.rateOfInterest = value,
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text(
-                          widget.fdRecordObject.rateOfInterest + " %",
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? TextFormField(
+                              initialValue:
+                                  widget.fdRecordObject.rateOfInterest,
+                              decoration: buildCustomInput(
+                                  hintText: "Rate Of Interest",
+                                  suffixText: " %"),
+                              onChanged: (value) =>
+                                  _fdRecordObject.rateOfInterest = value,
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                widget.fdRecordObject.rateOfInterest + " %",
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
                   SizedBox(
@@ -326,23 +332,27 @@ class _FDPaymentRecordHistoryDetailsViewState
                       SizedBox(
                         height: 10.0,
                       ),
-                      edit?TextFormField(
-                        initialValue: widget.fdRecordObject.termOfInvestment,
-                        decoration: buildCustomInput(
-                            hintText: "Term Of Investment" , suffixText: "Months"),
-                        onChanged: (value) =>
-                        _fdRecordObject.termOfInvestment = value,
-                      )
-                          :Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: fieldsDecoration,
-                        child: Text(
-                          widget.fdRecordObject.termOfInvestment + " Months",
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                        ),
-                      )
+                      edit
+                          ? TextFormField(
+                              initialValue:
+                                  widget.fdRecordObject.termOfInvestment,
+                              decoration: buildCustomInput(
+                                  hintText: "Term Of Investment",
+                                  suffixText: "Months"),
+                              onChanged: (value) =>
+                                  _fdRecordObject.termOfInvestment = value,
+                            )
+                          : Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: fieldsDecoration,
+                              child: Text(
+                                widget.fdRecordObject.termOfInvestment +
+                                    " Months",
+                                style: TextStyle(
+                                  color: whiteColor,
+                                ),
+                              ),
+                            )
                     ],
                   ),
                   SizedBox(
@@ -356,27 +366,28 @@ class _FDPaymentRecordHistoryDetailsViewState
                             SizedBox(
                               height: 10.0,
                             ),
-                            edit?TextFormField(
-                              initialValue: widget.fdRecordObject.secondHolderName,
-                              decoration: buildCustomInput(
-                                  hintText: "Second Holder Name"),
-                              onChanged: (value) =>
-                              _fdRecordObject.secondHolderName = value,
-                            )
-                                :Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: fieldsDecoration,
-                              child: Text(
-                                widget.fdRecordObject.secondHolderName,
-                                style: TextStyle(
-                                  color: whiteColor,
-                                ),
-                              ),
-                            )
+                            edit
+                                ? TextFormField(
+                                    initialValue:
+                                        widget.fdRecordObject.secondHolderName,
+                                    decoration: buildCustomInput(
+                                        hintText: "Second Holder Name"),
+                                    onChanged: (value) => _fdRecordObject
+                                        .secondHolderName = value,
+                                  )
+                                : Container(
+                                    padding: EdgeInsets.all(15),
+                                    decoration: fieldsDecoration,
+                                    child: Text(
+                                      widget.fdRecordObject.secondHolderName,
+                                      style: TextStyle(
+                                        color: whiteColor,
+                                      ),
+                                    ),
+                                  )
                           ],
                         )
                       : SizedBox(),
-  
                   SizedBox(
                     height: 10.0,
                   ),
@@ -399,49 +410,48 @@ class _FDPaymentRecordHistoryDetailsViewState
                       )
                     ],
                   ),
-                  
-                  SizedBox(height: 30,),
-                  
+                  SizedBox(
+                    height: 30,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      
                       Container(
                         decoration: roundedCornerButton,
-                        
-                        child: edit? TextButton(
-                          child: Text("Save Changes"),
-                          onPressed: (){
-                            editRecord();
-                          },
-                        )
+                        child: edit
+                            ? TextButton(
+                                child: Text("Save Changes"),
+                                onPressed: () {
+                                  editRecord();
+                                },
+                              )
                             : TextButton(
-                          child: Text("Edit"),
-                          onPressed: (){
-                            setState(() {
-                              edit= true;
-                            });
-                          },
-                        ),
+                                child: Text("Edit"),
+                                onPressed: () {
+                                  setState(() {
+                                    edit = true;
+                                  });
+                                },
+                              ),
                       ),
-                      
-                      SizedBox(height: 20,),
-                      
+                      SizedBox(
+                        height: 20,
+                      ),
                       Container(
                         decoration: roundedCornerButton,
                         child: TextButton(
                           child: Text("Delete Record"),
-                          onPressed: () async{
+                          onPressed: () async {
                             print("called");
                             loadingDelete = true;
                             bool t = false;
-                            t=await showConfirmationDialog(context);
+                            t = await showConfirmationDialog(context);
                             print("got");
                             print(t);
                             setState(() {
-                              t=t;
+                              t = t;
                             });
-                            if(t){
+                            if (t) {
                               await deleteRecord();
                             }
                           },
@@ -451,7 +461,9 @@ class _FDPaymentRecordHistoryDetailsViewState
                   )
                 ],
               ),
-              SizedBox(height: 70,),
+              SizedBox(
+                height: 70,
+              ),
             ],
           ),
         ),
@@ -459,8 +471,7 @@ class _FDPaymentRecordHistoryDetailsViewState
     );
   }
 
-
-  Future<void> editRecord() async{
+  Future<void> editRecord() async {
     print("editRecord");
     dbf = firebaseDatabase.reference();
     await fireUser();
@@ -469,8 +480,10 @@ class _FDPaymentRecordHistoryDetailsViewState
     print(widget.client.email);
     print(widget.keyDB);
     print(_fdRecordObject.nomineeName);
-    try{
-      _fdRecordObject.maturityDate = DateChange.addMonthToDate(_fdRecordObject.dateOfInvestment,int.parse(_fdRecordObject.termOfInvestment));
+    try {
+      _fdRecordObject.maturityDate = DateChange.addMonthToDate(
+          _fdRecordObject.dateOfInvestment,
+          int.parse(_fdRecordObject.termOfInvestment));
       dbf
           .child('complinces')
           .child('FDRecord')
@@ -478,78 +491,79 @@ class _FDPaymentRecordHistoryDetailsViewState
           .child(widget.client.email)
           .child(widget.keyDB)
           .update({
-       'dateOfMaturity': _fdRecordObject.maturityDate,
-       'nameOfInstitution' : _fdRecordObject.nameOfInstitution,
-       'dateOfInvestment' : _fdRecordObject.dateOfInvestment,
-       'fixedDepositNo' : _fdRecordObject.fixedDepositNo,
-       'maturityAmount' : _fdRecordObject.maturityAmount,
-       'nomineeName' : _fdRecordObject.nomineeName ,
-       'principalAmount' : _fdRecordObject.principalAmount,
-      'rateOfInterest' : _fdRecordObject.rateOfInterest,
-      'secondHolderName' : _fdRecordObject.secondHolderName,
-       'termOfInvestment' : _fdRecordObject.termOfInvestment,
-         });
-    
+        'dateOfMaturity': _fdRecordObject.maturityDate,
+        'nameOfInstitution': _fdRecordObject.nameOfInstitution,
+        'dateOfInvestment': _fdRecordObject.dateOfInvestment,
+        'fixedDepositNo': _fdRecordObject.fixedDepositNo,
+        'maturityAmount': _fdRecordObject.maturityAmount,
+        'nomineeName': _fdRecordObject.nomineeName,
+        'principalAmount': _fdRecordObject.principalAmount,
+        'rateOfInterest': _fdRecordObject.rateOfInterest,
+        'secondHolderName': _fdRecordObject.secondHolderName,
+        'termOfInvestment': _fdRecordObject.termOfInvestment,
+      });
+
       recordEditToast();
-    
-    }on PlatformException catch(e){
+    } on PlatformException catch (e) {
       print(e.message);
       flutterToast(message: e.message);
-    }catch(e){
+    } catch (e) {
       print(e);
       flutterToast(message: "Something went wrong");
     }
   }
 
-
-  Future<void> showConfirmation(BuildContext context) async{
+  Future<void> showConfirmation(BuildContext context) async {
     loadingDelete = true;
     return showDialog<void>(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Confirm',textAlign: TextAlign.center,style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),),
-          
+            title: Text(
+              'Confirm',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-          
             content: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 10,),
-                  Text("Sure Want to Delete ?",style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Sure Want to Delete ?",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
-          
             actions: <Widget>[
               TextButton(
                 child: Text('Confirm'),
-                onPressed: () async{
+                onPressed: () async {
                   Navigator.of(context).pop();
                   await deleteRecord();
-                
                 },
               ),
-            
               TextButton(
                 child: Text('Cancel'),
-                onPressed: (){
+                onPressed: () {
                   Navigator.of(context).pop();
                 },
               )
             ],
           );
-        }
-    );
+        });
   }
 
-  Future<void> deleteRecord() async{
+  Future<void> deleteRecord() async {
     dbf = firebaseDatabase.reference();
     await fireUser();
     print(firebaseUserId);
@@ -573,14 +587,13 @@ class _FDPaymentRecordHistoryDetailsViewState
 //              )
 //          )
 //      );
-    
-    }on PlatformException catch(e){
+
+    } on PlatformException catch (e) {
       print(e.message);
       flutterToast(message: e.message);
-    }catch(e){
+    } catch (e) {
       print(e);
       flutterToast(message: "Something went wrong");
     }
   }
-  
 }

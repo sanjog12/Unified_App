@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -506,7 +508,7 @@ class _RecordDetailState extends State<RecordDetail> {
 												  // )
 											  ],
 											);}
-											return CircularProgressIndicator();
+											return Center(child: CircularProgressIndicator());
 											},
 									): Container(),
 								],
@@ -527,13 +529,17 @@ class _RecordDetailState extends State<RecordDetail> {
 		deletedDateList = await SingleHistoryDatabaseHelper().getDeletedRecordDates(widget.client, widget.historyForMF.keyDate);
 		iterations = int.parse(widget.historyForMF.mutualFundObject.numberOfInstalments);
 		
+		print(widget.historyForMF.sipFrequency);
+		
 		String tempDate;
 		MutualFundDetailObject mutualFundDetailObject = MutualFundDetailObject();
-		print(mutualFundDetailObject);
 		int countInstallment=0;
 		while (mutualFundDetailObject != null) {
-			if (countInstallment >= iterations)
+			
+			if (countInstallment >= iterations) {
 				break;
+			}
+			
 			tempDate = startDate;
 			for (int i = 0; i < 3; i++) {
 				if(widget.storedNav.containsKey(tempDate+code)){
@@ -553,8 +559,14 @@ class _RecordDetailState extends State<RecordDetail> {
 				if (!deletedDateList.contains(mutualFundDetailObject.date)) {
 					mutualFund.add(mutualFundDetailObject);
 				}
-		}
-			startDate = DateChange.addMonthToDate(startDate,1);
+			}
+			
+			if(widget.historyForMF.sipFrequency == "Monthly"){
+				startDate = DateChange.addMonthToDate(startDate,1);
+			}
+			else if(widget.historyForMF.sipFrequency == "Quarterly"){
+				startDate = DateChange.addMonthToDate(startDate,3);
+			}
 			countInstallment++;
 		}
 		return mutualFund;
@@ -590,8 +602,6 @@ class _RecordDetailState extends State<RecordDetail> {
 								child: Text('Yes'),
 								onPressed: () async{
 									await deletePortfolio();
-									Navigator.of(context).pop();
-									Navigator.pop(context);
 								},
 							),
 							
@@ -636,8 +646,10 @@ class _RecordDetailState extends State<RecordDetail> {
 					.child(widget.historyForMF.key)
 					.remove();
 			
+			NotificationServices().deleteNotification(widget.historyForMF.id);
 			recordDeletedToast();
-			Navigator.pop(context);
+			Navigator.of(context).pop();
+			Navigator.of(context).pop(widget.historyForMF.key);
 //			Navigator.pop(context);
 //			Navigator.push(context,
 //				MaterialPageRoute(
@@ -647,12 +659,15 @@ class _RecordDetailState extends State<RecordDetail> {
 //				)
 //			);
 			
-		}on PlatformException catch(e){
+		} on PlatformException catch(e){
 			print(e.message);
 			flutterToast(message: e.message);
-		}catch(e){
+		} on FirebaseException catch(e){
 			print(e);
-			flutterToast(message: "Something wrong");
+			flutterToast(message: e.message);
+		} catch(e){
+			flutterToast(message: "Something went wrong");
+			print(e);
 		}
 	}
 }

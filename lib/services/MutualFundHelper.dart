@@ -4,25 +4,23 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
+
 // import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 
 import 'GeneralServices/networking.dart';
 
-
-LinkedHashMap<String,dynamic> cache = LinkedHashMap.of({'meta':{'scheme_code':"1234567890"}});
-
+LinkedHashMap<String, dynamic> cache = LinkedHashMap.of({
+  'meta': {'scheme_code': "1234567890"}
+});
 
 class MutualFundHelper {
-  
   String open_api_url = 'https://api.mfapi.in/mf';
   
   
-  Future<MutualFundDetailObject> getMutualFundDetailsData(
-      String code, String date) async {
-    String url = '$open_api_url/$code';
 
-    print(date);
+  Future<MutualFundDetailObject> getMutualFundDetailsData( String code, String date) async {
+    String url = '$open_api_url/$code';
     MutualFundDetailObject mutualFundDetailObject;
     List<String> temp = date.split(' ');
     String temp2 = temp[0].toString();
@@ -31,13 +29,12 @@ class MutualFundHelper {
     print('getMutualFund date ' + selectedDateString);
     String t = selectedDateString;
     bool check = true;
+
     NetworkHelper networkHelper = NetworkHelper(url: url);
 
     var getMutualFundData = await networkHelper.getDate();
-//    print(getMutualFundData['data']);
-//    print(selectedDateString);
-    print(url);
-    for(int i=0 ; i < 3 ;i++) {
+
+    for (int i = 0; i < 3; i++) {
       for (var item in getMutualFundData['data']) {
         if (item['date'] == selectedDateString) {
           print(item);
@@ -45,12 +42,9 @@ class MutualFundHelper {
               MutualFundDetailObject(date: t, nav: item['nav']);
           check = false;
           break;
-        } else {
-        
-        }
+        } else {}
       }
-      if(check == false)
-        break;
+      if (check == false) break;
       selectedDateString = DateChange.addDayToDate(selectedDateString, 1);
       print(selectedDateString);
     }
@@ -59,9 +53,8 @@ class MutualFundHelper {
   
   
 
-  Future<MutualFundDetailObject> getTodayNav(String code) async{
-    print("today NAV");
-    MutualFundDetailObject mutualFundDetailObject ;
+  Future<MutualFundDetailObject> getTodayNav(String code) async {
+    MutualFundDetailObject mutualFundDetailObject;
     MutualFundDetailObject d;
     String date = DateTime.now().toString();
     List<String> temp = date.split(' ');
@@ -72,57 +65,53 @@ class MutualFundHelper {
 
     // print(mutualFundDetailObject);
 
-    while(true){
+    while (true) {
       // print(checkDate);
-      if(mutualFundDetailObject != null ) {
+      if (mutualFundDetailObject != null) {
         d = mutualFundDetailObject;
         break;
       }
-      mutualFundDetailObject = await MutualFundHelper().getMutualFundNAV(
-          code, checkDate, checkDate);
+      mutualFundDetailObject =
+          await MutualFundHelper().getMutualFundNAV(code, checkDate, checkDate);
       checkDate = DateChange.addDayToDate(checkDate, -1);
     }
     // print(d.date);
     print("returning");
     return d;
   }
-  
 
-  
-  Future<MutualFundDetailObject> getMutualFundNAV(
-      String code, String date, String actualDate) async {
-
+  Future<MutualFundDetailObject> getMutualFundNAV(String code, String date, String actualDate) async {
     MutualFundDetailObject mutualFundDetailObject;
     // print(cache['meta']['scheme_code'] == code);
-    
+
     String url = '$open_api_url/$code';
-    
+
     print("Code :" + cache['meta']['scheme_code'].toString());
-    if(cache['meta']['scheme_code'] != code) {
+    if (cache['meta']['scheme_code'] != code) {
       print("not cached");
       NetworkHelper networkHelper = NetworkHelper(url: url);
       var getMutualFundData = await networkHelper.getDate();
       cache = getMutualFundData;
     }
-    
-    List<LinkedHashMap<String,dynamic>> dateData = List.from(cache['data']);
-    LinkedHashMap<String, dynamic> result  = dateData.firstWhere((element) => element['date'] == date,orElse: (){
-      return LinkedHashMap.from({"date": " ","nav":" "});
+
+    List<LinkedHashMap<String, dynamic>> dateData = List.from(cache['data']);
+    LinkedHashMap<String, dynamic> result =
+        dateData.firstWhere((element) => element['date'] == date, orElse: () {
+      return LinkedHashMap.from({"date": " ", "nav": " "});
     });
-    
-    print(result['date']  +  "  " + result['nav']);
-      
+
+    print(result['date'] + "  " + result['nav']);
+
     if (result['date'] != " ") {
-      mutualFundDetailObject = MutualFundDetailObject(date: actualDate, nav: result['nav']);
+      mutualFundDetailObject =
+          MutualFundDetailObject(date: actualDate, nav: result['nav']);
     }
-    else{
+    // else if()
+    else {
       mutualFundDetailObject = null;
     }
-    
+
     print('returning ');
     return mutualFundDetailObject;
   }
-  
 }
-
-

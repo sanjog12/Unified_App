@@ -11,6 +11,7 @@ class HistoryForFD extends StatefulWidget {
   final Client client;
 
   const HistoryForFD({this.client});
+
   @override
   _HistoryForFDState createState() => _HistoryForFDState();
 }
@@ -31,7 +32,8 @@ class _HistoryForFDState extends State<HistoryForFD> {
               child: FutureBuilder<List<HistoryComplinceObject>>(
                 future: HistoriesDatabaseHelper()
                     .getHistoryOfFDRecord(widget.client),
-                builder: (BuildContext context, AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
@@ -43,10 +45,16 @@ class _HistoryForFDState extends State<HistoryForFD> {
                             decoration: roundedCornerButton,
                             margin: EdgeInsets.symmetric(vertical: 10.0),
                             child: ListTile(
-                              title: Text(snapshot.data[index].date != null ?snapshot.data[index].date :"No Record Till Now"),
-                              subtitle: Text(snapshot.data[index].type != null ? snapshot.data[index].type  : ""),
-                              trailing:
-                                  Text(snapshot.data[index].amount != "null" ?"\u{20B9} ${snapshot.data[index].amount}":" "),
+                              title: Text(snapshot.data[index].date != null
+                                  ? snapshot.data[index].date
+                                  : "No Record Till Now"),
+                              subtitle: Text(snapshot.data[index].type != null
+                                  ? snapshot.data[index].type
+                                  : ""),
+                              trailing: Text(snapshot.data[index].amount !=
+                                      "null"
+                                  ? "\u{20B9} ${snapshot.data[index].amount}"
+                                  : " "),
                             ),
                           ),
                         );
@@ -68,7 +76,9 @@ class _HistoryForFDState extends State<HistoryForFD> {
                 },
               ),
             ),
-            SizedBox(height: 70,),
+            SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),
@@ -100,7 +110,9 @@ class _HistoryForFDState extends State<HistoryForFD> {
               keyDB: key,
             ),
           ),
-        ).whenComplete((){setState(() {});});
+        ).whenComplete(() {
+          setState(() {});
+        });
       }
     }
   }

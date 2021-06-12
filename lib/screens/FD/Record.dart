@@ -9,12 +9,11 @@ import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
-
-
 class FDRecord extends StatefulWidget {
   final Client client;
 
   const FDRecord({this.client});
+
   @override
   _FDRecordState createState() => _FDRecordState();
 }
@@ -28,17 +27,14 @@ class _FDRecordState extends State<FDRecord> {
   String selectedDateOfPayment = 'Select Date';
   DateTime selectedDateOfInvestment = DateTime.now();
 
-
-
-  Future<void> selectDateTime(BuildContext context) async{
+  Future<void> selectDateTime(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: selectedDateOfInvestment ,
+        initialDate: selectedDateOfInvestment,
         firstDate: DateTime(DateTime.now().year - 1),
-        lastDate: DateTime(DateTime.now().year+1)
-    );
-  
-    if(picked != null && picked != selectedDateOfInvestment){
+        lastDate: DateTime(DateTime.now().year + 1));
+
+    if (picked != null && picked != selectedDateOfInvestment) {
       setState(() {
         print('Checking ' + widget.client.company);
         selectedDateOfInvestment = picked;
@@ -47,9 +43,6 @@ class _FDRecordState extends State<FDRecord> {
       });
     }
   }
-  
-  
-  
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +79,12 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          decoration: buildCustomInput(
-                              hintText: "Name Of Institution"),
-                          onChanged: (value) {
-                            fdRecordObject.nameOfInstitution = value;
-                            entered = true;
-                          }
-                        ),
+                            decoration: buildCustomInput(
+                                hintText: "Name Of Institution"),
+                            onChanged: (value) {
+                              fdRecordObject.nameOfInstitution = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -106,14 +98,13 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration: buildCustomInput(
-                              hintText: "Fixed Deposit Number"),
-                          onChanged: (value) {
-                            fdRecordObject.fixedDepositNo = value;
-                            entered = true;
-                          }
-                        ),
+                            keyboardType: TextInputType.number,
+                            decoration: buildCustomInput(
+                                hintText: "Fixed Deposit Number"),
+                            onChanged: (value) {
+                              fdRecordObject.fixedDepositNo = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -127,14 +118,14 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration:
-                              buildCustomInput(hintText: "Principal Amount",prefixText: "\u{20B9}"),
-                          onChanged: (value) {
-                            fdRecordObject.principalAmount = value;
-                            entered = true;
-                          }
-                        ),
+                            keyboardType: TextInputType.number,
+                            decoration: buildCustomInput(
+                                hintText: "Principal Amount",
+                                prefixText: "\u{20B9}"),
+                            onChanged: (value) {
+                              fdRecordObject.principalAmount = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -156,7 +147,6 @@ class _FDRecordState extends State<FDRecord> {
                               Text(
                                 '$selectedDateOfPayment',
                               ),
-                              
                               TextButton(
                                 onPressed: () {
                                   selectDateTime(context);
@@ -179,14 +169,15 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                          decoration:
-                              buildCustomInput(hintText: "Maturity Amount", prefixText: "\u{20B9}"),
-                          onChanged: (value) {
-                            fdRecordObject.maturityAmount = value;
-                            entered = true;
-                          }
-                        ),
+                            keyboardType:
+                                TextInputType.numberWithOptions(decimal: true),
+                            decoration: buildCustomInput(
+                                hintText: "Maturity Amount",
+                                prefixText: "\u{20B9}"),
+                            onChanged: (value) {
+                              fdRecordObject.maturityAmount = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -200,13 +191,12 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          decoration:
-                              buildCustomInput(hintText: "Rate Of Interest", suffixText: "%"),
-                          onChanged: (value) {
-                            fdRecordObject.rateOfInterest = value;
-                            entered = true;
-                          }
-                        ),
+                            decoration: buildCustomInput(
+                                hintText: "Rate Of Interest", suffixText: "%"),
+                            onChanged: (value) {
+                              fdRecordObject.rateOfInterest = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -220,14 +210,13 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          decoration: buildCustomInput(
-                            hintText: "Term Of Investment",
-                          ),
-                          onChanged: (value) {
-                            fdRecordObject.termOfInvestment = value;
-                            entered = true;
-                          }
-                        ),
+                            decoration: buildCustomInput(
+                              hintText: "Term Of Investment",
+                            ),
+                            onChanged: (value) {
+                              fdRecordObject.termOfInvestment = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -241,15 +230,14 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          decoration: buildCustomInput(
-                              hintText: "Second Holder Name"),
+                            decoration: buildCustomInput(
+                                hintText: "Second Holder Name"),
 //                            validator: (value) =>
 //                                requiredField(value, 'Term Of Investment'),
-                          onChanged: (value) {
-                            fdRecordObject.secondHolderName = value;
-                            entered = true;
-                          }
-                        ),
+                            onChanged: (value) {
+                              fdRecordObject.secondHolderName = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -263,12 +251,11 @@ class _FDRecordState extends State<FDRecord> {
                           height: 10.0,
                         ),
                         TextFormField(
-                          decoration: buildCustomInput(hintText: "Name"),
-                          onChanged: (value) {
-                            fdRecordObject.nomineeName = value;
-                            entered = true;
-                          }
-                        ),
+                            decoration: buildCustomInput(hintText: "Name"),
+                            onChanged: (value) {
+                              fdRecordObject.nomineeName = value;
+                              entered = true;
+                            }),
                       ],
                     ),
                     SizedBox(
@@ -282,7 +269,6 @@ class _FDRecordState extends State<FDRecord> {
                         onPressed: () {
                           addDetailsOfContribution();
                         },
-                        
                       ),
                     ),
                     SizedBox(
@@ -290,7 +276,9 @@ class _FDRecordState extends State<FDRecord> {
                     ),
                   ],
                 ),
-                SizedBox(height: 70,),
+                SizedBox(
+                  height: 70,
+                ),
               ],
             ),
           ),
@@ -303,23 +291,24 @@ class _FDRecordState extends State<FDRecord> {
         setState(() {
           buttonLoading = true;
         });
-        fdRecordObject.maturityDate = DateChange.addMonthToDate(fdRecordObject.dateOfInvestment,int.parse(fdRecordObject.termOfInvestment));
-        await PaymentRecordToDataBase().addFDRecord(fdRecordObject, widget.client).then((value){
-          if(value) {
+        fdRecordObject.maturityDate = DateChange.addMonthToDate(
+            fdRecordObject.dateOfInvestment,
+            int.parse(fdRecordObject.termOfInvestment));
+        await PaymentRecordToDataBase()
+            .addFDRecord(fdRecordObject, widget.client)
+            .then((value) {
+          if (value) {
             flutterToast(message: "Record Saved Successfully");
           }
         });
-      }
-      
-      else{
+      } else {
         flutterToast(message: "Nothing has been provided");
       }
-      
     } on PlatformException catch (e) {
       flutterToast(message: e.message);
     } on FirebaseException catch (e) {
       flutterToast(message: e.message);
-    } catch(e){
+    } catch (e) {
       flutterToast(message: "Something went wrong");
     } finally {
       this.setState(() {

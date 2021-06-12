@@ -1,5 +1,6 @@
 
 import 'dart:collection';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _MfRecordsState extends State<MfRecords> {
 	double totalUnits;
 	
 	
-	Future<void> totalUnitsCalculate() async{
+	Future<void> totalUnitCalculator() async{
 		print("total Units Calculate");
 		print(history.length);
 		for(int index =0 ; index< history.length;index++) {
@@ -59,7 +60,6 @@ class _MfRecordsState extends State<MfRecords> {
 					listOfTotalUnits[index]= totalUnite.toStringAsFixed(4);
 					period[index]=amount*1;
 				});
-				print(double.parse(listOfTotalUnits[index]));
 			}
 			else {
 				// print('else');
@@ -80,7 +80,7 @@ class _MfRecordsState extends State<MfRecords> {
 		}
 	}
 	
-	Future<void> getObject() async{
+	Future<void> getMfRecords() async{
 		// print("Calling");
 		history = await  HistoriesDatabaseHelper().getHistoryOfFMRecordTry(widget.client);
 		setState(() {
@@ -96,7 +96,7 @@ class _MfRecordsState extends State<MfRecords> {
 		iterations = int.parse(history[index].mutualFundObject.numberOfInstalments);
 		// print('Iteration'+ iterations.toString());
 		temp = await getNAV(history[index].mutualFundObject.code, history[index].mutualFundDetailObject.date,
-				iterations, deletedDateList);
+				iterations, deletedDateList, history[index].sipFrequency);
 		
 //		temp.removeLast();
 		
@@ -111,14 +111,14 @@ class _MfRecordsState extends State<MfRecords> {
 	@override
   void initState() {
     super.initState();
-    getObject().whenComplete((){
+    getMfRecords().whenComplete((){
     	// print("when Completed");
     	// print(history.length);
     	listOfTotalUnits = List.filled(history.length, "null");
     	// print("1");
     	period = List.filled(history.length, null);
     	// print("2");
-    	totalUnitsCalculate();
+    	totalUnitCalculator();
     	// print("back");
     });
   }
@@ -131,144 +131,156 @@ class _MfRecordsState extends State<MfRecords> {
 		    title: Text("Mutual Funds PortFolios"),
 	    ),
 	    
+	    // bottomNavigationBar: Container(
+		  //   height: 40,
+		  //   margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+		  //   decoration: BoxDecoration(
+			//    color: Colors.grey,
+			//     borderRadius: BorderRadius.circular(10)
+		  //   ),
+		  //
+		  //   child: Center(child: Text("Total Profit : ",)),
+	    // ),
+	    
 	    body: history.length != 0?Container(
 		    padding: EdgeInsets.all(20),
-		    child: gotHistory ? Container(
-				    child: ListView.builder(
-					    itemCount: history.length,
-						    itemBuilder: (BuildContext context, index){
-					    	return Container(
-							    decoration: BoxDecoration(
-									    borderRadius: BorderRadius.circular(10)
-							    ),
-							    padding: EdgeInsets.all(10),
-							    child: Container(
-								    decoration: roundedCornerButton,
-								    child: history.length != 0?ListTile(
-									    title: Column(
-										    crossAxisAlignment: CrossAxisAlignment.stretch,
-									      children: <Widget>[
-									      	Container(
-											      height: 10,
-											      color: listOfTotalUnits[index] != 'null'?(double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
-													      period[index] <0?Colors.red:Colors.green:Colors.blueGrey,
-										      ),
+		    child: gotHistory ? ListView.builder(
+				    itemCount: history.length,
+				    itemBuilder: (BuildContext context, index){
+				    	return Container(
+						    decoration: BoxDecoration(
+								    borderRadius: BorderRadius.circular(10)
+						    ),
+						    padding: EdgeInsets.all(10),
+						    child: Container(
+							    decoration: roundedCornerButton,
+							    child: history.length != 0?ListTile(
+								    title: Column(
+									    crossAxisAlignment: CrossAxisAlignment.stretch,
+									    children: <Widget>[
+									    	Container(
+											    height: 10,
+											    color: listOfTotalUnits[index] != 'null'?(double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
+													    period[index] <0?Colors.red:Colors.green:Colors.blueGrey,
+										    ),
 									        
-									        SizedBox(height: 10,),
+										    SizedBox(height: 10,),
 									        
-									        Text(history[index].mutualFundObject.name != null?
-										    history[index].mutualFundObject.name:"No Portfolio Found",style: TextStyle(color: Colors.white),),
-									      ],
-									    ),
-									    
-									    subtitle: Column(
-										    crossAxisAlignment: CrossAxisAlignment.stretch,
-										    children: <Widget>[
-										    	SizedBox(height: 10,),
-											    Divider(thickness: 1.5,),
-											    history[index].mutualFundObject.name != "No Record Found" ?Row(
-												    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-											      children: <Widget>[
-											    	  Column(
-													      children: <Widget>[
-														      Text("Current NAV:",style: TextStyle(fontWeight: FontWeight.bold),),
-														      SizedBox(height: 5,),
-														      Text(history[index].todayNAV.nav),
-													      ],
-												      ),
-												      Column(
-													      children: <Widget>[
-														      Text("Total Units:",style: TextStyle(fontWeight: FontWeight.bold)),
-														      SizedBox(height: 5,),
-														      listOfTotalUnits[index] != 'null'?Text(listOfTotalUnits[index]):JumpingDotsProgressIndicator(
-															      fontSize: 30,
-															      color: Colors.white,
-															      numberOfDots: 4,
-														      ),
-													      ],
-												      ),
-											      ],
-										      ):Container(),
-										    
-										      SizedBox(height: 15,),
-											    
-											    history[index].mutualFundObject.name != "No Record Found" ?Row(
-											      children: <Widget>[
-												      Text("Total Investment: ",style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.start,),
-												      SizedBox(width: 10,),
-												      period[index] != null
-														      ?Text(period[index].toString(),textAlign: TextAlign.start)
-														      :JumpingDotsProgressIndicator(
-													      color: Colors.white,
-													      fontSize: 30,
-													      numberOfDots: 4,
-												      ),
-												      SizedBox(height: 5,),
-											      ],
-										      ):Container(),
-										    
-										      SizedBox(height: 15,),
-											    
-											    history[index].mutualFundObject.name != "No Record Found" ?Row(
-											      children: <Widget>[
-												      Text("Current Value: ",style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.start),
-												      SizedBox(width: 10,),
-												      listOfTotalUnits[index] != 'null'
-														      ?Text((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav)).toStringAsFixed(4),
-														      textAlign: TextAlign.end)
-														      :JumpingDotsProgressIndicator(
-													      fontSize: 30,
-													      color: Colors.white,
-													      numberOfDots: 4,
-												      ),
-												      SizedBox(width: 7,),
-												      listOfTotalUnits[index] != 'null'?Text((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
-														      period[index]<0 ?
-												      ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))- period[index]).toStringAsFixed(3)
-														      :"+"+ ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav)) - period[index]).toStringAsFixed(3),
-													      
-													      style: TextStyle(color: (double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
-															      period[index] <0?Colors.red:Colors.green,fontSize: 12),
-													      textAlign: TextAlign.end,
-												      )
-														      :Text(""),
-											      ],
-										      ):Container(),
-											    SizedBox(height: 10,)
-									      ],
-								      ),
-									    onTap: (){
-									    	if(period[index] == null){
-									    		flutterToast(message: "Your portfolio is being calculated ... please wait");
-									    		return null;
-										    }
-									    	Navigator.push(context,
-											    MaterialPageRoute(
-												    builder:(context)=>RecordDetail(
-													    storedNav: storedNav,
-													    client: widget.client,
-													    historyForMF: history[index],
-													    totalInvestment: period[index].toString(),
-													    currentValue: (double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav)).toStringAsFixed(4),
-													    totalUnits: listOfTotalUnits[index],
-												    )
-											    ),
-										    );
-									    },
-							      ):ListTile(
-									    title: Text("No record found"),
+										    Text(history[index].mutualFundObject.name != null? history[index].mutualFundObject.name:"No Portfolio Found",style: TextStyle(color: Colors.white),),
+									    ],
 								    ),
+									    
+								    subtitle: Column(
+									    crossAxisAlignment: CrossAxisAlignment.stretch,
+									    children: <Widget>[
+									    	SizedBox(height: 10,),
+										    Divider(thickness: 1.5,),
+										    history[index].mutualFundObject.name != "No Record Found" ?Row(
+											    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+											    children: <Widget>[
+											    	Column(
+													    children: <Widget>[
+													    	Text("Current NAV:",style: TextStyle(fontWeight: FontWeight.bold),),
+														    SizedBox(height: 5,),
+														    Text(history[index].todayNAV.nav),
+													    ],
+												    ),
+												    Column(
+													    children: <Widget>[
+													    	Text("Total Units:",style: TextStyle(fontWeight: FontWeight.bold)),
+														    SizedBox(height: 5,),
+														    listOfTotalUnits[index] != 'null'?Text(listOfTotalUnits[index]):JumpingDotsProgressIndicator(
+															    fontSize: 30,
+															    color: Colors.white,
+															    numberOfDots: 4,
+														    ),
+													    ],
+												    ),
+											    ],
+										    ):Container(),
+										    
+										    SizedBox(height: 15,),
+											   
+										    history[index].mutualFundObject.name != "No Record Found" ?Row(
+											    children: <Widget>[
+											    	Text("Total Investment: ",style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.start,),
+												    SizedBox(width: 10,),
+												    period[index] != null
+														    ?Text(period[index].toString(),textAlign: TextAlign.start)
+														    :JumpingDotsProgressIndicator(
+													    color: Colors.white,
+													    fontSize: 30,
+													    numberOfDots: 4,
+												    ),
+												    SizedBox(height: 5,),
+											    ],
+										    ):Container(),
+										    
+										    SizedBox(height: 15,),
+											   
+										    history[index].mutualFundObject.name != "No Record Found" ?Row(
+											    children: <Widget>[
+											    	Text("Current Value: ",style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.start),
+												    SizedBox(width: 10,),
+												    listOfTotalUnits[index] != 'null'
+														    ?Text((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav)).toStringAsFixed(4),
+														        textAlign: TextAlign.end)
+														    :JumpingDotsProgressIndicator(
+													    fontSize: 30,
+													    color: Colors.white,
+													    numberOfDots: 4,
+												    ),
+												    SizedBox(width: 7,),
+												      
+												    listOfTotalUnits[index] != 'null'?Text((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
+														    period[index]<0 ?
+												    ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))- period[index]).toStringAsFixed(3)
+														    :"+"+ ((double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav)) - period[index]).toStringAsFixed(3),
+													      
+													    style: TextStyle(color: (double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav))-
+															    period[index] <0?Colors.red:Colors.green,fontSize: 12),
+													    textAlign: TextAlign.end,
+												    )
+														    :Text(""),
+											    ],
+										    ):Container(),
+										    SizedBox(height: 10,)
+									    ],
+								    ),
+								    onTap: (){
+								    	if(period[index] == null){
+								    		flutterToast(message: "Your portfolio is being calculated ... please wait");
+								    		return null;
+								    	}
+								    	Navigator.push(context, MaterialPageRoute(
+											    builder:(context)=>RecordDetail(
+												    storedNav: storedNav,
+												    client: widget.client,
+												    historyForMF: history[index],
+												    totalInvestment: period[index].toString(),
+												    currentValue: (double.parse(listOfTotalUnits[index])*double.parse(history[index].todayNAV.nav)).toStringAsFixed(4),
+												    totalUnits: listOfTotalUnits[index],
+											    )
+										    ),
+									    ).then((value){
+										    	
+									    	print("returned value   " + value.toString());
+									    	history.removeWhere((element) => element.key == value);
+									    	setState(() {});
+									    });
+								    	},
+							    ):ListTile(
+								    title: Text("No record found"),
 							    ),
-						    );
-					    }
-					    ),
-		    ):Container(
-				    padding: EdgeInsets.all(10),
-				    child: Center(
-					    child: CircularProgressIndicator(
-						    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-					    ),
+						    ),
+					    );
+				    }):Container(
+			    padding: EdgeInsets.all(10),
+			    child: Center(
+				    child: CircularProgressIndicator(
+					    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
 				    ),
+			    ),
 		    ),
 	    ):Container(
 		    padding: EdgeInsets.all(10),
@@ -284,12 +296,14 @@ class _MfRecordsState extends State<MfRecords> {
 	
 	
 	
-	Future<List<MutualFundDetailObject>> getNAV(String code, String actualDate, int maxIteration, List<String> deletedList) async {
+	Future<List<MutualFundDetailObject>> getNAV(String code, String actualDate, int maxIteration, List<String> deletedList, String sipFrequency) async {
 		String tempDate;
 		List<MutualFundDetailObject> listMfDetails = [];
 		MutualFundDetailObject mfDetails = MutualFundDetailObject();
 		print(mfDetails);
 		int countIteration=0;
+		
+		print(sipFrequency);
 		
 		while (mfDetails != null) {
 			if (countIteration >= maxIteration)
@@ -321,7 +335,12 @@ class _MfRecordsState extends State<MfRecords> {
 						MutualFundDetailObject(date: storedNav[tempDate + code].date, nav: storedNav[tempDate + code].nav)
 				);
 			}
-			actualDate = DateChange.addMonthToDate(actualDate,1);
+			if(sipFrequency == "Monthly"){
+				actualDate = DateChange.addMonthToDate(actualDate,1);
+			}
+			else if(sipFrequency == "Quarterly"){
+				actualDate = DateChange.addMonthToDate(actualDate,3);
+			}
 			countIteration++;
 		}
 		return listMfDetails;
