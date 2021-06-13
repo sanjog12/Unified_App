@@ -620,66 +620,67 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	  }
 	  
 	  try {
-		  
-		  
-		  updateDBUpcoming('Form ADT-1', DateChange.addDayToDate(
+		
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1001');
+		  await updateDBUpcoming('Form ADT-1', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 15).split('-')[1],
 				  DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 15).split('-')[0]);
-		  await NotificationServices().deleteNotification('${widget.client.key}1001');
+		  print("writing ");
 		  NotificationServices().reminderNotificationService('${widget.client.key}1001', "${widget.client.name}'s Form ADT-1(ROC)",
 				  "${widget.client.name}'s Form ADT-1(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 15)}"
 				  , selectedDateOfAgmSubmission.add(Duration(days: 15))
 		  );
-		  
-		  
-		  
-		  updateDBUpcoming('From AOC-4 & AOC-4 CFS', DateChange.addDayToDate(
+		
+		
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1002');
+		  await updateDBUpcoming('From AOC-4 & AOC-4 CFS', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  await NotificationServices().deleteNotification('${widget.client.key}1002');
 		  NotificationServices().reminderNotificationService('${widget.client.key}1002', "${widget.client.name}'s From AOC-4 & AOC-4 CFS(ROC)",
 				  "${widget.client.name}'s From AOC-4 & AOC-4 CFS(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
 				  , selectedDateOfAgmSubmission.add(Duration(days: 30))
 		  );
-		  
-		  
-		  updateDBUpcoming('Form AOC-4(XBRL)', DateChange.addDayToDate(
+		
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1003');
+		  await updateDBUpcoming('Form AOC-4(XBRL)', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  await NotificationServices().deleteNotification('${widget.client.key}1003');
 		  NotificationServices().reminderNotificationService('${widget.client.key}1003', "${widget.client.name}'s Form AOC-4(XBRL)(ROC)",
 				  "${widget.client.name}'s Form Form AOC-4(XBRL)(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
 				  , selectedDateOfAgmSubmission.add(Duration(days: 30))
 		  );
-		  
-		  
-		  updateDBUpcoming('Form MGT-7', DateChange.addDayToDate(
+		
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1004');
+		  await updateDBUpcoming('Form MGT-7', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 60).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 60).split('-')[0]);
-		  await NotificationServices().deleteNotification('${widget.client.key}1004');
 		  NotificationServices().reminderNotificationService('${widget.client.key}1004', "${widget.client.name}'s Form MGT-7(ROC)",
 				  "${widget.client.name}'s Form MGT-7(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 60)}"
 				  , selectedDateOfAgmSubmission.add(Duration(days: 60))
 		  );
-		  
-		  
-		  updateDBUpcoming('Form CRA-4', DateChange.addDayToDate(
+		
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1005');
+		  await updateDBUpcoming('Form CRA-4', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  await NotificationServices().deleteNotification('${widget.client.key}1005');
 		  NotificationServices().reminderNotificationService('${widget.client.key}1005', "${widget.client.name}'s Form CRA-4(ROC)",
 				  "${widget.client.name}'s Form CRA-4(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
 				  , selectedDateOfAgmSubmission.add(Duration(days: 30))
 		  );
-		  
-		  
-		  updateDBUpcoming('Form MGT-14', DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
-				  , DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
+		
+		
 		  await NotificationServices().deleteNotification('${widget.client.key}1006');
+		  await updateDBUpcoming('Form MGT-14', DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
+				  , DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
 		  NotificationServices().reminderNotificationService('${widget.client.key}1006', "${widget.client.name}'s Form MGT-14(ROC)",
 				  "${widget.client.name}'s Form MGT-14 is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
 				  , selectedDateOfAgmSubmission.add(Duration(days: 30))

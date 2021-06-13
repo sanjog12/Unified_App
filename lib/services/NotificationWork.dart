@@ -115,17 +115,17 @@ class NotificationServices {
   }
 
   Future<void> deleteNotification(String id) async {
-    FirebaseDatabase.instance
+    await FirebaseDatabase.instance
         .reference()
         .child('ScheduledNotifications')
         .orderByChild("notificationID")
         .equalTo(id)
         .once()
-        .then((value) {
-      Map<dynamic, dynamic> map = value.value;
-      map.forEach((key, value) {
+        .then((value) async{
+      Map<dynamic, dynamic> map = await value.value;
+      map.forEach((key, value) async{
         if(key != null) {
-          FirebaseDatabase.instance
+          await FirebaseDatabase.instance
               .reference()
               .child("ScheduledNotifications/$key")
               .remove();
