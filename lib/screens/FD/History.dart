@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/FDRecordObject.dart';
 import 'package:unified_reminder/screens/FD/HistoryDetailsView.dart';
@@ -11,6 +11,7 @@ class HistoryForFD extends StatefulWidget {
   final Client client;
 
   const HistoryForFD({this.client});
+
   @override
   _HistoryForFDState createState() => _HistoryForFDState();
 }
@@ -20,10 +21,10 @@ class _HistoryForFDState extends State<HistoryForFD> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Fixed Deposit"),
+        title: Text("Fixed Deposit History"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -37,17 +38,23 @@ class _HistoryForFDState extends State<HistoryForFD> {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
+                        return TextButton(
                           onPressed: () =>
                               _getHistoryDetails(snapshot.data[index].key),
                           child: Container(
                             decoration: roundedCornerButton,
                             margin: EdgeInsets.symmetric(vertical: 10.0),
                             child: ListTile(
-                              title: Text(snapshot.data[index].date != null ?snapshot.data[index].date :"No Record Till Now"),
-                              subtitle: Text(snapshot.data[index].type != null ? snapshot.data[index].type  : ""),
-                              trailing:
-                                  Text(snapshot.data[index].amount != "null" ?"INR ${snapshot.data[index].amount}":" "),
+                              title: Text(snapshot.data[index].date != null
+                                  ? snapshot.data[index].date
+                                  : "No Record Till Now"),
+                              subtitle: Text(snapshot.data[index].type != null
+                                  ? snapshot.data[index].type
+                                  : ""),
+                              trailing: Text(snapshot.data[index].amount !=
+                                      "null"
+                                  ? "\u{20B9} ${snapshot.data[index].amount}"
+                                  : " "),
                             ),
                           ),
                         );
@@ -68,7 +75,10 @@ class _HistoryForFDState extends State<HistoryForFD> {
                     );
                 },
               ),
-            )
+            ),
+            SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),
@@ -81,14 +91,14 @@ class _HistoryForFDState extends State<HistoryForFD> {
 
       fdRecordObject = await SingleHistoryDatabaseHelper()
           .getFDHistoryDetails(widget.client, key);
-      print(fdRecordObject.nomineeName);
-      print(fdRecordObject.dateOfInvestment);
-      print(fdRecordObject.secondHolderName);
-      print(fdRecordObject.principalAmount);
-      print(fdRecordObject.rateOfInterest);
-      print(fdRecordObject.termOfInvestment);
-      print(fdRecordObject.maturityAmount);
-      print(fdRecordObject.fixedDepositNo);
+      // print(fdRecordObject.nomineeName);
+      // print(fdRecordObject.dateOfInvestment);
+      // print(fdRecordObject.secondHolderName);
+      // print(fdRecordObject.principalAmount);
+      // print(fdRecordObject.rateOfInterest);
+      // print(fdRecordObject.termOfInvestment);
+      // print(fdRecordObject.maturityAmount);
+      // print(fdRecordObject.fixedDepositNo);
       if (fdRecordObject != null) {
 //      print(epfDetailsOfContributionObject.challanNumber);
         Navigator.push(
@@ -100,7 +110,9 @@ class _HistoryForFDState extends State<HistoryForFD> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete(() {
+          setState(() {});
+        });
       }
     }
   }

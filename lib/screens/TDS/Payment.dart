@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -52,8 +52,8 @@ class _TDSPaymentState extends State<TDSPayment>{
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDateOfPayment,
-        firstDate: DateTime(2019),
-        lastDate: DateTime(2021)
+        firstDate: DateTime(DateTime.now().year -1),
+        lastDate: DateTime(DateTime.now().year + 1),
     );
   
     if(picked != null && picked != selectedDateOfPayment){
@@ -79,13 +79,13 @@ class _TDSPaymentState extends State<TDSPayment>{
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.only(top: 24, right: 24, left: 24, bottom: 70),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
                 "TDS Payment",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -96,7 +96,7 @@ class _TDSPaymentState extends State<TDSPayment>{
               ),
               Text(
                 "Enter your details to make payments for TDS",
-                style: _theme.textTheme.subtitle.merge(
+                style: _theme.textTheme.bodyText2.merge(
                   TextStyle(
                     fontWeight: FontWeight.w300,
                   ),
@@ -239,7 +239,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                           },
                           keyboardType: TextInputType.numberWithOptions(decimal: true),
                           decoration:
-                              buildCustomInput(hintText: "Amount of Payment"),
+                              buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
                         ),
                       ],
                     ),
@@ -263,7 +263,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                               Text(
                                 '$_showDateOfPayment',
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   selectDateTime(context);
                                 },
@@ -289,16 +289,15 @@ class _TDSPaymentState extends State<TDSPayment>{
                         SizedBox(height: 10),
                         Container(
                           height: 50,
-                          child: FlatButton(
+                          child: TextButton(
                             onPressed: () async{
-                              file = await FilePicker.getFile();
-                              
+                              FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                              file = File(filePickerResult.files.single.path);
                               List<String> temp = file.path.split('/');
                               setState(() {
                                 nameOfFile = temp.last;
                               });
                             },
-                            color: buttonColor,
                             
                             child: Row(
                               children: <Widget>[
@@ -332,7 +331,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                           valueColor: AlwaysStoppedAnimation<Color>
                             (Colors.white70),
                         ),
-                      ) :FlatButton(
+                      ) :TextButton(
                         child: Text("Make Payment"),
                         onPressed: () {
                           openWebView("Payment", 'https://onlineservices.tin.egov-nsdl.com/etaxnew/tdsnontds.jsp', context);
@@ -355,7 +354,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                           valueColor: AlwaysStoppedAnimation<Color>
                             (Colors.white70),
                         ),
-                      ):FlatButton(
+                      ):TextButton(
                         child: Text("Save Record"),
                         onPressed: () {
                           savePayment();
@@ -387,39 +386,18 @@ class _TDSPaymentState extends State<TDSPayment>{
         setState(() {
           loadingSave = true;
         });
-        await PaymentRecordToDataBase().AddTDSPayment(
+        await PaymentRecordToDataBase().addTDSPayment(
             tDSPaymentObject, widget.client, file);
         Navigator.pop(context);
-        Fluttertoast.showToast(
-            msg: "Date has Been Recorded",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos: 1,
-            backgroundColor: Color(0xff666666),
-            textColor: Colors.white,
-            fontSize: 16.0);
+        flutterToast(message: "Data has been recorded");
       }
       else {
         print("error");
       }
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Something Went Wrong");
     }
   }
 }

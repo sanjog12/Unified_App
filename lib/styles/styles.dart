@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-InputDecoration buildCustomInput({String hintText}) {
+InputDecoration buildCustomInput({String hintText,String suffixText, String prefixText}) {
   return InputDecoration(
+    suffixText: suffixText!=null?suffixText:null,
+    prefixText: prefixText!=null?prefixText:null,
     contentPadding: EdgeInsets.symmetric(
       vertical: 0.0,
       horizontal: 16.0,
     ),
-    
     fillColor: textboxColor,
     hintText: hintText,
     labelStyle: TextStyle(
@@ -67,7 +68,7 @@ Widget helpButtonActionBar(String url){
       onTap: (){
         launch(url);
       },
-      child: Text("Help",style: TextStyle(
+      child: Text("Need Help ?      ",style: TextStyle(
         fontStyle: FontStyle.italic,
         fontSize: 12,
       ),),

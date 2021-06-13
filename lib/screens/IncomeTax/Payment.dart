@@ -1,19 +1,19 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/IncomeTaxPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+
 
 class IncomeTaxPayment extends StatefulWidget {
   final Client client;
@@ -25,7 +25,7 @@ class IncomeTaxPayment extends StatefulWidget {
 
 class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _IncomeTaxPaymentFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _incomeTaxPaymentFormKey = GlobalKey<FormState>();
 
   IncomeTaxPaymentObject incomeTaxPaymentObject = IncomeTaxPaymentObject();
   FirebaseStorage firebaseStorage;
@@ -68,13 +68,13 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
           title: Text("Income Tax Payment"),
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 Text(
                   "Income Tax Payment",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -85,7 +85,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                 ),
                 Text(
                   "Enter your details to make payments for Income Tax ",
-                  style: _theme.textTheme.subtitle.merge(
+                  style: _theme.textTheme.bodyText2.merge(
                     TextStyle(
                       fontWeight: FontWeight.w300,
                     ),
@@ -95,7 +95,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                   height: 50.0,
                 ),
                 Form(
-                  key: _IncomeTaxPaymentFormKey,
+                  key: _incomeTaxPaymentFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -143,9 +143,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                           ),
                           TextFormField(
                             decoration:
-                                buildCustomInput(hintText: "Amount of Payment"),
-                            validator: (value) =>
-                                requiredField(value, 'Amount Of Payment'),
+                                buildCustomInput(hintText: "Amount of Payment" , prefixText: "\u{20B9}"),
                             onSaved: (value) =>
                                 incomeTaxPaymentObject.amountOfPayment = value,
                           ),
@@ -170,7 +168,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                                 Text(
                                   '$selectedDateDB',
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     selectDateTime(context);
                                   },
@@ -195,9 +193,10 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                           color: buttonColor,
                         ),
                         height: 50,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () async{
-                            file = await FilePicker.getFile();
+                            FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                            file = File(filePickerResult.files.single.path);
                             List<String> temp = file.path.split('/');
                             print(temp.last);
                             setState(() {
@@ -222,7 +221,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Make Payment Online"),
                           onPressed: () {
                             openWebView(
@@ -238,10 +237,10 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Payment Record"),
                           onPressed: () {
-                            PaymentIncomeTax();
+                            paymentIncomeTax();
                           },
                           
                         ),
@@ -253,22 +252,23 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 70),
               ],
             ),
           ),
         ));
   }
 
-  Future<void> PaymentIncomeTax() async {
+  Future<void> paymentIncomeTax() async {
     try {
-      if (_IncomeTaxPaymentFormKey.currentState.validate()) {
-        _IncomeTaxPaymentFormKey.currentState.save();
+      if (_incomeTaxPaymentFormKey.currentState.validate()) {
+        _incomeTaxPaymentFormKey.currentState.save();
         this.setState(() {
           buttonLoading = true;
         });
 
-        bool done = await PaymentRecordToDataBase().AddIncomeTaxPayment(
+        bool done = await PaymentRecordToDataBase().addIncomeTaxPayment(
             incomeTaxPaymentObject, widget.client, file);
 
         if (done) {
@@ -276,33 +276,14 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
         }
       }
 
-      Fluttertoast.showToast(
-          msg: "Successfully Saved",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Successfully Saved");
       
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     } finally {
       this.setState(() {
         buttonLoading = false;

@@ -1,13 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
-import 'package:unified_reminder/screens/MF/HistoryTrial.dart';
-import 'package:unified_reminder/screens/PPF/History.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -83,13 +80,13 @@ class _PPFRecordHistoryDetailsViewState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(15.0),
+          padding: EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
                 "${widget.client.name}\'s PPF Record Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 20.0,
                   ),
@@ -142,16 +139,14 @@ class _PPFRecordHistoryDetailsViewState
                       edit?TextFormField(
                         initialValue: widget.ppfRecordObject.amount,
                         decoration:
-                        buildCustomInput(hintText: "Account Number"),
-                        validator: (value) =>
-                            requiredField(value, 'Account number'),
+                        buildCustomInput(hintText: "Amount Of Payment" , suffixText: "\u{20B9}"),
                         onChanged: (value) =>
                         _ppfRecordObject.accountNumber = value,
                       )
                           :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
-                        child: Text(
+                        child: Text( "\u{20B9} " +
                           widget.ppfRecordObject.amount,
                           style: TextStyle(
                             color: whiteColor,
@@ -179,7 +174,7 @@ class _PPFRecordHistoryDetailsViewState
                             Text(
                               '$_selectedDateOfPayment',
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context);
                               },
@@ -237,16 +232,15 @@ class _PPFRecordHistoryDetailsViewState
                     children: <Widget>[
                       Container(
                         decoration: roundedCornerButton,
-                        child: edit
-                            ?FlatButton(
+                        child: edit ?
+                        TextButton(
                           child: Text("Save Changes"),
                           onPressed: () async{
                             await editRecord();
                             Navigator.pop(context);
                           },
-                        )
-                            :FlatButton(
-                          
+                        ) :
+                        TextButton(
                           child: Text("Edit"),
                           onPressed: (){
                             setState(() {
@@ -262,7 +256,7 @@ class _PPFRecordHistoryDetailsViewState
   
                       Container(
                         decoration: roundedCornerButton,
-                        child: FlatButton(
+                        child: TextButton(
                           child: loadDelete
                               ?Center(
                             child: CircularProgressIndicator(
@@ -284,7 +278,8 @@ class _PPFRecordHistoryDetailsViewState
                     ],
                   ),
                 ],
-              )
+              ),
+              SizedBox(height: 70,),
             ],
           ),
         ),
@@ -319,23 +314,11 @@ class _PPFRecordHistoryDetailsViewState
       recordEditToast();
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
   
@@ -366,7 +349,7 @@ class _PPFRecordHistoryDetailsViewState
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Confirm'),
                 onPressed: () async{
                   await deleteRecord();
@@ -374,7 +357,7 @@ class _PPFRecordHistoryDetailsViewState
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('Edit'),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -415,23 +398,11 @@ class _PPFRecordHistoryDetailsViewState
 //      );
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something Wrong");
     }
   }
 }

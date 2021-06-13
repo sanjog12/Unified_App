@@ -1,14 +1,15 @@
-import 'dart:collection';
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/compliance.dart';
-import 'package:unified_reminder/services/DocumentPaths.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/Compliance.dart';
+import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 
 class FirestoreService {
-  final Firestore _firestore = Firestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
 
@@ -17,52 +18,49 @@ class FirestoreService {
     try {
       _firestore
           .collection(FsUserCompliances)
-          .document(firebaseUserId)
-          .setData({"compliances": compliances});
+          .doc(firebaseUserId)
+          .set({"compliances": compliances});
       return true;
     } catch (e) {
       return false;
     }
   }
+  
 
-//  Future<dynamic> getUserCompliances() async {
-//    String userFirebaseId = await SharedPrefs.getStringPreference("uid");
-//
-//    return _firestore
-//        .collection(FsUserCompliances)
-//        .document(userFirebaseId)
-//        .snapshots();
-//  }
-
-  Future<List<Client>> getClients(String firebaseUserId) async {
+  Stream<List<Client>> getClients(String firebaseUserId) async* {
     List<Client> clientsData = [];
     dbf = firebaseDatabase
         .reference()
         .child(FsUserClients)
         .child(firebaseUserId)
         .child('clients');
-//    Stream data = dbf.onValue;
+    
+    
+    
     await dbf.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, values) {
-//        print(key);
+      Map<dynamic, dynamic> map = snapshot.value;
+      for(var v in map.entries){
         Client client = Client(
-            values["name"],
-            values["constitution"],
-            values["company"],
-            values["natureOfBusiness"],
-            values["email"],
-            values["phone"],
-            key
+            v.value["name"],
+            v.value["constitution"],
+            v.value["company"],
+            v.value["natureOfBusiness"],
+            v.value["email"],
+            v.value["phone"],
+            v.key
         );
-//        print(client.phone.toString());
         clientsData.add(client);
-      });
+      }
     });
-    return clientsData;
+    
+    
+    
+    yield clientsData;
   }
   
-  editClientData(Client client,String firebaseUID){
+  
+  
+  Future<void> editClientData(Client client,String firebaseUID, List<String> temp, List<Compliance> compliances) async{
     
     try {
       dbf = firebaseDatabase.reference();
@@ -78,8 +76,28 @@ class FirestoreService {
         'company': client.company,
         'natureOfBusiness': client.natureOfBusiness,
         'email': client.email,
-        'phone': client.phone
+        'phone': client.phone.toString(),
       });
+
+      String clientEmail = client.email.replaceAll('.', ',');
+
+      for (var items in compliances){
+        if (items.checked && !temp.contains(items.title)) {
+          print(items.title);
+          Map<String, String> clientCompliances = {
+            'clientEmail': client.email,
+            'title': items.title,
+            'value': items.value
+          };
+          dbf
+              .child(FsUserCompliances)
+              .child(firebaseUID)
+              .child('compliances')
+              .child(clientEmail)
+              .push()
+              .set(clientCompliances);
+        }
+      }
     }catch(e){
       print(e);
     }
@@ -88,7 +106,7 @@ class FirestoreService {
   String getUserProgress(String firebaseUserId) {
     return _firestore
         .collection(FsUserClients)
-        .document(firebaseUserId)
+        .doc(firebaseUserId)
         .collection('progress')
         .toString();
   }
@@ -96,18 +114,18 @@ class FirestoreService {
   dynamic getUserDetails(firebaseUserId) {
     return _firestore
         .collection(FsUsersPath)
-        .document('firebaseUserId')
+        .doc('firebaseUserId')
         .snapshots();
     
   }
 
 //  Future<bool> addClientRecord(Client )
 
-  Future<bool> addClient(Client client, List<Compliance> compliances) async {
+  
+  Future<bool> addClient(Client client, List<Compliance> compliances, String code) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
     dbf = firebaseDatabase.reference();
     
-    List mails = [];
     try {
       Map<String, String> clientData = {
         'name': client.name,
@@ -127,14 +145,13 @@ class FirestoreService {
           .push()
           .set(clientData);
 
-      for (var items in compliances) {
+      for (var items in compliances){
         if (items.checked) {
           Map<String, String> clientCompliances = {
             'clientEmail': client.email,
             'title': items.title,
             'value': items.value
           };
-          
           dbf
               .child(FsUserCompliances)
               .child(firebaseUserId)
@@ -144,6 +161,7 @@ class FirestoreService {
               .set(clientCompliances);
         }
       }
+      
       return true;
     } catch (e) {
       print("Here");
@@ -151,4 +169,36 @@ class FirestoreService {
       return false;
     }
   }
+  
+  
+  
+  Future<void> deleteOtherUserDetails(List<Client> clientList) async{
+  
+    List<String> clientEmail = [];
+    
+    for(var client in clientList){
+      clientEmail.add(client.email);
+    }
+  
+    DatabaseReference databaseReference = firebaseDatabase
+        .reference()
+        .child(FsUserCompliances)
+        .child(FirebaseAuth.instance.currentUser.uid.toString())
+        .child('compliances');
+    
+    databaseReference.once().then((value){
+      Map map = value.value;
+      for(var key in map.keys){
+        if(!clientEmail.contains(key)){
+          databaseReference.child(key).remove();
+          firebaseDatabase.reference()
+              .child('usersUpcomingCompliances')
+              .child('ZYESNIU7vnfmfL8CqfZPJIsNbNd2')
+              .child(key).remove();
+        }
+      }
+    });
+    
+  }
+  
 }

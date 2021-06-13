@@ -1,9 +1,9 @@
-class EPFMonthlyContributionObejct {
-  String dteOfFilling, challanNumber, amountOfPayment, addAttachment,type;
+class EPFMonthlyContributionObject {
+  String dateOfFilling , challanNumber , amountOfPayment, addAttachment,type;
 
-  EPFMonthlyContributionObejct(
+  EPFMonthlyContributionObject(
       {this.challanNumber,
       this.amountOfPayment,
-      this.dteOfFilling,
+      this.dateOfFilling,
       this.addAttachment,this.type});
 }

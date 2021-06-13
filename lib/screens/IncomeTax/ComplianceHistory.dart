@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForIncomeTax.dart';
 import 'package:unified_reminder/models/payment/IncomeTaxPaymentObject.dart';
 import 'package:unified_reminder/screens/IncomeTax/HistoryDetailsView.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
-import 'package:unified_reminder/services/PDFView.dart';
+import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class ComplianceHistoryForIncomeTax extends StatefulWidget {
   final Client client;
@@ -21,8 +20,10 @@ class ComplianceHistoryForIncomeTax extends StatefulWidget {
 
 class _ComplianceHistoryForIncomeTaxState
     extends State<ComplianceHistoryForIncomeTax> {
+  
   @override
   void initState() {
+    super.initState();
     HistoriesDatabaseHelper().getComplincesHistoryOfIncomeTax(widget.client);
   }
 
@@ -30,10 +31,13 @@ class _ComplianceHistoryForIncomeTaxState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Compliances"),
+        title: Text("Income Tax History"),
+        actions: [
+          helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
+        ],
       ),
       body: Container(
-        padding: EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -49,7 +53,7 @@ class _ComplianceHistoryForIncomeTaxState
                       return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return FlatButton(
+                          return TextButton(
                             onPressed: () =>
                                 _getHistoryDetails(snapshot.data[index].key),
                             child: Container(
@@ -92,14 +96,7 @@ class _ComplianceHistoryForIncomeTaxState
                                         );
                                       }
                                       else {
-                                        Fluttertoast.showToast(
-                                            msg: "No File Were Uploaded",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIos: 1,
-                                            backgroundColor: Color(0xff666666),
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
+                                        flutterToast(message: "No File Were Uploaded");
                                       }
                                     }
                                   },
@@ -139,7 +136,8 @@ class _ComplianceHistoryForIncomeTaxState
                     );
                 },
               ),
-            )
+            ),
+            SizedBox(height: 70,),
           ],
         ),
       ),

@@ -2,15 +2,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject.dart';
-import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class GSTReturnFilling extends StatefulWidget {
 	final Client client;
@@ -58,17 +55,17 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 		final ThemeData _theme = Theme.of(context);
 		return Scaffold(
 				appBar: AppBar(
-					title: Text("Income Tax Returns"),
+					title: Text("GST Returns"),
 				),
 				body: Container(
-					padding: EdgeInsets.all(24.0),
+					padding: EdgeInsets.all(24),
 					child: SingleChildScrollView(
 						child: Column(
 							crossAxisAlignment: CrossAxisAlignment.stretch,
 							children: <Widget>[
 								Text(
 									"Income Tax Return Filling",
-									style: _theme.textTheme.headline.merge(
+									style: _theme.textTheme.headline6.merge(
 										TextStyle(
 											fontSize: 26.0,
 										),
@@ -101,7 +98,7 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 																Text(
 																	'$selectedDateDB',
 																),
-																FlatButton(
+																TextButton(
 																	onPressed: () {
 																		selectDateTime(context);
 																	},
@@ -123,9 +120,10 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 													Container(
 														decoration: roundedCornerButton,
 														height: 50,
-														child: FlatButton(
+														child: TextButton(
 															onPressed: () async{
-																file = await FilePicker.getFile();
+																FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+																file = File(filePickerResult.files.single.path);
 																List<String> temp = file.path.split('/');
 																print(temp.last);
 																setState(() {
@@ -150,10 +148,10 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 											Container(
 												decoration: roundedCornerButton,
 												height: 50.0,
-												child: FlatButton(
+												child: TextButton(
 													child: Text("Save Record"),
 													onPressed: () {
-														ReturnFillingsIncomeTax();
+														returnFillingsIncomeTax();
 													},
 												),
 											),
@@ -164,14 +162,15 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 											),
 										],
 									),
-								)
+								),
+								SizedBox(height: 70,),
 							],
 						),
 					),
 				));
 	}
 	
-	Future<void> ReturnFillingsIncomeTax() async {
+	Future<void> returnFillingsIncomeTax() async {
 		try {
 			if (gSTReturnFillingsFormKey.currentState.validate()) {
 				gSTReturnFillingsFormKey.currentState.save();
@@ -180,39 +179,36 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 				});
 				
 				bool done = await QuarterlyReturnsRecordToDatabase()
-						.AddGSTReturnFillings(
+						.addGSTReturnFillings(
 						 gstReturnFillingsObject, widget.client,file);
 				
 				if (done) {
-					Fluttertoast.showToast(
-							msg: "Successfully Recorded",
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					// Fluttertoast.showToast(
+					// 		msg: "Successfully Recorded",
+					// 		toastLength: Toast.LENGTH_SHORT,
+					// 		gravity: ToastGravity.BOTTOM,
+					// 		backgroundColor: Color(0xff666666),
+					// 		textColor: Colors.white,
+					// 		fontSize: 16.0);
 					Navigator.pop(context);
 				}
 			}
 		} on PlatformException catch (e) {
-			Fluttertoast.showToast(
-					msg: e.message,
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			// Fluttertoast.showToast(
+			// 		msg: e.message,
+			// 		toastLength: Toast.LENGTH_SHORT,
+			// 		gravity: ToastGravity.BOTTOM,
+			// 		backgroundColor: Color(0xff666666),
+			// 		textColor: Colors.white,
+			// 		fontSize: 16.0);
 		} catch (e) {
-			Fluttertoast.showToast(
-					msg: 'Payment Not Saved This Time',
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			// Fluttertoast.showToast(
+			// 		msg: 'Payment Not Saved This Time',
+			// 		toastLength: Toast.LENGTH_SHORT,
+			// 		gravity: ToastGravity.BOTTOM,
+			// 		backgroundColor: Color(0xff666666),
+			// 		textColor: Colors.white,
+			// 		fontSize: 16.0);
 		} finally {
 			this.setState(() {
 				buttonLoading = false;

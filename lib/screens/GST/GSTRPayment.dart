@@ -4,16 +4,15 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 
@@ -35,13 +34,13 @@ class StateGSTRPayment extends State<GSTPayment>{
   String selectedSection ;
   String showDateOfPaymentDB = ' ';
   String _showDateOfPayment = 'Select Date';
-  String nameOfFile='no file selected';
+  String nameOfFile='No File Selected';
   
   File file;
   
   bool loadingSave = false;
   
-  DateTime selectedDateOfPayment = DateTime.now();
+  DateTime selectedDateOfPayment = DateTime.now().subtract(Duration(hours: 24));
   
   GSTPaymentObject gstPaymentObject = GSTPaymentObject();
   
@@ -54,7 +53,7 @@ class StateGSTRPayment extends State<GSTPayment>{
         context: context,
         initialDate: selectedDateOfPayment,
         firstDate: DateTime(2019),
-        lastDate: DateTime(2021)
+        lastDate: DateTime(DateTime.now().year +2)
     );
   
     if(picked != null && picked != selectedDateOfPayment){
@@ -78,23 +77,26 @@ class StateGSTRPayment extends State<GSTPayment>{
       
         appBar: AppBar(
           title: Text("GST Payment"),
+          actions: [
+            helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST")
+          ],
         ),
         
         
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(24),
             child: Form(
               key: key,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text('GST',style: _theme.textTheme.headline.merge(TextStyle(
+                  Text('GST',style: _theme.textTheme.headline6.merge(TextStyle(
                       fontSize: 28
                   )
                   ),),
                   SizedBox(height: 10,),
-                  Text('Enter your details to make payment for GST',style: _theme.textTheme.subhead.merge(TextStyle(
+                  Text('Enter your details to make payment for GST',style: _theme.textTheme.bodyText2.merge(TextStyle(
                     fontSize: 15
                   )),),
                   
@@ -109,11 +111,11 @@ class StateGSTRPayment extends State<GSTPayment>{
                       Container(
                         child: DropdownButtonFormField(
                           isExpanded: true,
+                          
                           hint: Text('Section'),
                           validator: (String value){
                             return requiredField(value, 'Constitution');
                           },
-      
                           decoration: buildCustomInput(),
                           items: [
                             DropdownMenuItem(
@@ -189,7 +191,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                       Text('Amount of Payment'),
                       SizedBox(height: 10,),
                       TextFormField(
-                        decoration: buildCustomInput(hintText: 'Amount of Payment'),
+                        decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
                         validator: (String value){
                           return requiredField(value, 'Amount of Payment');
                         },
@@ -216,7 +218,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                             Text(
                               '$_showDateOfPayment',
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context);
                               },
@@ -237,9 +239,10 @@ class StateGSTRPayment extends State<GSTPayment>{
                       Container(
                         decoration: roundedCornerButton,
                         height: 50,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () async{
-                            file = await FilePicker.getFile();
+                            FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                            file = File(filePickerResult.files.single.path);
                             List<String> temp = file.path.split('/');
                             print(temp.last);
                             setState(() {
@@ -269,7 +272,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                             valueColor: AlwaysStoppedAnimation<Color>
                               (Colors.white70),
                           ),
-                        ):FlatButton(
+                        ):TextButton(
                           child: Text("Save Record"),
                           onPressed: () {
                             savePayment();
@@ -277,10 +280,10 @@ class StateGSTRPayment extends State<GSTPayment>{
                         ),
                       ),
                   SizedBox(height: 20,),
-                  helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
                   SizedBox(
                     height: 30.0,
                   ),
+                  SizedBox(height: 70,),
                 ],
               ),
             ),
@@ -300,16 +303,9 @@ class StateGSTRPayment extends State<GSTPayment>{
         loadingSave= true;
       });
       print('3');
-      await PaymentRecordToDataBase().AddGSTPayment(gstPaymentObject, widget.client, file);
+      await PaymentRecordToDataBase().addGSTPayment(gstPaymentObject, widget.client, file);
       Navigator.pop(context);
-      Fluttertoast.showToast(
-          msg: "Date has Been Recorded",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Date has Been Recorded");
       
       
     }else{
@@ -317,27 +313,13 @@ class StateGSTRPayment extends State<GSTPayment>{
     }
     }on PlatformException catch(e){
       print('here');
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: e.message.toString());
       setState(() {
         loadingSave=false;
       });
     }catch(e){
       print(e);
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: "Something went wrong");
       setState(() {
         loadingSave=false;
       });

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/personalDetail.dart';
-import 'package:unified_reminder/services/AuthService.dart';
+import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class PersonalInfo extends StatefulWidget {
-//  final int userType;
-//
-//  const PersonalInfo({@required this.userType});
   @override
   _PersonalInfoState createState() => _PersonalInfoState();
 }
@@ -57,7 +54,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     children: <Widget>[
                       Text(
                         "Welcome $name!",
-                        style: _theme.textTheme.headline.merge(
+                        style: _theme.textTheme.headline6.merge(
                           TextStyle(
                             fontSize: 26.0,
                           ),
@@ -68,7 +65,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       ),
                       Text(
                         "Just a little more setup and we'll be up",
-                        style: _theme.textTheme.subtitle.merge(
+                        style: _theme.textTheme.bodyText2.merge(
                           TextStyle(
                             fontWeight: FontWeight.w300,
                           ),
@@ -184,7 +181,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             ),
                             Container(
                               height: 50.0,
-                              child: FlatButton(
+                              child: TextButton(
                                 child: buttonLoading
                                     ? Container(
                                         height: 30.0,
@@ -200,7 +197,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 onPressed: () {
                                   addAdditionalInfo(_personalDetail);
                                 },
-                                color: buttonColor,
                               ),
                             ),
                           ],

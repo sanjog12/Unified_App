@@ -1,6 +1,7 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/ROCFormFilling.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -34,14 +35,14 @@ class _ROCRecordHistoryDetailsViewState
       
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               
               Text(
                 "${widget.client.name}\'s ROC Record Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -139,6 +140,7 @@ class _ROCRecordHistoryDetailsViewState
                   ),
                 ],
               ),
+              SizedBox(height: 70),
             ],
           ),
         ),

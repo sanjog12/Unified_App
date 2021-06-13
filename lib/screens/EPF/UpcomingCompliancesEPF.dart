@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/screens/EPF/DetailsOfContibution.dart';
 import 'package:unified_reminder/screens/EPF/MonthlyContribution.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
@@ -21,7 +21,7 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text("Upcoming Compliances"),
+		    title: Text("EPF Upcoming Compliances"),
 	    ),
 	    
 	    body: Container(
@@ -55,27 +55,53 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
 												    DateTime t2 = DateTime(t.year, t.month,
 														    int.parse(snapshot.data[index].date));
 												    String date = DateFormat('dd MMMM').format(t2);
-												    print(t2);
-												    return Container(
-													    margin: EdgeInsets.symmetric(vertical: 10.0),
-													    decoration: roundedCornerButton,
-													    child: ListTile(
-														    title: Text("${snapshot.data[index].label} due on $date"),
-													    onTap: (){
-														    	if(snapshot.data[index].label.split(" ")[1] == "Monthly") {
-																    Navigator.push(context,
-																		    MaterialPageRoute(
-																				    builder: (context) =>
-																						    MonthlyContribution(
-																							    client: widget.client,)));
-															    }
-														    	else if(snapshot.data[index].label.split(" ")[1] == "Detailed"){
-																    Navigator.push(context,
-																		    MaterialPageRoute(
-																				    builder: (context) => DetailsOfContribution(
-																							    client: widget.client,)));}
-														    	},
-													    ),
+												    return Column(
+												      children: [
+													      snapshot.data[index].notMissed?Container(
+															    margin: EdgeInsets.symmetric(vertical: 10.0),
+															    decoration: roundedCornerButton,
+															    child: ListTile(
+																    title: Text("${snapshot.data[index].label} due on $date"),
+															    onTap: (){
+																      if(snapshot.data[index].label.split(" ")[1] == "Monthly") {
+																		    Navigator.push(context,
+																				    MaterialPageRoute(builder: (context) =>
+																								    MonthlyContribution(
+																									    client: widget.client,)));
+																	    }
+																      else if(snapshot.data[index].label.split(" ")[1] == "Detailed"){
+																		    Navigator.push(context,
+																				    MaterialPageRoute(builder: (context) =>
+																						    DetailsOfContribution(
+																									    client: widget.client,)));}
+																      },
+															    ),
+												        ):Container(),
+													
+													      !snapshot.data[index].notMissed?Container(
+														      margin: EdgeInsets.symmetric(vertical: 15.0),
+														      decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
+														      child: ListTile(
+															      title: Text("${snapshot.data[index].label} due on $date"),
+															      subtitle: Text("Missed Compliances"),
+															      onTap: (){
+																      if(snapshot.data[index].label.split(" ")[1] == "Monthly") {
+																	      Navigator.push(context,
+																			      MaterialPageRoute(builder: (context) =>
+																					      MonthlyContribution(
+																						      client: widget.client,)));
+																      }
+																      else if(snapshot.data[index].label.split(" ")[1] == "Detailed"){
+																	      Navigator.push(context,
+																			      MaterialPageRoute(builder: (context) =>
+																					      DetailsOfContribution(
+																						      client: widget.client,)));}
+															      },
+														      ),
+													      ): Container(),
+													      
+													      
+												      ],
 												    );
 											    }else{
 										    		return Container(
@@ -102,7 +128,8 @@ class _UpcomingCompliancesEPFState extends State<UpcomingCompliancesEPF> {
 								    }
 							    },
 						    ),
-					    )
+					    ),
+					    SizedBox(height: 70,),
 				    ],
 			    ),
 		    ),

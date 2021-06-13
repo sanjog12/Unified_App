@@ -3,16 +3,15 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:unified_reminder/models/client.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/payment/ESIMonthlyContributionObejct.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class MonthlyContributionESIC extends StatefulWidget {
@@ -74,20 +73,20 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 	  
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Monthly Contribution' , style: TextStyle(fontWeight: FontWeight.bold),),
+		    title: Text('ESI Monthly Contribution' , style: TextStyle(fontWeight: FontWeight.bold),),
 	    ),
 	    
 	    
 	    body: SingleChildScrollView(
 		    child: Container(
-			    padding: EdgeInsets.all(24.0),
+			    padding: EdgeInsets.all(20),
 			    child: Form(
 				    key: _key,
 			      child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    children: <Widget>[
 				    	
-				    	Text('Monthly Contribution Payment',style: _theme.textTheme.headline.merge(
+				    	Text('Monthly Contribution Payment',style: _theme.textTheme.headline6.merge(
 						    TextStyle(
 							    fontSize: 26.0,
 						    ),),
@@ -95,7 +94,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 					    
 					    SizedBox(height: 10,),
 					    
-					    Text('Enter your details to make payment for Monthly Contribution',style: _theme.textTheme.subtitle.merge(
+					    Text('Enter your details to make payment for Monthly Contribution',style: _theme.textTheme.bodyText2.merge(
 						    TextStyle(
 							    fontSize: 15,
 							    fontWeight: FontWeight.w300,
@@ -136,7 +135,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 							
 							    Container(
 								    child: TextFormField(
-									    decoration: buildCustomInput(hintText: 'Amount of Payment'),
+									    decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
 									    onChanged: (String value){
 										    esiMonthlyContributionObejct.amountOfPayment= value;
 									    },
@@ -164,7 +163,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 												    Text(
 													    '$_selectedDateOfPayment',
 												    ),
-												    FlatButton(
+												    TextButton(
 													    onPressed: () {
 														    selectDateTime(context);
 													    },
@@ -186,9 +185,10 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 											    Container(
 												    decoration: roundedCornerButton,
 												    height: 50,
-												    child: FlatButton(
+												    child: TextButton(
 													    onPressed: () async{
-														    file = await FilePicker.getFile();
+														    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+														    file = File(filePickerResult.files.single.path);
 														    List<String> temp = file.path.split('/');
 														    esiMonthlyContributionObejct.addAttachment = temp.last;
 														    setState(() {
@@ -211,7 +211,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 									    
 									    Container(
 										    decoration: roundedCornerButton,
-										    child: FlatButton(
+										    child: TextButton(
 											    child: Text('Save Record'),
 											    onPressed: (){
 											    	saveRecordESI();
@@ -221,7 +221,7 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 					    SizedBox(height: 20,),
 					    helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20ESI"),
 					    SizedBox(
-						    height: 30.0,
+						    height: 70.0,
 					    ),
 				    ],
 			    ),
@@ -237,18 +237,11 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
 			setState(() {
 			  loadingSaveButton = true;
 			});
-			await PaymentRecordToDataBase().AddESIMonthlyContributionPayment(esiMonthlyContributionObejct, widget.client, file);
+			await PaymentRecordToDataBase().addESIMonthlyContributionPayment(esiMonthlyContributionObejct, widget.client, file);
 			Navigator.pop(context);
 		}
 		else{
-			Fluttertoast.showToast(
-					msg: "Please fill all the fields",
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: "Please fill all the fields");
 		}
   }
   

@@ -2,16 +2,16 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForROC.dart';
 import 'package:unified_reminder/models/payment/ROCFormFilling.dart';
 import 'package:unified_reminder/screens/ROC/HistoryDetailsView.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
+// import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class HistoryForROC extends StatefulWidget {
   final Client client;
@@ -35,86 +35,102 @@ class _HistoryForROCState extends State<HistoryForROC> {
     print(widget.stringDateAGM);
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of ROC"),
+        title: Text("ROC History"),
       ),
       body: Container(
-        padding: EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<HistoryCompliancesObjectForROC>>(
-                future: HistoriesDatabaseHelper()
-                    .getHistoryOfROF(widget.client,widget.stringDateAGM),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<HistoryCompliancesObjectForROC>> snapshot) {
-                  
+                future: HistoriesDatabaseHelper().getHistoryOfROF(widget.client,widget.stringDateAGM),
+                builder: (BuildContext context, AsyncSnapshot<List<HistoryCompliancesObjectForROC>> snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        print(widget.stringDateAGM);
-                        return Container(
-                          decoration: roundedCornerButton,
-                          margin: EdgeInsets.symmetric(vertical: 10.0),
+                    print(snapshot.data.length == 0 );
+                      return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          print(widget.stringDateAGM);
+                            return Container(
+                                decoration: roundedCornerButton,
+                                margin: EdgeInsets.symmetric(vertical: 10.0),
 //                          color: buttonColor,
-                          child: ListTile(
-                            title: Column(
-                              children: <Widget>[
-                                SizedBox(height: 5,),
-                                Text(snapshot.data[index].formType != null ?snapshot.data[index].formType: 'error 2',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                child: ListTile(
+                                  title: Column(
+                                    children: <Widget>[
+                                      SizedBox(height: 5,),
+                                      Text(snapshot.data[index].formType != null
+                                          ? snapshot.data[index].formType
+                                          : 'error 2',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Divider(thickness: 2.5),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(height: 5,),
-                                Divider(thickness: 2.5),
-                              ],
-                            ),
-                            
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                SizedBox(height: 10,),
-                                
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text("SRN Number : "),
-                                    SizedBox(width: 5,),
-                                    Text(snapshot.data[index].SRNNumber != null ? snapshot.data[index].SRNNumber : "error 1",),
-                                  ],
-                                ),
-                                SizedBox(height: 10,),
-                                
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text("Date : "),
-                                    SizedBox(width: 5,),
-                                    Text(snapshot.data[index].dateOfFilling != null ? snapshot.data[index].dateOfFilling : "error3"),
-                                  ],
-                                ),
-                                SizedBox(height: 10,),
-                                Text("Long press to edit Info",style: TextStyle(fontSize: 10,fontStyle: FontStyle.italic),textAlign: TextAlign.end),
-                              ],
-                            ),
-                            
-                            trailing: snapshot.data[index].SRNNumber != 'No History Found'?GestureDetector(
-                                child: Icon(Icons.delete),
-                              onTap: () async{
-                                  await deleteRecord(snapshot.data[index].formType);
-                              },
-                            ):Container(),
-                            
-                            onLongPress: () async{
-                              await editRecord(snapshot.data[index].formType, snapshot.data[index].SRNNumber, snapshot.data[index].dateOfFilling);
-                            },
-                          ),
-                        );
-                      },
-                    );
+        
+                                  subtitle: snapshot.data[index].formType != "No history found" ? Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      SizedBox(height: 10,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text("SRN Number : "),
+                                          SizedBox(width: 5,),
+                                          Text(
+                                            snapshot.data[index].SRNNumber != null
+                                                ? snapshot.data[index].SRNNumber
+                                                : "error 1",),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10,),
+            
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text("Date : "),
+                                          SizedBox(width: 5,),
+                                          Text(snapshot.data[index]
+                                              .dateOfFilling !=
+                                              null ? snapshot.data[index]
+                                              .dateOfFilling : "error3"),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Text("Long press to edit Info",
+                                          style: TextStyle(fontSize: 10,
+                                              fontStyle: FontStyle.italic),
+                                          textAlign: TextAlign.end),
+                                    ],
+                                  ) : Container(),
+        
+                                  trailing: GestureDetector(
+                                    child: snapshot.data[index].formType != "No history found" ?Icon(Icons.delete):Icon(Icons.remove),
+                                    onTap: () async {
+                                      if(snapshot.data[index].formType != "No history found") {
+                                        await deleteRecord(snapshot.data[index].formType);
+                                        setState(() {});
+                                      }
+                                    },
+                                  ),
+                                  
+                                  onLongPress: () async {
+                                    if (snapshot.data[index].formType != 'No history found') {
+                                      await editRecord(
+                                          snapshot.data[index].formType,
+                                          snapshot.data[index].SRNNumber,
+                                          snapshot.data[index].dateOfFilling);
+                                    }
+                                  },
+                                )
+                            );
+                        },
+                      );
                   }
                   else
                     return Container(
@@ -131,7 +147,9 @@ class _HistoryForROCState extends State<HistoryForROC> {
                     );
                 },
               ),
-            )
+            ),
+            
+            SizedBox(height: 70),
           ],
         ),
       ),
@@ -187,7 +205,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Yes'),
                 onPressed: () async{
                   String firebaseUserId= await SharedPrefs.getStringPreference("uid");
@@ -201,18 +219,11 @@ class _HistoryForROCState extends State<HistoryForROC> {
                       .remove();
                   
                   Navigator.of(context).pop();
-                  Fluttertoast.showToast(
-                      msg: 'Deleted Successfully',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIos: 1,
-                      backgroundColor: Color(0xff666666),
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  flutterToast(message: 'Deleted Successfully');
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('No'),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -280,7 +291,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Save AGM Date'),
                 onPressed: () async{
                   String firebaseUserId= await SharedPrefs.getStringPreference("uid");
@@ -296,14 +307,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
                     'Date of Filing': dateOfFiling,
                   });
                   Navigator.of(context).pop();
-                  Fluttertoast.showToast(
-                      msg: 'Successfully Updated',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIos: 1,
-                      backgroundColor: Color(0xff666666),
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  flutterToast(message: 'Successfully Updated');
                 },
               )
             ],

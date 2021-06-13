@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
 import 'package:unified_reminder/screens/PPF/HistoryDetailsView.dart';
@@ -21,10 +20,10 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of PPF"),
+        title: Text("PPF History"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -38,7 +37,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
+                        return TextButton(
                           onPressed: () =>
                               _getHistoryDetails(snapshot.data[index].key),
                           child: Container(
@@ -48,7 +47,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
                               title: Text(snapshot.data[index].date),
                               subtitle: Text(snapshot.data[index].type),
                               trailing:
-                                  Text(snapshot.data[index].amount != "null"?"INR ${snapshot.data[index].amount}":" "),
+                                  Text(snapshot.data[index].amount != "0"?"INR ${snapshot.data[index].amount}":" "),
                             ),
                           ),
                         );
@@ -69,14 +68,16 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
                     );
                 },
               ),
-            )
+            ),
+            
+            SizedBox(height: 70),
           ],
         ),
       ),
     );
   }
 
-  Future<void> _getHistoryDetails(String key) async {
+  Future<Null> _getHistoryDetails(String key) async {
     if (key != null) {
       PPFRecordObject ppfRecordObject = PPFRecordObject();
 
@@ -93,7 +94,7 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete((){setState(() {});});
       }
     }
   }

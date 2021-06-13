@@ -1,28 +1,28 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';
 import 'package:unified_reminder/screens/EPF/UpcomingCompliancesEPF.dart';
 import 'package:unified_reminder/screens/ESIC/HistoryESI.dart';
-import 'package:unified_reminder/screens/ESIC/Upcomingcompliances2.dart';
+import 'package:unified_reminder/screens/ESIC/UpcomingCompliancesESIC.dart';
 import 'package:unified_reminder/screens/FD/History.dart';
 import 'package:unified_reminder/screens/FD/Record.dart';
 import 'package:unified_reminder/screens/GST/HistoryGST.dart';
 import 'package:unified_reminder/screens/GST/UpcomingCompliancesGST.dart';
 import 'package:unified_reminder/screens/IncomeTax/ComplianceHistory.dart';
 import 'package:unified_reminder/screens/IncomeTax/UpComingComliancesScreen.dart';
-import 'package:unified_reminder/screens/LIC/ComplianceHistoryForTDS.dart';
-import 'package:unified_reminder/screens/LIC/Payment.dart';
+import 'package:unified_reminder/screens/LIC/AddedPortfolios.dart';
+import 'package:unified_reminder/screens/LIC/AddPolicy.dart';
 import 'package:unified_reminder/screens/LIC/UpComingComliancesScreen.dart';
 import 'package:unified_reminder/screens/MF/AddMFScreen.dart';
-import 'package:unified_reminder/screens/MF/HistoryTrial.dart';
+import 'package:unified_reminder/screens/MF/MfRecords.dart';
 import 'package:unified_reminder/screens/PPF/History.dart';
 import 'package:unified_reminder/screens/PPF/Record.dart';
 import 'package:unified_reminder/screens/ROC/History.dart';
 import 'package:unified_reminder/screens/ROC/UpComingCompliancesScreen.dart';
 import 'package:unified_reminder/screens/TDS/History.dart';
-import 'package:unified_reminder/screens/TDS/UpcommingCompliances2.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/screens/TDS/UpcommingCompliancesTDS.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 
 	 FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 	 DatabaseReference dfb;
@@ -41,17 +41,17 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 					 .child('ROC')
 					 .child(firebaseUserId)
 					 .child(client.email.replaceAll('.', ','));
-			 print('1');
+			 // print('1');
 			 await dfb.once().then((DataSnapshot snapshot){
-				 print('2');
+				 // print('2');
 				 Map<dynamic,dynamic> values = snapshot.value;
-				 print('3');
+				 // print('3');
 				 stringDateAGM = values.keys.first.toString();
 			 });
-			 print('4');
+			 // print('4');
 			 agmRecorded = true;
 		 }catch(e){
-			 print('error');
+			 // print('error');
 			 agmRecorded = true;
 		 }
 	 }
@@ -59,7 +59,6 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 
 	
 	Widget listItem(String item , Client client,BuildContext context) {
-	 
 		switch(item){
 			case 'TDS':
 				return Column(
@@ -91,7 +90,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 									  ),
 								  );
 						  	},
-						  	child: Text("Future Compliances"),
+						  	child: Text("Upcoming Compliances"),
 						  ),
 						),
 					],
@@ -170,7 +169,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 										  context,
 										  MaterialPageRoute(
 												  builder: (context) =>
-														  UpComingComliancesScreenForIncomeTax(
+														  UpComingCompliancesScreenForIncomeTax(
 															  client: client,
 														  )));
 						  	},
@@ -276,7 +275,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 						  child: GestureDetector(
 						  	onTap: (){
 								  Navigator.of(context).push(MaterialPageRoute(
-										  builder: (context) => HistoryMFTry(
+										  builder: (context) => MfRecords(
 											  client: client,
 										  )));
 						  	},
@@ -323,7 +322,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 													),
 										),
 									);},
-								child: Text("History Compliances"),
+								child: Text("History of Compliances"),
 							),
 						),
 							
@@ -398,7 +397,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 						  child: GestureDetector(
 						  	onTap: (){
 								  Navigator.of(context).push(MaterialPageRoute(
-										  builder: (context) => ComplianceHistoryForLIC(
+										  builder: (context) => AddedPortfolios(
 											  client: client,
 										  )));
 						  	},
@@ -413,7 +412,7 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 								  Navigator.push(
 									  context,
 									  MaterialPageRoute(
-										  builder: (context) => UpCommingComliancesScreenForLIC(
+										  builder: (context) => UpComingCompliancesScreenForLIC(
 											  client: client,
 										  ),
 									  ),
@@ -476,6 +475,9 @@ import 'package:unified_reminder/services/SharedPrefs.dart';
 					],
 				);
 				break;
+				
+			default:
+				return Container();
 		}
 	}
 	

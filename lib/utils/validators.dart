@@ -34,7 +34,7 @@ String validatePasswordMatch(String pass1, String pass2) {
 }
 
 Future<bool> showConfirmationDialog(BuildContext context) async{
-  bool r ;
+  bool result ;
   await showDialog<bool>(
       context: context,
       builder: (BuildContext context){
@@ -59,18 +59,18 @@ Future<bool> showConfirmationDialog(BuildContext context) async{
           ),
           
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('Confirm'),
               onPressed: () async{
                 Navigator.of(context).pop();
-                r =true;
+                result =true;
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text('Cancel'),
               onPressed: (){
                 Navigator.of(context).pop();
-                r =false;
+                result =false;
               },
             )
           ],
@@ -78,7 +78,7 @@ Future<bool> showConfirmationDialog(BuildContext context) async{
       }
   );
   
-  if(r){
+  if(result){
     return true;
   }
   else{

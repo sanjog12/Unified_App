@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/doneComplianceObject.dart';
-import 'package:unified_reminder/screens/LIC/Payment.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/DoneComplianceObject.dart';
+import 'package:unified_reminder/screens/LIC/AddPolicy.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
-class UpCommingComliancesScreenForLIC extends StatefulWidget {
+class UpComingCompliancesScreenForLIC extends StatefulWidget {
   final Client client;
 
-  const UpCommingComliancesScreenForLIC({this.client});
+  const UpComingCompliancesScreenForLIC({this.client});
   
 
   @override
-  _UpCommingComliancesScreenForLICState createState() =>
-      _UpCommingComliancesScreenForLICState();
+  _UpComingCompliancesScreenForLICState createState() =>
+      _UpComingCompliancesScreenForLICState();
 }
 
-class _UpCommingComliancesScreenForLICState
-    extends State<UpCommingComliancesScreenForLIC> {
+class _UpComingCompliancesScreenForLICState
+    extends State<UpComingCompliancesScreenForLIC> {
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
 
@@ -36,49 +36,15 @@ class _UpCommingComliancesScreenForLICState
 
   
   
-  Future<List<UpComingComplianceObject>> _getUpComings() async {
-    todayDateObject = TodayDateObject(
-      
-        year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
-    List<UpComingComplianceObject> compliancesForListView = [];
-    List<UpComingComplianceObject> compliances =
-        await UpComingComplianceDatabaseHelper()
-            .getUpComingCompliancesForMonthOfLIC(widget.client);
 
-    String clientEmail = widget.client.email.replaceAll('.', ',');
-
-    List<doneComplianceObject> clientDones =
-        await UpComingComplianceDatabaseHelper()
-            .getClientDoneCompliances(clientEmail, todayDateObject, 'LIC');
-
-    compliances.forEach((element) {
-      if (getSingleDone(clientDones, element.key)) {
-        compliancesForListView.add(element);
-      }
-    });
-    if (compliancesForListView.length <= 0) {
-      UpComingComplianceObject upComingComplianceObject =
-          UpComingComplianceObject(
-              key: 'nothing',
-              date: ' ',
-              label: 'No TDS Compliance in this month');
-
-      compliancesForListView.add(upComingComplianceObject);
-    }
-    return compliancesForListView;
-  }
-
-  bool getSingleDone(List<doneComplianceObject> dones, String subkey) {
-    print(dones[0].key);
-    if (dones[0].key != null) {
-      doneComplianceObject singleDone;
-      dones.forEach((element) {
+  bool getSingleDone(List<DoneComplianceObject> done, String subKey) {
+    print(done[0].key);
+    if (done[0].key != null) {
+      DoneComplianceObject singleDone;
+      done.forEach((element) {
         print(element.key);
-//      String oo = element.key.replaceAll(' ', '');
-////      print(oo);
-        if (subkey == element.key) {
+        if (subKey == element.key) {
           singleDone = element;
-//          print(element.key);
         }
       });
 
@@ -94,21 +60,20 @@ class _UpCommingComliancesScreenForLICState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("LIC Upcoming Compliances"),
+        title: Text("LIC Upcoming Premium Date"),
         actions: <Widget>[
           helpButtonActionBar('https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20LIC'),
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<UpComingComplianceObject>>(
                 future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfLIC(widget.client),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
@@ -116,23 +81,30 @@ class _UpCommingComliancesScreenForLICState
                         print(snapshot.data);
                         return GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LICPayment(
-                                  client: widget.client,
-                                ),
-                              ),
-                            );
                           },
-                          child: Container(
-                            decoration: roundedCornerButton,
-                            margin: EdgeInsets.symmetric(vertical: 10.0),
-                            child: ListTile(
-                              title: Text(
-                                  '${snapshot.data[index].label} for ${snapshot.data[index].name} '
-                                      '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
-                            ),
+                          child: Column(
+                            children: [
+                              snapshot.data[index].notMissed?Container(
+                                decoration: roundedCornerButton,
+                                margin: EdgeInsets.symmetric(vertical: 10.0),
+                                child: ListTile(
+                                  title: Text(
+                                      '${snapshot.data[index].label} for ${snapshot.data[index].name} '
+                                          '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
+                                ),
+                              ):Container(),
+  
+                              !snapshot.data[index].notMissed?Container(
+                                decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
+                                margin: EdgeInsets.symmetric(vertical: 10.0),
+                                child: ListTile(
+                                  title: Text(
+                                      '${snapshot.data[index].label} for ${snapshot.data[index].name} '
+                                          '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
+                                  subtitle: Text("Missed Compliances"),
+                                ),
+                              ):Container(),
+                            ],
                           ),
                         );
                       },
@@ -153,7 +125,8 @@ class _UpCommingComliancesScreenForLICState
                   }
                 },
               ),
-            )
+            ),
+            SizedBox(height: 70,),
           ],
         ),
       ),

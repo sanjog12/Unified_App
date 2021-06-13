@@ -6,15 +6,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
-import 'package:unified_reminder/screens/GST/HistoryGST.dart';
-import 'package:unified_reminder/services/PDFView.dart';
+import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
-import 'package:unified_reminder/styles/colors.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -157,7 +154,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 							    SizedBox(height: 10,),
 							    edit?TextFormField(
 								    initialValue: widget.gstPaymentObject.amountOfPayment,
-								    decoration: buildCustomInput(hintText: 'Amount of Payment'),
+								    decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
 								    onChanged: (String value){
 									    _gstPaymentObject.amountOfPayment = value;
 								    },
@@ -165,7 +162,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 									    :Container(
 								    padding: EdgeInsets.all(15),
 								    decoration: fieldsDecoration,
-								    child: Text(
+								    child: Text("\u{20B9} " +
 									    widget.gstPaymentObject.amountOfPayment,
 								    ),
 							    ),
@@ -188,7 +185,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 											    Text(
 												    '$selectedDateDB',
 											    ),
-											    FlatButton(
+											    TextButton(
 												    onPressed: () {
 													    selectDateTime(context);
 												    },
@@ -219,9 +216,10 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 							    Container(
 								    decoration: roundedCornerButton,
 								    height: 50,
-								    child: FlatButton(
+								    child: TextButton(
 									    onPressed: () async{
-										    file = await FilePicker.getFile();
+										    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+										    file = File(filePickerResult.files.single.path);
 										    List<String> temp = file.path.split('/');
 										    print(temp.last);
 										    setState(() {
@@ -250,7 +248,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						    children: <Widget>[
 						    	Container(
 								    decoration: roundedCornerButton,
-						    	  child: FlatButton(
+						    	  child: TextButton(
 								    child: Row(
 									    mainAxisAlignment: MainAxisAlignment.spaceBetween,
 								      children: <Widget>[
@@ -284,17 +282,15 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						    children: <Widget>[
 							    Container(
 								    decoration: roundedCornerButton,
-								    child: edit
-										    ?FlatButton(
-									    color: buttonColor,
+								    child: edit ?
+								    TextButton(
 									    child: Text("Save Changes"),
 									    onPressed: () async{
 										    await editRecord();
 										    Navigator.pop(context);
 									    },
-								    )
-										    :FlatButton(
-									    color: buttonColor,
+								    ) :
+								    TextButton(
 									    child: Text("Edit"),
 									    onPressed: (){
 										    setState(() {
@@ -310,8 +306,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 							
 							    Container(
 								    decoration: roundedCornerButton,
-								    child: FlatButton(
-									    color: buttonColor,
+								    child: TextButton(
 									    child: loadingDelete
 											    ?Center(
 										    child: CircularProgressIndicator(
@@ -332,6 +327,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 							    ),
 						    ],
 					    ),
+					    SizedBox(height: 70,),
 				    ],
 			    ),
 		    ),
@@ -354,7 +350,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 				FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 				if(widget.gstPaymentObject.addAttachment != "null"){
 					print("2");
-					String path =  firebaseStorage.ref().child('files').child(widget.gstPaymentObject.addAttachment).path;
+					String path =  firebaseStorage.ref().child('files').child(widget.gstPaymentObject.addAttachment).fullPath;
 					print("3");
 					await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
 				}
@@ -385,27 +381,16 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 			 'dueDate' : _gstPaymentObject.dueDate,
 			 'section' : _gstPaymentObject.section,
 			});
-			Navigator.pop(context);
 			recordEditToast();
 			
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
+		}on FirebaseException catch(e){
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 	
@@ -436,7 +421,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									await deleteRecord();
@@ -444,7 +429,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -470,7 +455,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						.ref()
 						.child('files')
 						.child(widget.gstPaymentObject.addAttachment)
-						.path;
+						.fullPath;
 				await firebaseStorage.ref().child(path).delete().then((_) =>
 						print("Done Task"));
 			}
@@ -506,23 +491,14 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 //			);
 			
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
-		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
+		}on FirebaseException catch(e){
+			flutterToast(message: e.message);
+		}
+		catch(e){
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
  
@@ -553,7 +529,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									try {
@@ -562,7 +538,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 												.ref()
 												.child('files')
 												.child(widget.gstPaymentObject.addAttachment)
-												.path;
+												.fullPath;
 										firebaseStorage = FirebaseStorage.instance;
 										await firebaseStorage.ref().child(path).delete();
 										print("here");
@@ -579,21 +555,14 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 										});
 										Navigator.of(context).pop();
 										Navigator.pop(context);
-										Fluttertoast.showToast(
-												msg: "PDF Deleted",
-												toastLength: Toast.LENGTH_SHORT,
-												gravity: ToastGravity.BOTTOM,
-												timeInSecForIos: 1,
-												backgroundColor: Color(0xff666666),
-												textColor: Colors.white,
-												fontSize: 16.0);
+										flutterToast(message: "PDF Deleted");
 									}catch(e){
 										print(e.toString());
 									}
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -603,14 +572,8 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 					);
 				}
 		);}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 }

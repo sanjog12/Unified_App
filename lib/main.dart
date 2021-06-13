@@ -1,33 +1,113 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
+import 'package:unified_reminder/Bloc/AdsProvider.dart';
+import 'package:unified_reminder/Bloc/DashboardProvider.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/styles/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(Bootstrapper());
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+void main() async{
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  final initAds = MobileAds.instance.initialize();
+  final adState = AdState(initAds);
+
+  FirebaseMessaging.onBackgroundMessage(backGroundNotificationHandler);
+  
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=>DashboardProvider()),
+        Provider.value(value: adState),
+      ],
+      child: Bootstrapper(),)
+  );
 }
 
-class Bootstrapper extends StatelessWidget {
+class Bootstrapper extends StatefulWidget {
+  @override
+  _BootstrapperState createState() => _BootstrapperState();
+}
+
+class _BootstrapperState extends State<Bootstrapper>{
+  
+  bool initialized = false;
+  bool error = false;
+  
+  
+  // Define an async function to initialize FlutterFire
+  void initializeFlutterFire() async {
+    try {
+      // await MobileAds.instance.initialize();
+      await Firebase.initializeApp();
+      AwesomeNotifications().initialize(
+          'resource://drawable/ic_stat_name',
+          [
+            NotificationChannel(
+                channelKey: 'basic_channel',
+                channelName: 'Basic notifications',
+                channelDescription: 'Notification channel for basic tests',
+                defaultColor: Color(0xFF9D50DD),
+                ledColor: Colors.white
+            )
+          ]
+      );
+      
+
+      setState(() {
+        initialized = true;
+      });
+    } catch(e) {
+      setState(() {
+        error = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    initializeFlutterFire();
+    AwesomeNotifications().actionStream.forEach((element) {print(element.buttonKeyPressed);});
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: buttonColor,
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed))
+                  return Color(0xff4D5163);
+                return null; // Use the component's default.
+              },
+            ),
+          ),
+        ),
         scaffoldBackgroundColor: backgroundColor,
         textTheme: TextTheme(
-          title: TextStyle(fontFamily: "ProximaNova"),
-          body1: TextStyle(
+          headline6: TextStyle(fontFamily: "ProximaNova"),
+          bodyText2: TextStyle(
             fontFamily: "ProximaNova",
             fontSize: 16.0,
           ),
         ),
       ),
       themeMode: ThemeMode.dark,
-      onGenerateRoute: onGenerateRoute,
-      home: Wrapper(),
+      home: initialized ? Wrapper():Container(),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
@@ -26,24 +26,24 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("History of Compliances of EPF"),
+        title: Text("EPF History"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<HistoryComplinceObject>>(
                 future: HistoriesDatabaseHelper()
-                    .getComplincesHistoryOfEPF(widget.client),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
+                    .getCompliancesHistoryOfEPF(widget.client),
+                builder: (BuildContext context, AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
                   if (snapshot.hasData) {
+                    print(snapshot.data.first.date);
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
+                        return TextButton(
                           onPressed: () {
                             if(snapshot.data[index].type == 'Monthly Contribution') {
                               _getHistoryDetails(snapshot.data[index].key);
@@ -80,7 +80,8 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
                     );
                 },
               ),
-            )
+            ),
+            SizedBox(height: 70,),
           ],
         ),
       ),
@@ -89,8 +90,8 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
 
   Future<void> _getHistoryDetails(String key) async {
     if (key != null) {
-      EPFMonthlyContributionObejct epfMonthlyContributionObejct =
-          EPFMonthlyContributionObejct();
+      EPFMonthlyContributionObject epfMonthlyContributionObejct =
+          EPFMonthlyContributionObject();
 
       epfMonthlyContributionObejct = await SingleHistoryDatabaseHelper()
           .getEPFHistoryDetails(widget.client, key);
@@ -105,7 +106,7 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete((){setState(() {});});
       }
     }
   }
@@ -128,7 +129,7 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
               keyDB: key,
             ),
           ),
-        );
+        ).whenComplete((){setState(() {});});
       }
     }
   }

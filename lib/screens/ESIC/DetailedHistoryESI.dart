@@ -1,18 +1,15 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/ESIMonthlyContributionObejct.dart';
-import 'package:unified_reminder/services/PDFView.dart';
+import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
-import 'package:unified_reminder/styles/colors.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -77,7 +74,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Details'),
+		    title: Text('ESI Details'),
 	    ),
 	    
 	    body: SingleChildScrollView(
@@ -103,7 +100,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 									    Text(
 										    '$selectedDateDB',
 									    ),
-									    FlatButton(
+									    TextButton(
 										    onPressed: () {
 											    selectDateTime(context);
 										    },
@@ -165,7 +162,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						
 						    edit?TextFormField(
 							    initialValue: widget.esiMonthlyContributionObejct.amountOfPayment,
-							    decoration: buildCustomInput(hintText: 'Amount of Payment'),
+							    decoration: buildCustomInput(hintText: 'Amount of Payment', prefixText: "\u{20B9}"),
 							    onChanged: (String value){
 								    _esiMonthlyContributionObejct.amountOfPayment= value;
 							    },
@@ -173,7 +170,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 								    :Container(
 							    padding: EdgeInsets.all(15),
 							    decoration: fieldsDecoration,
-							    child: Text(
+							    child: Text("\u{20B9} " +
 								    widget.esiMonthlyContributionObejct.amountOfPayment,
 								    style: TextStyle(color: Colors.white),
 							    ),
@@ -190,9 +187,10 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						    SizedBox(height: 10,),
 						    Container(
 							    height: 50,
-							    child: FlatButton(
+							    child: TextButton(
 								    onPressed: () async{
-									    file = await FilePicker.getFile();
+									    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+									    file = File(filePickerResult.files.single.path);
 									    List<String> temp = file.path.split('/');
 									    print(temp.last);
 									    setState(() {
@@ -200,7 +198,6 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 										    newFile = true;
 									    });
 								    },
-								    color: buttonColor,
 								
 								    child: Row(
 									    children: <Widget>[
@@ -221,7 +218,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 					    children: <Widget>[
 						    Container(
 						      decoration: roundedCornerButton,
-						      child: FlatButton(
+						      child: TextButton(
 							    child: Row(
 								    mainAxisAlignment: MainAxisAlignment.spaceBetween,
 								    children: <Widget>[
@@ -254,12 +251,12 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						
 						    Container(
 							    decoration: roundedCornerButton,
-							    child: edit?FlatButton(
+							    child: edit?TextButton(
 								    child: Text("Save Changes"),
 								    onPressed: (){
 									    editRecord();
 								    },
-							    ) :FlatButton(
+							    ) :TextButton(
 								    child: Text("Edit"),
 								    onPressed: (){
 									    setState(() {
@@ -273,7 +270,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						
 						    Container(
 							    decoration: roundedCornerButton,
-							    child: FlatButton(
+							    child: TextButton(
 								    child: Text("Delete Record"),
 								    onPressed: () async{
 									    loadingDelete = true;
@@ -286,7 +283,8 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							    ),
 						    ),
 					    ],
-				    )
+				    ),
+				    SizedBox(height: 70,),
 			    ],
 		    ),
 	      ),
@@ -314,7 +312,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							.ref()
 							.child('files')
 							.child(widget.esiMonthlyContributionObejct.addAttachment)
-							.path;
+							.fullPath;
 					await firebaseStorage.ref().child(path).delete().then((_) =>
 							print("Done Task"));
 				}
@@ -322,7 +320,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 				String name = await PaymentRecordToDataBase().uploadFile(file);
 				print("5");
 				dbf = firebaseDatabase.reference();
-				dbf
+				await dbf
 						.child('complinces')
 						.child('ESIMonthlyContributionPayments')
 						.child(firebaseUserId)
@@ -331,9 +329,13 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						.update({
 					'addAttachment': name,
 				});
+				
+				setState(() {
+				  widget.esiMonthlyContributionObejct.addAttachment = name;
+				});
 			}
 			
-			dbf
+			await dbf
 					.child('complinces')
 					.child('ESIMonthlyContributionPayments')
 					.child(firebaseUserId)
@@ -347,23 +349,11 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 			recordEditToast();
 			
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 	
@@ -391,14 +381,14 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							),
 						),
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									Navigator.of(context).pop();
 									await deleteRecord();
 								},
 							),
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -424,7 +414,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						.ref()
 						.child('files')
 						.child(widget.esiMonthlyContributionObejct.addAttachment)
-						.path;
+						.fullPath;
 				await firebaseStorage.ref().child(path).delete().then((_) =>
 						print("Done Task"));
 			}catch(e){
@@ -441,31 +431,13 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 			recordDeletedToast();
 			Navigator.pop(context);
 			Navigator.pop(context);
-//			Navigator.push(context,
-//				MaterialPageRoute(
-//					builder: (context) => HistoryESI(
-//						client: widget.client,
-//					)
-//				)
-//			);
+
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 	
@@ -496,7 +468,7 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 							),
 							
 							actions: <Widget>[
-								FlatButton(
+								TextButton(
 									child: Text('Confirm'),
 									onPressed: () async{
 										try {
@@ -505,13 +477,13 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 													.ref()
 													.child('files')
 													.child(widget.esiMonthlyContributionObejct.addAttachment)
-													.path;
+													.fullPath;
 											firebaseStorage = FirebaseStorage.instance;
 											await firebaseStorage.ref().child(path).delete();
 											print("here");
 											await fireUser();
 											dbf = firebaseDatabase.reference();
-											dbf
+											await dbf
 													.child('complinces')
 													.child('ESIMonthlyContributionPayments')
 													.child(firebaseUserId)
@@ -520,23 +492,18 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 													.update({
 												'addAttachment': 'null',
 											});
-											Navigator.of(context).pop();
-											Navigator.of(context).reassemble();
-											Fluttertoast.showToast(
-													msg: "PDF Deleted",
-													toastLength: Toast.LENGTH_SHORT,
-													gravity: ToastGravity.BOTTOM,
-													timeInSecForIos: 1,
-													backgroundColor: Color(0xff666666),
-													textColor: Colors.white,
-													fontSize: 16.0);
+											setState(() {
+											  widget.esiMonthlyContributionObejct.addAttachment = 'null';
+													
+											});
+											flutterToast(message: "PDF Deleted");
 										}catch(e){
 											print(e.toString());
 										}
 									},
 								),
 								
-								FlatButton(
+								TextButton(
 									child: Text('Cancel'),
 									onPressed: (){
 										Navigator.of(context).pop();
@@ -546,14 +513,8 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 						);
 					}
 			);}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
  

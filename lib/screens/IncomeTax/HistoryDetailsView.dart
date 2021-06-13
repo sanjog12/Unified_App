@@ -5,13 +5,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/IncomeTaxPaymentObject.dart';
-import 'package:unified_reminder/services/PDFView.dart';
+import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -33,8 +32,7 @@ class IncomeTaxPaymentRecordRecordHistoryDetailsView extends StatefulWidget {
       _IncomeTaxPaymentRecordRecordHistoryDetailsViewState();
 }
 
-class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
-    extends State<IncomeTaxPaymentRecordRecordHistoryDetailsView> {
+class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeTaxPaymentRecordRecordHistoryDetailsView> {
   
   bool loadingDelete = false ;
   bool edit = false;
@@ -84,7 +82,6 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
     super.initState();
     _incomeTaxPaymentObject = widget.incomeTaxPaymentObject;
     selectedDateDB = widget.incomeTaxPaymentObject.dateOfPayment;
-    
   }
   
   @override
@@ -96,13 +93,13 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
                 "${widget.client.name}\'s Income Tax Payment Details",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -159,7 +156,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                           :Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
-                        child: Text(
+                        child: Text( "\u{20B9} " +
                           widget.incomeTaxPaymentObject.amountOfPayment,
                           style: TextStyle(
                             color: whiteColor,
@@ -216,7 +213,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                             Text(
                               '$selectedDateDB',
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 selectDateTime(context);
                               },
@@ -245,10 +242,11 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                       SizedBox(height: 10,),
                       Container(
                         height: 50,
-                        child: FlatButton(
-                          color: buttonColor,
+                        child: TextButton(
                           onPressed: () async{
-                            file = await FilePicker.getFile();
+                            await FilePicker.platform.pickFiles().then((value){
+                            
+                            });
                             List<String> temp = file.path.split('/');
                             print(temp.last);
                             setState(() {
@@ -277,7 +275,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                       SizedBox(height: 30,),
                       Container(
                         decoration: roundedCornerButton,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -309,17 +307,15 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                     children: <Widget>[
                       Container(
                         decoration: roundedCornerButton,
-                        child: edit
-                            ?FlatButton(
-                          color: buttonColor,
+                        child: edit ?
+                        TextButton(
                           child: Text("Save Changes"),
                           onPressed: () async{
                             await editRecord();
                             Navigator.pop(context);
                           },
-                        )
-                            :FlatButton(
-                          color: buttonColor,
+                        ) :
+                        TextButton(
                           child: Text("Edit"),
                           onPressed: (){
                             setState(() {
@@ -335,10 +331,9 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
       
                       Container(
                         decoration: roundedCornerButton,
-                        child: FlatButton(
-                          color: buttonColor,
-                          child: loadingDelete
-                              ?Center(
+                        child: TextButton(
+                          child: loadingDelete ?
+                          Center(
                             child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>
                                 (Colors.white),
@@ -357,7 +352,8 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                       ),
                     ],)
                 ],
-              )
+              ),
+              SizedBox(height: 70,),
             ],
           ),
         ),
@@ -381,7 +377,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
         FirebaseStorage firebaseStorage = FirebaseStorage.instance;
         if(widget.incomeTaxPaymentObject.addAttachment != "null"){
           print("2");
-          String path =  firebaseStorage.ref().child('files').child(widget.incomeTaxPaymentObject.addAttachment).path;
+          String path =  firebaseStorage.ref().child('files').child(widget.incomeTaxPaymentObject.addAttachment).fullPath;
           print("3");
           await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
         }
@@ -416,23 +412,11 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
       recordEditToast();
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
 
@@ -463,7 +447,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
             ),
           
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Confirm'),
                 onPressed: () async{
                   Navigator.of(context).pop();
@@ -472,7 +456,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                 },
               ),
             
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: (){
                   Navigator.of(context).pop();
@@ -498,7 +482,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
             .ref()
             .child('files')
             .child(widget.incomeTaxPaymentObject.addAttachment)
-            .path;
+            .fullPath;
         await firebaseStorage.ref().child(path).delete().then((_) =>
             print("Done Task"));
       }
@@ -514,23 +498,11 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
       Navigator.pop(context);
     
     }on PlatformException catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     }catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
 
@@ -560,7 +532,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
               ),
             
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('Confirm'),
                   onPressed: () async{
                     try {
@@ -569,7 +541,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                           .ref()
                           .child('files')
                           .child(widget.incomeTaxPaymentObject.addAttachment)
-                          .path;
+                          .fullPath;
                       firebaseStorage = FirebaseStorage.instance;
                       await firebaseStorage.ref().child(path).delete();
                       print("here");
@@ -586,21 +558,14 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
                       });
                       Navigator.of(context).pop();
                       Navigator.pop(context);
-                      Fluttertoast.showToast(
-                          msg: "PDF Deleted",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIos: 1,
-                          backgroundColor: Color(0xff666666),
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                      flutterToast(message: "PDF Deleted");
                     }catch(e){
                       print(e.toString());
                     }
                   },
                 ),
               
-                FlatButton(
+                TextButton(
                   child: Text('Cancel'),
                   onPressed: (){
                     Navigator.of(context).pop();
@@ -610,14 +575,8 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState
             );
           }
       );}catch(e){
-      Fluttertoast.showToast(
-          msg: e.message.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: "Something went wrong");
     }
   }
   

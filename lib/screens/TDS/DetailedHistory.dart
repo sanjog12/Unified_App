@@ -2,12 +2,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
-import 'package:unified_reminder/screens/TDS/History.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -77,18 +76,18 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 	  final ThemeData _theme = Theme.of(context);
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Detailed History'),
+		    title: Text('TDS Detailed History'),
 	    ),
 	    
 	    body: SingleChildScrollView(
 		    child: Container(
-			    padding: EdgeInsets.all(24),
+			    padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    children: <Widget>[
 				    	
 				    	Text('Details of the payment paid  ${widget.tdsPaymentObject.dateOfPayment}',
-					    style: _theme.textTheme.headline.merge(TextStyle(
+					    style: _theme.textTheme.headline6.merge(TextStyle(
 						    fontSize: 26.0,
 					    )),
 					    ),
@@ -247,7 +246,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 										    Text(
 											    '$_showDateOfPayment',
 										    ),
-										    FlatButton(
+										    TextButton(
 											    onPressed: () {
 												    selectDateTime(context);
 											    },
@@ -282,12 +281,12 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 								    },
 								    keyboardType: TextInputType.numberWithOptions(decimal: true),
 								    decoration:
-								    buildCustomInput(hintText: "Amount of Payment"),
+								    buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
 							    )
 									    :Container(
 									    padding: EdgeInsets.all(15),
 									    decoration: fieldsDecoration,
-									    child: Text(
+									    child: Text( "\u{20B9} " +
 										    widget.tdsPaymentObject.amountOfPayment,
 										    style: TextStyle(color: Colors.white),
 									    ),
@@ -302,15 +301,13 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 						    	Container(
 								    decoration: roundedCornerButton,
 						    	  child: edit
-									      ?FlatButton(
+									      ?TextButton(
 						              child: Text("Save Changes"),
 						              onPressed: () async{
 						              	await editRecord();
-						              	Navigator.pop(context);
 						              },
 					              )
-									      :FlatButton(
-								      color: buttonColor,
+									      :TextButton(
 								      child: Text("Edit"),
 								      onPressed: (){
 								      	setState(() {
@@ -326,8 +323,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 							    
 							    Container(
 								    decoration: roundedCornerButton,
-							      child: FlatButton(
-								      color: buttonColor,
+							      child: TextButton(
 								      child: loadingDelete
 										      ?Center(
 									      child: CircularProgressIndicator(
@@ -378,25 +374,14 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 			  'addAttachment': _tdsPaymentObject.addAttachment,  });
 		
 		  recordEditToast();
+		  setState(() {
+		    edit = false;
+		  });
 		  
 	  }on PlatformException catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message.toString(),
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  flutterToast(message: e.message);
 	  }catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message.toString(),
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  flutterToast(message: "Something went wrong");
 	  }
   }
 	
@@ -427,7 +412,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									Navigator.of(context).pop();
@@ -436,7 +421,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Edit'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -467,26 +452,11 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 			recordDeletedToast();
 			
 			Navigator.pop(context);
-			Navigator.pop(context);
 			
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: "Something went wrong");
 		}
 	}
   

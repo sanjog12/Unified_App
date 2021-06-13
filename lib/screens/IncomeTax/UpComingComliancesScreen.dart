@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/screens/IncomeTax/Payment.dart';
 import 'package:unified_reminder/screens/IncomeTax/ReturnFilling.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
-class UpComingComliancesScreenForIncomeTax extends StatefulWidget {
+class UpComingCompliancesScreenForIncomeTax extends StatefulWidget {
   final Client client;
 
-  const UpComingComliancesScreenForIncomeTax({this.client});
+  const UpComingCompliancesScreenForIncomeTax({this.client});
 
   @override
-  _UpComingComliancesScreenForIncomeTaxState createState() =>
-      _UpComingComliancesScreenForIncomeTaxState();
+  _UpComingCompliancesScreenForIncomeTaxState createState() =>
+      _UpComingCompliancesScreenForIncomeTaxState();
 }
 
-class _UpComingComliancesScreenForIncomeTaxState
-    extends State<UpComingComliancesScreenForIncomeTax> {
+class _UpComingCompliancesScreenForIncomeTaxState
+    extends State<UpComingCompliancesScreenForIncomeTax> {
   static DateTime now = new DateTime.now();
   static DateTime date = new DateTime(now.year, now.month, now.day);
 
@@ -98,14 +98,14 @@ class _UpComingComliancesScreenForIncomeTaxState
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<UpComingComplianceObject>>(
                 future: UpComingComplianceDatabaseHelper()
-                    .getUpComingComplincesForMonthOfIncomeTax(widget.client),
+                    .getUpComingCompliancesForMonthOfIncomeTax(widget.client),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
                   if (snapshot.hasData) {
@@ -113,6 +113,7 @@ class _UpComingComliancesScreenForIncomeTaxState
                       return ListView(
                         children: <Widget>[
                           Container(
+                            decoration: roundedCornerButton,
                             child: ListTile(
                               title: Text("No Upcoming Compliances"),
                             ),
@@ -176,7 +177,8 @@ class _UpComingComliancesScreenForIncomeTaxState
                   }
                 },
               ),
-            )
+            ),
+            SizedBox(height: 70,),
           ],
         ),
       ),

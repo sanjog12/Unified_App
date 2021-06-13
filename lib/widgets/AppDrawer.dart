@@ -1,25 +1,29 @@
 import 'dart:ui';
 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userbasic.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Clients.dart';
-import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Waste/ProUserProfileScreen.dart';
-import 'package:unified_reminder/services/AuthService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/screens/LoginPage.dart';
+import 'file:///C:/Users/sanjo/OneDrive/Desktop/unified_reminder/lib/Screens/PaymentHistoryScreen.dart';
+import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 
 class AppDrawer extends StatelessWidget {
   final UserBasic userBasic;
-  AppDrawer({Key key, this.userBasic}) : super(key: key);
+  final BannerAd bannerAd;
+  AppDrawer({Key key, this.userBasic, this.bannerAd}) : super(key: key);
   
-  List<Map> listItems = [
+  final List<Map> listItems = [
     {"title": "Profile"},
     {"title": "Manage Clients"}
   ];
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -40,25 +44,27 @@ class AppDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-//                  GestureDetector(
-//                      onTap: () {
-//                        Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (context) => ProUserProfileScreen(
-//                              userBasic: userBasic,
-//                            ),
-//                          ),
-//                        );
-//                      },
-//                      child: singleDrawItem('Profile')),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentHistoryScreen(
+                              userBasic: userBasic,
+                            ),
+                          ),
+                        );
+                      },
+                      child: singleDrawItem('Payment History')),
                   SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Clients()));
+                            MaterialPageRoute(builder: (context) => Clients(
+                              userBasic: userBasic,
+                            )));
                       },
                       child: singleDrawItem('Manage Clients')),
                 ],
@@ -83,14 +89,21 @@ class AppDrawer extends StatelessWidget {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    SharedPrefs.removePrefeence("uid");
+                    bannerAd.dispose();
+                    SharedPrefs.removePreference("uid");
                     AuthService().logOutUser();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, LoginPageRoute, (route) => false);
+                    Navigator.popUntil(context,ModalRoute.withName("/dashboard"));
+                    Navigator.push(context, MaterialPageRoute(
+                      builder:(context)=> ShowCaseWidget(
+                        builder: Builder(
+                          builder: (context)=>LoginPage()
+                        ),
+                      ),
+                    ));
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(vertical: 18),
                     decoration: BoxDecoration(
                         border: Border(
                             top: BorderSide(color: whiteColor, width: 1))),
@@ -110,7 +123,7 @@ class AppDrawer extends StatelessWidget {
   Widget singleDrawItem(String label) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: whiteColor, width: 1))),
       child: Text(

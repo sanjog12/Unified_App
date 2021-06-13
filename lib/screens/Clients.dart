@@ -1,17 +1,25 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:http/http.dart' as http;
+import 'package:showcaseview/showcaseview.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/AddSingleClient.dart';
-import 'package:unified_reminder/services/DocumentPaths.dart';
-import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/screens/Dashboard.dart';
+import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class Clients extends StatefulWidget {
+  
+  final UserBasic userBasic;
+  final List<Client> listClient;
+
+  const Clients({Key key, this.userBasic,this.listClient}) : super(key: key);
   @override
   _ClientsState createState() => _ClientsState();
 }
@@ -20,32 +28,26 @@ class _ClientsState extends State<Clients> {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  List<Client> listClient =[];
 
   StreamController _userController;
 
-  loadUser() async {
-    FirestoreService().getClients(firebaseUserId).then((res) async {
-      _userController.add(res);
-      return res;
-    });
-  }
-
-  //  String userFirebaseId = SharedPrefs.getStringPreference("uid");
+  // loadUser() async {
+  //   FirestoreService().getClients(firebaseUserId).then((res) async {
+  //     _userController.add(res);
+  //     return res;
+  //   });
+  // }
+  
   String firebaseUserId;
+  
 
   @override
   void initState() {
     super.initState();
-    getUserId();
+    firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     _userController = new StreamController();
-    Timer.periodic(Duration(seconds: 1), (_) => loadUser());
-  }
-
-  void getUserId() async {
-    var _firebaseUserId = await SharedPrefs.getStringPreference("uid");
-    this.setState(() {
-      firebaseUserId = _firebaseUserId;
-    });
+    // Timer.periodic(Duration(seconds: 3), (_) => loadUser());
   }
 
   @override
@@ -54,22 +56,28 @@ class _ClientsState extends State<Clients> {
       appBar: AppBar(
         title: Text("Clients"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddSingleClient(),
-            ),
-          );
-        },
-        
-        backgroundColor: textboxColor,
-        child: Icon(
-          Icons.add,
-          color: whiteColor,
-        ),
-      ),
+      // floatingActionButton: Container(
+      //   padding: EdgeInsets.only(bottom: 50),
+      //   child: FloatingActionButton(
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(
+      //           builder: (context) => AddSingleClient(
+      //             userBasic: widget.userBasic,
+      //             clientList: [Client("","", "", "","","","")],
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //
+      //     backgroundColor: textboxColor,
+      //     child: Icon(
+      //       Icons.add,
+      //       color: whiteColor,
+      //     ),
+      //   ),
+      // ),
       body: Container(
         padding: EdgeInsets.all(24.0),
         child: Column(
@@ -87,19 +95,36 @@ class _ClientsState extends State<Clients> {
             Expanded(
               child: Container(
                 child: StreamBuilder(
-                  stream: _userController.stream,
-                  builder: (context, snapshot) {
+                  stream: firebaseDatabase.reference().child(FsUserClients).child(firebaseUserId).child('clients').onValue,
+                  builder: (context, AsyncSnapshot<Event> snapshot) {
                     if (snapshot.hasData) {
+                      
+                      print(snapshot.data.snapshot.value);
+                      Map<dynamic,dynamic> map = snapshot.data.snapshot.value;
+                      for(var data in map.entries){
+                        listClient.add(
+                            Client(data.value["name"],
+                            data.value["constitution"],
+                            data.value["company"],
+                            data.value["natureOfBusiness"],
+                            data.value["email"],
+                            data.value["phone"],
+                            data.key));
+                      }
+                      if(map == null){
+                        return CircularProgressIndicator();
+                      }
+                      print(listClient.first.name);
                       return Container(
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                         child: ListView.builder(
-                            itemCount: snapshot.data.length,
+                            itemCount: map.length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 onTap: () {
-                                
+
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -115,24 +140,31 @@ class _ClientsState extends State<Clients> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
-                                          snapshot.data[index].name,
+                                          listClient[index].name,
                                           style: TextStyle(color: whiteColor),
                                         ),
                                         SizedBox(width: 90,),
                                         GestureDetector(child: Icon(Icons.edit),onTap: (){
-                                          showDetails(context,snapshot.data[index],false);
+                                          Navigator.push(context,
+                                            MaterialPageRoute(
+                                              builder: (context)=>AddSingleClient(
+                                                client: listClient[index],
+                                                userBasic: widget.userBasic,
+                                              )
+                                            )
+                                          );
                                         },),
                                         GestureDetector(child: Icon(Icons.delete,color: Colors.red,),onTap: () async{
                                           bool confirm = false;
                                           confirm = await showConfirmationDialog(context);
                                           if(confirm){
-                                            deleteClient(snapshot.data[index].key,snapshot.data[index].email);
+                                            deleteClient(listClient[index].key,listClient[index].email);
                                           }
                                         },),
                                       ],
                                     ),
                                     onTap: (){
-                                      showDetails(context,snapshot.data[index],true);
+                                      showDetails(context,listClient[index]);
                                     },
                                   ),
                                 ),
@@ -144,7 +176,9 @@ class _ClientsState extends State<Clients> {
                         child: Container(
                           width: 50.0,
                           height: 50.0,
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
                         ),
                       );
                     }
@@ -158,8 +192,8 @@ class _ClientsState extends State<Clients> {
     );
   }
 
-  Future<void> showDetails(BuildContext context,details,bool edit) async{
-    Client clientEdit = details;
+  Future<void> showDetails(BuildContext context,details) async{
+    var clientEdit = details;
     return showDialog<void>(
         context: context,
         builder: (BuildContext context){
@@ -183,133 +217,68 @@ class _ClientsState extends State<Clients> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Name:-"),
-                        edit?Text('${details.name}',style: TextStyle(
+                        Text('${details.name}',style: TextStyle(
                           fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip):Container(
-                          width: 100,
-                          child: TextFormField(
-                            initialValue: details.name,
-                            onChanged: (value){
-                              clientEdit.name = value;
-                            },
-                            validator: (value){
-                              return requiredField(value, "Name");
-                            },
-                          ),
-                        )
+                        ),overflow: TextOverflow.clip),
                       ],
                     ),
-                    SizedBox(height: 5,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Phone:-"),
-                        edit?Text('${details.phone}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),):Container(
-                          width: 100,
-                          child: TextFormField(
-                            initialValue: details.phone,
-                            onChanged: (value){
-                              clientEdit.phone = value;
-                            },
-                            validator: (value){
-                              if(value.length != 10){
-                                return "Enter Correct Number";
-                              }
-                              return requiredField(value,"Phone");
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 5,),
+                    // SizedBox(height: 5,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Text("Phone:-"),
+                    //     Text('${details.phone}',style: TextStyle(
+                    //       fontStyle: FontStyle.italic,
+                    //     ),)
+                    //   ],
+                    // ),
+                    SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Email:-"),
-                        edit?Text('${details.email}',style: TextStyle(
+                        Text('${details.email}',style: TextStyle(
                           fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip):Container(
-                          width: 100,
-                          child: TextFormField(
-                            initialValue: details.email,
-                            onChanged: (value){
-                              clientEdit.email = value;
-                            },
-                            validator: (value){
-                              if(value.length == 0){
-                                return requiredField(value, "Email");
-                              }
-                              return validateEmail(value);
-                            },
-                          ),
-                        )
+                        ),overflow: TextOverflow.clip)
                       ],
                     ),
-                    SizedBox(height: 5,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Company:-"),
-                        edit?Text('${details.company}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip):Container(
-                          width: 100,
-                          child: TextFormField(
-                            initialValue: details.company,
-                            onChanged: (value){
-                              clientEdit.company = value;
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 5,),
+                    // SizedBox(height: 5,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Text("Company:-"),
+                    //     Text('${details.company}',style: TextStyle(
+                    //       fontStyle: FontStyle.italic,
+                    //     ),overflow: TextOverflow.clip)
+                    //   ],
+                    // ),
+                    SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Constitution:-"),
-                        edit?Text('${details.constitution}',style: TextStyle(
+                        Text('${details.constitution}',style: TextStyle(
                           fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip):Container(
-                          width: 100,
-                          child: TextFormField(
-                            initialValue: details.constitution,
-                            onChanged: (value){
-                              clientEdit.constitution = value;
-                            },
-                          ),
-                        )
+                        ),overflow: TextOverflow.clip)
                       ],
                     ),
-                    SizedBox(height: 5,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Nature Of\n Business:-  "),
-                        edit?Text('${details.natureOfBusiness}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip,):Container(
-                          width: 100,
-                          child: TextFormField(
-                            initialValue: details.natureOfBusiness,
-                            onChanged: (value){
-                              clientEdit.natureOfBusiness = value;
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                    // SizedBox(height: 5,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     Text("Nature Of\n Business:-  "),
+                    //     Text('${details.natureOfBusiness}',style: TextStyle(
+                    //       fontStyle: FontStyle.italic,
+                    //     ),overflow: TextOverflow.clip,)
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
             ),
             actions: <Widget>[
-              FlatButton(child: Text('Save',textAlign: TextAlign.center,),onPressed: () async{
+              TextButton(child: Text('Ok',textAlign: TextAlign.center,),onPressed: () async{
                 print(clientEdit.name);
-                await FirestoreService().editClientData(clientEdit, firebaseUserId);
-                recordEditToast();
                 Navigator.pop(context);
               },)
             ],
@@ -318,8 +287,9 @@ class _ClientsState extends State<Clients> {
     );
   }
   
-  Future<void> deleteClient(String key,String email) async{
+  Future<bool> deleteClient(String key,String email) async{
     try {
+      try{
       dbf = firebaseDatabase.reference();
       await dbf
           .child(FsUserClients)
@@ -327,17 +297,35 @@ class _ClientsState extends State<Clients> {
           .child('clients')
           .child(key)
           .remove();
-      dbf = firebaseDatabase.reference();
-      await dbf.child("user_compliances")
+      } catch(e){
+        print(e);
+        flutterToast(message: "Something went wrong");
+          }
+      try {
+        dbf = firebaseDatabase.reference();
+        await dbf.child("user_compliances")
             .child(firebaseUserId)
             .child('compliances')
             .child(email)
             .remove();
-      recordDeletedToast();
+      }catch(e){
+        print(e);
+        flutterToast(message: "Something went wrong try latter");
+      }
       Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>ShowCaseWidget(
+            builder: Builder(
+              builder: (context)=>Dashboard(),
+            ),
+          )
+      ));
+      recordDeletedToast();
+      return true;
     }catch(e){
       flutterToast(message: "Something went wrong try latter");
       print(e);
+      return false;
     }
   }
 }

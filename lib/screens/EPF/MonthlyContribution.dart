@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -22,10 +22,10 @@ class MonthlyContribution extends StatefulWidget {
 
 class _MonthlyContributionState extends State<MonthlyContribution> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _MonthlyContributionFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _monthlyContributionFormKey = GlobalKey<FormState>();
 
-  EPFMonthlyContributionObejct epfMonthlyContributionObejct =
-      EPFMonthlyContributionObejct();
+  EPFMonthlyContributionObject epfMonthlyContributionObject =
+      EPFMonthlyContributionObject();
 
   bool loadingSaveButton = false;
   
@@ -51,7 +51,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
       setState(() {
         selectedDateOfPayment = picked;
         showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-        epfMonthlyContributionObejct.dteOfFilling = showDateOfPayment;
+        epfMonthlyContributionObject.dateOfFilling = showDateOfPayment;
         setState(() {
           _selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
         });
@@ -70,16 +70,16 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
     final ThemeData _theme = Theme.of(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Monthly Contribution"),
+          title: Text("EPF Monthly Contribution"),
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(20),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 Text(
                   "Monthly Contribution Payments",
-                  style: _theme.textTheme.title.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -90,7 +90,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                 ),
                 Text(
                   "Enter your details to make payments for Monthly Contribution ",
-                  style: _theme.textTheme.subtitle.merge(
+                  style: _theme.textTheme.bodyText2.merge(
                     TextStyle(
                       fontWeight: FontWeight.w300,
                     ),
@@ -100,7 +100,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                   height: 50.0,
                 ),
                 Form(
-                  key: _MonthlyContributionFormKey,
+                  key: _monthlyContributionFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -120,7 +120,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                                 Text(
                                   '$_selectedDateOfPayment',
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     selectDateTime(context);
                                   },
@@ -144,10 +144,8 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                           ),
                           TextFormField(
                             decoration:
-                                buildCustomInput(hintText: "Amount of Payment"),
-                            validator: (value) =>
-                                requiredField(value, 'Amount Of Payment'),
-                            onChanged: (value) => epfMonthlyContributionObejct
+                                buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
+                            onChanged: (value) => epfMonthlyContributionObject
                                 .amountOfPayment = value,
                           ),
                         ],
@@ -166,9 +164,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                           TextFormField(
                             decoration:
                             buildCustomInput(hintText: "Challan Number"),
-                            validator: (value) =>
-                                requiredField(value, 'Challan number'),
-                            onChanged: (value) => epfMonthlyContributionObejct
+                            onChanged: (value) => epfMonthlyContributionObject
                                 .challanNumber = value,
                           ),
                         ],
@@ -185,11 +181,12 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                           Container(
                             decoration: roundedCornerButton,
                             height: 50,
-                            child: FlatButton(
+                            child: TextButton(
                               onPressed: () async{
-                                file = await FilePicker.getFile();
+                                FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                                file = File(filePickerResult.files.single.path);
                                 List<String> temp = file.path.split('/');
-                                epfMonthlyContributionObejct.addAttachment = temp.last;
+                                epfMonthlyContributionObject.addAttachment = temp.last;
                                 setState(() {
                                   nameOfFile = temp.last;
                                 });
@@ -211,7 +208,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Make Payment Online"),
                           onPressed: () {
                             openWebView(
@@ -227,7 +224,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Payment"),
                           onPressed: () {
                             paymentMonthlyContribution();
@@ -239,7 +236,8 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 70,),
               ],
             ),
           ),
@@ -248,46 +246,26 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
 
   Future<void> paymentMonthlyContribution() async {
     try {
-      if (_MonthlyContributionFormKey.currentState.validate()) {
-        _MonthlyContributionFormKey.currentState.save();
+      if (_monthlyContributionFormKey.currentState.validate()) {
+        _monthlyContributionFormKey.currentState.save();
         this.setState(() {
           buttonLoading = true;
         });
 
         bool done = await PaymentRecordToDataBase()
-            .AddMonthlyContributionPayment(
-                epfMonthlyContributionObejct, widget.client, file);
+            .addMonthlyContributionPayment(
+                epfMonthlyContributionObject, widget.client, file);
         
         if (done) {
-          Fluttertoast.showToast(
-              msg: "Record Saved",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos: 1,
-              backgroundColor: Color(0xff666666),
-              textColor: Colors.white,
-              fontSize: 16.0);
+          flutterToast(message: "Recorded Saved");
           Navigator.pop(context);
         }
       }
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Payment Not Saved This Time',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: 'Payment Not Saved This Time');
     } finally {
       this.setState(() {
         buttonLoading = false;

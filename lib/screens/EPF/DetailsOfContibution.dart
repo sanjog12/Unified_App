@@ -3,14 +3,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class DetailsOfContribution extends StatefulWidget {
@@ -24,7 +22,7 @@ class DetailsOfContribution extends StatefulWidget {
 class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	
 	bool buttonLoading = false;
-	GlobalKey<FormState> _MonthlyContributionFormKey = GlobalKey<FormState>();
+	GlobalKey<FormState> _monthlyContributionFormKey = GlobalKey<FormState>();
 	
 	EPFDetailsOfContributionObject epfDetailsOfContributionObject = EPFDetailsOfContributionObject();
 	
@@ -67,18 +65,18 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	  final ThemeData _theme = Theme.of(context);
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Details of Contribution'),
+		    title: Text('EPF Details of Contribution'),
 	    ),
 	    
 	    body: Container(
-		    padding: EdgeInsets.all(24),
+		    padding: EdgeInsets.all(20),
 		    child: SingleChildScrollView(
 			    child: Column(
 				    crossAxisAlignment: CrossAxisAlignment.stretch,
 				    children: <Widget>[
 					    Text(
 						    "Details of Contribution Payments",
-						    style: _theme.textTheme.title.merge(
+						    style: _theme.textTheme.headline6.merge(
 							    TextStyle(
 								    fontSize: 26.0,
 							    ),
@@ -89,7 +87,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 					    ),
 					    Text(
 						    "Enter your details for Details of Contribution ",
-						    style: _theme.textTheme.subtitle.merge(
+						    style: _theme.textTheme.bodyText2.merge(
 							    TextStyle(
 								    fontWeight: FontWeight.w300,
 							    ),
@@ -100,7 +98,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 						    height: 50.0,
 					    ),
 					    Form(
-						    key: _MonthlyContributionFormKey,
+						    key: _monthlyContributionFormKey,
 						    child: Column(
 							    crossAxisAlignment: CrossAxisAlignment.stretch,
 							    children: <Widget>[
@@ -120,7 +118,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 													    Text(
 														    '$_selectedDateOfPayment',
 													    ),
-													    FlatButton(
+													    TextButton(
 														    onPressed: () {
 															    selectDateTime(context);
 														    },
@@ -143,9 +141,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 										    ),
 										    TextFormField(
 											    decoration:
-											    buildCustomInput(hintText: "Amount of Payment"),
-											    validator: (value) =>
-													    requiredField(value, 'Amount Of Payment'),
+											    buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
 											    onChanged: (value) => epfDetailsOfContributionObject
 													    .amountOfPayment = value,
 										    ),
@@ -164,8 +160,6 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 										    TextFormField(
 											    decoration:
 											    buildCustomInput(hintText: "Challan Number"),
-											    validator: (value) =>
-													    requiredField(value, 'Challan number'),
 											    onChanged: (value) => epfDetailsOfContributionObject
 													    .challanNumber = value,
 										    ),
@@ -183,9 +177,10 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 										    Container(
 											    decoration: roundedCornerButton,
 											    height: 50,
-											    child: FlatButton(
+											    child: TextButton(
 												    onPressed: () async{
-													    file = await FilePicker.getFile();
+													    FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+													    file = File(filePickerResult.files.single.path);
 													    List<String> temp = file.path.split('/');
 													    epfDetailsOfContributionObject.addAttachment = temp.last;
 													    setState(() {
@@ -209,7 +204,7 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 								    Container(
 									    decoration: roundedCornerButton,
 									    height: 50.0,
-									    child: FlatButton(
+									    child: TextButton(
 										    child: Text("Save Payment"),
 										    onPressed: () {
 										    	detailsMonthlyContribution();
@@ -221,7 +216,8 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 								    ),
 							    ],
 						    ),
-					    )
+					    ),
+					    SizedBox(height: 70,),
 				    ],
 			    ),
 		    ),
@@ -231,45 +227,26 @@ class _DetailsOfContributionState extends State<DetailsOfContribution> {
 	
 	Future<void> detailsMonthlyContribution() async {
 		try {
-			if (_MonthlyContributionFormKey.currentState.validate()) {
-				_MonthlyContributionFormKey.currentState.save();
+			if (_monthlyContributionFormKey.currentState.validate() && epfDetailsOfContributionObject.dateOfFilling != '' ) {
+				_monthlyContributionFormKey.currentState.save();
 				this.setState(() {
 					buttonLoading = true;
 				});
 				
 				bool done = await PaymentRecordToDataBase()
-						.AddDetailsOfContribution(epfDetailsOfContributionObject, widget.client, file);
+						.addDetailsOfContribution(epfDetailsOfContributionObject, widget.client, file);
 				
 				if (done) {
-					Fluttertoast.showToast(
-							msg: "Successfully Saved",
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: "Successfully Saved");
 					Navigator.pop(context);
 				}
 			}
 		} on PlatformException catch (e) {
-			Fluttertoast.showToast(
-					msg: e.message,
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		} catch (e) {
-			Fluttertoast.showToast(
-					msg: 'Details did not saved this time',
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: 'Details did not saved this time');
 		} finally {
 			this.setState(() {
 				buttonLoading = false;

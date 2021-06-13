@@ -5,16 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/screens/TDS/DetailedHistory.dart';
 import 'package:unified_reminder/services/HistoriesDatabaseHelper.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
-import 'package:unified_reminder/styles/colors.dart';
+// import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
@@ -45,7 +45,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 	    ),
 	    
 	    body: Container(
-			  padding: EdgeInsets.all(15),
+			  padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 70),
 			   child: Column(
 				   crossAxisAlignment: CrossAxisAlignment.stretch,
 				   children: <Widget>[
@@ -188,7 +188,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 				  tdsPaymentObject: tdsPaymentObject,
 				  keyDB: key,
 			  ))
-		  );
+		  ).whenComplete((){setState(() {});});
 		  }
 	  }
   }
@@ -232,7 +232,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 															  Text(
 																  '$showDate',
 															  ),
-															  FlatButton(
+															  TextButton(
 																  onPressed: () async{
 																	  final DateTime picked = await showDatePicker(
 																			  context: context,
@@ -314,7 +314,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 							  ),
 							
 							  actions: <Widget>[
-								  FlatButton(
+								  TextButton(
 									  child: Text('Save Changes'),
 									  onPressed: () async{
 										  dbf = firebaseDatabase.reference();
@@ -369,7 +369,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 					  ),
 					
 					  actions: <Widget>[
-						  FlatButton(
+						  TextButton(
 							  child: Text('Yes'),
 							  onPressed: () async{
 								  Navigator.of(context).pop();
@@ -378,7 +378,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 							  },
 						  ),
 						
-						  FlatButton(
+						  TextButton(
 							  child: Text('No'),
 							  onPressed: (){
 								  Navigator.of(context).pop();
@@ -409,24 +409,10 @@ class _HistoryTDSState extends State<HistoryTDS> {
 		  recordDeletedToast();
 		
 	  }on PlatformException catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message.toString(),
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  flutterToast(message: e.message);
 	  }catch(e){
 	  	print(e);
-		  Fluttertoast.showToast(
-				  msg: e.message.toString(),
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+		  flutterToast(message: "Something went wrong");
 	  }
   }
 }

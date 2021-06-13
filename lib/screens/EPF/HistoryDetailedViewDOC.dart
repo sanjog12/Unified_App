@@ -7,17 +7,18 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
+import 'package:unified_reminder/models/Client.dart';
+// import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/screens/EPF/ComplianceHistory.dart';
-import 'package:unified_reminder/services/PDFView.dart';
+import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class EPFRecordHistoryDetailsView2 extends StatefulWidget {
 	final Client client;
@@ -91,13 +92,13 @@ class _EPFRecordHistoryDetailsViewState2
 			),
 			body: SingleChildScrollView(
 				child: Container(
-					padding: EdgeInsets.all(24.0),
+					padding: EdgeInsets.all(20),
 					child: Column(
 						crossAxisAlignment: CrossAxisAlignment.stretch,
 						children: <Widget>[
 							Text(
 								"${widget.client.name}\'s EPF Details Of Contribution Details",
-								style: _theme.textTheme.headline.merge(
+								style: _theme.textTheme.headline6.merge(
 									TextStyle(
 										fontSize: 20.0,
 									),
@@ -125,7 +126,7 @@ class _EPFRecordHistoryDetailsViewState2
 														Text(
 															'$selectedDateDB',
 														),
-														FlatButton(
+														TextButton(
 															onPressed: () {
 																selectDateTime(context);
 															},
@@ -156,7 +157,7 @@ class _EPFRecordHistoryDetailsViewState2
 											edit?TextFormField(
 												initialValue: widget.epfDetailsOfContributionObject.amountOfPayment,
 												decoration:
-												buildCustomInput(hintText: "Amount of Payment"),
+												buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
 												onChanged: (value) => _epfDetailsOfContributionObject
 														.amountOfPayment = value,
 											):Container(
@@ -206,9 +207,10 @@ class _EPFRecordHistoryDetailsViewState2
 											SizedBox(height: 10,),
 											Container(
 												height: 50,
-												child: FlatButton(
+												child: TextButton(
 													onPressed: () async{
-														file = await FilePicker.getFile();
+														FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+														file = File(filePickerResult.files.single.path);
 														List<String> temp = file.path.split('/');
 														print(temp.last);
 														setState(() {
@@ -216,7 +218,6 @@ class _EPFRecordHistoryDetailsViewState2
 															newFile = true;
 														});
 													},
-													color: buttonColor,
 													
 													child: Row(
 														children: <Widget>[
@@ -240,7 +241,7 @@ class _EPFRecordHistoryDetailsViewState2
 													borderRadius: BorderRadius.circular(10),
 													color: buttonColor,
 												),
-												child: FlatButton(
+												child: TextButton(
 													child: Row(
 														mainAxisAlignment: MainAxisAlignment.spaceBetween,
 														children: <Widget>[
@@ -272,12 +273,12 @@ class _EPFRecordHistoryDetailsViewState2
 										children: <Widget>[
 											Container(
 												decoration: roundedCornerButton,
-												child: edit?FlatButton(
+												child: edit? TextButton(
 													child: Text("Save Changes"),
 													onPressed: (){
 														editRecord();
 													},
-												) :FlatButton(
+												) :TextButton(
 													child: Text("Edit"),
 													onPressed: (){
 														setState(() {
@@ -291,7 +292,7 @@ class _EPFRecordHistoryDetailsViewState2
 											
 											Container(
 												decoration: roundedCornerButton,
-												child: FlatButton(
+												child: TextButton(
 													child: Text("Delete Record"),
 													onPressed: () async{
 														await showConfirmation(context);
@@ -301,7 +302,8 @@ class _EPFRecordHistoryDetailsViewState2
 										],
 									)
 								],
-							)
+							),
+							SizedBox(height: 70,),
 						],
 					),
 				),
@@ -325,23 +327,27 @@ class _EPFRecordHistoryDetailsViewState2
 				FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 				if(widget.epfDetailsOfContributionObject.addAttachment != "null"){
 					print("2");
-					String path =  firebaseStorage.ref().child('files').child(widget.epfDetailsOfContributionObject.addAttachment).path;
+					String path =  firebaseStorage.ref().child('files').child(widget.epfDetailsOfContributionObject.addAttachment).fullPath;
 					print("3");
 					await firebaseStorage.ref().child(path).delete().then((_)=>print("Done Task"));
 				}
 				print("4");
 				String name = await PaymentRecordToDataBase().uploadFile(file);
-				print("5");
+				print(name);
+				print("51");
 				dbf = firebaseDatabase.reference();
-				dbf
+				await dbf
 						.child('complinces')
 						.child('EPFDetailsContributionPayments')
 						.child(firebaseUserId)
 						.child(widget.client.email)
 						.child(widget.keyDB)
 						.update({
-					'addAttachment': name,
+					'addAttachment': name,});
+				setState(() {
+					widget.epfDetailsOfContributionObject.addAttachment = name;
 				});
+				
 			}
 			
 			dbf
@@ -355,34 +361,17 @@ class _EPFRecordHistoryDetailsViewState2
 				'amountOfPayment': _epfDetailsOfContributionObject.amountOfPayment,
 				'dateOfFilling': _epfDetailsOfContributionObject.dateOfFilling,
 			});
-			
-			Fluttertoast.showToast(
-					msg: "Changes Saved",
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			setState(() {
+			  edit = false;
+			});
+			flutterToast(message: "Changes Saved");
 			
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e,
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 	
@@ -413,7 +402,7 @@ class _EPFRecordHistoryDetailsViewState2
 						),
 						
 						actions: <Widget>[
-							FlatButton(
+							TextButton(
 								child: Text('Confirm'),
 								onPressed: () async{
 									Navigator.of(context).pop();
@@ -422,7 +411,7 @@ class _EPFRecordHistoryDetailsViewState2
 								},
 							),
 							
-							FlatButton(
+							TextButton(
 								child: Text('Cancel'),
 								onPressed: (){
 									Navigator.of(context).pop();
@@ -448,7 +437,7 @@ class _EPFRecordHistoryDetailsViewState2
 						.ref()
 						.child('files')
 						.child(widget.epfDetailsOfContributionObject.addAttachment)
-						.path;
+						.fullPath;
 				await firebaseStorage.ref().child(path).delete().then((_) =>
 						print("Done Task"));
 			}
@@ -460,14 +449,7 @@ class _EPFRecordHistoryDetailsViewState2
 					.child(widget.keyDB)
 					.remove();
 			
-			Fluttertoast.showToast(
-					msg: "Record Deleted",
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: "Record Deleted");
 			Navigator.pop(context);
 			Navigator.pop(context);
 			Navigator.push(context,
@@ -479,23 +461,11 @@ class _EPFRecordHistoryDetailsViewState2
 			);
 			
 		}on PlatformException catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 	
@@ -526,7 +496,7 @@ class _EPFRecordHistoryDetailsViewState2
 							),
 							
 							actions: <Widget>[
-								FlatButton(
+								TextButton(
 									child: Text('Confirm'),
 									onPressed: () async{
 										try {
@@ -535,7 +505,7 @@ class _EPFRecordHistoryDetailsViewState2
 													.ref()
 													.child('files')
 													.child(widget.epfDetailsOfContributionObject.addAttachment)
-													.path;
+													.fullPath;
 											firebaseStorage = FirebaseStorage.instance;
 											await firebaseStorage.ref().child(path).delete();
 											print("here");
@@ -550,23 +520,17 @@ class _EPFRecordHistoryDetailsViewState2
 													.update({
 												'addAttachment': 'null',
 											});
-											Navigator.pop(context);
-											Navigator.pop(context);
-											Fluttertoast.showToast(
-													msg: "PDF Deleted",
-													toastLength: Toast.LENGTH_SHORT,
-													gravity: ToastGravity.BOTTOM,
-													timeInSecForIos: 1,
-													backgroundColor: Color(0xff666666),
-													textColor: Colors.white,
-													fontSize: 16.0);
+											setState(() {
+												widget.epfDetailsOfContributionObject.addAttachment = "null";
+											});
+											flutterToast(message: "PDF Deleted");
 										}catch(e){
 											print(e.toString());
 										}
 									},
 								),
 								
-								FlatButton(
+								TextButton(
 									child: Text('Cancel'),
 									onPressed: (){
 										Navigator.of(context).pop();
@@ -576,14 +540,8 @@ class _EPFRecordHistoryDetailsViewState2
 						);
 					}
 			);}catch(e){
-			Fluttertoast.showToast(
-					msg: e.message.toString(),
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: "Something went wrong");
 		}
 	}
 }

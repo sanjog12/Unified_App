@@ -1,14 +1,17 @@
-import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/models/compliance.dart';
-import 'package:unified_reminder/services/DocumentPaths.dart';
+import 'package:provider/provider.dart';
+import 'package:unified_reminder/Bloc/AdsProvider.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/models/Compliance.dart';
+import 'package:unified_reminder/services/GeneralServices/Caching.dart';
+import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
 import 'package:unified_reminder/widgets/ListView.dart';
 
-const String testDevice = 'FDB28FC6E21EA8FD4E1EAB3899FBD45C';
+
 
 class ApplicableCompliances extends StatefulWidget {
   final Client client;
@@ -19,101 +22,96 @@ class ApplicableCompliances extends StatefulWidget {
 
 class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   
-  FirestoreService firestoreService = FirestoreService();
+  FirestoreService fireStoreService = FirestoreService();
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
   String firebaseUserId;
+  AnimationController animationController;
+  Animation animation;
+  List<Compliance> listCompliances = [];
+  bool loaded = false;
+  GlobalKey<AnimatedListState> _myListKey = GlobalKey<AnimatedListState>();
+  
+  BannerAd bannerAd;
+
+  static final AdRequest request = AdRequest(
+    keywords: <String>['foo', 'bar'],
+    contentUrl: 'http://foo.com/bar.html',
+    nonPersonalizedAds: true,
+  );
+
+  final AdSize adSize = AdSize(width:300, height: 50);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    adState.initialisation.then((status){
+      setState(() {
+        bannerAd = BannerAd(
+          adUnitId: adState.bannerAdUnitId,
+          size: AdSize.banner,
+          request: AdRequest(),
+          listener: adState.adListener,
+        )..load();
+      });
+    });
+  }
   
   @override
   void initState() {
     super.initState();
-    getUserId();
-    print(widget.client.toString());
-    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-4569649492742996~2564391573');
-    bannerAd = createBannerAd()..load()..show(
-      anchorType: AnchorType.bottom,
-      horizontalCenterOffset: 10.0,
-      anchorOffset: 0.0,
-    );
-    interstitialAd = createInterstitialAd()..load()..show(
-      anchorType: AnchorType.bottom,
-      anchorOffset: 0.0,
-      horizontalCenterOffset: 0.0,
-    );
-  }
-
-  BannerAd bannerAd;
-  BannerAd createBannerAd(){
-    return BannerAd(
-      adUnitId: 'ca-app-pub-4569649492742996/8555084850',
-        size: AdSize.smartBanner,
-//        adUnitId: 'ca-app-pub-3940256099942544/6300978111',
-        targetingInfo: targetingInfo,
-        listener: (MobileAdEvent event){
-          print("ad " +event.toString());
-        }
-    );
-  }
-  
-  InterstitialAd interstitialAd;
-  InterstitialAd createInterstitialAd(){
-    return InterstitialAd(
-      adUnitId: 'ca-app-pub-4569649492742996/7190581030',
-//      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event){
-        print("interad " + event.toString());
+    firebaseUserId = FirebaseAuth.instance.currentUser.uid;
+    _getUserCompliances().then((value) async{
+      
+      listCompliances = value;
+      setState(() {
+        loaded = true;
+      });
+      await Future.delayed(Duration(milliseconds: 200));
+      for(int i =0 ; i< listCompliances.length-1;i++){
+        _myListKey.currentState.insertItem(i);
+        await Future.delayed(Duration(milliseconds: 300));
       }
-    );
-  }
-  
-  
-  
-  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-    testDevices: testDevice != null ?<String>[testDevice] : null,
-    nonPersonalizedAds: true,
-    keywords: <String>['game','mario'],
-  );
-
-  void getUserId() async {
-    var _firebaseUserId = await SharedPrefs.getStringPreference("uid");
-    this.setState(() {
-      firebaseUserId = _firebaseUserId;
     });
+    print(widget.client.toString());
   }
+  
+  
+  
+  
   Future<List<Compliance>> _getUserCompliances() async {
     List<Compliance> clientsData = [];
     String clientEmail = widget.client.email.replaceAll('.', ',');
 
-    dbf = firebaseDatabase
-        .reference()
-        .child(FsUserCompliances)
-        .child(firebaseUserId)
-        .child('compliances')
-        .child(clientEmail);
-
-    await dbf.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, values) {
-        Compliance compliance = Compliance(
-            userEmail: values['clientEmail'],
-            title: values['title'],
-            value: values['value'],
-            checked: null);
-        clientsData.add(compliance);
+    if(!compliancesCache.containsKey(clientEmail)) {
+      print("true");
+      dbf = firebaseDatabase
+          .reference()
+          .child(FsUserCompliances)
+          .child(firebaseUserId)
+          .child('compliances')
+          .child(clientEmail);
+  
+      await dbf.once().then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+        values.forEach((key, values) {
+          Compliance compliance = Compliance(
+              userEmail: values['clientEmail'],
+              title: values['title'],
+              value: values['value'],
+              checked: null);
+          clientsData.add(compliance);
+        });
       });
-    });
-    return clientsData;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    try {
-      createBannerAd().dispose();
-    }catch(e){
-      print(e);
+      compliancesCache[clientEmail] = clientsData;
     }
+    else{
+      print("false");
+      print(compliancesCache[clientEmail]);
+      clientsData = compliancesCache[clientEmail];
+    }
+    return clientsData;
   }
   
   @override
@@ -124,71 +122,74 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
         title: Text("Applicable Compliances"),
       ),
       body: Container(
-        padding: EdgeInsets.all(24.0),
+        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24,),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             widget.client == null
                 ? SizedBox()
                 : Text(
-                    "${widget.client.name}",
-                    style: _theme.textTheme.headline.merge(
-                      TextStyle(
-                        fontSize: 26.0,
-                      ),
-                    ),
-                  ),
+              "${widget.client.name}".toUpperCase(),
+              style: _theme.textTheme.headline6.merge(
+                TextStyle(
+                  fontSize: 24.0,
+                ),
+              ),
+            ),
             SizedBox(
               height: 5.0,
             ),
             widget.client == null
                 ? SizedBox()
-                : Text(
-                    "${widget.client.email}",
-                    style: _theme.textTheme.subtitle.merge(
-                      TextStyle(
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
+                : Text("${widget.client.email}",
+              style: _theme.textTheme.bodyText2.merge(
+                TextStyle(
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
             SizedBox(
               height: 30.0,
             ),
             Expanded(
-              child: FutureBuilder<List<Compliance>>(
-                future: _getUserCompliances(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Compliance>> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context,int index){
-                        return Container(
-                          padding: EdgeInsets.all(10),
-                          child: ExpansionTile(
-                              title: Text(snapshot.data[index].title),
-                              children: <Widget>[
-                                listItem(snapshot.data[index].title,widget.client,context)
-                              ],
-                            ),
-                        );
-                        }
-                    );
-                  }else{
-                    return Container(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>
-                            (Colors.white),
+              child: AnimatedList(
+                  key: _myListKey,
+                  initialItemCount: listCompliances.length,
+                  itemBuilder: (BuildContext context,int index,Animation animation){
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1, 0),
+                        end: Offset(0, 0),
+                      ).animate(animation),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: ExpansionTile(
+                          title: Text(listCompliances[index].title),
+                          children: <Widget>[
+                            listItem(listCompliances[index].title,widget.client,context)
+                          ],
                         ),
                       ),
-                    );}
-                },
-              ),
-            )
+                    );
+                  }),
+            ),
+            
+            !loaded?Container(
+              child: LinearProgressIndicator(),
+            ):Container(),
+                
+            bannerAd == null
+                ?SizedBox(height: 10,)
+                :Container(height: 50, child: AdWidget(ad: bannerAd,),),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    bannerAd.dispose();
+    super.dispose();
   }
 }

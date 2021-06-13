@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/doneComplianceObject.dart';
+import 'package:unified_reminder/models/DoneComplianceObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/screens/GST/GSTRPayment.dart';
 import 'package:unified_reminder/screens/GST/ReturnFillingGST.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
@@ -22,19 +22,14 @@ class UpcomingCompliancesGST extends StatefulWidget {
 class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 	
 	List<UpComingComplianceObject> t1 = [];
-	List<doneComplianceObject> t2 = [];
-	
-	Future<List<UpComingComplianceObject>> getUpcoming() async{
-		t1=await UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfGST(widget.client);
-//		t2 = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(widget.client.email, todayDate, snapshotKey)
-	}
+	List<DoneComplianceObject> t2 = [];
 	
 	
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text('Upcoming Compliances'),
+		    title: Text('GST Upcoming Compliances'),
 		    actions: <Widget>[
 		    	helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
 		    ],
@@ -47,10 +42,10 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 				    children: <Widget>[
 				    	Expanded(
 						    child: FutureBuilder<List<UpComingComplianceObject>>(
-							    future: UpComingComplianceDatabaseHelper().getUpComingComplincesForMonthOfGST(widget.client),
-							    
+							    future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfGST(widget.client),
 							    builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
 							    	if(snapshot.hasData){
+							    		print("lenght of list : " + snapshot.data.length.toString());
 							    		if(snapshot.data.length == 0){
 							    			return ListView(
 											    children: <Widget>[
@@ -69,37 +64,64 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 										    	DateTime t = DateTime.now();
 											    DateTime t2 = DateTime(t.year,t.month,int.parse(snapshot.data[index].date));
 											    String date = DateFormat('dd MMMM').format(t2);
-										    	print(t2);
-										    	return Container(
-												    decoration: roundedCornerButton,
-												    margin: EdgeInsets.symmetric(vertical: 10.0),
-												    child: ListTile(
-													    title: Text('${snapshot.data[index].label} due on $date'),
-													    onTap: (){
-													    	print(snapshot.data[index].key);
-													    	if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
-															    Navigator.push(context,
-																	    MaterialPageRoute(
-																			    builder: (context)=> GSTReturnFilling(
+										    	return Column(
+										    	  children: [
+										    	    snapshot.data[index].notMissed?Container(
+												        decoration: roundedCornerButton,
+												        margin: EdgeInsets.symmetric(vertical: 10.0),
+												        child: ListTile(
+													        title: Text('${snapshot.data[index].label} due on $date'),
+													        onTap: (){
+													        	print(snapshot.data[index].key);
+													        	if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
+													        		Navigator.push(context, MaterialPageRoute(builder: (context)=> GSTReturnFilling(
 																				    client: widget.client,
-																			    )
-																	    )
-															    );
-														    }
-													    	else {
-															    Navigator.push(context,
-																	    MaterialPageRoute(
-																			    builder: (context) =>
-																					    GSTPayment(
-																						    upComingComplianceObject: snapshot.data[index],
-																						    client: widget.client,
-																					    )
-																	    )
-															    );
-														    }
-													    },
-												    ),
-											    );
+															        ),
+															        ));
+													        	}
+													        	else {
+													        		Navigator.push(context,
+																	        MaterialPageRoute(
+																			        builder: (context) =>
+																					        GSTPayment(upComingComplianceObject: snapshot.data[index],
+																						        client: widget.client,
+																					        )
+																	        )
+															        );
+													        	}
+													        	},
+												        ),
+											        ):Container(),
+												
+												      !snapshot.data[index].notMissed?Container(
+													      decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
+													      margin: EdgeInsets.symmetric(vertical: 10.0),
+													      child: ListTile(
+														      title: Text('${snapshot.data[index].label} due on $date'),
+														      subtitle: Text("Missed Compliances"),
+														      onTap: (){
+															      print(snapshot.data[index].key);
+															      if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
+																      Navigator.push(context, MaterialPageRoute(builder: (context)=> GSTReturnFilling(
+																	      client: widget.client,
+																      ),
+																      ));
+															      }
+															      else {
+																      Navigator.push(context,
+																		      MaterialPageRoute(
+																				      builder: (context) =>
+																						      GSTPayment(upComingComplianceObject: snapshot.data[index],
+																							      client: widget.client,
+																						      )
+																		      )
+																      );
+															      }
+														      },
+													      ),
+												      ):Container()
+										    	  ],
+										    	);
 											  },
 									    );
 								    }else{
@@ -118,7 +140,8 @@ class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
 								    }
 							    },
 						    ),
-					    )
+					    ),
+					    SizedBox(height: 70,),
 				    ],
 			    ),
 	    ),

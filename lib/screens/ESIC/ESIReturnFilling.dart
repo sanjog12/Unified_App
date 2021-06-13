@@ -2,15 +2,12 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject.dart';
-import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class ESIReturnFilling extends StatefulWidget {
 	final Client client;
@@ -58,17 +55,17 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 		final ThemeData _theme = Theme.of(context);
 		return Scaffold(
 				appBar: AppBar(
-					title: Text("Income Tax Returns"),
+					title: Text("ESI Returns"),
 				),
 				body: Container(
-					padding: EdgeInsets.all(24.0),
+					padding: EdgeInsets.only(top: 24.0, left: 24 , right: 24, bottom: 70),
 					child: SingleChildScrollView(
 						child: Column(
 							crossAxisAlignment: CrossAxisAlignment.stretch,
 							children: <Widget>[
 								Text(
-									"Income Tax Return Filling",
-									style: _theme.textTheme.headline.merge(
+									"ESI Return Filling",
+									style: _theme.textTheme.headline6.merge(
 										TextStyle(
 											fontSize: 26.0,
 										),
@@ -101,7 +98,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 																Text(
 																	'$selectedDateDB',
 																),
-																FlatButton(
+																TextButton(
 																	onPressed: () {
 																		selectDateTime(context);
 																	},
@@ -123,9 +120,10 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 													Container(
 														decoration: roundedCornerButton,
 														height: 50,
-														child: FlatButton(
+														child: TextButton(
 															onPressed: () async{
-																file = await FilePicker.getFile();
+																FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+																file = File(filePickerResult.files.single.path);
 																List<String> temp = file.path.split('/');
 																print(temp.last);
 																setState(() {
@@ -150,10 +148,10 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 											Container(
 												decoration: roundedCornerButton,
 												height: 50.0,
-												child: FlatButton(
+												child: TextButton(
 													child: Text("Save Record"),
 													onPressed: () {
-														ReturnFillingsIncomeTax();
+														returnFillingsIncomeTax();
 													},
 												),
 											),
@@ -171,7 +169,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 				));
 	}
 	
-	Future<void> ReturnFillingsIncomeTax() async {
+	Future<void> returnFillingsIncomeTax() async {
 		try {
 			if (gSTReturnFillingsFormKey.currentState.validate()) {
 				gSTReturnFillingsFormKey.currentState.save();
@@ -180,39 +178,20 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 				});
 				
 				bool done = await QuarterlyReturnsRecordToDatabase()
-						.AddGSTReturnFillings(
+						.addGSTReturnFillings(
 						gstReturnFillingsObject, widget.client,file);
 				
 				if (done) {
-					Fluttertoast.showToast(
-							msg: "Successfully Recorded",
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: "Successfully recorded");
 					Navigator.pop(context);
 				}
 			}
 		} on PlatformException catch (e) {
-			Fluttertoast.showToast(
-					msg: e.message,
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e.message);
+			flutterToast(message: e.message);
 		} catch (e) {
-			Fluttertoast.showToast(
-					msg: 'Payment Not Saved This Time',
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			print(e);
+			flutterToast(message: 'Payment Not Saved This Time');
 		} finally {
 			this.setState(() {
 				buttonLoading = false;

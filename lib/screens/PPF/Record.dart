@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class PPFRecord extends StatefulWidget {
@@ -54,16 +55,19 @@ class _PPFRecordState extends State<PPFRecord> {
     return Scaffold(
         appBar: AppBar(
           title: Text("PPF Record"),
+          actions: [
+            helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20PF")
+          ],
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
                   "Details of PPF",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -85,10 +89,8 @@ class _PPFRecordState extends State<PPFRecord> {
                             height: 10.0,
                           ),
                           TextFormField(
-                            decoration: buildCustomInput(
-                                hintText: "Name Of Institution"),
-                            validator: (value) =>
-                                requiredField(value, 'Name Of Institution'),
+                            decoration: buildCustomInput(hintText: "Name Of Institution"),
+                            
                             onSaved: (value) =>
                                 ppfRecordObject.nameOfInstitution = value,
                           ),
@@ -107,8 +109,6 @@ class _PPFRecordState extends State<PPFRecord> {
                           TextFormField(
                             decoration:
                                 buildCustomInput(hintText: "Account Number"),
-                            validator: (value) =>
-                                requiredField(value, 'Account number'),
                             onSaved: (value) =>
                                 ppfRecordObject.accountNumber = value,
                           ),
@@ -126,9 +126,8 @@ class _PPFRecordState extends State<PPFRecord> {
                           ),
                           TextFormField(
                             decoration:
-                                buildCustomInput(hintText: "Amount of Payment"),
-                            validator: (value) =>
-                                requiredField(value, 'Amount Of Payment'),
+                                buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
+                            
                             onSaved: (value) => ppfRecordObject.amount = value,
                           ),
                         ],
@@ -152,7 +151,7 @@ class _PPFRecordState extends State<PPFRecord> {
                                 Text(
                                   '$_selectedDateOfPayment',
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     selectDateTime(context);
                                   },
@@ -169,7 +168,7 @@ class _PPFRecordState extends State<PPFRecord> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Record"),
                           onPressed: () {
                             addDetailsOfContribution();
@@ -183,7 +182,9 @@ class _PPFRecordState extends State<PPFRecord> {
                       ),
                     ],
                   ),
-                )
+                ),
+  
+                SizedBox(height: 70,),
               ],
             ),
           ),
@@ -199,30 +200,18 @@ class _PPFRecordState extends State<PPFRecord> {
         });
 
         bool done = await PaymentRecordToDataBase()
-            .AddPPFRecord(ppfRecordObject, widget.client);
+            .addPPFRecord(ppfRecordObject, widget.client);
 
         if (done) {
           Navigator.pop(context);
         }
       }
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e.message);
+      flutterToast(message: e.message);
     } catch (e) {
-      Fluttertoast.showToast(
-          msg: 'Payment Not Saved This Time',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      print(e);
+      flutterToast(message: 'Payment Not Saved This Time');
     } finally {
       this.setState(() {
         buttonLoading = false;

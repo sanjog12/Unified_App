@@ -2,9 +2,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
 import 'package:unified_reminder/styles/styles.dart';
@@ -20,13 +19,11 @@ class IncomeTaxReturnFilling extends StatefulWidget {
 
 class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
   bool buttonLoading = false;
-  GlobalKey<FormState> _IncomeTaxReturnFillingsFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _incomeTaxReturnFillingsFormKey = GlobalKey<FormState>();
 
   IncomeTaxReturnFillingsObject incomeTaxReturnFillingsObject =
       IncomeTaxReturnFillingsObject();
   
-
-  String _fullDate;
   String selectedDateDB = "Select Date";
   DateTime selectedDate = DateTime.now();
   File file;
@@ -62,14 +59,14 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
           title: Text("Income Tax Returns"),
         ),
         body: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
                   "Income Tax Return Filling",
-                  style: _theme.textTheme.headline.merge(
+                  style: _theme.textTheme.headline6.merge(
                     TextStyle(
                       fontSize: 26.0,
                     ),
@@ -79,7 +76,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                   height: 50.0,
                 ),
                 Form(
-                  key: _IncomeTaxReturnFillingsFormKey,
+                  key: _incomeTaxReturnFillingsFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -102,7 +99,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                                 Text(
                                   '$selectedDateDB',
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     selectDateTime(context);
                                   },
@@ -124,9 +121,10 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                           Container(
                             decoration: roundedCornerButton,
                             height: 50,
-                            child: FlatButton(
+                            child: TextButton(
                               onPressed: () async{
-                                file = await FilePicker.getFile();
+                                FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                                file = File(filePickerResult.files.single.path);
                                 List<String> temp = file.path.split('/');
                                 print(temp.last);
                                 setState(() {
@@ -151,10 +149,10 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                       Container(
                         decoration: roundedCornerButton,
                         height: 50.0,
-                        child: FlatButton(
+                        child: TextButton(
                           child: Text("Save Record"),
                           onPressed: () {
-                            ReturnFillingsIncomeTax();
+                            returnFillingsIncomeTax();
                           },
                         ),
                       ),
@@ -165,23 +163,24 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(height: 70,),
               ],
             ),
           ),
         ));
   }
 
-  Future<void> ReturnFillingsIncomeTax() async {
+  Future<void> returnFillingsIncomeTax() async {
     try {
-      if (_IncomeTaxReturnFillingsFormKey.currentState.validate()) {
-        _IncomeTaxReturnFillingsFormKey.currentState.save();
+      if (_incomeTaxReturnFillingsFormKey.currentState.validate()) {
+        _incomeTaxReturnFillingsFormKey.currentState.save();
         this.setState(() {
           buttonLoading = true;
         });
 
         bool done = await QuarterlyReturnsRecordToDatabase()
-            .AddIncomeTaxReturnFillings(
+            .addIncomeTaxReturnFillings(
                 incomeTaxReturnFillingsObject, widget.client,file);
 
         if (done) {

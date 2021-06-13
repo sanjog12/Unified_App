@@ -1,17 +1,17 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/MutualFundObject.dart';
-import 'package:unified_reminder/models/MutualFundRecordObject.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/PaymentHistory.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForIncomeTax.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForROC.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
-import 'package:unified_reminder/utils/DateChange.dart';
 
 import 'MutualFundHelper.dart';
-import 'SharedPrefs.dart';
+import 'GeneralServices/SharedPrefs.dart';
 
 class HistoriesDatabaseHelper {
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
@@ -150,7 +150,7 @@ class HistoriesDatabaseHelper {
         .child('GSTPayments')
         .child(firebaseUserId)
         .child(clientEmail);
-//    Stream data = dbf.onValue;
+   // Stream data = dbf.onValue;
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
@@ -197,6 +197,8 @@ class HistoriesDatabaseHelper {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
 
     String clientEmail = client.email.replaceAll('.', ',');
+    
+    
 
     print(clientEmail);
 
@@ -224,13 +226,13 @@ class HistoriesDatabaseHelper {
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: ' ', type: ''));
+            date: 'No History Found', amount: ' ', type: ''));
       }
     });
     return complinceData;
   }
 
-  Future<List<HistoryComplinceObject>> getComplincesHistoryOfEPF(
+  Future<List<HistoryComplinceObject>> getCompliancesHistoryOfEPF(
       Client client) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
 
@@ -238,7 +240,7 @@ class HistoriesDatabaseHelper {
 
     print(clientEmail);
 
-    List<HistoryComplinceObject> complinceData = [];
+    List<HistoryComplinceObject> complianceData = [];
 
     dbf = firebaseDatabase
         .reference()
@@ -247,7 +249,9 @@ class HistoriesDatabaseHelper {
         .child(firebaseUserId)
         .child(clientEmail);
 //    Stream data = dbf.onValue;
-    await dbf.once().then((DataSnapshot snapshot) {
+  
+    await dbf.once().then((snapshot){
+      print("changed");
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
         values.forEach((key, values) {
@@ -259,40 +263,48 @@ class HistoriesDatabaseHelper {
             type: 'Monthly Contribution',
             key: key,
           );
-          complinceData.add(historyComplinceObject);
+          complianceData.add(historyComplinceObject);
+          
         });
       }
     });
+    
+    
     dbf = firebaseDatabase
         .reference()
         .child('complinces')
         .child('EPFDetailsContributionPayments')
         .child(firebaseUserId)
         .child(clientEmail);
-    await dbf.once().then((DataSnapshot snapshot) {
+    
+    await dbf.once().then((snapshot) {
+      print("changed");
+      print( snapshot.value);
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
         values.forEach((key, values) {
           print(key);
-          HistoryComplinceObject historyComplinceObject =
+          HistoryComplinceObject historyComplianceObject =
           HistoryComplinceObject(
             date: values["dateOfFilling"],
             amount: values['amountOfPayment'],
             type: 'Details of Contribution',
             key: key,
           );
-          complinceData.add(historyComplinceObject);
+          complianceData.add(historyComplianceObject);
         });
       }
     });
     
-    if(complinceData.length == 0 || complinceData == null){
-    complinceData.add(HistoryComplinceObject(
-    date: 'No history founded', amount: '', type: ''));
+    if(complianceData.length == 0 || complianceData == null){
+    complianceData.add(HistoryComplinceObject(
+    date: 'No History Found', amount: '', type: ''));
     }
-
-    return complinceData;
+    
+    return complianceData;
   }
+  
+  
 
   Future<List<HistoryComplinceObject>> getHistoryOfPPFRecord(
       Client client) async {
@@ -302,7 +314,7 @@ class HistoriesDatabaseHelper {
 
 //    print(clientEmail);
 
-    List<HistoryComplinceObject> complinceData = [];
+    List<HistoryComplinceObject> complianceData = [];
 
     dbf = firebaseDatabase
         .reference()
@@ -316,22 +328,22 @@ class HistoriesDatabaseHelper {
       if (values != null) {
         values.forEach((key, values) {
           print(key);
-          HistoryComplinceObject historyComplinceObject =
+          HistoryComplinceObject historyComplianceObject =
               HistoryComplinceObject(
-            date: values["dateOfInvestment"],
-            amount: values['amount'],
-            type: values['nameOfInstitution'],
+            date: values["dateOfInvestment"]?? "",
+            amount: values['amount']?? "",
+            type: values['nameOfInstitution']?? "",
             key: key,
           );
-          complinceData.add(historyComplinceObject);
+          complianceData.add(historyComplianceObject);
         });
       } else {
-        complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+        complianceData.add(HistoryComplinceObject(
+            date: 'No History Found', amount: '0', type: ''));
       }
     });
 
-    return complinceData;
+    return complianceData;
   }
 
   Future<List<HistoryComplinceObject>> getHistoryOfFDRecord(
@@ -358,16 +370,16 @@ class HistoriesDatabaseHelper {
           print(key);
           HistoryComplinceObject historyComplinceObject =
               HistoryComplinceObject(
-            date: values["dateOfInvestment"],
-            amount: values['principalAmount'],
-            type: values['nameOfInstitution'],
-            key: key,
+            date: values["dateOfInvestment"]??"",
+            amount: values['principalAmount']??"",
+            type: values['nameOfInstitution']??"",
+            key: key??" ",
           );
           complinceData.add(historyComplinceObject);
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No History Found', amount: 'null', type: ''));
       }
     });
 
@@ -398,16 +410,16 @@ class HistoriesDatabaseHelper {
           print(key);
           HistoryComplinceObject historyComplinceObject =
               HistoryComplinceObject(
-            date: values["dateOfCommoncement"],
-            amount: values['premiumAmount'],
-            type: values['frequancey'],
-            key: key,
+            date: values["dateOfCommoncement"]??"",
+            amount: values['premiumAmount']??"",
+            type: values['frequancey']??"",
+            key: key??" ",
           );
           complinceData.add(historyComplinceObject);
         });
       } else {
         complinceData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No History Found', amount: '0', type: ''));
       }
     });
 
@@ -435,11 +447,11 @@ class HistoriesDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
         values.forEach((key, values) async{
-          print("1");
-          print("2");
+          // print("1");
+          // print("2");
           HistoryForMF historyForMF =
           HistoryForMF(
-//            key: key,
+           key: key,
             amount: await values['amount'],
             mutualFundObject: MutualFundObject(
               name: await values['name'],
@@ -450,10 +462,10 @@ class HistoriesDatabaseHelper {
               nav: await values['nav'],
             ),
           );
-          print("3");
+          // print("3");
 //            print("Nav value  :" + historyForMF.todayNav);
           historyData.add(historyForMF);
-          print("4");
+          // print("4");
         });
       } else {
         historyData.add(HistoryForMF(
@@ -467,10 +479,10 @@ class HistoriesDatabaseHelper {
       Client client) async {
     String firebaseUserId = await SharedPrefs.getStringPreference("uid");
 
-    print(client.name);
+    // print(client.name);
     String clientEmail = client.email.replaceAll('.', ',');
 
-    print(clientEmail);
+    // print(clientEmail);
 
     List<HistoryComplinceObject> historyData = [];
 
@@ -485,7 +497,7 @@ class HistoriesDatabaseHelper {
       Map<dynamic, dynamic> values = snapshot.value;
       if (values != null) {
         values.forEach((key, values) {
-          print(key);
+          // print(key);
           HistoryComplinceObject historyComplinceObject =
               HistoryComplinceObject(
             date: values['date'],
@@ -498,7 +510,7 @@ class HistoriesDatabaseHelper {
         });
       } else {
         historyData.add(HistoryComplinceObject(
-            date: 'No history founded', amount: 'null', type: ''));
+            date: 'No History Found', amount: 'null', type: ''));
       }
     });
 
@@ -526,11 +538,11 @@ class HistoriesDatabaseHelper {
         .child(clientEmail)
         .child(date);
     
-    await dbf.once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
+    await dbf.once().then((DataSnapshot snapshot) async{
+      Map<dynamic, dynamic> values = await snapshot.value;
+      // print(values);
       if (values != null) {
         values.forEach((key, values) {
-          
           if(key!='AGM Date') {
             print(values['SRN No']);
             HistoryCompliancesObjectForROC historyCompliancesObjectForROC =
@@ -544,14 +556,19 @@ class HistoriesDatabaseHelper {
           else{
           }
         });
-      }else {
-        print('t');
-        historyData.add(HistoryCompliancesObjectForROC(
-            SRNNumber: 'No History Found' , formType: ' ' , dateOfFilling: ' ', ));
       }
       print('here');
     });
-    print("test");
+    if(historyData.length ==0){
+      HistoryCompliancesObjectForROC historyCompliancesObjectForROC =
+      HistoryCompliancesObjectForROC(
+        formType: "No History Found",
+        SRNNumber: "",
+        dateOfFilling: "",
+      );
+      historyData.add(historyCompliancesObjectForROC);
+    }
+    print(historyData.length);
     return historyData;
   }
 
@@ -578,30 +595,32 @@ class HistoriesDatabaseHelper {
     await dbf.once().then((DataSnapshot snapshot) async{
       Map<dynamic, dynamic> values = await snapshot.value;
       if (values != null) {
-        print(values);
+        // print(values);
         List<dynamic> keyList= values.keys.toList();
         int i =0;
-        for(var v in values.values) {
-          MutualFundDetailObject mutualFundDetailObject = await MutualFundHelper().getTodayNav(v['code']);
+        for(var data in values.values) {
+          MutualFundDetailObject mutualFundDetailObject = await MutualFundHelper().getTodayNav(data['code']);
           historyForMF = HistoryForMF(
             key: keyList[i],
-            amount: await v['amount'],
-            keyDate: await v['keyDate'],
-            type: await v['type'],
-            frequency: await v['No. of Installment'],
+            id: data['id'],
+            sipFrequency: data['sipFrequency'],
+            amount: data['amount'],
+            keyDate: data['keyDate'],
+            type: data['type'],
+            frequency: data['No. of Installment'],
             todayNAV: mutualFundDetailObject,
             mutualFundDetailObject: MutualFundDetailObject(
-              date: await v['date'],
-              nav: await v['nav'],
+              date: data['date'],
+              nav: data['nav'],
             ),
             mutualFundObject: MutualFundObject(
-              code: await v['code'],
-              name: await v['name'],
-              numberOfInstalments: await v['No of Installment'],
+              code: data['code'],
+              name: data['name'],
+              numberOfInstalments: data['No of Installment'],
             )
           );
-          print(historyForMF.key);
-          print(historyForMF.keyDate);
+          // print(historyForMF.key);
+          // print(historyForMF.keyDate);
           historyData.add(historyForMF);
           i++;
         }
@@ -649,9 +668,43 @@ class HistoriesDatabaseHelper {
         ));
       }
     });
-    print(historyData.length);
+    // print(historyData.length);
     print("returning");
     return historyData;
+  }
+  
+  Future<List<PaymentHistory>> paymentHistory() async{
+    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    List<PaymentHistory> paymentHistory =[];
+    dbf = firebaseDatabase.reference()
+         .child("PaymentRecords")
+         .child(firebaseUserId);
+    
+    await dbf.once().then((DataSnapshot snapshot) async{
+      Map<dynamic,dynamic> map = await snapshot.value;
+      if(map != null){
+        map.forEach((key, value) {
+          paymentHistory.add(
+            PaymentHistory(
+              paymentId: value["PaymentId"],
+              dateOfPayment: value["Date"],
+              nameOfClient: value["Client"],
+            )
+          );
+        });
+      }
+      else{
+        paymentHistory.add(
+            PaymentHistory(
+                paymentId: "No History Found",
+                dateOfPayment: " "
+            )
+        );
+      }
+    });
+    print("returning");
+    print(paymentHistory.length);
+    return paymentHistory;
   }
   
 }

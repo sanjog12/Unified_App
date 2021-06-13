@@ -1,15 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:unified_reminder/models/client.dart';
-import 'package:unified_reminder/services/LocalNotificationServices.dart';
-import 'package:unified_reminder/services/SharedPrefs.dart';
+import 'package:unified_reminder/models/Client.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 
 class UpComingCompliancesScreenForROC extends StatefulWidget {
@@ -33,6 +34,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	
 	GlobalKey<FormState> rocFromKey = GlobalKey<FormState>();
 	
+	String tempDate = "Select Date";
 	
 	String _selectedDateOfAgm = 'Select Date';
 	DateTime selectedDateOfAgmSubmission = DateTime.now();
@@ -52,10 +54,15 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	
 	
 	
-	 GestureDetector makeWidget(String formType, int days) {
+	GestureDetector makeWidget(String formType, int days) {
+	 	String date = DateChange.addDayToDate(widget.stringAGMDate, days);
 		return GestureDetector(
-			onTap: (){
-				saveSRNofForms(formType, context);
+			onTap: () async{
+				await dialogSRNofForms(formType, context);
+				
+				flutterToast(message: "Successfully Saved");
+				setState(() {
+				});
 			},
 		  child: Container(
 		  	decoration: roundedCornerButton,
@@ -80,7 +87,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		  				    ),),
 		  					  
 		  					  
-		  					  Text(DateChange.addDayToDate(widget.stringAGMDate, days),textAlign: TextAlign.end,style: TextStyle(
+		  					  Text(date,textAlign: TextAlign.end,style: TextStyle(
 								    fontWeight: FontWeight.bold,
 							    ),),
 							    
@@ -94,12 +101,14 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 							  fontStyle: FontStyle.italic,
 							  fontSize: 8,
 						  ),),
+						  
+						  SizedBox(height: 70,)
 		  			],
 		  		),
 		  	),
 		  ),
 		);
-	}
+	}  // make a card on the screen to show which card is pending
 	
 	
 	
@@ -135,7 +144,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		}
 	}
 	
-	Future<void> showCard() async{
+	Future<void> checkFilledForms() async{
 		String firebaseUserId= await SharedPrefs.getStringPreference("uid");
 		dfb = firebaseDatabase
 				.reference()
@@ -143,7 +152,8 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				.child('ROC')
 				.child(firebaseUserId)
 				.child(widget.client.email.replaceAll('.', ','))
-		    .child(widget.stringAGMDate);
+				.child(widget.stringAGMDate);
+		
 		dfb.once().then((DataSnapshot snapshot){
 			Map<dynamic,dynamic> values = snapshot.value;
 			if(values != null){
@@ -187,14 +197,13 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 		setState(() {
 			loading = true;
 		});
-	}
+	}  // Checking which forms has been filled
 	
 	
 	@override
   void initState() {
     super.initState();
-    notificationServices.initializeSetting();
-    showCard();
+    checkFilledForms();
 	}
 	
 	
@@ -203,7 +212,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
   Widget build(BuildContext context) {
     return Scaffold(
 	    appBar: AppBar(
-		    title: Text("Upcoming Compliances"),
+		    title: Text("ROC Upcoming Compliances"),
 	    ),
 	    
 	    body: SingleChildScrollView(
@@ -277,19 +286,19 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								    crossAxisAlignment: CrossAxisAlignment.stretch,
 							      children: <Widget>[
 							        Container(
-								    decoration: BoxDecoration(
-									    borderRadius: BorderRadiusDirectional.circular(10),
-									    color: buttonColor,
-								    ),
-								    margin: EdgeInsets.symmetric(horizontal: 20),
-								    child:FlatButton(
-									    child: Text("Edit AGM Conclusion Date"),
-									    onPressed: (){
-									    	setState(() {
-									    	  widget.agmRecorded = false;
-									    	});
-									    },
-								    ),
+								        decoration: BoxDecoration(
+									        borderRadius: BorderRadiusDirectional.circular(10),
+									        color: buttonColor,
+								        ),
+								        margin: EdgeInsets.symmetric(horizontal: 20),
+								        child: TextButton(
+									        child: Text("Edit Date"),
+									        onPressed: (){
+									        	setState(() {
+									        		widget.agmRecorded = false;
+									        	});
+									        	},
+								        ),
 							        ),
 							      ],
 							    )
@@ -311,7 +320,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 									    Text(
 										    '$_selectedDateOfAgm',
 									    ),
-									    FlatButton(
+									    TextButton(
 										    onPressed: () {
 										    	selectDateTime(context);
 										    },
@@ -330,7 +339,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 								    color: buttonColor,
 							    ),
 							    height: 50.0,
-							    child: FlatButton(
+							    child: TextButton(
 								    child: buttonLoading? Container(
 									    child: CircularProgressIndicator(
 										    valueColor: AlwaysStoppedAnimation<Color>
@@ -365,103 +374,130 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
   }
   
   
-  Future<void> saveSRNofForms( String formType , BuildContext context ) async{
+  Future<void> dialogSRNofForms( String formType , BuildContext context ) async{
 
 		String SRN = ' ';
 		String date = ' ';
 
-		showDialog<void>(
+		await showDialog<void>(
 				context: context,
 				builder: (builder){
-					return AlertDialog(
-						title: Column(
-						  children: <Widget>[
-						    Text('Enter details',style: TextStyle(fontWeight: FontWeight.bold),),
-							  Divider(
-								  thickness: 1.0,
+					return StatefulBuilder(
+					  builder:(context,setState) {
+						  return AlertDialog(
+							  title: Column(
+								  children: <Widget>[
+									  Text('Enter details',
+										  style: TextStyle(fontWeight: FontWeight.bold),),
+									  Divider(
+										  thickness: 1.0,
+									  ),
+								  ],
 							  ),
-						  ],
-						),
-
-					  content: SingleChildScrollView(
-					    child: Container(
-					    	padding: EdgeInsets.all(2),
-					  	  child: Column(
-					  		  crossAxisAlignment: CrossAxisAlignment.stretch,
-					  		  children: <Widget>[
-					  		  	Text("SRN No. of $formType"),
-					  			  SizedBox(height: 10,),
-					  			  TextFormField(
-					  				  decoration: buildCustomInput(hintText: 'SRN no.'),
-					  				  onChanged: (value){
-					  				  	setState(() {
-											    SRN = value;
-					  				  	});
-
-									    },
-					  			  ),
-					  			  SizedBox(height: 20,),
-					  			  Text("Date Of Filling"),
-					  			  SizedBox(height: 10,),
-					  			  TextFormField(
-					  				  decoration: buildCustomInput(hintText: 'Date of Filing'),
-					  				  onChanged: (value){
-					  				  	setState(() {
-											    date = value;
-					  				  	});
-									    },
-					  			  ),
-					  			  SizedBox(height: 20,),
-					  		  ],
-					  	  )
-					    ),
-					  ),
-
-						actions: <Widget>[
-							FlatButton(
-								child: Text('Save AGM Date'),
-								onPressed: () async{
-									String firebaseUserId= await SharedPrefs.getStringPreference("uid");
-									dfb = firebaseDatabase.reference();
-									dfb.child('complinces')
-											.child('ROC')
-											.child(firebaseUserId)
-											.child(widget.client.email.replaceAll('.', ','))
-											.child(widget.stringAGMDate)
-											.child(formType)
-									     .set({
-											'SRN No': SRN,
-										  'Date of Filing': date,
-										});
-									Navigator.of(context).pop();
-								},
-							)
-						],
+							
+							  content: SingleChildScrollView(
+								  child: Container(
+										  padding: EdgeInsets.all(2),
+										  child: Column(
+											  crossAxisAlignment: CrossAxisAlignment.stretch,
+											  children: <Widget>[
+												  Text("SRN No. of $formType"),
+												  SizedBox(height: 10,),
+												  TextFormField(
+													  decoration: buildCustomInput(hintText: 'SRN no.'),
+													  onChanged: (value) {
+														  setState(() {
+															  SRN = value;
+														  });
+													  },
+												  ),
+												  SizedBox(height: 20,),
+												  Text("Date Of Filling"),
+												  SizedBox(height: 10,),
+												  Container(
+													  padding: EdgeInsets.symmetric(horizontal: 10),
+													  decoration: fieldsDecoration,
+													  child: Row(
+														  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+														  children: <Widget>[
+															  Text(
+																  tempDate,
+															  ),
+															  TextButton(
+																  onPressed: () async {
+																	  final DateTime picked = await showDatePicker(
+																			  context: context,
+																			  initialDate: DateTime.now(),
+																			  firstDate: DateTime(DateTime.now().year - 1),
+																			  lastDate: DateTime(DateTime.now().year + 1)
+																	  );
+																	  if (picked != null) {
+																		  print(picked);
+																		  setState(() {
+																			  tempDate =  DateFormat('dd-MM-yyyy').format(picked);
+																		  });
+																		  date = tempDate;
+																		  print(tempDate);
+																	  }
+																  },
+																  child: Icon(Icons.date_range),
+															  ),
+														  ],
+													  ),
+												  ),
+												  SizedBox(height: 20,),
+											  ],
+										  )
+								  ),
+							  ),
+							
+							  actions: <Widget>[
+								  TextButton(
+									  child: Text('Save Details'),
+									  onPressed: () async {
+										  String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
+										  dfb = firebaseDatabase.reference();
+										  await dfb.child('complinces')
+												  .child('ROC')
+												  .child(firebaseUserId)
+												  .child(widget.client.email.replaceAll('.', ','))
+												  .child(widget.stringAGMDate)
+												  .child(formType)
+												  .set({
+											  'SRN No': SRN,
+											  'Date of Filing': date,
+										  });
+										  checkFilledForms();
+										  Navigator.pop(context);
+									  },
+								  )
+							  ],
+						  );
+					  }
 					);
 				}
 		);
-  }
+  } //Pop-up to enter from SRN number and date of submission
   
   
-	Future<void> agmDateEntry(int i) async {
+	Future<void> agmDateEntryDB(int i) async {
 		try {
-
-			if (rocFromKey.currentState.validate()  || i ==1) {
+			if (rocFromKey.currentState.validate()) {
 				rocFromKey.currentState.save();
 				
 				String firebaseUserId= await SharedPrefs.getStringPreference("uid");
 				
-				nd() async{
-					dfb = firebaseDatabase.reference()
-							.child('complinces')
-							.child('ROC')
-							.child(firebaseUserId)
-							.child(widget.client.email.replaceAll('.', ','));
-					await dfb.once().then((DataSnapshot snapshot){
-						Map<dynamic,dynamic> values = snapshot.value;
-						widget.stringAGMDate = values.keys.first.toString();
-					});
-				}
+				// nd() async{
+				// 	dfb = firebaseDatabase.reference()
+				// 			.child('complinces')
+				// 			.child('ROC')
+				// 			.child(firebaseUserId)
+				// 			.child(widget.client.email.replaceAll('.', ','));
+				// 	await dfb.once().then((DataSnapshot snapshot){
+				// 		Map<dynamic,dynamic> values = snapshot.value;
+				// 		widget.stringAGMDate = values.keys.first.toString();
+				// 	});
+				// }
 				this.setState(() {
 					buttonLoading = true;
 				});
@@ -472,71 +508,43 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 					await dfb.child('complinces')
 							.child('ROC')
 							.child(firebaseUserId)
+							.child(widget.client.email.replaceAll('.', ',')).remove();
+					dfb = firebaseDatabase.reference();
+					await dfb.child('complinces')
+							.child('ROC')
+							.child(firebaseUserId)
 							.child(widget.client.email.replaceAll('.', ','))
 							.child(convertDate(selectedDateOfAgmSubmission))
 							.set({
 						'AGM Date' : '',
-					}).whenComplete(nd);
-					
+					});
+					widget.stringAGMDate = convertDate(selectedDateOfAgmSubmission);
 					setState(() {
 					  widget.agmRecorded = true;
 					});
-					Navigator.of(context).reassemble();
 					
-					Fluttertoast.showToast(
-							msg: i != 1 ? "Date has Been Recorded" : "Date has been updated",
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: i != 1 ? "Date has Been Recorded" : "Date has been updated");
 				}on PlatformException catch(e){
 					print("Patform" + e.toString());
-					Fluttertoast.showToast(
-							msg: e.message,
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: e.message);
 				}catch(e){
 					print(e);
-					Fluttertoast.showToast(
-							msg: e.message,
-							toastLength: Toast.LENGTH_SHORT,
-							gravity: ToastGravity.BOTTOM,
-							timeInSecForIos: 1,
-							backgroundColor: Color(0xff666666),
-							textColor: Colors.white,
-							fontSize: 16.0);
+					flutterToast(message: "Something went wrong");
 				}
 			}
+			else{
+				flutterToast(message: "Please Enter date");
+			}
 		} on PlatformException catch (e) {
-			Fluttertoast.showToast(
-					msg: e.message,
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: e.message);
 		} catch (e) {
-			Fluttertoast.showToast(
-					msg: 'Payment Not Saved This Time',
-					toastLength: Toast.LENGTH_SHORT,
-					gravity: ToastGravity.BOTTOM,
-					timeInSecForIos: 1,
-					backgroundColor: Color(0xff666666),
-					textColor: Colors.white,
-					fontSize: 16.0);
+			flutterToast(message: 'Payment Not Saved due to some error');
 		} finally {
 			this.setState(() {
 				buttonLoading = false;
 			});
 		}
-	}
+	}  //Enter date in the DB when editing or adding agm date
 	
 	
 	Future<void> showConfirmation(BuildContext context,String date) async{
@@ -565,16 +573,16 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				  ),
 				  
 				  actions: <Widget>[
-				  	FlatButton(
+				  	TextButton(
 						  child: Text('Confirm Date'),
 						  onPressed: () async{
 						  	Navigator.of(context).pop();
-							  await agmDateEntry(0);
+							  await agmDateEntryDB(0);
 							  await setUpComingCompliances();
 						  },
 					  ),
 					  
-					  FlatButton(
+					  TextButton(
 						  child: Text('Edit Date'),
 						  onPressed: (){
 						  	Navigator.of(context).pop();
@@ -584,11 +592,11 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 			  );
 		  }
 	  );
-	}
+	}  //Pop-up to confirm editing date or adding date -> setUpComingCompliances
 	
 	
 	Future<void> setUpComingCompliances() async{
-	 	print("setUpComingCompliances");
+	 	// print("setUpComingCompliances");
 	  String firebaseUserId= await SharedPrefs.getStringPreference("uid");
 	  dfb = firebaseDatabase.reference();
 	  await dfb.child('usersUpcomingCompliances')
@@ -597,8 +605,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	  .child('ROC')
 	  .remove();
 	  
-	 	temp(String form ,String month,String date) async {
-		  print(form + ' ' + month);
+	 	updateDBUpcoming(String form ,String month,String date) async {
 		  dfb = firebaseDatabase.reference();
 		  await dfb.child('usersUpcomingCompliances')
 		      .child(firebaseUserId)
@@ -607,183 +614,84 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 				  .child(month)
 				  .child(form)
 				  .set({
-			    'date': date,
-			    'label': 'Due Date for filling $form',
+				    'date': date,
+				    'label': 'Due Date for filling $form',
 		      });
 	  }
 	  
 	  try {
-		  print("inside try");
-		  
-		  
-		  temp('Form ADT-1', DateChange.addDayToDate(
-				  convertDate(selectedDateOfAgmSubmission), 15).split('-')[1]
-				  , DateChange.addDayToDate(
-						  convertDate(selectedDateOfAgmSubmission), 15).split('-')[0]);
-		  try{
-		  	notificationServices.deleteNotification(1001);
-		  }catch(e){print('1001' + e.toString());}
-		  notificationServices.reminderNotificationService(id: 1001 , titleString: "From ADT-1 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 7,hours: 13)));
 		
-		  
-		  
-		  temp('From AOC-4 & AOC-4 CFS', DateChange.addDayToDate(
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1001');
+		  await updateDBUpcoming('Form ADT-1', DateChange.addDayToDate(
+				  convertDate(selectedDateOfAgmSubmission), 15).split('-')[1],
+				  DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 15).split('-')[0]);
+		  print("writing ");
+		  NotificationServices().reminderNotificationService('${widget.client.key}1001', "${widget.client.name}'s Form ADT-1(ROC)",
+				  "${widget.client.name}'s Form ADT-1(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 15)}"
+				  , selectedDateOfAgmSubmission.add(Duration(days: 15))
+		  );
+		
+		
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1002');
+		  await updateDBUpcoming('From AOC-4 & AOC-4 CFS', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  try{
-		  	notificationServices.deleteNotification(1002);
-		  }catch(e){print('1002' + e.toString());}
-		  notificationServices.reminderNotificationService(id: 1002 , titleString: "From AOC-4 & AOC-4 CFS for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
-		  
-		  
-		  
-		  temp('Form AOC-4(XBRL)', DateChange.addDayToDate(
+		  NotificationServices().reminderNotificationService('${widget.client.key}1002', "${widget.client.name}'s From AOC-4 & AOC-4 CFS(ROC)",
+				  "${widget.client.name}'s From AOC-4 & AOC-4 CFS(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
+				  , selectedDateOfAgmSubmission.add(Duration(days: 30))
+		  );
+		
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1003');
+		  await updateDBUpcoming('Form AOC-4(XBRL)', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  try{
-		  	notificationServices.deleteNotification(1003);
-		  }catch(e){print("1003" +e.toString());}
-		  notificationServices.reminderNotificationService(id: 1003 , titleString: "From AOC-4(XBRL) for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
+		  NotificationServices().reminderNotificationService('${widget.client.key}1003', "${widget.client.name}'s Form AOC-4(XBRL)(ROC)",
+				  "${widget.client.name}'s Form Form AOC-4(XBRL)(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
+				  , selectedDateOfAgmSubmission.add(Duration(days: 30))
+		  );
 		
-		  
-		  
-		  temp('Form MGT-7', DateChange.addDayToDate(
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1004');
+		  await updateDBUpcoming('Form MGT-7', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 60).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 60).split('-')[0]);
-		  try{
-		  	notificationServices.deleteNotification(1004);
-		  }catch(e){print("1004"+ e.toString());}
-		  notificationServices.reminderNotificationService(id: 1004 , titleString: "From MGT-7 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 52,hours: 13)));
+		  NotificationServices().reminderNotificationService('${widget.client.key}1004', "${widget.client.name}'s Form MGT-7(ROC)",
+				  "${widget.client.name}'s Form MGT-7(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 60)}"
+				  , selectedDateOfAgmSubmission.add(Duration(days: 60))
+		  );
 		
-		  
-		  
-		  temp('Form CRA-4', DateChange.addDayToDate(
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1005');
+		  await updateDBUpcoming('Form CRA-4', DateChange.addDayToDate(
 				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
 				  , DateChange.addDayToDate(
 						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  try{
-		  	notificationServices.deleteNotification(1005);
-		  }catch(e){print("1005" +e.toString());}
-		  notificationServices.reminderNotificationService(id: 1005 , titleString: "From CRA-4 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
+		  NotificationServices().reminderNotificationService('${widget.client.key}1005', "${widget.client.name}'s Form CRA-4(ROC)",
+				  "${widget.client.name}'s Form CRA-4(ROC) is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
+				  , selectedDateOfAgmSubmission.add(Duration(days: 30))
+		  );
 		
-		  
-		  
-		  temp('Form MGT-14', DateChange.addDayToDate(
-				  convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
-				  , DateChange.addDayToDate(
-						  convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
-		  try {
-			  notificationServices.deleteNotification(1006);
-		  }catch(e){print("1006"+e.toString());}
-		  notificationServices.reminderNotificationService(id: 1006 , titleString: "From MGT-14 for ${widget.client.name}",
-				  bodyString: "Form filling due date is ${selectedDateOfAgmSubmission.add(Duration(days: 30))}",
-				  scheduleTime: selectedDateOfAgmSubmission.add(Duration(days: 22,hours: 13)));
-		  
-		  
+		
+		  await NotificationServices().deleteNotification('${widget.client.key}1006');
+		  await updateDBUpcoming('Form MGT-14', DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30).split('-')[1]
+				  , DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30).split('-')[0]);
+		  NotificationServices().reminderNotificationService('${widget.client.key}1006', "${widget.client.name}'s Form MGT-14(ROC)",
+				  "${widget.client.name}'s Form MGT-14 is on  ${DateChange.addDayToDate(convertDate(selectedDateOfAgmSubmission), 30)}"
+				  , selectedDateOfAgmSubmission.add(Duration(days: 30))
+		  );
 		  
 		  print('success');
-	  }on PlatformException catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message,
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
-	  }catch(e){
-		  Fluttertoast.showToast(
-				  msg: e.message,
-				  toastLength: Toast.LENGTH_SHORT,
-				  gravity: ToastGravity.BOTTOM,
-				  timeInSecForIos: 1,
-				  backgroundColor: Color(0xff666666),
-				  textColor: Colors.white,
-				  fontSize: 16.0);
+	  } on PlatformException catch(e){
+		  flutterToast(message: e.message);
+	  } catch(e){
+		  flutterToast(message: "Something went wrong");
 	  }
-	}
-	
-	
-	Future<void> editAGMDate(BuildContext context) async{
-		return showDialog<void>(
-				context: context,
-				builder: (BuildContext context){
-					return AlertDialog(
-						title: Text('Enter AGM Date',textAlign: TextAlign.center,style: TextStyle(
-							fontWeight: FontWeight.bold,
-						),),
-						
-						shape: RoundedRectangleBorder(
-							borderRadius: BorderRadius.circular(10),
-						),
-						
-						content: SingleChildScrollView(
-							child: Column(
-								crossAxisAlignment: CrossAxisAlignment.stretch,
-								children: <Widget>[
-									SizedBox(height: 10,),
-									
-									Text("Sure You want to delete"),
-								],
-							),
-						),
-						
-						actions: <Widget>[
-							FlatButton(
-								child: Text('Confirm'),
-								onPressed: () async{
-									String firebaseUserId= await SharedPrefs.getStringPreference("uid");
-									
-									dfb = firebaseDatabase.reference();
-									await dfb.child('usersUpcomingCompliances')
-											.child(firebaseUserId)
-											.child(widget.client.email)
-											.child('ROC')
-											.remove();
-									
-									dfb = firebaseDatabase.reference();
-									await dfb.child('complinces')
-											.child('ROC')
-											.child(firebaseUserId)
-											.child(widget.client.email.replaceAll('.', ','))
-											.child(convertDate(selectedDateOfAgmSubmission))
-											.remove();
-									
-									Navigator.of(context).pop();
-									Fluttertoast.showToast(
-											msg: 'Date Deleted',
-											toastLength: Toast.LENGTH_SHORT,
-											gravity: ToastGravity.BOTTOM,
-											timeInSecForIos: 1,
-											backgroundColor: Color(0xff666666),
-											textColor: Colors.white,
-											fontSize: 16.0);
-								},
-							),
-							
-							FlatButton(
-								child: Text('Cancel'),
-								onPressed: (){
-									Navigator.of(context).pop();
-								},
-							)
-						],
-					);
-				}
-		);
-	}
+	}    // Weather update or add new agm this will update notification and upcoming compliances in user.
 	
 }

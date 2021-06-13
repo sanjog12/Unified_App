@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
-import 'package:unified_reminder/services/AuthService.dart';
+import 'package:unified_reminder/screens/RegisterPage.dart';
+import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,7 +30,53 @@ class _LoginPageState extends State<LoginPage>{
   GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _loginScaffold = GlobalKey<ScaffoldState>();
   bool obscureText = true;
+  GlobalKey key = GlobalKey();
+  GlobalKey first = GlobalKey();
+  GlobalKey second = GlobalKey();
+  GlobalKey third = GlobalKey();
   
+  Future<void> tutorialFirst() async{
+    try {
+      String temp = await SharedPrefs.getStringPreference("loginTutorial");
+      print(temp);
+      if (temp != "done") {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(this.context).startShowCase([first]);
+          SharedPrefs.setStringPreference("loginTutorial", "done");
+        });
+      }
+    }on MissingPluginException catch(e){
+      debugPrint(e.message);
+    }catch(e){
+      print(e);
+    }
+  }
+
+
+  Future<void> tutorialSecond() async{
+    try {
+      String temp = await SharedPrefs.getStringPreference("loginTutorial");
+      String temp2 = await SharedPrefs.getStringPreference("login2Tutorial");
+      print(temp);
+      if (temp == "done") {
+        if(temp2 != "done"){
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ShowCaseWidget.of(this.context).startShowCase([second, third]);
+            SharedPrefs.setStringPreference("login2Tutorial", "done");
+          });
+        }
+      }
+    }catch(e){
+      debugPrint(e);
+    }
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    tutorialFirst();
+    tutorialSecond();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -38,16 +88,16 @@ class _LoginPageState extends State<LoginPage>{
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(
-                height: 50.0,
+                height: 40.0,
               ),
               Text(
                 "Welcome Back, ",
-                style: _theme.textTheme.headline.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontSize: 26.0,
                   ),
@@ -58,7 +108,7 @@ class _LoginPageState extends State<LoginPage>{
               ),
               Text(
                 "Sign In to Continue",
-                style: _theme.textTheme.subtitle.merge(
+                style: _theme.textTheme.headline6.merge(
                   TextStyle(
                     fontWeight: FontWeight.w300,
                   ),
@@ -103,7 +153,8 @@ class _LoginPageState extends State<LoginPage>{
                           obscureText: obscureText,
                           decoration: InputDecoration(
                             hintText: "Password",
-                            suffixIcon: GestureDetector(child: Icon(Icons.remove_red_eye,color: Colors.white,),onTap: (){
+                            suffixIcon: GestureDetector(child: Icon(obscureText?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,),
+                              onTap: (){
                               setState(() {
                                 obscureText = !obscureText;
                               });
@@ -152,25 +203,29 @@ class _LoginPageState extends State<LoginPage>{
                     SizedBox(
                       height: 40.0,
                     ),
-                    Container(
-                      decoration: roundedCornerButton,
-                      height: 50.0,
-                      child: FlatButton(
-                        child: buttonLoading
-                            ? Container(
-                                height: 30.0,
-                                width: 30.0,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3.0,
-                                  valueColor: AlwaysStoppedAnimation(
-                                    Colors.white,
+                    Showcase(
+                      key: second,
+                      description: "Login using your credentials",
+                      child: Container(
+                        decoration: roundedCornerButton,
+                        height: 50.0,
+                        child: TextButton(
+                          child: buttonLoading
+                              ? Container(
+                                  height: 30.0,
+                                  width: 30.0,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3.0,
+                                    valueColor: AlwaysStoppedAnimation(
+                                      Colors.white,
+                                    ),
                                   ),
-                                ),
-                              )
-                            : Text("Login"),
-                        onPressed: () {
-                          loginUser(userAuth);
-                        },
+                                )
+                              : Text("Login",style: TextStyle(color: Colors.white)),
+                          onPressed: () {
+                            loginUser(userAuth, context);
+                          },
+                        ),
                       ),
                     ),
 	                  
@@ -180,10 +235,13 @@ class _LoginPageState extends State<LoginPage>{
                       height: 20,
                     ),
 	
-	                  Container(
+	                  Showcase(
+                      key: third,
+	                    description: "Continue with google login",
+	                    child: Container(
                       decoration: roundedCornerButton,
 		                  height: 50.0,
-		                  child: FlatButton(
+		                  child: TextButton(
 			                  child: gButtonLoading
 					                  ? Container(
 				                  height: 30.0,
@@ -194,15 +252,15 @@ class _LoginPageState extends State<LoginPage>{
 						                  Colors.white,
 					                  ),
 				                  ),
-			                  )
-					                  : Row(
-				                  mainAxisAlignment: MainAxisAlignment.start,
+			                  ) :
+                        Stack(
 				                  children: <Widget>[
-					
 					                  Image.asset("assets/images/google_logo0_5p.png", height:50 ),
 					                  SizedBox(width: 40),
-					                  Text(
-						                  "Login Using Google",
+					                  Center(
+					                    child: Text(
+						                  "Login Using Google",style: TextStyle(color: Colors.white),
+					                    ),
 					                  ),
 				                  ],
 			                  ),
@@ -212,19 +270,19 @@ class _LoginPageState extends State<LoginPage>{
                               gButtonLoading = true;
                             });
                             UserBasic userBasic = await _auth.googleLogIn();
-                            print("userbasic check" +userBasic.email);
+                            // print("userbasic check" +userBasic.email);
                             if (userBasic != null) {
                               Navigator.pop(context);
                               Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context)=> Dashboard(
-                                    userBasic: userBasic,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowCaseWidget( builder: Builder(
+                                      builder: (context) => Dashboard(userBasic: userBasic,),),
+                                    ),
                                   )
-                                )
                               );
-                            } else {}
+                            }
                           }on PlatformException catch (e) {
-                            flutterToast(message: "Something went Wrong");
+                            flutterToast(message: e.message);
                           } catch(e){
                             flutterToast(message: "Can't Sign In at this Moment");
                           } finally {
@@ -234,43 +292,52 @@ class _LoginPageState extends State<LoginPage>{
                           }
 			                  },
 		                  ),
+	                    ),
 	                  ),
                     
                     SizedBox(
                       height: 50.0,
                     ),
-  
                     
-                    
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Dont have an account?",
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.0,
+                    Showcase(
+                      key: first,
+                      description: "New to Tax Reminder? Click here to join now",
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Dont have an account?",
                           ),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(RegisterTypeRoute);
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: linkColor,
-                                fontWeight: FontWeight.bold,
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context,
+                                  MaterialPageRoute(
+                                    builder: (context)=>ShowCaseWidget(builder: Builder(
+                                      builder: (context)=>RegisterPage(),
+                                    ))
+                                  )
+                                );
+                              },
+                              child: Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  color: linkColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      ],
-                    )
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 70),
             ],
           ),
         ),
@@ -293,7 +360,7 @@ class _LoginPageState extends State<LoginPage>{
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: TextFormField(
               validator: (value) => validateEmail(value),
               
@@ -307,11 +374,10 @@ class _LoginPageState extends State<LoginPage>{
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+            padding: EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
             child: Container(
               height: 50,
-              child: FlatButton(
-                color: buttonColor,
+              child: TextButton(
                 child: loading ? Container(
                   height: 30,
                     width: 30,
@@ -330,17 +396,9 @@ class _LoginPageState extends State<LoginPage>{
                   print(st);
                   try{
                     _auth.resetPassword(st,context);
-                  }
-                  catch(e){
-                    Fluttertoast.showToast(
-                        msg: e.message,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIos: 2,
-                        backgroundColor: Color(0xff666666),
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }finally{
+                  } on PlatformException catch(e){
+                    flutterToast(message: e.message);
+                  } finally{
                     loading= false;
                   }
                 },
@@ -351,12 +409,11 @@ class _LoginPageState extends State<LoginPage>{
       );
     }
     );
-    
   }
   
   
 
-  Future<void> loginUser(UserAuth authDetails) async {
+  Future<void> loginUser(UserAuth authDetails, BuildContext context) async {
     try {
       if (_loginFormKey.currentState.validate()) {
         _loginFormKey.currentState.save();
@@ -365,14 +422,17 @@ class _LoginPageState extends State<LoginPage>{
         });
 
         UserBasic userBasic = await _auth.loginUser(authDetails,context);
-        print(userBasic.fullName);
         if (userBasic != null) {
           Navigator.pop(context);
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => Dashboard(
-                userBasic: userBasic,
-              )
+              builder: (context) => ShowCaseWidget(
+                builder: Builder(
+                  builder: (context)=>Dashboard(
+                    userBasic: userBasic,
+                  ),
+                ),
+              ),
             )
           );
         } else {}
@@ -382,11 +442,11 @@ class _LoginPageState extends State<LoginPage>{
           msg: e.message,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1,
           backgroundColor: Color(0xff666666),
           textColor: Colors.white,
           fontSize: 16.0);
     } catch (e) {
+      print(e);
       flutterToast(message: "Unable to login at the moment");
     } finally {
       this.setState(() {

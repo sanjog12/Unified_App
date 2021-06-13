@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unified_reminder/models/client.dart';
+import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryComplinceObjectForTDS.dart';
 import 'package:unified_reminder/models/payment/ESIMonthlyContributionObejct.dart';
 import 'package:unified_reminder/screens/ESIC/DetailedHistoryESI.dart';
@@ -23,6 +23,9 @@ class _HistoryESIState extends State<HistoryESI> {
     return Scaffold(
 	    appBar: AppBar(
 		    title: Text('ESI Payment History'),
+		    actions: <Widget>[
+			    helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20ESI"),
+		    ],
 	    ),
 	    
 	    body: Container(
@@ -68,7 +71,8 @@ class _HistoryESIState extends State<HistoryESI> {
 								    }
 						    },
 						    ),
-					    )
+					    ),
+					    SizedBox(height: 70,),
 				    ],
 			    ),
 	    ),
@@ -93,7 +97,7 @@ class _HistoryESIState extends State<HistoryESI> {
 							  keyDB: key,
 						  )
 					  )
-			  );
+			  ).whenComplete((){setState(() {});});
 		  }
   		
 	  }

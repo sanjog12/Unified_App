@@ -1,8 +1,12 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userbasic.dart';
-import 'package:unified_reminder/router.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
-import 'package:unified_reminder/services/AuthService.dart';
+import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
+import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -18,48 +22,76 @@ class _RegisterPageState extends State<RegisterPage> {
   final UserBasic _userBasic = UserBasic();
   bool submitButtonLoading = false;
   bool googleSignInButton = false;
+  bool checkBox = false;
+  GlobalKey first = GlobalKey();
+  GlobalKey second = GlobalKey();
+  GlobalKey third = GlobalKey();
+  GlobalKey fourth = GlobalKey();
+  ScrollController controller = ScrollController();
+  
+  tutorial() async{
+    try {
+      String temp = await SharedPrefs.getStringPreference("registerTutorial");
+      print(temp);
+      if (temp != "done") {
+        controller.animateTo(controller.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ShowCaseWidget.of(this.context).startShowCase([first, second]);
+          SharedPrefs.setStringPreference("registerTutorial", "done");
+        });
+      }
+    }catch(e){
+      debugPrint(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    tutorial();
+  }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
-    final TextEditingController _pass = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Register"),
       ),
       body: SingleChildScrollView(
+        controller: controller,
         child: Container(
-          padding: EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+          padding: EdgeInsets.only(top: 24.0, right: 24, left: 24, bottom: 70),
+          child: Form(
+            key: _registerKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                  Text(
+                  "Create Account",
+                  style: _theme.textTheme.headline6.merge(
+                    TextStyle(
+                      fontSize: 26.0,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
                 Text(
-                "Create Account",
-                style: _theme.textTheme.headline.merge(
-                  TextStyle(
-                    fontSize: 26.0,
+                  "Register to own a free account today.",
+                  style: _theme.textTheme.bodyText2.merge(
+                    TextStyle(
+                      fontWeight: FontWeight.w300,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
-              Text(
-                "Register to own a free account today.",
-                style: _theme.textTheme.subtitle.merge(
-                  TextStyle(
-                    fontWeight: FontWeight.w300,
-                  ),
+                SizedBox(
+                  height: 50.0,
                 ),
-              ),
-              SizedBox(
-                height: 50.0,
-              ),
-              
-              Form(
-                key: _registerKey,
-                child: Column(
+                
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Column(
@@ -72,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                             decoration: buildCustomInput(hintText: "Full Name"),
                             onSaved: (String value) =>
-                                _userBasic.fullName = value,
+                            _userBasic.fullName = value,
                             validator: (String value) {
                               return requiredField(value, "Full Name");
                             }),
@@ -99,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               return "Invalid length";
                             }
                             return requiredField(value, "Mobile number");
-                          },
+                            },
                           onSaved: (String value) =>
                           _userBasic.phoneNumber = value,
                           decoration:
@@ -123,10 +155,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                           validator: (String value) {
                             return validateEmail(value);
-                          },
+                            },
                           onSaved: (String value) => _userBasic.email = value,
-                          decoration:
-                              buildCustomInput(hintText: "Email Address"),
+                          decoration: buildCustomInput(hintText: "Email Address"),
                           keyboardType: TextInputType.emailAddress,
                         ),
                       ],
@@ -139,7 +170,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       children: <Widget>[
                         Text("Password",),
                         
-                        
                         SizedBox(
                           height: 10.0,
                         ),
@@ -147,9 +177,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                           validator: (String value) {
                             return validatePasswordLength(value);
-                          },
+                            },
                           onChanged: (String value) =>
-                              _userBasic.password = value,
+                          _userBasic.password = value,
                           obscureText: true,
                           decoration: buildCustomInput(hintText: "Password"),
                         ),
@@ -171,111 +201,191 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextFormField(
                           validator: (String value) {
-                            return validatePasswordMatch(value, _userBasic.password);
-                          },
+                            return validatePasswordMatch(value, _userBasic.password);},
                           obscureText: true,
                           decoration:
-                              buildCustomInput(hintText: "Confirm Password"),
+                          buildCustomInput(hintText: "Confirm Password"),
                         ),
                       ],
-                    ),
-                    
-                    SizedBox(
-                      height: 50.0,
-                    ),
-                    
-                    Container(
-                      decoration: roundedCornerButton,
-                      height: 50.0,
-                      child: FlatButton(
-                        child: submitButtonLoading
-                            ? Container(
-                                height: 30.0,
-                                width: 30.0,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3.0,
-                                  valueColor: AlwaysStoppedAnimation(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                "Register",style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                        onPressed: () {
-                          createUser();
-                        },
-                      ),
-                    ),
-                    
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text("OR",textAlign: TextAlign.center),
-                    SizedBox(
-                      height: 20,
                     ),
   
-                    Container(
-                      decoration: roundedCornerButton,
-                      height: 50,
-                      child: FlatButton(
-                        child: googleSignInButton
-                            ? Container(
-                          height: 30.0,
-                          width: 30.0,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3.0,
-                            valueColor: AlwaysStoppedAnimation(
-                              Colors.white,
-                            ),
-                          ),
-                        )
-                            : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          
-                          children: <Widget>[
-                            Image.asset("assets/images/google_logo0_5p.png", height:50 ),
-                            SizedBox(width: 40,),
-                            Text(
-                              "Sign up with Google",style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        onPressed: () {
-                          googleSignIn();
-                        },
-                      ),
-                    ),
-                    
                     SizedBox(
-                      height: 30.0,
+                      height: 50.0,
                     ),
                     
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "Already have an account?",
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        FilterChip(
+                          avatar: CircleAvatar(
+                            backgroundColor: buttonColor,
+                          ),
+                          labelPadding: EdgeInsets.all(5),
+                          label: Text("Click to agree with T&C and Privacy Policy"),
+                          selected: checkBox,
+                          onSelected: (temp){
+                            setState(() {
+                              checkBox = temp;
+                            });
+                          },
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.0,
-                          ),
-                          child: Text(
-                            "Sign In",
-                            style: TextStyle(
-                              color: linkColor,
-                              fontWeight: FontWeight.bold,
+                        
+                        // Row(
+                        //   children: [
+                        //     Checkbox(
+                        //       onChanged: (bool temp){
+                        //         setState(() {
+                        //           checkBox = temp;
+                        //         });
+                        //       },
+                        //       value: checkBox,
+                        //     ),
+                        //     Text("By clicking on the tab you agree with T&C and Privacy Policy of this app",overflow: TextOverflow.clip,),
+                        //   ],
+                        // ),
+                        
+                        
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              child: Text("T&C",style: TextStyle(fontSize: 10, color: Colors.blue),),
+                              onTap: (){
+                                Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context)=>PDFViewer(
+                                        pdf: "apptc.pdf",
+                                      )
+                                  ),
+                                );
+                              },
                             ),
-                          ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            GestureDetector(
+                              child: Text("Privacy Policy",style: TextStyle(fontSize: 10, color: Colors.blue),),
+                              onTap: (){
+                                Navigator.push(context,
+                                  MaterialPageRoute(
+                                      builder: (context)=>PDFViewer(
+                                        pdf: "privacypolicy.pdf",
+                                      )
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(width: 30,),
+                          ],
                         )
                       ],
                     ),
-                  ],
-                ),
-              )
-            ],
+                    
+                    SizedBox(
+                      height: 50.0,
+                    ),
+                    
+                    Showcase(
+                      key: first,
+                      description: "Register your self using above fields",
+                      child: Container(
+                        decoration: roundedCornerButton,
+                        height: 50.0,
+                        child: TextButton(
+                          child: submitButtonLoading
+                              ? Container(
+                            height: 30.0,
+                            width: 30.0,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3.0,
+                              valueColor: AlwaysStoppedAnimation(
+                                Colors.white,
+                              ),
+                                    ),
+                                  )
+                                : Text(
+                                    "Register",style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                            onPressed: () {
+                              createUser();
+                            },
+                          ),
+                        ),
+                      ),
+                      
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text("OR",textAlign: TextAlign.center),
+                      SizedBox(
+                        height: 20,
+                      ),
+  
+                      Showcase(
+                        showArrow: true,
+                        key: second,
+                        description: "Or register using Google",
+                        child: Container(
+                          decoration: roundedCornerButton,
+                          height: 50,
+                          child: TextButton(
+                            child: googleSignInButton
+                                ? Container(
+                              height: 30.0,
+                              width: 30.0,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3.0,
+                                valueColor: AlwaysStoppedAnimation(
+                                  Colors.white,
+                                ),
+                              ),
+                            )
+                                : Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              
+                              children: <Widget>[
+                                Image.asset("assets/images/google_logo0_5p.png", height:50 ),
+                                SizedBox(width: 40,),
+                                Text(
+                                  "Sign up with Google",style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              googleSignIn();
+                            },
+                          ),
+                        ),
+                      ),
+                      
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Already have an account?",
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                            ),
+                            child: Text(
+                              "Sign In",
+                              style: TextStyle(
+                                color: linkColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -371,63 +481,85 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> createUser() async {
     if (_registerKey.currentState.validate()) {
       _registerKey.currentState.save();
-      this.setState(() {
-        submitButtonLoading = true;
-      });
-      AuthService _authService = AuthService();
-      
-      UserBasic user = await _authService.registerProUser(_userBasic);
-      
-      flutterToast(message: "Log in Successful");
-      
-      this.setState(() {
-        submitButtonLoading = false;
-      });
-      if (user != null) {
+      if (checkBox == true) {
+        this.setState(() {
+          submitButtonLoading = true;
+        });
+        AuthService _authService = AuthService();
+    
+        UserBasic user = await _authService.registerProUser(_userBasic);
+    
+        flutterToast(message: "Log in Successful");
+    
+        this.setState(() {
+          submitButtonLoading = false;
+        });
+        if (user != null) {
           print(user);
           Navigator.pop(context);
           Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context)=>Dashboard(
-                userBasic: user,
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ShowCaseWidget(
+                      builder: Builder(
+                        builder: (context) =>
+                            Dashboard(
+                              userBasic: user,
+                            ),
+                      ),
+                    ),
               )
-            )
           );
 
 //        Navigator.of(context).pushReplacementNamed(PersonalInfoRoute);
-      } else {
-        print("Didnt create");
+        } else {
+          print("Didnt create");
+        }
+      }
+      else{
+        flutterToast(message: "Please agree with T&C and Privacy Policy");
       }
     }
   }
   
-  Future<void>  googleSignIn() async{
-    this.setState(() {
-      googleSignInButton = true;
-    });
-    AuthService _authService = AuthService();
-
+  Future<void>  googleSignIn() async {
+    if (checkBox) {
+      this.setState(() {
+        googleSignInButton = true;
+      });
+      AuthService _authService = AuthService();
+    
       _userBasic.userType = 'bus';
     
-    UserBasic googleUser = await _authService.googlesignup(_userBasic.userType);
-    this.setState(() {
-      googleSignInButton = false;
-    });
+      UserBasic googleUser = await _authService.googleSignup(
+          _userBasic.userType);
+      this.setState(() {
+        googleSignInButton = false;
+      });
     
-
-    if (googleUser != null) {
-     
+    
+      if (googleUser != null) {
         print(googleUser);
         Navigator.pop(context);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context)=> Dashboard(
-              userBasic: googleUser,
-            )
+            builder: (context) =>
+                ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context) =>
+                        Dashboard(
+                          userBasic: googleUser,
+                        ),
+                  ),
+                ),
           ),
         );
+      }
+    }
+    else{
+      flutterToast(message: "Please agree with T&C and Privacy Policy");
     }
   }
 }

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -8,7 +6,6 @@ recordDeletedToast() {
 			msg: "Deleted Successfully",
 			toastLength: Toast.LENGTH_SHORT,
 			gravity: ToastGravity.BOTTOM,
-			timeInSecForIos: 1,
 			backgroundColor: Color(0xff666666),
 			textColor: Colors.white,
 			fontSize: 16.0);
@@ -19,7 +16,6 @@ recordEditToast() {
 			msg: "Details Updated",
 			toastLength: Toast.LENGTH_SHORT,
 			gravity: ToastGravity.BOTTOM,
-			timeInSecForIos: 1,
 			backgroundColor: Color(0xff666666),
 			textColor: Colors.white,
 			fontSize: 16.0);
@@ -30,8 +26,20 @@ flutterToast({String message}){
 			msg: message,
 			toastLength: Toast.LENGTH_SHORT,
 			gravity: ToastGravity.BOTTOM,
-			timeInSecForIos: 1,
 			backgroundColor: Color(0xff666666),
 			textColor: Colors.white,
 			fontSize: 16.0);
+}
+
+showToastMessage(BuildContext context,{String title, String content}) async{
+	return showDialog(
+		context: context,
+		builder: (context){
+			return AlertDialog(
+				title: Text(title),
+				content: Text(content),
+				
+			);
+		}
+	);
 }
