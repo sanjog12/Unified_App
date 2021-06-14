@@ -84,7 +84,8 @@ class _LoginPageState extends State<LoginPage>{
     return Scaffold(
       key: _loginScaffold,
       appBar: AppBar(
-        title: Text("Log In", textAlign: TextAlign.center,style: _theme.textTheme.headline6,),
+        centerTitle: true,
+        title: Text("Tax Reminder",style: _theme.textTheme.headline6,),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -406,6 +407,14 @@ class _LoginPageState extends State<LoginPage>{
 
         UserBasic userBasic = await _auth.loginUser(authDetails,context);
         if (userBasic != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Login Successful, Welcome ${userBasic.fullName?? "User"}",
+                textAlign: TextAlign.center,
+              ),
+              duration: Duration(seconds: 7),
+            )
+          );
           Navigator.pop(context);
           Navigator.of(context).push(
             MaterialPageRoute(

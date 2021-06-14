@@ -567,19 +567,6 @@ class _RegisterPageState extends State<RegisterPage> {
       if (googleUser != null) {
         flutterToast(message: "Login Successful");
         Navigator.pop(context);
-        Navigator.push(context,
-          MaterialPageRoute(
-            builder: (context) =>
-                ShowCaseWidget(
-                  builder: Builder(
-                    builder: (context) =>
-                        Dashboard(
-                          userBasic: googleUser,
-                        ),
-                  ),
-                ),
-          ),
-        );
       }
     }
     else{
