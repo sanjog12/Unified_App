@@ -230,7 +230,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             backgroundColor: buttonColor,
                           ),
                           labelPadding: EdgeInsets.all(5),
-                          label: Text("Click to agree with T&C and Privacy Policy"),
+                          label: Text("Click to agree with T&C and Privacy Policy",style: _theme.textTheme.bodyText2,),
                           selected: checkBox,
                           onSelected: (temp){
                             setState(() {
@@ -273,7 +273,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               width: 20,
                             ),
                             GestureDetector(
-                              child: Text("Privacy Policy",style: TextStyle(fontSize: 10, color: Colors.blue),),
+                              child: Text("Privacy Policy",style: _theme.textTheme.bodyText2.copyWith(fontSize: 10, color: Colors.blue),),
                               onTap: (){
                                 Navigator.push(context,
                                   MaterialPageRoute(
@@ -506,8 +506,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
         await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.grey,
-          content: Text(
-              "An verification link will be sent to your provided email "),
+          content: Text("An verification link will be sent to your provided email ",),
           action: SnackBarAction(
             label: "Ok",
             onPressed: () {
@@ -568,8 +567,7 @@ class _RegisterPageState extends State<RegisterPage> {
       if (googleUser != null) {
         flutterToast(message: "Login Successful");
         Navigator.pop(context);
-        Navigator.push(
-          context,
+        Navigator.push(context,
           MaterialPageRoute(
             builder: (context) =>
                 ShowCaseWidget(

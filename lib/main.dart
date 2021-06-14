@@ -99,7 +99,7 @@ class _BootstrapperState extends State<Bootstrapper>{
         ),
         scaffoldBackgroundColor: backgroundColor,
         textTheme: TextTheme(
-          headline6: TextStyle(fontFamily: "ProximaNova"),
+          headline6: TextStyle( fontFamily: "ProximaNova"),
           bodyText2: TextStyle(
             fontFamily: "ProximaNova",
             fontSize: 16.0,

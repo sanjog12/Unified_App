@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage>{
     return Scaffold(
       key: _loginScaffold,
       appBar: AppBar(
-        title: Text("Log In"),
+        title: Text("Log In", textAlign: TextAlign.center,style: _theme.textTheme.headline6,),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage>{
               ),
               Text(
                 "Sign In to Continue",
-                style: _theme.textTheme.headline6.merge(
+                style: _theme.textTheme.bodyText2.merge(
                   TextStyle(
                     fontWeight: FontWeight.w300,
                   ),
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage>{
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text("Email Address"),
+                        Text("Email Address", style: _theme.textTheme.bodyText2,),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage>{
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text("Password"),
+                        Text("Password", style: _theme.textTheme.bodyText2,),
                         SizedBox(
                           height: 10.0,
                         ),
@@ -176,9 +176,9 @@ class _LoginPageState extends State<LoginPage>{
                         },
                         child: Text(
                           "Forgot Password?",
-                          style: TextStyle(
+                          style: _theme.textTheme.bodyText2.copyWith(
                             fontWeight: FontWeight.bold,
-                          ),
+                          )
                         ),
                       ),
                     ),
@@ -204,7 +204,7 @@ class _LoginPageState extends State<LoginPage>{
                                     ),
                                   ),
                                 )
-                              : Text("Login",style: TextStyle(color: Colors.white)),
+                              : Text("Login", style: _theme.textTheme.bodyText2.copyWith(color: Colors.white)),
                           onPressed: () {
                             loginUser(userAuth, context);
                           },
@@ -242,7 +242,7 @@ class _LoginPageState extends State<LoginPage>{
 					                  SizedBox(width: 40),
 					                  Center(
 					                    child: Text(
-						                  "Login Using Google",style: TextStyle(color: Colors.white),
+						                  "Login Using Google", style: _theme.textTheme.bodyText2.copyWith(color: Colors.white),
 					                    ),
 					                  ),
 				                  ],
@@ -289,7 +289,7 @@ class _LoginPageState extends State<LoginPage>{
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Dont have an account?",
+                            "Dont have an account?", style: _theme.textTheme.bodyText2,
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(
@@ -307,7 +307,7 @@ class _LoginPageState extends State<LoginPage>{
                               },
                               child: Text(
                                 "Sign Up",
-                                style: TextStyle(
+                                style: _theme.textTheme.bodyText2.copyWith(
                                   color: linkColor,
                                   fontWeight: FontWeight.bold,
                                 ),
