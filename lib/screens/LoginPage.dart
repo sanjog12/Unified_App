@@ -151,31 +151,14 @@ class _LoginPageState extends State<LoginPage>{
                           validator: (value) => validatePasswordLength(value),
                           onSaved: (value) => userAuth.password = value,
                           obscureText: obscureText,
-                          decoration: InputDecoration(
-                            hintText: "Password",
-                            suffixIcon: GestureDetector(child: Icon(obscureText?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,),
+                          decoration: buildCustomInput(hintText: "Password").copyWith(
+                            suffixIcon: GestureDetector(
+                              child: Icon(obscureText?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,),
                               onTap: (){
-                              setState(() {
-                                obscureText = !obscureText;
-                              });
-                            },),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 0.0,
-                              horizontal: 16.0,
-                            ),
-  
-                            fillColor: textboxColor,
-                            labelStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 0.0,
-                                style: BorderStyle.none,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            filled: true,
+                                setState(() {
+                                  obscureText = !obscureText;
+                                });
+                              },),
                           ),
                         ),
                       ],
@@ -438,13 +421,7 @@ class _LoginPageState extends State<LoginPage>{
         } else {}
       }
     } on PlatformException catch (e) {
-      Fluttertoast.showToast(
-          msg: e.message,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      flutterToast(message: e.message);
     } catch (e) {
       print(e);
       flutterToast(message: "Unable to login at the moment");

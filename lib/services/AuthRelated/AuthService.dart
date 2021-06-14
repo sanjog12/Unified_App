@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -66,17 +67,22 @@ class AuthService {
     try {
       UserCredential newUser = await _auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
-      // await newUser.user.sendEmailVerification();
-      flutterToast(message: "A verification link has been send to your Entered mail");
+      DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+      await newUser.user.sendEmailVerification();
+      await Future.delayed(Duration(seconds: 1));
       _firestore.collection(FsUsersPath).doc(newUser.user.uid).set({
         "fullname": user.fullName,
         "phone": user.phoneNumber,
         "password": user.password,
         "progress": 1,
       });
-      // print('67');
+      
+      UserCredential loginUser = await _auth.signInWithEmailAndPassword(
+          email: user.email, password: user.password);
+
       FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
       dbf = firebaseDatabase.reference();
+      AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
       await firebaseMessaging.getToken().then(( String value){
         String uid = FirebaseAuth.instance.currentUser.uid?? null;
         if(uid != "null") {
@@ -84,24 +90,26 @@ class AuthService {
           dbf
               .child("FCMTokens")
               .child(uid)
-              .set({value.substring(0, 10): value});
+              .child("-${androidDeviceInfo.androidId.substring(0, 10)}")
+              .set(value);
         }
       });
-      // print('12');
-      UserCredential loginUser = await _auth.signInWithEmailAndPassword(
-          email: user.email, password: user.password);
-      // print('34');
+      
+      
       return UserBasic(
-        email: newUser.user.email,
-        uid: newUser.user.uid,
+        email: loginUser.user.email,
+        uid: loginUser.user.uid,
         fullName: user.fullName,
       );
     } on FirebaseAuthException catch(e){
       flutterToast(message: e.message);
+      return null;
     } on FirebaseException catch(e){
       flutterToast(message: e.message);
+      return null;
     } on PlatformException catch(e){
       flutterToast(message: e.message);
+      return null;
     } catch (e) {
       print("error");
       print(e);
@@ -110,7 +118,7 @@ class AuthService {
   }
   
   
-  Future<UserBasic> googleSignup(userType) async{
+  Future<UserBasic> googleSignUp(userType) async{
   	try{
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
@@ -133,11 +141,14 @@ class AuthService {
       fullName: loginUser.user.displayName,);
   	} on FirebaseAuthException catch(e){
   	  flutterToast(message: e.message);
-    } on PlatformException catch(e){
-      flutterToast(message: 'Google Sign In failed');
+  	  return null;
+    } on FirebaseException catch(e){
+      flutterToast(message: e.message);
       return null;
-    }
-    catch(e){
+    } on PlatformException catch(e){
+      flutterToast(message: e.message);
+      return null;
+    } catch(e){
   	  print(e);
       flutterToast(message: "Something went wrong");
       return null;
@@ -150,6 +161,9 @@ class AuthService {
       UserCredential user = await _auth.signInWithEmailAndPassword(
           email: authDetails.email, password: authDetails.password);
       bool temp = user.user.emailVerified;
+      
+      // user.user.sendEmailVerification();
+      
       return UserBasic(
         email: user.user.email,
         uid: user.user.uid,
@@ -167,9 +181,9 @@ class AuthService {
   
   Future<UserBasic> googleLogIn() async {
     try{
-      bool t = await _googleSignIn.isSignedIn();
-      print(t);
-      if(t== true){
+      bool checkGoogleAuth = await _googleSignIn.isSignedIn();
+      print(checkGoogleAuth);
+      if(checkGoogleAuth== true){
         _googleSignIn.signOut();
       }
       GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
@@ -178,9 +192,9 @@ class AuthService {
           accessToken: googleSignInAuthentication.accessToken);
 
       UserCredential loginUser = await _auth.signInWithCredential(authCredential);
-      print(loginUser.user.uid);
-      bool temp = loginUser.additionalUserInfo.isNewUser;
-      if(temp){
+      
+      bool firstTimeLogin = loginUser.additionalUserInfo.isNewUser;
+      if(firstTimeLogin){
         _firestore.collection(FsUsersPath).doc(loginUser.user.uid).set({
           "fullname": loginUser.user.displayName,
           "phone": loginUser.user.phoneNumber,
@@ -188,17 +202,19 @@ class AuthService {
           "progress": 1,
         });
       }
-      SharedPrefs.setStringPreference("uid", loginUser.user.uid);
+      
       return UserBasic(
         email: loginUser.user.email,
         uid: loginUser.user.uid,
       );
     } on FirebaseAuthException catch(e){
       flutterToast(message: e.message);
+    } on FirebaseException catch(e){
+      flutterToast(message: e.message);
     } on PlatformException catch (e) {
       flutterToast(message: e.message);
     } catch (e) {
-      flutterToast(message: "");
+      flutterToast(message: "Something went wrong!!!");
     }
     return null;
   }

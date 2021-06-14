@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
+import 'package:unified_reminder/screens/LoginPage.dart';
 import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
 import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
@@ -23,6 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool submitButtonLoading = false;
   bool googleSignInButton = false;
   bool checkBox = false;
+  bool obscureText = true;
   GlobalKey first = GlobalKey();
   GlobalKey second = GlobalKey();
   GlobalKey third = GlobalKey();
@@ -34,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
       String temp = await SharedPrefs.getStringPreference("registerTutorial");
       print(temp);
       if (temp != "done") {
-        controller.animateTo(controller.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+        await controller.animateTo(controller.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ShowCaseWidget.of(this.context).startShowCase([first, second]);
           SharedPrefs.setStringPreference("registerTutorial", "done");
@@ -180,8 +182,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                           onChanged: (String value) =>
                           _userBasic.password = value,
-                          obscureText: true,
-                          decoration: buildCustomInput(hintText: "Password"),
+                          obscureText: obscureText,
+                          decoration: buildCustomInput(hintText: "Password").copyWith(
+                            suffixIcon: GestureDetector(
+                              child: Icon(obscureText?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,),
+                              onTap: (){
+                                setState(() {
+                                  obscureText = !obscureText;
+                                });
+                              },),
+                          ),
                         ),
                       ],
                     ),
@@ -203,8 +213,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           validator: (String value) {
                             return validatePasswordMatch(value, _userBasic.password);},
                           obscureText: true,
-                          decoration:
-                          buildCustomInput(hintText: "Confirm Password"),
+                          decoration: buildCustomInput(hintText: "Confirm Password"),
                         ),
                       ],
                     ),
@@ -294,23 +303,24 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextButton(
                           child: submitButtonLoading
                               ? Container(
-                            height: 30.0,
-                            width: 30.0,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3.0,
-                              valueColor: AlwaysStoppedAnimation(
-                                Colors.white,
-                              ),
+                                  height: 30.0,
+                                  width: 30.0,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3.0,
+                                    valueColor: AlwaysStoppedAnimation(
+                                      Colors.white,
                                     ),
-                                  )
-                                : Text(
-                                    "Register",style: TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                            onPressed: () {
-                              createUser();
-                            },
-                          ),
+                                )
+                              : Text(
+                                  "Register",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                          onPressed: () {
+                            createUser();
+                          },
                         ),
+                      ),
                       ),
                       
                       SizedBox(
@@ -330,27 +340,32 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 50,
                           child: TextButton(
                             child: googleSignInButton
-                                ? Container(
-                              height: 30.0,
-                              width: 30.0,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3.0,
-                                valueColor: AlwaysStoppedAnimation(
-                                  Colors.white,
+                              ? Container(
+                                  height: 30.0,
+                                  width: 30.0,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3.0,
+                                    valueColor: AlwaysStoppedAnimation(
+                                      Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Image.asset(
+                                        "assets/images/google_logo0_5p.png",
+                                        height: 50),
+                                    SizedBox(
+                                      width: 40,
+                                    ),
+                                    Text(
+                                      "Sign up with Google",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            )
-                                : Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              
-                              children: <Widget>[
-                                Image.asset("assets/images/google_logo0_5p.png", height:50 ),
-                                SizedBox(width: 40,),
-                                Text(
-                                  "Sign up with Google",style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
                             onPressed: () {
                               googleSignIn();
                             },
@@ -486,35 +501,47 @@ class _RegisterPageState extends State<RegisterPage> {
           submitButtonLoading = true;
         });
         AuthService _authService = AuthService();
-    
+        
+        print("1");
+
+        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.grey,
+          content: Text(
+              "An verification link will be sent to your provided email "),
+          action: SnackBarAction(
+            label: "Ok",
+            onPressed: () {
+              },
+          ),
+        )).closed;
+        print("2");
         UserBasic user = await _authService.registerProUser(_userBasic);
-    
-        flutterToast(message: "Log in Successful");
+        
     
         this.setState(() {
           submitButtonLoading = false;
         });
         if (user != null) {
+          await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.grey,
+            content: Text(
+                "Successfully register, login again with your registered credentials. "
+                    "and ensure to verify your email before login."),
+            action: SnackBarAction(
+              label: "Ok",
+              onPressed: () {
+              },
+            ),
+          )).closed;
           print(user);
           Navigator.pop(context);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ShowCaseWidget(
+              builder: Builder(
                 builder: (context) =>
-                    ShowCaseWidget(
-                      builder: Builder(
-                        builder: (context) =>
-                            Dashboard(
-                              userBasic: user,
-                            ),
-                      ),
-                    ),
-              )
-          );
-
-//        Navigator.of(context).pushReplacementNamed(PersonalInfoRoute);
-        } else {
-          print("Didnt create");
+                    LoginPage(),),
+            ),
+          ));
         }
       }
       else{
@@ -532,15 +559,14 @@ class _RegisterPageState extends State<RegisterPage> {
     
       _userBasic.userType = 'bus';
     
-      UserBasic googleUser = await _authService.googleSignup(
-          _userBasic.userType);
+      UserBasic googleUser = await _authService.googleSignUp( _userBasic.userType);
       this.setState(() {
         googleSignInButton = false;
       });
     
     
       if (googleUser != null) {
-        print(googleUser);
+        flutterToast(message: "Login Successful");
         Navigator.pop(context);
         Navigator.push(
           context,

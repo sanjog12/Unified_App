@@ -45,7 +45,7 @@ class NotificationServices {
       if (uid != "null") {
         AndroidDeviceInfo androidDeviceInfo =
             await deviceInfoPlugin.androidInfo;
-        print(androidDeviceInfo.androidId.substring(0, 10));
+        
         dbf = firebaseDatabase.reference();
         dbf
             .child("FCMTokens")

@@ -64,7 +64,7 @@ class _DashboardState extends State<Dashboard> {
   
   Future<void> getClients() async{
     
-    firebaseUID = await SharedPrefs.getStringPreference('uid');
+    firebaseUID = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase
         .reference()
         .child('user_clients')
@@ -74,26 +74,34 @@ class _DashboardState extends State<Dashboard> {
     print("entered getClient function ");
     await dbf.once().then((DataSnapshot snapshot) async{
       Map<dynamic,dynamic> map = await snapshot.value;
-        for(var data in map.entries) {
+      if(map != null) {
+        for (var data in map.entries) {
           if (map.isNotEmpty) {
             setState(() {
-            clientList.add(Client(
-                data.value["name"],
-                data.value["constitution"],
-                data.value["company"],
-                data.value["natureOfBusiness"],
-                data.value["email"].toString().replaceAll('.', ','),
-                data.value["phone"],
-                data.key),
-            );
-            });
-          }
-          else{
-            setState(() {
-              clientList.add(Client('Please add client First', ' ', ' ', '_natureOfBusiness', '_email', '_phone', '_key'));
+              clientList.add(Client(
+                  data.value["name"],
+                  data.value["constitution"],
+                  data.value["company"],
+                  data.value["natureOfBusiness"],
+                  data.value["email"].toString().replaceAll('.', ','),
+                  data.value["phone"],
+                  data.key),
+              );
             });
           }
         }
+      }else {
+        setState(() {
+          clientList.add(Client(
+              'Please add client First',
+              ' ',
+              ' ',
+              '_natureOfBusiness',
+              '_email',
+              '_phone',
+              '_key'));
+        });
+      }
     });
 
     FirestoreService().deleteOtherUserDetails(clientList);
@@ -189,32 +197,33 @@ class _DashboardState extends State<Dashboard> {
         child: Padding(
           padding: bannerAd != null ? EdgeInsets.only(bottom: 70,right: 8):EdgeInsets.all(8),
           child: FloatingActionButton(
-            onPressed: () async{
-              if(clientList.length>=5){
+            onPressed: () async {
+              if (clientList.length >= 5) {
                 await showDialog(
                     context: context,
-                    builder: (context)=>AlertDialog(
-                      title: Column(
-                        children: [
-                          Text("Alert"),
-                          Divider(
-                            thickness: 1.5,
-                          )
-                        ],
-                      ),
-                      content: Text("You have already registered 5 clients, to add further you will be charged 25 Rs"),
-                      actions: [
-                        TextButton(
-                          child: Text("Ok"),
-                          onPressed: (){
-                            Navigator.pop(context);},
-                        )
-                      ],
-                    )
-                );
+                    builder: (context) => AlertDialog(
+                          title: Column(
+                            children: [
+                              Text("Alert"),
+                              Divider(
+                                thickness: 1.5,
+                              )
+                            ],
+                          ),
+                          content: Text(
+                              "You have already registered 5 clients, to add further you will be charged 25 Rs"),
+                          actions: [
+                            TextButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            )
+                          ],
+                        ));
               }
-              
-              Navigator.push(context,
+
+              Navigator.push( context,
                 MaterialPageRoute(
                   builder: (context) => AddSingleClient(
                     clientList: clientList,
@@ -222,7 +231,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               );
-              },
+            },
             backgroundColor: textboxColor,
             child: Icon(
               Icons.add,
@@ -355,7 +364,7 @@ class _DashboardState extends State<Dashboard> {
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
                                   onTap: () {
-                                    if(clientList[index].key != 'Please add client First'){
+                                    if(clientList[index].name != 'Please add client First'){
                                       Navigator.of(context).push(PageRouteBuilder(
                                         transitionsBuilder: (context,animation,animationTime,child){
                                           return SlideTransition(
