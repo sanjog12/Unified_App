@@ -163,7 +163,9 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     firebaseUID = FirebaseAuth.instance.currentUser.uid;
     getClients().whenComplete(() async{
+      print("got clients");
       listUpcomingCompliances = await UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonth(clientList);
+      print("got compliances");
       setState(() {
         loading = false;
       });

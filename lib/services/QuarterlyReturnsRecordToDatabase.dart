@@ -1,8 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
@@ -22,7 +21,7 @@ class QuarterlyReturnsRecordToDatabase {
   Future<bool> addTDSQuarterlyReturns(
       TDSQuarterlyReturnsObject tdsQuarterlyReturnsObject,
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -42,7 +41,7 @@ class QuarterlyReturnsRecordToDatabase {
           .push()
           .set(tdsQuarterlyReturns);
 
-      List<String> todayDateData = tdsQuarterlyReturnsObject.dateOfFilledReturns.toString().split('/');
+      List<String> todayDateData = tdsQuarterlyReturnsObject.dateOfFilledReturns.toString().split('-');
       
       TodayDateObject todayDateObject;
 
@@ -80,7 +79,7 @@ class QuarterlyReturnsRecordToDatabase {
   Future<bool> addIncomeTaxReturnFillings(
       IncomeTaxReturnFillingsObject incomeTaxReturnFillingsObject,
       Client client,File file) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -149,7 +148,7 @@ class QuarterlyReturnsRecordToDatabase {
   
   Future<bool> addGSTReturnFillings(
       GSTReturnFillingsObject gstReturnFillingsObject, Client client,File file) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -212,7 +211,7 @@ class QuarterlyReturnsRecordToDatabase {
   Future<bool> addDetailOfContribution(
       EPFDetailsOfContributionObject epfDetailsOfContributionObject,
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     String clientEmail = client.email.replaceAll('.', ',');
 

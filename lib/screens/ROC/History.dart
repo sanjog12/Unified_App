@@ -1,4 +1,5 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -208,7 +209,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
               TextButton(
                 child: Text('Yes'),
                 onPressed: () async{
-                  String firebaseUserId= await SharedPrefs.getStringPreference("uid");
+                  String firebaseUserId= FirebaseAuth.instance.currentUser.uid;
                   dfb = firebaseDatabase.reference();
                   await dfb.child('complinces')
                       .child('ROC')
@@ -294,7 +295,7 @@ class _HistoryForROCState extends State<HistoryForROC> {
               TextButton(
                 child: Text('Save AGM Date'),
                 onPressed: () async{
-                  String firebaseUserId= await SharedPrefs.getStringPreference("uid");
+                  String firebaseUserId= FirebaseAuth.instance.currentUser.uid;
                   dfb = firebaseDatabase.reference();
                   await dfb.child('complinces')
                       .child('ROC')

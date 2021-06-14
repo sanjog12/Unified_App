@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/MutualFundObject.dart';
@@ -19,7 +20,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryComplinceObjectForIncomeTax>>
       getComplincesHistoryOfIncomeTax(Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -84,7 +85,7 @@ class HistoriesDatabaseHelper {
   
   Future<List<HistoryComplinceObject>> getComplincesHistoryOfTDS(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -139,7 +140,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryComplinceObject>> getComplincesHistoryOfGST(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -194,7 +195,7 @@ class HistoriesDatabaseHelper {
   
   Future<List<HistoryComplinceObject>> getComplincesHistoryOfESI(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
     
@@ -234,7 +235,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryComplinceObject>> getCompliancesHistoryOfEPF(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -308,7 +309,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryComplinceObject>> getHistoryOfPPFRecord(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -348,7 +349,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryComplinceObject>> getHistoryOfFDRecord(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -388,7 +389,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryComplinceObject>> getHistoryOfLICPayment(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -429,7 +430,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryForMF>> getHistoryOfFMRecord(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 //    print(clientEmail);
@@ -477,7 +478,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryComplinceObject>> getHistoryOfROCPayment(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     // print(client.name);
     String clientEmail = client.email.replaceAll('.', ',');
@@ -522,7 +523,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryCompliancesObjectForROC>> getHistoryOfROF(
       Client client, String date) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
   
     print(client.name);
     String clientEmail = client.email.replaceAll('.', ',');
@@ -577,7 +578,7 @@ class HistoriesDatabaseHelper {
 
   Future<List<HistoryForMF>> getHistoryOfFMRecordTry(
       Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
   
     String clientEmail = client.email.replaceAll('.', ',');
 //    print(clientEmail);
@@ -674,7 +675,7 @@ class HistoriesDatabaseHelper {
   }
   
   Future<List<PaymentHistory>> paymentHistory() async{
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     List<PaymentHistory> paymentHistory =[];
     dbf = firebaseDatabase.reference()
          .child("PaymentRecords")

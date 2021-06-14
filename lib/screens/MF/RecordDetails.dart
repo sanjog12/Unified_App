@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,7 +65,7 @@ class _RecordDetailState extends State<RecordDetail> {
 	
 	
 	fireUser() async{
-		firebaseUserId = await SharedPrefs.getStringPreference("uid");
+		firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 	}
 	
 	

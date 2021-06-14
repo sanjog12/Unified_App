@@ -14,7 +14,7 @@ class FirestoreService {
   DatabaseReference dbf;
 
   Future<bool> saveCompliances(List compliances) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     try {
       _firestore
           .collection(FsUserCompliances)
@@ -123,17 +123,17 @@ class FirestoreService {
 
   
   Future<bool> addClient(Client client, List<Compliance> compliances, String code) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     
     try {
       Map<String, String> clientData = {
         'name': client.name,
         'constitution': client.constitution,
-        'company': client.company,
-        'natureOfBusiness': client.natureOfBusiness,
+        // 'company': client.company,
+        // 'natureOfBusiness': client.natureOfBusiness,
         'email': client.email,
-        'phone': client.phone
+        'phone': client.phone,
       };
       
       String clientEmail = client.email.replaceAll('.', ',');
@@ -163,9 +163,10 @@ class FirestoreService {
       }
       
       return true;
-    } catch (e) {
+    } catch (e, stack) {
       print("Here");
       print(e);
+      print(stack);
       return false;
     }
   }
@@ -183,7 +184,7 @@ class FirestoreService {
     DatabaseReference databaseReference = firebaseDatabase
         .reference()
         .child(FsUserCompliances)
-        .child(FirebaseAuth.instance.currentUser.uid.toString())
+        .child(FirebaseAuth.instance.currentUser.uid)
         .child('compliances');
     
     databaseReference.once().then((value){

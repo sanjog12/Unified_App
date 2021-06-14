@@ -34,6 +34,7 @@ class AddSingleClient extends StatefulWidget {
 class _AddSingleClientState extends State<AddSingleClient>{
   
   String _constitution;
+  String email;
   FirestoreService fireStoreService = FirestoreService();
   bool buttonLoading = false;
   GlobalKey<FormState> _clientsFormKey = GlobalKey<FormState>();
@@ -258,6 +259,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
                           )
                           : widget.clientList != null ?(widget.clientList.length >=5? Text("Pay and Save"):Text("Save")):Text("Update"),
                       onPressed: () async{
+                        _client.email = email;
                         if(widget.client == null) {
                           if (widget.clientList.length >= 5)
                             await openCheckout();
@@ -270,7 +272,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
                             setState(() {
                               buttonLoading = true;
                             });
-                            String firebaseUID = await SharedPrefs.getStringPreference('uid');
+                            String firebaseUID = FirebaseAuth.instance.currentUser.uid;
                             await FirestoreService().editClientData(_client, firebaseUID, com, _compliances);
                             await flutterToast(message: "Updated Successfully");
                             Navigator.pop(context);
@@ -305,7 +307,6 @@ class _AddSingleClientState extends State<AddSingleClient>{
           this.setState(() {
             buttonLoading = true;
           });
-
           bool savedClients =
               await fireStoreService.addClient(clients, compliances, successFulCode);
           this.setState(() {
@@ -320,7 +321,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
                   ),
                 )
             ));
-          } else {}
+          }
         }
       } catch (e, stack) {
         print(e);
@@ -439,7 +440,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
               enabled: _client.email != ""?false:true,
               keyboardType: TextInputType.emailAddress,
               validator: (value) => validateEmail(value),
-              onChanged: (value) => _client.email = value,
+              onChanged: (value) => email = value,
               // onEditingComplete: (value)=> ,
               decoration: buildCustomInput(hintText: "Client's Email Address"),
             ),

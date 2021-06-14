@@ -49,7 +49,7 @@ class PaymentRecordToDataBase {
 
   Future<bool> addTDSPayment(TDSPaymentObject tdsPaymentObject, Client client,
       File attachmentFile) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -123,7 +123,7 @@ class PaymentRecordToDataBase {
       IncomeTaxPaymentObject incomeTaxPaymentObject,
       Client client,
       File attachmentFile) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -221,7 +221,7 @@ class PaymentRecordToDataBase {
       File attachmentFile) async {
     print('4');
     print(attachmentFile);
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     String clientEmail = client.email.replaceAll('.', ',');
     List<String> todayDateData = gstPaymentObject.dueDate.toString().split('-');
@@ -293,7 +293,7 @@ class PaymentRecordToDataBase {
       EPFMonthlyContributionObject epfMonthlyContributionObejct,
       Client client,
       File attachmentFile) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -345,7 +345,7 @@ class PaymentRecordToDataBase {
       EPFDetailsOfContributionObject epfDetailsOfContributionObject,
       Client client,
       File attachmentFile) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -397,7 +397,7 @@ class PaymentRecordToDataBase {
       ESIMonthlyContributionObejct esiMonthlyContributionObejct,
       Client client,
       File attachmentFile) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -453,7 +453,7 @@ class PaymentRecordToDataBase {
 
   Future<bool> addPPFRecord(
       PPFRecordObject ppfRecordObject, Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -488,7 +488,7 @@ class PaymentRecordToDataBase {
   }
 
   Future<bool> addFDRecord(FDRecordObject fdRecordObject, Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -541,7 +541,7 @@ class PaymentRecordToDataBase {
 
   Future<bool> addLICPayment(
       LICPaymentObject licPaymentIObject, Client client, File file) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     String id = randomNumeric(8);
     NotificationServices notificationServices = NotificationServices();
@@ -768,7 +768,7 @@ class PaymentRecordToDataBase {
 
   Future<bool> addROCPayment(
       ROCPaymentObject rocPaymentObject, Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
     String clientEmail = client.email.replaceAll('.', ',');
@@ -806,7 +806,7 @@ class PaymentRecordToDataBase {
 
   Future<void> savePaymentDetails(
       PaymentSuccessResponse response, Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
     try {
       dbf.child("PaymentRecords").child(firebaseUserId).push().set({

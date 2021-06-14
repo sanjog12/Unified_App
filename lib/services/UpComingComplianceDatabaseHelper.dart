@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 // import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
@@ -30,7 +31,7 @@ class UpComingComplianceDatabaseHelper {
     List<DoneComplianceObject> clientDone = [];
 //    print('values1');
 
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase
         .reference()
         .child('usersUpcomingCompliances')
@@ -62,10 +63,10 @@ class UpComingComplianceDatabaseHelper {
   Future<List<UpComingComplianceObject>> getUpComingCompliancesForMonth(List<Client> clientList) async {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
-
+    print("1");
     List<UpComingComplianceObject> upComingComplianceData = List.empty(growable: true);
   
-    firebaseUID = await SharedPrefs.getStringPreference('uid');
+    firebaseUID = FirebaseAuth.instance.currentUser.uid;
     
     
     for(var client in clientList){
@@ -79,6 +80,8 @@ class UpComingComplianceDatabaseHelper {
     
       await dbf.once().then((DataSnapshot snapshot) async{
         Map<dynamic, dynamic> map = snapshot.value;
+        print(map);
+        if(map != null){
         for(var registeredCompliancesData in map.values){
           // print(registeredCompliancesData.toString());
           
@@ -124,8 +127,9 @@ class UpComingComplianceDatabaseHelper {
             List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "INCOME_TAX");
-            }catch(e){
+            }catch(e,stack){
               print(e);
+              print(stack);
             }
             // print('Income Tax');
             dbf = firebaseDatabase
@@ -168,8 +172,9 @@ class UpComingComplianceDatabaseHelper {
             List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "TDS");
-            }catch(e){
+            }catch(e,stack){
               print(e);
+              print(stack);
             }
             dbf = firebaseDatabase
                 .reference()
@@ -209,8 +214,9 @@ class UpComingComplianceDatabaseHelper {
             try{
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email.replaceAll('.', ','),
                   todayDateObject, "GST");
-            }catch(e){
+            }catch(e,stack){
               print(e);
+              print(stack);
             }
             // print("GST");
             dbf = firebaseDatabase
@@ -283,8 +289,9 @@ class UpComingComplianceDatabaseHelper {
             List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
-            }catch(e){
+            }catch(e,stack){
               print(e);
+              print(stack);
             }
             
             dbf = firebaseDatabase
@@ -327,8 +334,9 @@ class UpComingComplianceDatabaseHelper {
             List<DoneComplianceObject> doneCompliances = [];
             try {
               doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "ESI");
-            }catch(e){
+            }catch(e,stack){
               print(e);
+              print(stack);
             }
             
             dbf = firebaseDatabase
@@ -365,10 +373,12 @@ class UpComingComplianceDatabaseHelper {
               }
             });
           }
-        }
+        }}
       });
       
     }
+    
+    print("2");
     upComingComplianceData.sort((a,b){
       return int.tryParse(a.date).compareTo(int.tryParse(b.date,));
     });
@@ -552,7 +562,7 @@ class UpComingComplianceDatabaseHelper {
 
 
   Future<List<UpComingComplianceObject>> getUpComingCompliancesForMonthOfLIC(Client client) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
   

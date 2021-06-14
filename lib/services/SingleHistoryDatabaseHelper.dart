@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/MutualFundObject.dart';
@@ -27,7 +28,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<TDSPaymentObject> getTDSHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -56,7 +57,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<IncomeTaxPaymentObject> getIncomeTaxHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -86,7 +87,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<GSTPaymentObject> getGSTHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -115,7 +116,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<EPFMonthlyContributionObject> getEPFHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -150,7 +151,7 @@ class SingleHistoryDatabaseHelper {
   Future<EPFDetailsOfContributionObject>
       getEPFDetailedOfContributionHistoryDetails(
           Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -184,7 +185,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<ESIMonthlyContributionObejct> getESIHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -217,7 +218,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<PPFRecordObject> getPPFHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -243,7 +244,7 @@ class SingleHistoryDatabaseHelper {
   }
 
   Future<FDRecordObject> getFDHistoryDetails(Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -278,7 +279,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<LICPaymentObject> getLICHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -321,7 +322,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<ROCFormSubmission> getROCHistoryDetails(
       Client client, String key) async {
-    String firebaseUserId = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -351,7 +352,7 @@ class SingleHistoryDatabaseHelper {
   }
 
   Future<MutualFundRecordObject> getMFHistory(String key, Client client) async {
-    String firebaseUserID = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserID = FirebaseAuth.instance.currentUser.uid;
     print(firebaseUserID);
     String clientEmail = client.email.replaceAll('.', ',');
 
@@ -393,7 +394,7 @@ class SingleHistoryDatabaseHelper {
   }
 
   Future<void> deletRecordMF(String key, Client client, String date) async {
-    String firebaseUserID = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserID = FirebaseAuth.instance.currentUser.uid;
     String clientEmail = client.email.replaceAll('.', ',');
     dbf = firebaseDatabase.reference();
     print("Delete Record");
@@ -417,7 +418,7 @@ class SingleHistoryDatabaseHelper {
 
   Future<List<String>> getDeletedRecordDates(Client client, String key) async {
     List<String> temp = [];
-    String firebaseUserID = await SharedPrefs.getStringPreference("uid");
+    String firebaseUserID = FirebaseAuth.instance.currentUser.uid;
     String clientEmail = client.email.replaceAll('.', ',');
 
     print(firebaseUserID.toString());

@@ -145,7 +145,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	}
 	
 	Future<void> checkFilledForms() async{
-		String firebaseUserId= await SharedPrefs.getStringPreference("uid");
+		String firebaseUserId= FirebaseAuth.instance.currentUser.uid;
 		dfb = firebaseDatabase
 				.reference()
 				.child('complinces')
@@ -485,7 +485,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 			if (rocFromKey.currentState.validate()) {
 				rocFromKey.currentState.save();
 				
-				String firebaseUserId= await SharedPrefs.getStringPreference("uid");
+				String firebaseUserId= FirebaseAuth.instance.currentUser.uid;
 				
 				// nd() async{
 				// 	dfb = firebaseDatabase.reference()
@@ -597,7 +597,7 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 	
 	Future<void> setUpComingCompliances() async{
 	 	// print("setUpComingCompliances");
-	  String firebaseUserId= await SharedPrefs.getStringPreference("uid");
+	  String firebaseUserId= FirebaseAuth.instance.currentUser.uid;
 	  dfb = firebaseDatabase.reference();
 	  await dfb.child('usersUpcomingCompliances')
 	  .child(firebaseUserId)

@@ -1,5 +1,6 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 	String firebaseUserId;
 	
 	fireUser() async{
-		firebaseUserId = await SharedPrefs.getStringPreference("uid");
+		firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 	}
 	
   @override
@@ -318,7 +319,7 @@ class _HistoryTDSState extends State<HistoryTDS> {
 									  child: Text('Save Changes'),
 									  onPressed: () async{
 										  dbf = firebaseDatabase.reference();
-										  String firebaseUserId= await SharedPrefs.getStringPreference("uid");
+										  String firebaseUserId= FirebaseAuth.instance.currentUser.uid;
 										  dbf = firebaseDatabase.reference();
 										  await dbf
 												  .child('complinces')

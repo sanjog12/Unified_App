@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _DetailedHistoryState extends State<DetailedHistory> {
 	}
 	
 	fireUser() async{
-		firebaseUserId = await SharedPrefs.getStringPreference("uid");
+		firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 	}
 	
 	
