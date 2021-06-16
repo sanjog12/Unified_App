@@ -115,8 +115,7 @@ class _ClientsState extends State<Clients> {
                       }
                       print(listClient.first.name);
                       return Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                         child: ListView.builder(
                             itemCount: map.length,
                             scrollDirection: Axis.vertical,
@@ -144,6 +143,7 @@ class _ClientsState extends State<Clients> {
                                         ),
                                         SizedBox(width: 90,),
                                         GestureDetector(child: Icon(Icons.edit),onTap: (){
+                                          print(listClient[index].constitution);
                                           Navigator.push(context,
                                             MaterialPageRoute(
                                               builder: (context)=>AddSingleClient(

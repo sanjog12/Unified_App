@@ -12,49 +12,52 @@ import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-
 class AddSingleClient extends StatefulWidget {
-  
   final Client client;
   final UserBasic userBasic;
   final List<Client> clientList;
-  
+
   const AddSingleClient({this.userBasic, this.clientList, this.client});
+
   @override
   _AddSingleClientState createState() => _AddSingleClientState();
 }
 
-class _AddSingleClientState extends State<AddSingleClient>{
-  
+class _AddSingleClientState extends State<AddSingleClient> {
   String _constitution;
   String email;
   FirestoreService fireStoreService = FirestoreService();
   bool buttonLoading = false;
   GlobalKey<FormState> _clientsFormKey = GlobalKey<FormState>();
   Client _client = Client('', '', '', '', '', '', '');
-  List<Compliance> _compliances = [];
-  FirebaseMessaging firebaseMessaging  = FirebaseMessaging.instance;
+  List<Compliance> _compliances = [
+    Compliance(title: "Income Tax", value: "income_tax", checked: false),
+    Compliance(title: "TDS", value: "tds", checked: false),
+    Compliance(title: "GST", value: "gst", checked: false),
+    Compliance(title: "EPF", value: "epf", checked: false),
+    Compliance(title: "ESI", value: "esi", checked: false),
+    Compliance(title: "ROC", value: "roc", checked: false),
+    Compliance(title: "LIC", value: "lic", checked: false),
+    Compliance(title: "PPF", value: "ppf", checked: false),
+    Compliance(title: "MUTUAL FUND", value: "mf", checked: false),
+    Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false)
+  ];
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   Razorpay _razorpay;
-  List<String> com=[];
+  List<String> appliedCompliance = [];
   bool willPop = true;
   String successFulCode = "";
-  FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-  DatabaseReference dbf;
-  
-  
-  Future<void> subscribeTopic(String compliance, bool subscribe) async{
-    
-    if(subscribe){
+
+  Future<void> subscribeTopic(String compliance, bool subscribe) async {
+    if (subscribe) {
       firebaseMessaging.subscribeToTopic(compliance.replaceAll(' ', '_f'));
-    }
-    else if(subscribe){
+    } else if (subscribe) {
       firebaseMessaging.unsubscribeFromTopic(compliance);
     }
   }
@@ -62,169 +65,143 @@ class _AddSingleClientState extends State<AddSingleClient>{
   Future<void> _getUserCompliances() async {
     String clientEmail = widget.client.email.replaceAll('.', ',');
     var firebaseUserId = FirebaseAuth.instance.currentUser.uid;
-    
-    dbf = firebaseDatabase
+
+    DatabaseReference dbf = FirebaseDatabase.instance
         .reference()
         .child(FsUserCompliances)
         .child(firebaseUserId)
         .child('compliances')
         .child(clientEmail);
-  
-    await dbf.once().then((DataSnapshot snapshot) async{
+
+    await dbf.once().then((DataSnapshot snapshot) async {
       Map<dynamic, dynamic> values = await snapshot.value;
-      for(var v in values.entries){
-        com.add(v.value['title']);
+      for (var v in values.entries) {
+        appliedCompliance.add(v.value['title']);
+        _compliances.firstWhere((element) => element.title == v.value['title']).checked = true;
       }
-//      values.forEach((key, values) {
-//        Compliance compliance = Compliance(
-//            title: values['title'],);
-//        com.add(compliance.title);
-//
-//      });
     });
+    for(var v in appliedCompliance){
+      print(v);
+    }
     setState(() {
-      com = com;
-      _compliances = [];
+      appliedCompliance = appliedCompliance;
     });
   }
-  
-  // editingComplete(){
-  //   return showDialog(context: context, builder: (context){
-  //     return SimpleDialog(
-  //       title: Text("Alert"),
-  //       children: [
-  //         Text("You won't be able to change this email address later please check before submitting ");
-  //       ],
-  //     );
-  //   });
-  // }
-  
-  Future<bool> onWillPop() async{
-      return await showDialog(
-        context: context,
-        builder: (context){
-          return AlertDialog(
-            title: Text("Alert"),
-            content: Text("Are you sure want to go back"),
-            actions: [
-              TextButton(
-                child: Text("No"),
-                onPressed: (){
-                  Navigator.of(context).pop(false);
-                },
-              ),
-              TextButton(
-                child: Text("Exit"),
-                onPressed: (){
-                  Navigator.of(context).pop(true);
-                  
-                },
-              ),
-            ],
-          );
-        }
-      )??false;
+
+  Future<bool> onWillPop() async {
+    return await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("Alert"),
+                content: Text("Are you sure want to go back"),
+                actions: [
+                  TextButton(
+                    child: Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  TextButton(
+                    child: Text("Exit"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            }) ??
+        false;
   }
-  
-  
 
   Future<bool> openCheckout() async {
-    try {
-      var options = {
-        'key': 'rzp_test_YHXEshy02jkv2N',
-        'amount': 2500,
-        'name': 'Tax Reminder',
-        'description': 'Fee for adding further clients',
-        'external': {
-          'wallets': ['paytm']
-        }
-      };
+    if(_clientsFormKey.currentState.validate()) {
+      try {
+        var options = {
+          'key': 'rzp_test_YHXEshy02jkv2N',
+          'amount': 2500,
+          'name': 'Tax Reminder',
+          'prefill': {
+            'contact': context,
+            'email': FirebaseAuth.instance.currentUser.email,
+          },
+          'description': 'Fee for adding further clients',
+          'external': {
+            'wallets': ['paytm']
+          }
+        };
         _razorpay.open(options);
         
-      return true;
-    }catch(e){
-      debugPrint(e);
-      return false;
+    
+        return true;
+      } catch (e) {
+        debugPrint(e);
+        return false;
+      }
     }
+    return false;
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    PaymentRecordToDataBase().savePaymentDetails(response,_client);
+    PaymentRecordToDataBase().savePaymentDetails(response, _client);
     successFulCode = response.paymentId;
-    // Fluttertoast.showToast(
-    //     msg: "SUCCESS: " + response.paymentId);
+    print(response.paymentId);
     saveClients(_client, _compliances);
     willPop = false;
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    // Fluttertoast.showToast(
-    //     msg: response.message ,
-    //     );
-    Navigator.pop(context);
+    
+    print(response.message.runtimeType);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    // Fluttertoast.showToast(
-    //     msg: "EXTERNAL_WALLET: " + response.walletName);
-    Navigator.pop(context);
+    flutterToast(message: response.walletName + " has some error.");
   }
+
+  
   
   @override
   void initState() {
-    if(widget.client != null){
+    super.initState();
+    if (widget.client != null) {
       _getUserCompliances();
       _client = widget.client;
-      print(_client.key);
     }
     
-    super.initState();
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
-  
 
   @override
   Widget build(BuildContext context) {
-    
-    if(widget.client == null) {
-      _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: false));
-      _compliances.add(Compliance(title: "TDS", value: "tds", checked: false));
-      _compliances.add(Compliance(title: "GST", value: "gst", checked: false));
-      _compliances.add(Compliance(title: "EPF", value: "epf", checked: false));
-      _compliances.add(Compliance(title: "ESI", value: "esi", checked: false));
-      _compliances.add(Compliance(title: "ROC", value: "roc", checked: false));
-      _compliances.add(Compliance(title: "LIC", value: "lic", checked: false));
-      _compliances.add(Compliance(title: "PPF", value: "ppf", checked: false));
-      _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: false));
-      _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false));
-    }
-    
-    else{
-      print("here");
-      print(com.join(" "));
-      _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: com.contains("Income Tax")));
-      print(com.contains("Income Tax"));
-      _compliances.add(Compliance(title: "TDS", value: "tds", checked: com.contains("TDS")));
-      print(com.contains("TDS"));
-      _compliances.add(Compliance(title: "GST", value: "gst", checked: com.contains("GST")));
-      print(com.contains("GST"));
-      _compliances.add(Compliance(title: "EPF", value: "epf", checked: com.contains("EPF")));
-      print(com.contains("EPF"));
-      _compliances.add(Compliance(title: "ESI", value: "esi", checked: com.contains("ESI")));
-      _compliances.add(Compliance(title: "ROC", value: "roc", checked: com.contains("ROC")));
-      _compliances.add(Compliance(title: "LIC", value: "lic", checked: com.contains("LIC")));
-      _compliances.add(Compliance(title: "PPF", value: "ppf", checked: com.contains("PPF")));
-      print(com.contains("PPF"));
-      _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: com.contains("MUTUAL FUND")));
-      _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: com.contains("FIXED DEPOSIT")));
-      setState(() {
-        _compliances = _compliances;
-      });
-    }
-    
+    // if (widget.client == null) {
+    //   _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: false));
+    //   _compliances.add(Compliance(title: "TDS", value: "tds", checked: false));
+    //   _compliances.add(Compliance(title: "GST", value: "gst", checked: false));
+    //   _compliances.add(Compliance(title: "EPF", value: "epf", checked: false));
+    //   _compliances.add(Compliance(title: "ESI", value: "esi", checked: false));
+    //   _compliances.add(Compliance(title: "ROC", value: "roc", checked: false));
+    //   _compliances.add(Compliance(title: "LIC", value: "lic", checked: false));
+    //   _compliances.add(Compliance(title: "PPF", value: "ppf", checked: false));
+    //   _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: false));
+    //   _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: false));
+    // } else {
+    //   _compliances.add(Compliance(title: "Income Tax", value: "income_tax", checked: appliedCompliance.contains("Income Tax")));
+    //   _compliances.add(Compliance(title: "TDS", value: "tds", checked: appliedCompliance.contains("TDS")));
+    //   _compliances.add(Compliance(title: "GST", value: "gst", checked: appliedCompliance.contains("GST")));
+    //   _compliances.add(Compliance(title: "EPF", value: "epf", checked: appliedCompliance.contains("EPF")));
+    //   _compliances.add(Compliance(title: "ESI", value: "esi", checked: appliedCompliance.contains("ESI")));
+    //   _compliances.add(Compliance(title: "ROC", value: "roc", checked: appliedCompliance.contains("ROC")));
+    //   _compliances.add(Compliance(title: "LIC", value: "lic", checked: appliedCompliance.contains("LIC")));
+    //   _compliances.add(Compliance(title: "PPF", value: "ppf", checked: appliedCompliance.contains("PPF")));
+    //   _compliances.add(Compliance(title: "MUTUAL FUND", value: "mf", checked: appliedCompliance.contains("MUTUAL FUND")));
+    //   _compliances.add(Compliance(title: "FIXED DEPOSIT", value: "fd", checked: appliedCompliance.contains("FIXED DEPOSIT")));
+    //   setState(() {
+    //   });
+    // }
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
@@ -232,7 +209,7 @@ class _AddSingleClientState extends State<AddSingleClient>{
           title: Text('Add Client'),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: 15,bottom: 15,left: 15,right: 15),
+          padding: EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
           color: backgroundColor,
           child: Form(
             key: _clientsFormKey,
@@ -242,7 +219,304 @@ class _AddSingleClientState extends State<AddSingleClient>{
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.all(15),
-                    child: clientForm(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text("Client's Name"),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            TextFormField(
+                              initialValue: _client != null ? _client.name : "",
+                              validator: (value) => requiredField(value, "Client's Name"),
+                              decoration: buildCustomInput(hintText: "Client's Name"),
+                              onChanged: (value) => _client.name = value,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text("Client's Constitution"),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            DropdownButtonFormField(
+                              hint: Text("Constitution"),
+                              validator: (value) {
+                                return requiredField(value, "Constitution");
+                              },
+                              decoration: buildCustomInput(),
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("Individual"),
+                                  value: "Individual",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Proprietorship"),
+                                  value: "Proprietorship",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Partnership"),
+                                  value: "Partnership",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Private Limited Company"),
+                                  value: "Private",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("Limited Company"),
+                                  value: "Limited",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("LLP"),
+                                  value: "LLP",
+                                )
+                              ],
+                              value: _client.constitution != ""
+                                  ? _client.constitution
+                                  : _constitution,
+                              onChanged: (v) {
+                                setState(() {
+                                  _constitution = v;
+                                  _client.constitution = v;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 40.0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text("Client's Email Address"),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            TextFormField(
+                              initialValue: _client.email != "" ? _client.email : "",
+                              enabled: _client.email != "" ? false : true,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) => validateEmail(value),
+                              onChanged: (value) => email = value,
+                              // onEditingComplete: (value)=> ,
+                              decoration: buildCustomInput(hintText: "Client's Email Address"),
+                            ),
+                            _client.email != ""
+                                ? Text(
+                              "You can't change this Email",
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.red),
+                            )
+                                : Container()
+                          ],
+                        ),
+                        // SizedBox(
+                        //   height: 40.0,
+                        // ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.stretch,
+                        //   children: <Widget>[
+                        //     Text("Client's Mobile Number"),
+                        //     SizedBox(
+                        //       height: 10.0,
+                        //     ),
+                        //     TextFormField(
+                        //       maxLength: 10,
+                        //       initialValue: _client != null?_client.phone:"",
+                        //       onChanged: (value) => _client.phone = value,
+                        //       validator: (value) {
+                        //         if(value.length<10 ){
+                        //           return "Invalid Mobile Number";
+                        //         }
+                        //        return requiredField(value, "Client's Mobile Number");
+                        //       },
+                        //       keyboardType: TextInputType.phone,
+                        //       decoration: buildCustomInput(
+                        //         hintText: "Client's Mobile Number",
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        SizedBox(
+                          height: 40.0,
+                        ),
+                        Wrap(
+                          children: <Widget>[
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[0].checked = value;
+                                      value?appliedCompliance.add("Income Tax"):appliedCompliance.remove("Income Tax");
+                                    });
+                                    subscribeTopic(_compliances[0].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("Income Tax"):_compliances[0].checked,
+                                ),
+                                Text(_compliances[0].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[1].checked = value;
+                                      value?appliedCompliance.add("TDS"):appliedCompliance.remove("TDS");
+                                    });
+                                    subscribeTopic(_compliances[1].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("TDS"):_compliances[1].checked,
+                                ),
+                                Text(_compliances[1].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[2].checked = value;
+                                      value?appliedCompliance.add("GST"):appliedCompliance.remove("GST");
+                                    });
+                                    subscribeTopic(_compliances[2].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("GST"):_compliances[2].checked,
+                                ),
+                                Text(_compliances[2].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[3].checked = value;
+                                      value?appliedCompliance.add("EPF"):appliedCompliance.remove("EPF");
+                                    });
+                                    subscribeTopic(_compliances[3].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("EPF"):_compliances[3].checked,
+                                ),
+                                Text(_compliances[3].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[4].checked = value;
+                                      value?appliedCompliance.add("MUTUAL FUND"):appliedCompliance.remove("MUTUAL FUND");
+                                    });
+                                    subscribeTopic(_compliances[4].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("ESI"):_compliances[4].checked,
+                                ),
+                                Text(_compliances[4].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[5].checked = value;
+                                      value?appliedCompliance.add("ROC"):appliedCompliance.remove("ROC");
+                                    });
+                                    subscribeTopic(_compliances[5].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("ROC"):_compliances[5].checked,
+                                ),
+                                Text(_compliances[5].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[6].checked = value;
+                                      value?appliedCompliance.add("LIC"):appliedCompliance.remove("LIC");
+                                    });
+                                    subscribeTopic(_compliances[6].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("LIC"):_compliances[6].checked,
+                                ),
+                                Text(_compliances[6].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[7].checked = value;
+                                      value?appliedCompliance.add("PPF"):appliedCompliance.remove("PPF");
+                                    });
+                                    subscribeTopic(_compliances[7].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("PPF"):_compliances[7].checked,
+                                ),
+                                Text(_compliances[7].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[8].checked = value;
+                                      value?appliedCompliance.add("MUTUAL FUND"):appliedCompliance.remove("MUTUAL FUND");
+                                    });
+                                    subscribeTopic(_compliances[8].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("MUTUAL FUND"):_compliances[8].checked,
+                                ),
+                                Text(_compliances[8].title),
+                              ],
+                            ),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _compliances[9].checked = value;
+                                      value?appliedCompliance.add("FIXED DEPOSIT"):appliedCompliance.remove("FIXED DEPOSIT");
+                                    });
+                                    subscribeTopic(_compliances[9].title, value);
+                                  },
+                                  value: widget.client != null? appliedCompliance.contains("FIXED DEPOSIT"):_compliances[9].checked,
+                                ),
+                                Text(_compliances[9].title),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 10.0,
@@ -252,28 +526,29 @@ class _AddSingleClientState extends State<AddSingleClient>{
                     child: TextButton(
                       child: buttonLoading
                           ? CircularProgressIndicator(
-                            strokeWidth: 3.0,
-                            valueColor: AlwaysStoppedAnimation(
-                              Colors.white,
-                            ),
-                          )
-                          : widget.clientList != null ?(widget.clientList.length >=5? Text("Pay and Save"):Text("Save")):Text("Update"),
-                      onPressed: () async{
-                        _client.email = email;
-                        if(widget.client == null) {
+                              strokeWidth: 3.0,
+                              valueColor: AlwaysStoppedAnimation(
+                                Colors.white,
+                              ),
+                            )
+                          : widget.clientList != null
+                              ? (widget.clientList.length >= 5
+                                  ? Text("Pay and Save")
+                                  : Text("Save"))
+                              : Text("Update"),
+                      onPressed: () async {
+                        if (widget.client == null) {
+                          _client.email = email;
                           if (widget.clientList.length >= 5)
                             await openCheckout();
-                          
                           else
                             saveClients(_client, _compliances);
-                        }else{
-                          if(_clientsFormKey.currentState.validate()) {
-                            _clientsFormKey.currentState.save();
+                        } else {
+                          if (_clientsFormKey.currentState.validate()) {
                             setState(() {
                               buttonLoading = true;
                             });
-                            String firebaseUID = FirebaseAuth.instance.currentUser.uid;
-                            await FirestoreService().editClientData(_client, firebaseUID, com, _compliances);
+                            await FirestoreService().editClientData(_client, appliedCompliance, _compliances);
                             await flutterToast(message: "Updated Successfully");
                             Navigator.pop(context);
                           }
@@ -281,7 +556,9 @@ class _AddSingleClientState extends State<AddSingleClient>{
                       },
                     ),
                   ),
-                  SizedBox(height: 70,),
+                  SizedBox(
+                    height: 70,
+                  ),
                 ],
               ),
             ),
@@ -291,367 +568,38 @@ class _AddSingleClientState extends State<AddSingleClient>{
     );
   }
 
-  
   Future<void> saveClients(Client clients, List<Compliance> compliances) async {
     print(clients.toString());
     if (_clientsFormKey.currentState.validate()) {
       _clientsFormKey.currentState.save();
-      print("Yo man");
-      this.setState(() {
-        buttonLoading = true;
-      });
       try {
-        if (_clientsFormKey.currentState.validate()) {
-          _clientsFormKey.currentState.save();
-          print("Yo man");
-          this.setState(() {
-            buttonLoading = true;
-          });
-          bool savedClients =
-              await fireStoreService.addClient(clients, compliances, successFulCode);
-          this.setState(() {
-            buttonLoading = false;
-          });
-          if (savedClients) {
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(
-                builder: (context)=>ShowCaseWidget(
-                  builder: Builder(
-                    builder: (context)=>Dashboard(),
-                  ),
-                )
-            ));
-          }
+        print("Yo man");
+        this.setState(() {
+          buttonLoading = true;
+        });
+        bool savedClients = await fireStoreService.addClient(
+            clients, compliances, successFulCode);
+
+        this.setState(() {
+          buttonLoading = false;
+        });
+        if (savedClients) {
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ShowCaseWidget(
+            builder: Builder(
+              builder: (context) => Dashboard(),
+            ),
+          )));
         }
       } catch (e, stack) {
         print(e);
         print(stack);
       }
-      
+
       this.setState(() {
         buttonLoading = false;
       });
     }
   }
-
-  Widget clientForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text("Client's Name"),
-            SizedBox(
-              height: 10.0,
-            ),
-            TextFormField(
-              initialValue: _client != null?_client.name:"",
-              validator: (value) => requiredField(value, "Client's Name"),
-              decoration: buildCustomInput(hintText: "Client's Name"),
-              onChanged: (value) => _client.name = value,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 30.0,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text("Client's Constitution"),
-            SizedBox(
-              height: 10.0,
-            ),
-            DropdownButtonFormField(
-              hint: Text("Constitution"),
-              validator: (value) {
-                return requiredField(value, "Constitution");
-              },
-              onSaved: (value) => _client.constitution = _constitution,
-              decoration: buildCustomInput(),
-              items: [
-                DropdownMenuItem(
-                  child: Text("Individual"),
-                  value: "Individual",
-                ),
-                DropdownMenuItem(
-                  child: Text("Proprietorship"),
-                  value: "Proprietorship",
-                ),
-                DropdownMenuItem(
-                  child: Text("Partnership"),
-                  value: "Partnership",
-                ),
-                DropdownMenuItem(
-                  child: Text("Private Limited Company"),
-                  value: "Private",
-                ),
-                DropdownMenuItem(
-                  child: Text("Limited Company"),
-                  value: "Limited",
-                ),
-                DropdownMenuItem(
-                  child: Text("LLP"),
-                  value: "LLP",
-                )
-              ],
-              value: _client.constitution != "" ? _client.constitution : _constitution ,
-              onChanged: (v){
-                setState(() {
-                  _constitution = v;
-                });
-              },
-            ),
-          ],
-        ),
-        // SizedBox(
-        //   height: 40.0,
-        // ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.stretch,
-        //   children: <Widget>[
-        //     Text("Client's Company Name"),
-        //     SizedBox(
-        //       height: 10.0,
-        //     ),
-        //     TextFormField(
-        //       initialValue: _client != null?_client.company:"",
-        //       onChanged: (value) => _client.company = value,
-        //       validator: (value) =>
-        //           requiredField(value, "Client's Company Name"),
-        //       decoration: buildCustomInput(hintText: "Client's Company Name"),
-        //     ),
-        //   ],
-        // ),
-        SizedBox(
-          height: 40.0,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text("Client's Email Address"),
-            SizedBox(
-              height: 10.0,
-            ),
   
-            TextFormField(
-              initialValue: _client.email != ""? _client.email:"",
-              enabled: _client.email != ""?false:true,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) => validateEmail(value),
-              onChanged: (value) => email = value,
-              // onEditingComplete: (value)=> ,
-              decoration: buildCustomInput(hintText: "Client's Email Address"),
-            ),
-            _client.email != ""?Text("You can't change this Email", style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: Colors.red),):Container()
-          ],
-        ),
-        // SizedBox(
-        //   height: 40.0,
-        // ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.stretch,
-        //   children: <Widget>[
-        //     Text("Client's Nature of Business"),
-        //     SizedBox(
-        //       height: 10.0,
-        //     ),
-        //     TextFormField(
-        //       initialValue: _client != null?_client.natureOfBusiness:"",
-        //       onChanged: (value) => _client.natureOfBusiness = value,
-        //       validator: (value) =>
-        //           requiredField(value, "Client's Nature of Business"),
-        //       decoration:
-        //           buildCustomInput(hintText: "Client's Nature of Business"),
-        //     ),
-        //   ],
-        // ),
-        // SizedBox(
-        //   height: 40.0,
-        // ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.stretch,
-        //   children: <Widget>[
-        //     Text("Client's Mobile Number"),
-        //     SizedBox(
-        //       height: 10.0,
-        //     ),
-        //     TextFormField(
-        //       maxLength: 10,
-        //       initialValue: _client != null?_client.phone:"",
-        //       onChanged: (value) => _client.phone = value,
-        //       validator: (value) {
-        //         if(value.length<10 ){
-        //           return "Invalid Mobile Number";
-        //         }
-        //        return requiredField(value, "Client's Mobile Number");
-        //       },
-        //       keyboardType: TextInputType.phone,
-        //       decoration: buildCustomInput(
-        //         hintText: "Client's Mobile Number",
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        SizedBox(
-          height: 40.0,
-        ),
-        Wrap(
-          children: <Widget>[
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[0].checked = value;
-                    });
-                    subscribeTopic(_compliances[0].title, value);
-                  },
-                  value: _compliances[0].checked,
-                ),
-                Text(_compliances[0].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[1].checked = value;
-                    });
-                    subscribeTopic(_compliances[1].title, value);
-                  },
-                  value: _compliances[1].checked,
-                ),
-                Text(_compliances[1].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[2].checked = value;
-                    });
-                    subscribeTopic(_compliances[2].title, value);
-                  },
-                  value: _compliances[2].checked,
-                ),
-                Text(_compliances[2].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[3].checked = value;
-                    });
-                    subscribeTopic(_compliances[3].title, value);
-                  },
-                  value: _compliances[3].checked,
-                ),
-                Text(_compliances[3].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[4].checked = value;
-                    });
-                    subscribeTopic(_compliances[4].title, value);
-                  },
-                  value: _compliances[4].checked,
-                ),
-                Text(_compliances[4].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[5].checked = value;
-                    });
-                    subscribeTopic(_compliances[5].title, value);
-                  },
-                  value: _compliances[5].checked,
-                ),
-                Text(_compliances[5].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[6].checked = value;
-                    });
-                    subscribeTopic(_compliances[6].title, value);
-                  },
-                  value: _compliances[6].checked,
-                ),
-                Text(_compliances[6].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[7].checked = value;
-                    });
-                    subscribeTopic(_compliances[7].title, value);
-                  },
-                  value: _compliances[7].checked,
-                ),
-                Text(_compliances[7].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[8].checked = value;
-                    });
-                    subscribeTopic(_compliances[8].title, value);
-                  },
-                  value: _compliances[8].checked,
-                ),
-                Text(_compliances[8].title),
-              ],
-            ),
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Checkbox(
-                  onChanged: (bool value) {
-                    setState(() {
-                      _compliances[9].checked = value;
-                    });
-                    subscribeTopic(_compliances[9].title, value);
-                  },
-                  value: _compliances[9].checked,
-                ),
-                Text(_compliances[9].title),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 }

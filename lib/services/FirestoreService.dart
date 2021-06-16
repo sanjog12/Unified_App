@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/Compliance.dart';
+import 'package:unified_reminder/services/GeneralServices/Caching.dart';
 import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -60,14 +63,17 @@ class FirestoreService {
   
   
   
-  Future<void> editClientData(Client client,String firebaseUID, List<String> temp, List<Compliance> compliances) async{
+  Future<void> editClientData(Client client, List<String> temp, List<Compliance> compliances) async{
+    
+    print("edit Complian");
+    print(client.constitution);
     
     try {
       dbf = firebaseDatabase.reference();
-  
+
       dbf
           .child(FsUserClients)
-          .child(firebaseUID)
+          .child(FirebaseAuth.instance.currentUser.uid)
           .child('clients')
           .child(client.key)
           .update({
@@ -81,25 +87,41 @@ class FirestoreService {
 
       String clientEmail = client.email.replaceAll('.', ',');
 
-      for (var items in compliances){
-        if (items.checked && !temp.contains(items.title)) {
-          print(items.title);
+      await dbf.child(FsUserCompliances)
+          .child(FirebaseAuth.instance.currentUser.uid)
+          .child('compliances')
+          .child(clientEmail).remove();
+      
+      await Future.delayed(Duration(seconds: 1));
+      print(clientEmail);
+      for (var compliance in compliances){
+        print(compliance.title + " " + compliance.checked.toString());
+        if (compliance.checked) {
+          print(compliance.title);
           Map<String, String> clientCompliances = {
             'clientEmail': client.email,
-            'title': items.title,
-            'value': items.value
+            'title': compliance.title,
+            'value': compliance.value
           };
-          dbf
-              .child(FsUserCompliances)
-              .child(firebaseUID)
+          dbf.child(FsUserCompliances)
+              .child(FirebaseAuth.instance.currentUser.uid)
               .child('compliances')
               .child(clientEmail)
               .push()
               .set(clientCompliances);
         }
       }
-    }catch(e){
+      compliances.removeWhere((element) => !element.checked);
+      compliancesCache[clientEmail] = compliances;
+      print(compliancesCache[clientEmail].length);
+    } on PlatformException catch(e){
+      flutterToast(message: e.message);
       print(e);
+    } on FirebaseException catch(e){
+      flutterToast(message: e.message);
+    } catch(e, stack){
+      print(e);
+      print(stack);
     }
   }
 
@@ -111,10 +133,10 @@ class FirestoreService {
         .toString();
   }
 
-  dynamic getUserDetails(firebaseUserId) {
+  Stream<DocumentSnapshot> getUserDetails(firebaseUserId) {
     return _firestore
         .collection(FsUsersPath)
-        .doc('firebaseUserId')
+        .doc(firebaseUserId)
         .snapshots();
     
   }
@@ -138,8 +160,7 @@ class FirestoreService {
       
       String clientEmail = client.email.replaceAll('.', ',');
       print(clientEmail);
-      dbf
-          .child(FsUserClients)
+      dbf.child(FsUserClients)
           .child(firebaseUserId)
           .child('clients')
           .push()
@@ -163,12 +184,20 @@ class FirestoreService {
       }
       
       return true;
+    } on PlatformException catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
+      print(e.stacktrace);
+    } on FirebaseException catch(e){
+      flutterToast(message: e.message);
+      print(e.message);
+      print(e.stackTrace);
     } catch (e, stack) {
       print("Here");
       print(e);
       print(stack);
-      return false;
     }
+    return false;
   }
   
   

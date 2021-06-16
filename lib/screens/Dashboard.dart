@@ -78,7 +78,8 @@ class _DashboardState extends State<Dashboard> {
         for (var data in map.entries) {
           if (map.isNotEmpty) {
             setState(() {
-              clientList.add(Client(
+              clientList.add(
+                Client(
                   data.value["name"],
                   data.value["constitution"],
                   data.value["company"],
