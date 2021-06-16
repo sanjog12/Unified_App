@@ -34,6 +34,11 @@ class AuthService {
   	try{
 		  _auth.signOut();
       _googleSignIn.signOut();
+      DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+      AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+      FirebaseDatabase.instance.reference()
+          .child("FCMTokens/${FirebaseAuth.instance.currentUser.uid}/-${androidDeviceInfo.androidId.substring(0, 10)}")
+          .remove();
 	  } on FirebaseException catch(e){
   	  flutterToast(message: e.message);
     } on PlatformException catch(e){

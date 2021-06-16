@@ -5,7 +5,6 @@ import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/DoneComplianceObject.dart';
-import 'package:unified_reminder/screens/LIC/AddPolicy.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 

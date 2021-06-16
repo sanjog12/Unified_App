@@ -1,4 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -6,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/Bloc/DashboardProvider.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
+import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,8 +48,19 @@ class _BootstrapperState extends State<Bootstrapper>{
   // Define an async function to initialize FlutterFire
   void initializeFlutterFire() async {
     try {
+      // FirebaseDatabase.instance.setPersistenceCacheSizeBytes(cacheSize)
       // await MobileAds.instance.initialize();
       await Firebase.initializeApp();
+      // FirebaseFirestore.instance.settings = const Settings(
+      //   host: 'http://10.0.2.2:9000',
+      //   sslEnabled: false,
+      //   persistenceEnabled: false,
+      // );
+      //
+      // FirebaseDatabase(
+      //   app: Firebase.app(),
+      //   databaseURL: 'http://10.0.2.2:9000'
+      // );
       AwesomeNotifications().initialize(
           'resource://drawable/ic_stat_name',
           [

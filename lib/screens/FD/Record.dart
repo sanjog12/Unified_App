@@ -212,6 +212,7 @@ class _FDRecordState extends State<FDRecord> {
                         TextFormField(
                             decoration: buildCustomInput(
                               hintText: "Term Of Investment",
+                              suffixText: "Months"
                             ),
                             onChanged: (value) {
                               fdRecordObject.termOfInvestment = value;
@@ -291,9 +292,7 @@ class _FDRecordState extends State<FDRecord> {
         setState(() {
           buttonLoading = true;
         });
-        fdRecordObject.maturityDate = DateChange.addMonthToDate(
-            fdRecordObject.dateOfInvestment,
-            int.parse(fdRecordObject.termOfInvestment));
+        fdRecordObject.maturityDate = DateChange.addMonthToDate(fdRecordObject.dateOfInvestment, int.parse(fdRecordObject.termOfInvestment));
         await PaymentRecordToDataBase()
             .addFDRecord(fdRecordObject, widget.client)
             .then((value) {

@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/FDRecordObject.dart';
-import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
@@ -549,7 +549,6 @@ class _FDPaymentRecordHistoryDetailsViewState
               TextButton(
                 child: Text('Confirm'),
                 onPressed: () async {
-                  Navigator.of(context).pop();
                   await deleteRecord();
                 },
               ),
@@ -567,9 +566,6 @@ class _FDPaymentRecordHistoryDetailsViewState
   Future<void> deleteRecord() async {
     dbf = firebaseDatabase.reference();
     await fireUser();
-    print(firebaseUserId);
-    print(widget.client.email);
-    print(widget.keyDB);
     try {
       await dbf
           .child('complinces')
@@ -579,20 +575,17 @@ class _FDPaymentRecordHistoryDetailsViewState
           .child(widget.keyDB)
           .remove();
       recordDeletedToast();
+      NotificationServices().deleteNotification(widget.fdRecordObject.id);
       Navigator.pop(context);
       Navigator.pop(context);
-//      Navigator.push(context,
-//          MaterialPageRoute(
-//              builder: (context) => HistoryForFD(
-//                client: widget.client,
-//              )
-//          )
-//      );
 
     } on PlatformException catch (e) {
       print(e.message);
       flutterToast(message: e.message);
-    } catch (e) {
+    } on FirebaseException catch (e) {
+      print(e);
+      flutterToast(message: e.message);
+    } catch(e){
       print(e);
       flutterToast(message: "Something went wrong");
     }

@@ -300,11 +300,9 @@ class SingleHistoryDatabaseHelper {
         licPaymentObject.id = values['id'];
         licPaymentObject.companyName = values['comanyName'] ?? "";
         licPaymentObject.agentName = values['agenName'] ?? "";
-        licPaymentObject.agentContactNumber =
-            values['agentContactNumber'] ?? "";
+        licPaymentObject.agentContactNumber = values['agentContactNumber'] ?? "";
         licPaymentObject.branch = values['branch'] ?? "";
-        licPaymentObject.dateOfCommencement =
-            values['dateOfCommoncement'] ?? "";
+        licPaymentObject.dateOfCommencement = values['dateOfCommoncement'] ?? "";
         licPaymentObject.frequency = values['frequancey'] ?? "";
         licPaymentObject.maturityDate = values['maturityDate'] ?? "";
         licPaymentObject.nomineeName = values['nomineeName'] ?? "";

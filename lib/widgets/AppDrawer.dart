@@ -90,7 +90,6 @@ class AppDrawer extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     bannerAd.dispose();
-                    SharedPrefs.removePreference("uid");
                     AuthService().logOutUser();
                     Navigator.popUntil(context,ModalRoute.withName("/dashboard"));
                     Navigator.push(context, MaterialPageRoute(
