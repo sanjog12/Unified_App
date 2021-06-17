@@ -18,45 +18,30 @@ class _WrapperState extends State<Wrapper> {
   final FirestoreService firestoreService = FirestoreService();
   String firebaseUserId;
   
-  
-  @override
-  void initState() {
-    super.initState();
-    getUserFirebaseId();
-  }
-
-  
-  Future<String> getUserFirebaseId() async {
-    
-    String _firebaseUserId = FirebaseAuth.instance.currentUser.uid;
-    this.setState(() {
-      firebaseUserId = _firebaseUserId;
-    });
-    return _firebaseUserId;
-  }
 
   @override
   Widget build(BuildContext context) {
-    return firebaseUserId == null ? ShowCaseWidget(
-      builder: Builder(
-        builder: (context)=>LoginPage()
-      ),
-    ):
-    StreamBuilder(
-      stream: firestoreService.getUserDetails(firebaseUserId),
-      builder: (BuildContext context, snapshot) {
-        NotificationServices.firebaseMessagingFCM();
-        if (snapshot.hasData) {
-          print("hash data");
+    return StreamBuilder<User>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          if(snapshot.data.uid != null) {
+            NotificationServices.firebaseMessagingFCM();
+            return ShowCaseWidget(
+              builder: Builder(
+                builder: (context) => Dashboard(),
+              ),
+            );
+          }
           return ShowCaseWidget(
             builder: Builder(
-              builder: (context)=>Dashboard(),
+              builder: (context)=>LoginPage(),
             ),
           );
         }
         return ShowCaseWidget(
           builder: Builder(
-            builder: (context)=>Dashboard(),
+            builder: (context)=>LoginPage(),
           ),
         );
       },
