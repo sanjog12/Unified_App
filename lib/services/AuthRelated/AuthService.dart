@@ -32,13 +32,17 @@ class AuthService {
 
   Future<void> logOutUser() async {
   	try{
-		  _auth.signOut();
-      _googleSignIn.signOut();
       DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
       AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
-      FirebaseDatabase.instance.reference()
+      await FirebaseDatabase.instance.reference()
           .child("FCMTokens/${FirebaseAuth.instance.currentUser.uid}/-${androidDeviceInfo.androidId.substring(0, 10)}")
           .remove();
+  	  try {
+        _auth.signOut();
+      }catch(e){}
+      try {
+        _googleSignIn.signOut();
+      }catch(e){}
 	  } on FirebaseException catch(e){
   	  flutterToast(message: e.message);
     } on PlatformException catch(e){

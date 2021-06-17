@@ -7,6 +7,7 @@ import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/RegisterPage.dart';
 import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
+import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -254,8 +255,16 @@ class _LoginPageState extends State<LoginPage>{
                               gButtonLoading = true;
                             });
                             UserBasic userBasic = await _auth.googleLogIn();
-                            // print("userbasic check" +userBasic.email);
                             if (userBasic != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Login Successful, Welcome ${userBasic.fullName?? "User"}",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    duration: Duration(seconds: 7),
+                                  )
+                              );
+                              NotificationServices.firebaseMessagingFCM();
                               Navigator.pop(context);
                               Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -415,6 +424,7 @@ class _LoginPageState extends State<LoginPage>{
               duration: Duration(seconds: 7),
             )
           );
+          NotificationServices.firebaseMessagingFCM();
           Navigator.pop(context);
           Navigator.of(context).push(
             MaterialPageRoute(
