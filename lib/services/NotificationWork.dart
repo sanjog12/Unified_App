@@ -106,13 +106,15 @@ class NotificationServices {
   Future<void> reminderNotificationService(String notificationId,
       String titleString, String bodyString, DateTime scheduleTime) async {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-    firebaseDatabase.reference().child('ScheduledNotifications').push().set({
-      'notificationID': notificationId,
-      'titleString': titleString,
-      'bodyString': bodyString,
-      'time': scheduleTime.toString(),
-      'uid': FirebaseAuth.instance.currentUser.uid,
-    });
+    if(scheduleTime.isAfter(DateTime.now())) {
+      firebaseDatabase.reference().child('ScheduledNotifications').push().set({
+        'notificationID': notificationId,
+        'titleString': titleString,
+        'bodyString': bodyString,
+        'time': scheduleTime.toString(),
+        'uid': FirebaseAuth.instance.currentUser.uid,
+      });
+    }
   }
 
   Future<void> deleteNotification(String id) async {

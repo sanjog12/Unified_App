@@ -558,22 +558,22 @@ class PaymentRecordToDataBase {
             .child("-$id")
             .set({
           'id': id,
-          'comanyName': licPaymentIObject.companyName ?? "",
-          'policyName': licPaymentIObject.policyName ?? "",
-          'policyNo': licPaymentIObject.policyNo ?? "",
-          'premiumDueDate': licPaymentIObject.premiumDueDate ?? "",
-          'premiumAmount': licPaymentIObject.premiumAmount ?? "",
-          'frequancey': licPaymentIObject.frequency ?? "",
-          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ?? "",
-          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ?? "",
-          'policyTerm': licPaymentIObject.policyTerm ?? "",
-          'branch': licPaymentIObject.branch ?? "",
-          'agenName': licPaymentIObject.agentName ?? "",
-          'agentContactNumber': licPaymentIObject.agentContactNumber ?? "",
-          'attachement': licPaymentIObject.agentContactNumber ?? "",
-          'nomineeName': licPaymentIObject.nomineeName ?? "",
-          'maturityDate': licPaymentIObject.maturityDate ?? "",
-          'attachment': "null" ?? ""
+          'comanyName': licPaymentIObject.companyName,
+          'policyName': licPaymentIObject.policyName ,
+          'policyNo': licPaymentIObject.policyNo ,
+          'premiumDueDate': licPaymentIObject.premiumDueDate,
+          'premiumAmount': licPaymentIObject.premiumAmount ,
+          'frequancey': licPaymentIObject.frequency ,
+          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ,
+          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ,
+          'policyTerm': licPaymentIObject.policyTerm ,
+          'branch': licPaymentIObject.branch ,
+          'agenName': licPaymentIObject.agentName,
+          'agentContactNumber': licPaymentIObject.agentContactNumber,
+          'attachement': licPaymentIObject.agentContactNumber ,
+          'nomineeName': licPaymentIObject.nomineeName ,
+          'maturityDate': licPaymentIObject.maturityDate,
+          'attachment': "null"
         });
       } else {
         String fileName = await uploadFile(file);
@@ -585,22 +585,22 @@ class PaymentRecordToDataBase {
             .child('-$id')
             .set({
           'id': id ?? "",
-          'comanyName': licPaymentIObject.companyName ?? "",
-          'policyName': licPaymentIObject.policyName ?? "",
-          'policyNo': licPaymentIObject.policyNo ?? "",
-          'premiumDueDate': licPaymentIObject.premiumDueDate ?? "",
-          'premiumAmount': licPaymentIObject.premiumAmount ?? "",
-          'frequancey': licPaymentIObject.frequency ?? "",
-          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ?? "",
-          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ?? "",
-          'policyTerm': licPaymentIObject.policyTerm ?? "",
-          'branch': licPaymentIObject.branch ?? "",
-          'agenName': licPaymentIObject.agentName ?? "",
-          'agentContactNumber': licPaymentIObject.agentContactNumber ?? "",
-          'attachement': licPaymentIObject.agentContactNumber ?? "",
-          'nomineeName': licPaymentIObject.nomineeName ?? "",
-          'maturityDate': licPaymentIObject.maturityDate ?? "",
-          'attachment': fileName ?? "",
+          'comanyName': licPaymentIObject.companyName ,
+          'policyName': licPaymentIObject.policyName ,
+          'policyNo': licPaymentIObject.policyNo ,
+          'premiumDueDate': licPaymentIObject.premiumDueDate ,
+          'premiumAmount': licPaymentIObject.premiumAmount ,
+          'frequancey': licPaymentIObject.frequency ,
+          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ,
+          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ,
+          'policyTerm': licPaymentIObject.policyTerm ,
+          'branch': licPaymentIObject.branch ,
+          'agenName': licPaymentIObject.agentName ,
+          'agentContactNumber': licPaymentIObject.agentContactNumber,
+          'attachement': licPaymentIObject.agentContactNumber ,
+          'nomineeName': licPaymentIObject.nomineeName ,
+          'maturityDate': licPaymentIObject.maturityDate,
+          'attachment': fileName ,
         });
       }
       String premiumDate = licPaymentIObject.dateOfCommencement;
@@ -634,14 +634,13 @@ class PaymentRecordToDataBase {
             .child('LICUserUpcomingCompliances')
             .child(firebaseUserId)
             .child(clientEmail)
-            .child(premiumDate.split('-')[2])
-            .child(premiumDate.split('-')[1])
             .push()
             .set({
-          'id': id ?? "",
-          'date': licPaymentIObject.premiumDueDate.split('-')[0] ?? "",
-          'label': 'Payment due' ?? "",
-          'type': '${licPaymentIObject.policyName}' ?? "",
+          'id': id ,
+          'due': licPaymentIObject.premiumDueDate.split(" ")[0],
+          'date': scheduleDate.toString(),
+          'label': 'Payment due' ,
+          'type': '${licPaymentIObject.policyName}' ,
         });
 
         if (licPaymentIObject.frequency == 'monthly') {
@@ -708,14 +707,14 @@ class PaymentRecordToDataBase {
       );
       Map<String, String> mFRecordData = {
         'id':id,
-        'sipFrequency': mutualFundRecordObject.sipFrequency??"",
-        'type': mutualFundRecordObject.type ?? "",
-        'No of Installment': mutualFundRecordObject.frequency ?? "",
-        'amount': mutualFundRecordObject.amount ?? "",
-        'name': mutualFundRecordObject.mutualFundObject.name ?? "",
-        'code': mutualFundRecordObject.mutualFundObject.code ?? "",
-        'date': mutualFundRecordObject.mutualFundDetailObject.date ?? "",
-        'nav': mutualFundRecordObject.mutualFundDetailObject.nav ?? "",
+        'sipFrequency': mutualFundRecordObject.sipFrequency,
+        'type': mutualFundRecordObject.type ,
+        'No of Installment': mutualFundRecordObject.frequency ,
+        'amount': mutualFundRecordObject.amount ,
+        'name': mutualFundRecordObject.mutualFundObject.name ,
+        'code': mutualFundRecordObject.mutualFundObject.code ,
+        'date': mutualFundRecordObject.mutualFundDetailObject.date ,
+        'nav': mutualFundRecordObject.mutualFundDetailObject.nav,
         'keyDate': key ?? ""
       };
 

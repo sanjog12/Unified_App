@@ -6,7 +6,7 @@ void openWebView(String label, String link, BuildContext context) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => WebView(
+      builder: (context) => WebViewPage(
         label: label,
         link: link,
       ),

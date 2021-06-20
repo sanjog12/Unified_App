@@ -34,26 +34,6 @@ class _UpComingCompliancesScreenForLICState
   TodayDateObject todayDateObject;
 
   
-  
-
-  bool getSingleDone(List<DoneComplianceObject> done, String subKey) {
-    print(done[0].key);
-    if (done[0].key != null) {
-      DoneComplianceObject singleDone;
-      done.forEach((element) {
-        print(element.key);
-        if (subKey == element.key) {
-          singleDone = element;
-        }
-      });
-
-      if (singleDone != null && singleDone.value == 'done') {
-        return false;
-      }
-    }
-
-    return true;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +54,8 @@ class _UpComingCompliancesScreenForLICState
                 future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfLIC(widget.client),
                 builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
                   if (snapshot.hasData) {
+                    print("in widget");
+                    print(snapshot.data);
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
