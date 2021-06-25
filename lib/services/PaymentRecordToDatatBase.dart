@@ -157,13 +157,21 @@ class PaymentRecordToDataBase {
           .child(clientEmail)
           .push()
           .set(incomeTaxPayment);
+      List<String> todayDateData =
+      incomeTaxPaymentObject.dateOfPayment.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[2],
+          month: todayDateData[1],
+          day: todayDateData[0]);
 
       dbf
           .child('usersUpcomingCompliances')
           .child(firebaseUserId)
           .child(clientEmail)
           .child(DateTime.now().year.toString())
-          .child(DateTime.now().month.toString())
+          .child(todayDateObject.month)
           .child('INCOME_TAX')
           .child('ADVANCE_TAX')
           .set('done');
