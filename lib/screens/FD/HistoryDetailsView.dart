@@ -49,7 +49,6 @@ class _FDPaymentRecordHistoryDetailsViewState
 
     if (picked != null && picked != selectedDateOfInvestment) {
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDateOfInvestment = picked;
         selectedDateOfPayment = DateFormat('dd/MMMM/yyyy').format(picked);
         _fdRecordObject.dateOfInvestment = selectedDateOfPayment;

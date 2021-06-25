@@ -48,9 +48,7 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
   
     if(picked != null && picked != selectedDate){
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDate= picked;
-        print(picked);
         selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
         incomeTaxPaymentObject.dateOfPayment = selectedDateDB;
         selectedDateDB = DateFormat('dd-MM-yy').format(picked);

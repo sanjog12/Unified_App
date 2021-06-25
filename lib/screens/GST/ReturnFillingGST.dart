@@ -38,9 +38,7 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 		
 		if(picked != null && picked != selectedDate){
 			setState(() {
-				print('Checking ' + widget.client.company);
 				selectedDate= picked;
-				print(picked);
 				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
 				gstReturnFillingsObject.dateOfFilledReturns = selectedDateDB;
 				selectedDateDB = DateFormat('dd-MM-yy').format(picked);
@@ -64,7 +62,7 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 							crossAxisAlignment: CrossAxisAlignment.stretch,
 							children: <Widget>[
 								Text(
-									"Income Tax Return Filling",
+									"GST Return Filling",
 									style: _theme.textTheme.headline6.merge(
 										TextStyle(
 											fontSize: 26.0,

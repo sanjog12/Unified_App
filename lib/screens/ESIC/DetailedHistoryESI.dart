@@ -50,7 +50,6 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 		
 		if(picked != null && picked != selectedDate){
 			setState(() {
-				print('Checking ' + widget.client.company);
 				selectedDate = picked;
 				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
 				_esiMonthlyContributionObejct.dateOfFilling = selectedDateDB;

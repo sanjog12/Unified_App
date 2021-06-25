@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
@@ -9,6 +10,7 @@ import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject
 import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/TDSQuarterlyReturnsObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 import 'GeneralServices/SharedPrefs.dart';
 
@@ -60,18 +62,19 @@ class QuarterlyReturnsRecordToDatabase {
           .set('done');
 
       return true;
-    } catch (e) {
-      // Fluttertoast.showToast(
-      //     msg: e.message.toString(),
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+    } on PlatformException catch (e) {
       print("Here");
       print(e);
-      return false;
+      flutterToast(message: e.message);
+    } on FirebaseException catch (e){
+      print("error " + e.message.toString());
+      print(e.stackTrace);
+      flutterToast(message: e.message);
+    } catch(e){
+      print(e);
+      print(e.stack);
     }
+    return false;
   }
   
   

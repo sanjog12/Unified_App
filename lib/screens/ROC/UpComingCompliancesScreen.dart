@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/services/NotificationWork.dart';
-import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/DateChange.dart';
@@ -136,7 +135,6 @@ class _UpComingCompliancesScreenForROCState extends State<UpComingCompliancesScr
 
 		if(picked != null && picked != selectedDateOfAgmSubmission){
 			setState(() {
-				print('Checking ' + widget.client.company);
 			  selectedDateOfAgmSubmission = picked;
 			  _selectedDateOfAgm = DateFormat('dd-MM-yyyy').format(picked);
 

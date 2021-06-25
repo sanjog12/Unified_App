@@ -36,7 +36,6 @@ class _FDRecordState extends State<FDRecord> {
 
     if (picked != null && picked != selectedDateOfInvestment) {
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDateOfInvestment = picked;
         selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
         fdRecordObject.dateOfInvestment = selectedDateOfPayment;

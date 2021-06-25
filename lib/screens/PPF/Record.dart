@@ -39,9 +39,8 @@ class _PPFRecordState extends State<PPFRecord> {
   
     if(picked != null && picked != selectedDateOfPayment){
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDateOfPayment = picked;
-        _selectedDateOfPayment = DateFormat('dd/MMMM/yyyy').format(picked);
+        _selectedDateOfPayment = DateFormat('dd/MM/yyyy').format(picked);
         ppfRecordObject.dateOfInvestment = _selectedDateOfPayment;
       });
     }

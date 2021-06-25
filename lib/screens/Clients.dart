@@ -120,52 +120,52 @@ class _ClientsState extends State<Clients> {
                             itemCount: map.length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Color(0xff7C7C7C),
-                                      ),
+                              return Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Color(0xff7C7C7C),
                                     ),
                                   ),
-                                  margin: EdgeInsets.symmetric(vertical: 10.0),
-                                  child: ListTile(
-                                    title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
+                                ),
+                                margin: EdgeInsets.symmetric(vertical: 10.0),
+                                child: ListTile(
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      
+                                      Container(
+                                        width: MediaQuery.of(context).size.width/4,
+                                        child: Text(
                                           listClient[index].name,
                                           style: TextStyle(color: whiteColor),
                                         ),
-                                        SizedBox(width: 90,),
-                                        GestureDetector(child: Icon(Icons.edit),onTap: (){
-                                          print(listClient[index].constitution);
-                                          Navigator.push(context,
-                                            MaterialPageRoute(
-                                              builder: (context)=>AddSingleClient(
-                                                client: listClient[index],
-                                                userBasic: widget.userBasic,
-                                              )
+                                      ),
+                                      
+                                      SizedBox(width: 90,),
+                                      GestureDetector(child: Icon(Icons.edit),onTap: (){
+                                        print(listClient[index].constitution);
+                                        Navigator.push(context,
+                                          MaterialPageRoute(
+                                            builder: (context)=>AddSingleClient(
+                                              client: listClient[index],
+                                              userBasic: widget.userBasic,
                                             )
-                                          );
-                                        },),
-                                        GestureDetector(child: Icon(Icons.delete,color: Colors.red,),onTap: () async{
-                                          bool confirm = false;
-                                          confirm = await showConfirmationDialog(context);
-                                          if(confirm){
-                                            deleteClient(listClient[index].key,listClient[index].email);
-                                          }
-                                        },),
-                                      ],
-                                    ),
-                                    onTap: (){
-                                      showDetails(context,listClient[index]);
-                                    },
+                                          )
+                                        );
+                                      },),
+                                      GestureDetector(child: Icon(Icons.delete,color: Colors.red,),onTap: () async{
+                                        bool confirm = false;
+                                        confirm = await showConfirmationDialog(context);
+                                        if(confirm){
+                                          deleteClient(listClient[index].key,listClient[index].email);
+                                        }
+                                      },),
+                                    ],
                                   ),
+                                  onTap: (){
+                                    showDetails(context,listClient[index]);
+                                  },
                                 ),
                               );
                             }),
@@ -305,7 +305,7 @@ class _ClientsState extends State<Clients> {
         await dbf.child("user_compliances")
             .child(firebaseUserId)
             .child('compliances')
-            .child(email)
+            .child(email.replaceAll('.', ','))
             .remove();
       }catch(e){
         print(e);

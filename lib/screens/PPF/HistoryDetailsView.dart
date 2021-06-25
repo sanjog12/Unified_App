@@ -55,7 +55,6 @@ class _PPFRecordHistoryDetailsViewState
   
     if(picked != null && picked != selectedDateOfPayment){
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDateOfPayment = picked;
         _selectedDateOfPayment = DateFormat('dd/MMMM/yyyy').format(picked);
         _ppfRecordObject.dateOfInvestment = _selectedDateOfPayment;

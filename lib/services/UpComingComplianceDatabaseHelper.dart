@@ -31,6 +31,9 @@ class UpComingComplianceDatabaseHelper {
     List<DoneComplianceObject> clientDone = [];
 //    print('values1');
 
+    todayDateObject = TodayDateObject(
+        year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
+
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase
         .reference()
@@ -38,14 +41,13 @@ class UpComingComplianceDatabaseHelper {
         .child(firebaseUserId)
         .child(clientEmail)
         .child(DateTime.now().year.toString())
-        .child(DateTime.now().month.toString())
+        .child(todayDateObject.month)
         .child(snapshotKey);
 
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       
       if (values != null) {
-
         values.forEach((key, value) {
           clientDone.add(DoneComplianceObject(key: key, value: value));
         });
@@ -459,6 +461,8 @@ class UpComingComplianceDatabaseHelper {
           .getClientDoneCompliances(client.email,
           todayDateObject, "TDS");
     }catch(e){print(e);}
+
+    print(doneCompliances.first.value);
 
     List<UpComingComplianceObject> upComingComplianceData = [];
 

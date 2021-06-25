@@ -38,9 +38,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 		
 		if(picked != null && picked != selectedDate){
 			setState(() {
-				print('Checking ' + widget.client.company);
 				selectedDate= picked;
-				print(picked);
 				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
 				gstReturnFillingsObject.dateOfFilledReturns = selectedDateDB;
 				selectedDateDB = DateFormat('dd-MM-yy').format(picked);

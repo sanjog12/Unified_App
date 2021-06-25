@@ -39,9 +39,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
   
     if(picked != null && picked != selectedDate){
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDate= picked;
-        print(picked);
         selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
         incomeTaxReturnFillingsObject.dateOfFilledReturns = selectedDateDB;
         selectedDateDB = DateFormat('dd-MM-yy').format(picked);

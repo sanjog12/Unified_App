@@ -63,9 +63,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
   
     if(picked != null && picked != selectedDate){
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDate = picked;
-        print(picked);
         selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
         _incomeTaxPaymentObject.dateOfPayment = selectedDateDB;
       });
@@ -246,7 +244,7 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
                         child: TextButton(
                           onPressed: () async{
                             await FilePicker.platform.pickFiles().then((value){
-                            
+                              file = File(value.files.single.path);
                             });
                             List<String> temp = file.path.split('/');
                             print(temp.last);

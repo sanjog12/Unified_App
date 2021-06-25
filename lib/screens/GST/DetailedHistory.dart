@@ -62,9 +62,7 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 		
 		if(picked != null && picked != selectedDate){
 			setState(() {
-				print('Checking ' + widget.client.company);
 				selectedDate = picked;
-				print(picked);
 				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
 				_gstPaymentObject.dueDate = selectedDateDB;
 			});

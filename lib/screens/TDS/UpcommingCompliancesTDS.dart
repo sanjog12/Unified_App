@@ -35,24 +35,24 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 	TodayDateObject todayDateObject;
 	
 	
-	bool getSingleDone(List<DoneComplianceObject> dones, String subkey) {
-		print(dones[0].key);
-		if (dones[0].key != null) {
-			DoneComplianceObject singleDone;
-			dones.forEach((element) {
-				print(element.key);
-				if (subkey == element.key) {
-					singleDone = element;
-				}
-			});
-			
-			if (singleDone != null && singleDone.value == 'done') {
-				return false;
-			}
-		}
-		
-		return true;
-	}
+	// bool getSingleDone(List<DoneComplianceObject> dones, String subkey) {
+	// 	print(dones[0].key);
+	// 	if (dones[0].key != null) {
+	// 		DoneComplianceObject singleDone;
+	// 		dones.forEach((element) {
+	// 			print(element.key);
+	// 			if (subkey == element.key) {
+	// 				singleDone = element;
+	// 			}
+	// 		});
+	//
+	// 		if (singleDone != null && singleDone.value == 'done') {
+	// 			return false;
+	// 		}
+	// 	}
+	//
+	// 	return true;
+	// }
 	
 	
   @override
@@ -87,9 +87,8 @@ class _UpcomingCompliancesTDSState extends State<UpcomingCompliancesTDS> {
 								        ],
 								      );
 							      }
-					      		
-					      		return ListView.builder(
-									      itemCount: snapshot.data.length ,
+							      return ListView.builder(
+												itemCount: snapshot.data.length ,
 									      itemBuilder: (BuildContext context, int index){
 									      	return Container(
 											      padding: EdgeInsets.all(15),

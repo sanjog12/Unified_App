@@ -93,7 +93,6 @@ class PaymentRecordToDataBase {
           month: todayDateData[1],
           day: todayDateData[0]);
 
-//      String section = tdsPaymentObject.section.replaceFirst(' ', '_');
 
       dbf
           .child('usersUpcomingCompliances')

@@ -138,6 +138,13 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                       ],
                     ),
+                    
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    
+                    dropDownForFrequency(),
+  
                     SizedBox(
                       height: 30.0,
                     ),
@@ -173,8 +180,8 @@ class _LICPaymentState extends State<LICPayment> {
                                   DateTime selectedDate =
                                       await selectDateTime(context);
                                   setState(() {
-                                    selectedDatePremiumDateDB =
-                                        "${DateFormat('dd').format(selectedDate)} - of month";
+                                    selectedDatePremiumDateDB = "${DateFormat('dd').format(selectedDate)} - of every "
+                                    + licPaymentIObject.frequency??"" + " month";
                                     licPaymentIObject.premiumDueDate =
                                         selectedDatePremiumDateDB;
                                   });
@@ -210,12 +217,7 @@ class _LICPaymentState extends State<LICPayment> {
                     SizedBox(
                       height: 30.0,
                     ),
-
-                    dropDownForFrequency(),
-
-                    SizedBox(
-                      height: 30.0,
-                    ),
+                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -315,6 +317,9 @@ class _LICPaymentState extends State<LICPayment> {
                               TextButton(
                                 onPressed: () async{
                                   DateTime selectedDate = await selectDateTime(context);
+                                  if(licPaymentIObject.dateOfCommencement == DateFormat('dd-MM-yyyy').format(selectedDate)){
+                                    flutterToast(message: "Maturity date can't be same as commencement date. Please check again");
+                                  }
                                   setState(() {
                                     selectedDateMaturityDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
                                     licPaymentIObject.maturityDate = selectedDateMaturityDateDB;
@@ -545,7 +550,7 @@ class _LICPaymentState extends State<LICPayment> {
             ),
             DropdownMenuItem(
               child: Text("Half Yearly"),
-              value: "halfYearly",
+              value: "half Yearly",
             ),
             DropdownMenuItem(
               child: Text("Yearly"),
@@ -647,6 +652,10 @@ class _LICPaymentState extends State<LICPayment> {
         if (selectedDateCommencementDB == 'Select Date') {
           throw PlatformException(
               code: '1001', message: 'Please select Policy Commencement Date');
+        }
+        if(licPaymentIObject.dateOfCommencement == selectedDateMaturityDateDB){
+          throw PlatformException(
+              code: '1001', message:"Maturity date can't be same as commencement date");
         }
 
         if (_companyName != null) {

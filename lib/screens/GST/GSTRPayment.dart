@@ -59,7 +59,6 @@ class StateGSTRPayment extends State<GSTPayment>{
     if(picked != null && picked != selectedDateOfPayment){
       setState(() {
         selectedDateOfPayment= picked;
-        print(picked);
         showDateOfPaymentDB = DateFormat('dd-MM-yyyy').format(picked);
         gstPaymentObject.dueDate = showDateOfPaymentDB;
         _showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
@@ -167,7 +166,7 @@ class StateGSTRPayment extends State<GSTPayment>{
                   
                   SizedBox(height: 30,),
                   
-                  Column(
+                  (gstPaymentObject.section !="GSTR 1" && gstPaymentObject.section !="GSTR 3B")?Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Text('Challan Number'),
@@ -179,13 +178,14 @@ class StateGSTRPayment extends State<GSTPayment>{
                         onSaved: (String value){
                           gstPaymentObject.challanNumber= value;
                         },
-                      )
+                      ),
+                      SizedBox(height: 30,),
                     ],
-                  ),
+                  ):Container(),
                   
-                  SizedBox(height: 30,),
                   
-                  Column(
+  
+                  (gstPaymentObject.section !="GSTR 1" && gstPaymentObject.section !="GSTR 3B")?Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Text('Amount of Payment'),
@@ -198,11 +198,11 @@ class StateGSTRPayment extends State<GSTPayment>{
                         onSaved: (String value){
                           gstPaymentObject.amountOfPayment = value;
                         },
-                      )
+                      ),
+                      SizedBox(height: 30,),
                     ],
-                  ),
+                  ):Container(),
                   
-                  SizedBox(height: 30,),
                   
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -263,27 +263,24 @@ class StateGSTRPayment extends State<GSTPayment>{
                     ],
                   ),
                       
-                      SizedBox(height: 50,),
-                      Container(
-                        decoration: roundedCornerButton,
-                        height: 50.0,
-                        child: loadingSave? Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>
-                              (Colors.white70),
-                          ),
-                        ):TextButton(
-                          child: Text("Save Record"),
-                          onPressed: () {
-                            savePayment();
-                          },
-                        ),
+                  SizedBox(height: 50,),
+                  Container(
+                    decoration: roundedCornerButton,
+                    height: 50.0,
+                    child: loadingSave? Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>
+                          (Colors.white70),
                       ),
-                  SizedBox(height: 20,),
-                  SizedBox(
-                    height: 30.0,
+                    ):TextButton(
+                      child: Text("Save Record"),
+                      onPressed: () {
+                        savePayment();
+                        },
+                    ),
                   ),
-                  SizedBox(height: 70,),
+                  
+                  SizedBox(height: 120,),
                 ],
               ),
             ),

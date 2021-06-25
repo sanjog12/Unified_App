@@ -5,6 +5,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/TDSQuarterlyReturnsObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class TDSQuarterly extends StatefulWidget {
@@ -219,13 +220,7 @@ class _TDSQuarterly extends State<TDSQuarterly>{
       
       await QuarterlyReturnsRecordToDatabase().addTDSQuarterlyReturns(tdsQuarterlyReturnsObject, widget.client);
       Navigator.pop(context);
-      // Fluttertoast.showToast(
-      //     msg: "Date has Been Recorded",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+      flutterToast(message: "Date has Been Recorded");
     }
   }
   

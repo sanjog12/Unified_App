@@ -58,12 +58,11 @@ class _TDSPaymentState extends State<TDSPayment>{
   
     if(picked != null && picked != selectedDateOfPayment){
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDateOfPayment= picked;
-        print(picked);
+        // print(picked);
         showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
         tDSPaymentObject.dateOfPayment = showDateOfPayment;
-        _showDateOfPayment = DateFormat('dd-MMMM-yy').format(picked);
+        _showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
       });
     }
   }
