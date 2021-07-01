@@ -8,7 +8,6 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/Compliance.dart';
 import 'package:unified_reminder/services/GeneralServices/Caching.dart';
 import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
-import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class FirestoreService {
