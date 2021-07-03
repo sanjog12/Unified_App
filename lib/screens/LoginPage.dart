@@ -12,7 +12,6 @@ import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 
 

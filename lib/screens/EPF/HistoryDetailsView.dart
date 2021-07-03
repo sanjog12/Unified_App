@@ -11,9 +11,9 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
-import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class EPFRecordHistoryDetailsView extends StatefulWidget {
@@ -41,38 +41,16 @@ class _EPFRecordHistoryDetailsViewState
   bool newFile = false;
   String firebaseUserId;
   String nameOfFile = "Add File";
-  EPFMonthlyContributionObject _epfMonthlyContributionObejct;
+  EPFMonthlyContributionObject _epfMonthlyContributionObject;
   DateTime selectedDate = DateTime.now();
   String selectedDateDB;
   File file;
   
-  
-  Future<void> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate ,
-        firstDate: DateTime(DateTime.now().year - 1),
-        lastDate: DateTime(DateTime.now().year+1)
-    );
-    
-    if(picked != null && picked != selectedDate){
-      setState((){
-        selectedDate = picked;
-        selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-        _epfMonthlyContributionObejct.dateOfFilling = selectedDateDB;
-      });
-    }
-  }
-  
-  
-  fireUser() async{
-    firebaseUserId = FirebaseAuth.instance.currentUser.uid;
-  }
-  
   @override
   void initState() {
     super.initState();
-    _epfMonthlyContributionObejct = widget.epfMonthlyContributionObejct;
+    firebaseUserId = FirebaseAuth.instance.currentUser.uid;
+    _epfMonthlyContributionObject = widget.epfMonthlyContributionObejct;
     selectedDateDB = widget.epfMonthlyContributionObejct.dateOfFilling;
   }
   
@@ -120,8 +98,13 @@ class _EPFRecordHistoryDetailsViewState
                               '$selectedDateDB',
                             ),
                             TextButton(
-                              onPressed: () {
-                                selectDateTime(context);
+                              onPressed: () async{
+                                selectedDate = await DateChange.selectDateTime(context, 1, 1);
+                                setState(() {
+                                  _epfMonthlyContributionObject.dateOfFilling = DateFormat('dd-MM-yyyy').format(selectedDate);
+                                  selectedDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+
+                                });
                               },
                               child: Icon(Icons.date_range),
                             ),
@@ -151,7 +134,7 @@ class _EPFRecordHistoryDetailsViewState
                         initialValue: widget.epfMonthlyContributionObejct.amountOfPayment,
                         decoration:
                         buildCustomInput(hintText: "Amount of Payment",prefixText: "\u{20B9}"),
-                        onChanged: (value) => _epfMonthlyContributionObejct
+                        onChanged: (value) => _epfMonthlyContributionObject
                             .amountOfPayment = value,
                       ):Container(
                         padding: EdgeInsets.all(15),
@@ -175,7 +158,7 @@ class _EPFRecordHistoryDetailsViewState
                         initialValue: widget.epfMonthlyContributionObejct.challanNumber,
                         decoration:
                         buildCustomInput(hintText: "Challan Number"),
-                        onChanged: (value) => _epfMonthlyContributionObejct.challanNumber = value,
+                        onChanged: (value) => _epfMonthlyContributionObject.challanNumber = value,
                       ):Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
@@ -196,7 +179,7 @@ class _EPFRecordHistoryDetailsViewState
                   edit?Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text(_epfMonthlyContributionObejct.addAttachment != null?'Add New File':"Add File"),
+                      Text(_epfMonthlyContributionObject.addAttachment != null?'Add New File':"Add File"),
                       SizedBox(height: 10,),
                       Container(
                         height: 50,
@@ -305,12 +288,11 @@ class _EPFRecordHistoryDetailsViewState
   Future<void> editRecord() async{
     print("editRecord");
     dbf = firebaseDatabase.reference();
-    await fireUser();
     print("got firebaseId");
     print(firebaseUserId);
     print(widget.client.email);
     print(widget.keyDB);
-    print(_epfMonthlyContributionObejct.challanNumber);
+    print(_epfMonthlyContributionObject.challanNumber);
     try{
     
       if(newFile == true){
@@ -348,9 +330,9 @@ class _EPFRecordHistoryDetailsViewState
           .child(widget.client.email)
           .child(widget.keyDB)
           .update({
-        'challanNumber': _epfMonthlyContributionObejct.challanNumber,
-        'amountOfPayment': _epfMonthlyContributionObejct.amountOfPayment,
-        'dateOfFilling': _epfMonthlyContributionObejct.dateOfFilling,
+        'challanNumber': _epfMonthlyContributionObject.challanNumber,
+        'amountOfPayment': _epfMonthlyContributionObject.amountOfPayment,
+        'dateOfFilling': _epfMonthlyContributionObject.dateOfFilling,
       });
       setState(() {
         edit = false;
@@ -417,13 +399,12 @@ class _EPFRecordHistoryDetailsViewState
   Future<void> deleteRecord() async{
     dbf = firebaseDatabase.reference();
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-    await fireUser();
     print(firebaseUserId);
     print(widget.client.email);
     print(widget.keyDB);
     try {
     
-      if(_epfMonthlyContributionObejct.addAttachment != 'null') {
+      if(_epfMonthlyContributionObject.addAttachment != 'null') {
         String path = firebaseStorage
             .ref()
             .child('files')
@@ -500,7 +481,6 @@ class _EPFRecordHistoryDetailsViewState
                       firebaseStorage = FirebaseStorage.instance;
                       await firebaseStorage.ref().child(path).delete();
                       print("here");
-                      await fireUser();
                       dbf = firebaseDatabase.reference();
                       dbf
                           .child('complinces')

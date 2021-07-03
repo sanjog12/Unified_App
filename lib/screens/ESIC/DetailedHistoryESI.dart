@@ -12,6 +12,7 @@ import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -40,32 +41,10 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 	File file;
 	
 	
-	Future<void> selectDateTime(BuildContext context) async{
-		final DateTime picked = await showDatePicker(
-				context: context,
-				initialDate: selectedDate ,
-				firstDate: DateTime(DateTime.now().year - 1),
-				lastDate: DateTime(DateTime.now().year+1)
-		);
-		
-		if(picked != null && picked != selectedDate){
-			setState(() {
-				selectedDate = picked;
-				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-				_esiMonthlyContributionObejct.dateOfFilling = selectedDateDB;
-			});
-		}
-	}
-	
-	
-	fireUser() async{
-		firebaseUserId = FirebaseAuth.instance.currentUser.uid;
-	}
-	
-	
 	@override
   void initState() {
     super.initState();
+		firebaseUserId = FirebaseAuth.instance.currentUser.uid;
 		_esiMonthlyContributionObejct = widget.esiMonthlyContributionObejct;
 		selectedDateDB = widget.esiMonthlyContributionObejct.dateOfFilling;
   }
@@ -101,8 +80,12 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 										    '$selectedDateDB',
 									    ),
 									    TextButton(
-										    onPressed: () {
-											    selectDateTime(context);
+										    onPressed: () async{
+											    selectedDate = await DateChange.selectDateTime(context, 1, 1);
+													setState(() {
+														selectedDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+														_esiMonthlyContributionObejct.dateOfFilling = selectedDateDB;
+													});
 										    },
 										    child: Icon(Icons.date_range),
 									    ),
@@ -296,7 +279,6 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 	Future<void> editRecord() async{
 		print("editRecord");
 		dbf = firebaseDatabase.reference();
-		await fireUser();
 		print("got firebaseId");
 		print(firebaseUserId);
 		print(widget.client.email);
@@ -403,7 +385,6 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 	Future<void> deleteRecord() async{
 		dbf = firebaseDatabase.reference();
 		FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-		await fireUser();
 		print(firebaseUserId);
 		print(widget.client.email);
 		print(widget.keyDB);
@@ -481,7 +462,6 @@ class _DetailedHistoryESIState extends State<DetailedHistoryESI> {
 											firebaseStorage = FirebaseStorage.instance;
 											await firebaseStorage.ref().child(path).delete();
 											print("here");
-											await fireUser();
 											dbf = firebaseDatabase.reference();
 											await dbf
 													.child('complinces')

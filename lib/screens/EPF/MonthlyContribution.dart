@@ -8,6 +8,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/EPFMonthlyContributionObejct.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -36,31 +37,6 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
   String showDateOfPayment = ' ';
 
   File file;
-
-
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDateOfPayment ,
-      firstDate: DateTime(DateTime.now().year-1),
-      lastDate: DateTime(DateTime.now().year+1),
-    );
-  
-    if(picked != null && picked != selectedDateOfPayment){
-      setState(() {
-        selectedDateOfPayment = picked;
-        showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-        epfMonthlyContributionObject.dateOfFilling = showDateOfPayment;
-        setState(() {
-          _selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-        });
-      
-      });
-    }
-  }
-  
-  
   
   
   
@@ -121,8 +97,13 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                                   '$_selectedDateOfPayment',
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    selectDateTime(context);
+                                  onPressed: () async{
+                                    selectedDateOfPayment = await DateChange.selectDateTime(context, 1, 1);
+                                    setState(() {
+                                      epfMonthlyContributionObject.dateOfFilling = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
+                                      _selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
+
+                                    });
                                   },
                                   child: Icon(Icons.date_range),
                                 ),
@@ -253,7 +234,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
         });
 
         bool done = await PaymentRecordToDataBase()
-            .addMonthlyContributionPayment(
+            .addEPFMonthlyContribution(
                 epfMonthlyContributionObject, widget.client, file);
         
         if (done) {

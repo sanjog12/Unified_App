@@ -9,6 +9,7 @@ import 'package:unified_reminder/services/DropDownValuesHelper.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -35,19 +36,6 @@ class _LICPaymentState extends State<LICPayment> {
 
   String nameOfFile = "Select File";
   File file;
-
-  Future<DateTime> selectDateTime(BuildContext context) async {
-    DateTime selectedDate = DateTime.now();
-    final DateTime pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(DateTime.now().year - 10),
-      lastDate: DateTime(DateTime.now().year + 10),
-    );
-
-    FocusScope.of(context).requestFocus(new FocusNode());
-    return pickedDate;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +166,7 @@ class _LICPaymentState extends State<LICPayment> {
                               TextButton(
                                 onPressed: () async {
                                   DateTime selectedDate =
-                                      await selectDateTime(context);
+                                      await DateChange.selectDateTime(context,10,10);
                                   setState(() {
                                     selectedDatePremiumDateDB = "${DateFormat('dd').format(selectedDate)} - of every "
                                     + licPaymentIObject.frequency??"" + " month";
@@ -248,7 +236,7 @@ class _LICPaymentState extends State<LICPayment> {
                               TextButton(
                                 onPressed: () async {
                                   DateTime selectedDate =
-                                      await selectDateTime(context);
+                                      await await DateChange.selectDateTime(context,10,10);
                                   setState(() {
                                     selectedDateCommencementDB =
                                         DateFormat('dd-MM-yyyy')
@@ -316,7 +304,7 @@ class _LICPaymentState extends State<LICPayment> {
                               ),
                               TextButton(
                                 onPressed: () async{
-                                  DateTime selectedDate = await selectDateTime(context);
+                                  DateTime selectedDate = await DateChange.selectDateTime(context,10,10);
                                   if(licPaymentIObject.dateOfCommencement == DateFormat('dd-MM-yyyy').format(selectedDate)){
                                     flutterToast(message: "Maturity date can't be same as commencement date. Please check again");
                                   }

@@ -218,10 +218,15 @@ class AuthService {
       );
     } on FirebaseAuthException catch(e){
       flutterToast(message: e.message);
+      print(e.message);
+      print(e.stackTrace);
     } on FirebaseException catch(e){
       flutterToast(message: e.message);
+      print(e.message);
+      print(e.stackTrace);
     } on PlatformException catch (e) {
       flutterToast(message: e.message);
+      print(e.message);
     } catch (e) {
       flutterToast(message: "Something went wrong!!!");
     }

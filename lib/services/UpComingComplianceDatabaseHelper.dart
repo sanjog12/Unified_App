@@ -11,7 +11,8 @@ import 'GeneralServices/SharedPrefs.dart';
 
 
 class UpComingComplianceDatabaseHelper {
-  final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+  final FirebaseDatabase firebaseDatabase = FirebaseDatabase();
+
   DatabaseReference dbf;
 
   static DateTime now = new DateTime.now();
@@ -681,8 +682,7 @@ class UpComingComplianceDatabaseHelper {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
-    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
-        todayDateObject, "EPF");
+    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "EPF");
     List<UpComingComplianceObject> upComingComplianceData = [];
   
     dbf = firebaseDatabase

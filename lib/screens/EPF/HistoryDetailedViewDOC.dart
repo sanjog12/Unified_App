@@ -19,6 +19,7 @@ import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class EPFRecordHistoryDetailsView2 extends StatefulWidget {
@@ -53,24 +54,6 @@ class _EPFRecordHistoryDetailsViewState2
 	DateTime selectedDate = DateTime.now();
 	String selectedDateDB;
 	File file;
-	
-	
-	Future<void> selectDateTime(BuildContext context) async{
-		final DateTime picked = await showDatePicker(
-				context: context,
-				initialDate: selectedDate ,
-				firstDate: DateTime(DateTime.now().year - 1),
-				lastDate: DateTime(DateTime.now().year+1)
-		);
-		
-		if(picked != null && picked != selectedDate){
-			setState((){
-				selectedDate = picked;
-				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-				_epfDetailsOfContributionObject.dateOfFilling = selectedDateDB;
-			});
-		}
-	}
 	
 	
 	fireUser() async{
@@ -128,8 +111,12 @@ class _EPFRecordHistoryDetailsViewState2
 															'$selectedDateDB',
 														),
 														TextButton(
-															onPressed: () {
-																selectDateTime(context);
+															onPressed: () async{
+																selectedDate = await DateChange.selectDateTime(context, 1, 1);
+																setState(() {
+																	_epfDetailsOfContributionObject.dateOfFilling  = DateFormat('dd-MM-yyyy').format(selectedDate);
+																	selectedDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+																});
 															},
 															child: Icon(Icons.date_range),
 														),

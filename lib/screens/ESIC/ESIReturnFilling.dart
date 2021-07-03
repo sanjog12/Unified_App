@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/Client.dart';
-import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject.dart';
+import 'package:unified_reminder/models/quarterlyReturns/ESIReturnFillingObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class ESIReturnFilling extends StatefulWidget {
@@ -14,39 +15,19 @@ class ESIReturnFilling extends StatefulWidget {
 	
 	const ESIReturnFilling({this.client});
 	@override
-	_GSTReturnFillingState createState() => _GSTReturnFillingState();
+	_ESIReturnFillingState createState() => _ESIReturnFillingState();
 }
 
-class _GSTReturnFillingState extends State<ESIReturnFilling> {
+class _ESIReturnFillingState extends State<ESIReturnFilling> {
 	bool buttonLoading = false;
 	GlobalKey<FormState> gSTReturnFillingsFormKey = GlobalKey<FormState>();
 	
-	GSTReturnFillingsObject gstReturnFillingsObject = GSTReturnFillingsObject();
+	ESIReturnFillingObject esiReturnFillingsObject = ESIReturnFillingObject();
 	
 	String selectedDateDB = "Select Date";
 	DateTime selectedDate = DateTime.now();
 	File file;
 	String nameOfFile = "Select File";
-	
-	Future<Null> selectDateTime(BuildContext context) async{
-		final DateTime picked = await showDatePicker(
-			context: context,
-			initialDate: selectedDate,
-			firstDate: DateTime(DateTime.now().year-1),
-			lastDate: DateTime(DateTime.now().year+1),
-		);
-		
-		if(picked != null && picked != selectedDate){
-			setState(() {
-				selectedDate= picked;
-				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-				gstReturnFillingsObject.dateOfFilledReturns = selectedDateDB;
-				selectedDateDB = DateFormat('dd-MM-yy').format(picked);
-			});
-		}
-	}
-	
-	
 	
 	@override
 	Widget build(BuildContext context) {
@@ -97,8 +78,12 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 																	'$selectedDateDB',
 																),
 																TextButton(
-																	onPressed: () {
-																		selectDateTime(context);
+																	onPressed: () async{
+																		selectedDate = await DateChange.selectDateTime(context,1,1);
+																		setState(() {
+																			esiReturnFillingsObject.dateOfFilledReturns  = DateFormat('dd-MM-yyyy').format(selectedDate);
+																			selectedDateDB = DateFormat('dd-MM-yy').format(selectedDate);
+																		});
 																	},
 																	child: Icon(Icons.date_range),
 																),
@@ -175,9 +160,7 @@ class _GSTReturnFillingState extends State<ESIReturnFilling> {
 					buttonLoading = true;
 				});
 				
-				bool done = await QuarterlyReturnsRecordToDatabase()
-						.addGSTReturnFillings(
-						gstReturnFillingsObject, widget.client,file);
+				bool done = await QuarterlyReturnsRecordToDatabase().addESIReturnFillings(esiReturnFillingsObject, widget.client,file);
 				
 				if (done) {
 					flutterToast(message: "Successfully recorded");

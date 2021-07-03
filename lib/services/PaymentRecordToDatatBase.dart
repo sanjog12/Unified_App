@@ -27,7 +27,7 @@ import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
-import 'package:unified_reminder/utils/DateChange.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 import 'GeneralServices/SharedPrefs.dart';
@@ -296,8 +296,8 @@ class PaymentRecordToDataBase {
     return false;
   }
 
-  Future<bool> addMonthlyContributionPayment(
-      EPFMonthlyContributionObject epfMonthlyContributionObejct,
+  Future<bool> addEPFMonthlyContribution(
+      EPFMonthlyContributionObject epfMonthlyContributionObject,
       Client client,
       File attachmentFile) async {
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
@@ -311,17 +311,17 @@ class PaymentRecordToDataBase {
       if (attachmentFile != null) {
         String fileName = await uploadFile(attachmentFile);
         monthlyContributionPayment = {
-          'dateOfFilling': epfMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': epfMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': epfMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': epfMonthlyContributionObject.dateOfFilling,
+          'challanNumber': epfMonthlyContributionObject.challanNumber,
+          'amountOfPayment': epfMonthlyContributionObject.amountOfPayment,
           'addAttachment': fileName,
           'type': 'm'
         };
       } else {
         monthlyContributionPayment = {
-          'dateOfFilling': epfMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': epfMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': epfMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': epfMonthlyContributionObject.dateOfFilling,
+          'challanNumber': epfMonthlyContributionObject.challanNumber,
+          'amountOfPayment': epfMonthlyContributionObject.amountOfPayment,
           'addAttachment': "null",
           'type': 'm'
         };
@@ -333,6 +333,26 @@ class PaymentRecordToDataBase {
           .child(clientEmail)
           .push()
           .set(monthlyContributionPayment);
+
+      List<String> todayDateData =
+      epfMonthlyContributionObject.dateOfFilling.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[0],
+          month: todayDateData[1],
+          day: todayDateData[2]);
+      dbf
+          .child('usersUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(clientEmail)
+          .child(DateTime.now().year.toString())
+          .child(todayDateObject.month)
+          .child('EPF')
+          .child('Monthly_Contribution')
+          .set('done');
+
+
 
       return true;
     } on PlatformException catch (e) {
@@ -386,6 +406,24 @@ class PaymentRecordToDataBase {
           .push()
           .set(monthlyContributionPayment);
 
+      List<String> todayDateData =
+      epfDetailsOfContributionObject.dateOfFilling.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[0],
+          month: todayDateData[1],
+          day: todayDateData[2]);
+      dbf
+          .child('usersUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(clientEmail)
+          .child(DateTime.now().year.toString())
+          .child(todayDateObject.month)
+          .child('EPF')
+          .child('Details_Contribution')
+          .set('done');
+
       return true;
     } on PlatformException catch (e) {
       flutterToast(message: e.message);
@@ -401,7 +439,7 @@ class PaymentRecordToDataBase {
   }
 
   Future<bool> addESIMonthlyContributionPayment(
-      ESIMonthlyContributionObejct esiMonthlyContributionObejct,
+      ESIMonthlyContributionObejct esiMonthlyContributionObject,
       Client client,
       File attachmentFile) async {
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
@@ -415,16 +453,16 @@ class PaymentRecordToDataBase {
         String fileName = await uploadFile(attachmentFile);
 
         eSIMonthlyContributionPayment = {
-          'dateOfFilling': esiMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': esiMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': esiMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': esiMonthlyContributionObject.dateOfFilling,
+          'challanNumber': esiMonthlyContributionObject.challanNumber,
+          'amountOfPayment': esiMonthlyContributionObject.amountOfPayment,
           'addAttachment': fileName
         };
       } else {
         eSIMonthlyContributionPayment = {
-          'dateOfFilling': esiMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': esiMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': esiMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': esiMonthlyContributionObject.dateOfFilling,
+          'challanNumber': esiMonthlyContributionObject.challanNumber,
+          'amountOfPayment': esiMonthlyContributionObject.amountOfPayment,
           'addAttachment': "null",
         };
       }
@@ -436,13 +474,25 @@ class PaymentRecordToDataBase {
           .push()
           .set(eSIMonthlyContributionPayment);
 
-      Fluttertoast.showToast(
-          msg: "Record has been saved in database",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      List<String> todayDateData =
+      esiMonthlyContributionObject.dateOfFilling.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[0],
+          month: todayDateData[1],
+          day: todayDateData[2]);
+      dbf
+          .child('usersUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(clientEmail)
+          .child(DateTime.now().year.toString())
+          .child(todayDateObject.month)
+          .child('ESI')
+          .child('Monthly_payment')
+          .set('done');
+
+      flutterToast(message: "Record has been saved in database");
 
       return true;
     } on PlatformException catch (e) {
@@ -492,6 +542,7 @@ class PaymentRecordToDataBase {
       flutterToast(message: e.message);
       print(e.message);
     }
+    return false;
   }
 
   Future<bool> addFDRecord(FDRecordObject fdRecordObject, Client client) async {
@@ -702,7 +753,6 @@ class PaymentRecordToDataBase {
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
-//    mutualFundRecordObject.mutualFundDetailObject.date;
     String clientEmail = client.email.replaceAll('.', ',');
     String id = randomNumeric(8);
 

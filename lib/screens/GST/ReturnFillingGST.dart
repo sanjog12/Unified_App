@@ -8,6 +8,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class GSTReturnFilling extends StatefulWidget {
 	final Client client;
@@ -181,32 +182,14 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 						 gstReturnFillingsObject, widget.client,file);
 				
 				if (done) {
-					// Fluttertoast.showToast(
-					// 		msg: "Successfully Recorded",
-					// 		toastLength: Toast.LENGTH_SHORT,
-					// 		gravity: ToastGravity.BOTTOM,
-					// 		backgroundColor: Color(0xff666666),
-					// 		textColor: Colors.white,
-					// 		fontSize: 16.0);
+					flutterToast(message: "Successfully Recorded");
 					Navigator.pop(context);
 				}
 			}
 		} on PlatformException catch (e) {
-			// Fluttertoast.showToast(
-			// 		msg: e.message,
-			// 		toastLength: Toast.LENGTH_SHORT,
-			// 		gravity: ToastGravity.BOTTOM,
-			// 		backgroundColor: Color(0xff666666),
-			// 		textColor: Colors.white,
-			// 		fontSize: 16.0);
+			flutterToast(message: e.message);
 		} catch (e) {
-			// Fluttertoast.showToast(
-			// 		msg: 'Payment Not Saved This Time',
-			// 		toastLength: Toast.LENGTH_SHORT,
-			// 		gravity: ToastGravity.BOTTOM,
-			// 		backgroundColor: Color(0xff666666),
-			// 		textColor: Colors.white,
-			// 		fontSize: 16.0);
+			flutterToast(message: "Something went wrong");
 		} finally {
 			this.setState(() {
 				buttonLoading = false;
