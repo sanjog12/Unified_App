@@ -93,9 +93,6 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
                         onChanged: (String value) {
                           esiMonthlyContributionObejct.challanNumber = value;
                         },
-                        validator: (String value) {
-                          return requiredField(value, 'Challan Number');
-                        },
                       ),
                     )
                   ],

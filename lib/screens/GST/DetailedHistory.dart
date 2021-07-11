@@ -14,6 +14,7 @@ import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -61,11 +62,6 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 		);
 		
 		if(picked != null && picked != selectedDate){
-			setState(() {
-				selectedDate = picked;
-				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-				_gstPaymentObject.dueDate = selectedDateDB;
-			});
 		}
 	}
 	
@@ -185,8 +181,12 @@ class _StateDetailedHistoryGst extends State<DetailedHistoryGst>{
 												    '$selectedDateDB',
 											    ),
 											    TextButton(
-												    onPressed: () {
-													    selectDateTime(context);
+												    onPressed: () async{
+															selectedDate = await DateChange.selectDateTime(context, 1, 1);
+															setState(() {
+																selectedDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+																_gstPaymentObject.dueDate = selectedDateDB;
+															});
 												    },
 												    child: Icon(Icons.date_range),
 											    ),

@@ -14,6 +14,7 @@ import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -52,23 +53,6 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
   DateTime selectedDate = DateTime.now();
   String selectedDateDB ;
 
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(DateTime.now().year - 1),
-        lastDate: DateTime(DateTime.now().year + 1)
-    );
-  
-    if(picked != null && picked != selectedDate){
-      setState(() {
-        selectedDate = picked;
-        selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-        _incomeTaxPaymentObject.dateOfPayment = selectedDateDB;
-      });
-    }
-  }
 
   fireUser() async{
     firebaseUserId = FirebaseAuth.instance.currentUser.uid;
@@ -213,8 +197,12 @@ class _IncomeTaxPaymentRecordRecordHistoryDetailsViewState extends State<IncomeT
                               '$selectedDateDB',
                             ),
                             TextButton(
-                              onPressed: () {
-                                selectDateTime(context);
+                              onPressed: () async{
+                                selectedDate = await DateChange.selectDateTime(context, 1, 1);
+                                setState(() {
+                                  selectedDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+                                  _incomeTaxPaymentObject.dateOfPayment = selectedDateDB;
+                                });
                               },
                               child: Icon(Icons.date_range),
                             ),

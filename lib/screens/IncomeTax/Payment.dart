@@ -9,6 +9,7 @@ import 'package:unified_reminder/models/payment/IncomeTaxPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -37,24 +38,6 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
 
   String selectedDateDB = "Select Date";
   DateTime selectedDate = DateTime.now();
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(DateTime.now().year-1),
-      lastDate: DateTime(DateTime.now().year+1),
-    );
-  
-    if(picked != null && picked != selectedDate){
-      setState(() {
-        selectedDate= picked;
-        selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-        incomeTaxPaymentObject.dateOfPayment = selectedDateDB;
-        selectedDateDB = DateFormat('dd-MM-yy').format(picked);
-      });
-    }
-  }
   
   
 
@@ -167,8 +150,12 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                                   '$selectedDateDB',
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    selectDateTime(context);
+                                  onPressed: () async{
+                                    selectedDate = await DateChange.selectDateTime(context, 1, 1);
+                                    setState(() {
+                                      incomeTaxPaymentObject.dateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDate);
+                                      selectedDateDB = DateFormat('dd-MM-yy').format(selectedDate);
+                                    });
                                   },
                                   child: Icon(Icons.date_range),
                                 ),

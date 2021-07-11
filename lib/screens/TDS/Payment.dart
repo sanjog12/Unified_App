@@ -10,6 +10,7 @@ import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
@@ -46,26 +47,6 @@ class _TDSPaymentState extends State<TDSPayment>{
   TDSPaymentObject tDSPaymentObject = TDSPaymentObject();
   
   File file;
-
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDateOfPayment,
-        firstDate: DateTime(DateTime.now().year -1),
-        lastDate: DateTime(DateTime.now().year + 1),
-    );
-  
-    if(picked != null && picked != selectedDateOfPayment){
-      setState(() {
-        selectedDateOfPayment= picked;
-        // print(picked);
-        showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-        tDSPaymentObject.dateOfPayment = showDateOfPayment;
-        _showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-      });
-    }
-  }
   
   
   
@@ -263,8 +244,12 @@ class _TDSPaymentState extends State<TDSPayment>{
                                 '$_showDateOfPayment',
                               ),
                               TextButton(
-                                onPressed: () {
-                                  selectDateTime(context);
+                                onPressed: () async {
+                                  selectedDateOfPayment = await DateChange.selectDateTime(context, 1, 1);
+                                  setState(() {
+                                    tDSPaymentObject.dateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
+                                    _showDateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
+                                  });
                                 },
                                 child: Icon(Icons.date_range),
                               ),

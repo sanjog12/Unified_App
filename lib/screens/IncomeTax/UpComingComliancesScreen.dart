@@ -126,25 +126,29 @@ class _UpComingCompliancesScreenForIncomeTaxState
                         print(snapshot.data);
                         return GestureDetector(
                           onTap: () {
-                            if (snapshot.data[index].key !=
-                                'INCOME_TAX_RETURNS') {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => IncomeTaxPayment(
-                                    client: widget.client,
+                            if(snapshot.data[index].key !='nothing') {
+                              if (snapshot.data[index].key !=
+                                  'INCOME_TAX_RETURNS') {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        IncomeTaxPayment(
+                                          client: widget.client,
+                                        ),
                                   ),
-                                ),
-                              );
-                            } else {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => IncomeTaxReturnFilling(
-                                    client: widget.client,
+                                );
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        IncomeTaxReturnFilling(
+                                          client: widget.client,
+                                        ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             }
                           },
                           child: Container(

@@ -11,6 +11,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/GSTPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -47,24 +48,6 @@ class StateGSTRPayment extends State<GSTPayment>{
   GlobalKey<FormState> key = GlobalKey<FormState>();
 
 
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDateOfPayment,
-        firstDate: DateTime(2019),
-        lastDate: DateTime(DateTime.now().year +2)
-    );
-  
-    if(picked != null && picked != selectedDateOfPayment){
-      setState(() {
-        selectedDateOfPayment= picked;
-        showDateOfPaymentDB = DateFormat('dd-MM-yyyy').format(picked);
-        gstPaymentObject.dueDate = showDateOfPaymentDB;
-        _showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-      });
-    }
-  }
   
   
   @override
@@ -219,8 +202,12 @@ class StateGSTRPayment extends State<GSTPayment>{
                               '$_showDateOfPayment',
                             ),
                             TextButton(
-                              onPressed: () {
-                                selectDateTime(context);
+                              onPressed: () async{
+                                selectedDateOfPayment = await DateChange.selectDateTime(context, 2, 2);
+                                setState(() {
+                                  gstPaymentObject.dueDate = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
+                                  _showDateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
+                                });
                               },
                               child: Icon(Icons.date_range),
                             ),

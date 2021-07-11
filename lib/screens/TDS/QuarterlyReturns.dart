@@ -5,6 +5,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/TDSQuarterlyReturnsObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
@@ -30,27 +31,6 @@ class _TDSQuarterly extends State<TDSQuarterly>{
   DateTime selectedFilingDate = DateTime.now();
   TDSQuarterlyReturnsObject tdsQuarterlyReturnsObject = TDSQuarterlyReturnsObject();
   GlobalKey<FormState> _key = GlobalKey<FormState>();
-
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedFilingDate ,
-        firstDate: DateTime(2019),
-        lastDate: DateTime(2021)
-    );
-  
-    if(picked != null && picked != selectedFilingDate){
-      setState(() {
-        print('Checking ' + widget.client.company);
-        selectedFilingDate= picked;
-        print(picked);
-        selectedDateOfFiling = DateFormat('dd-MM-yyyy').format(picked);
-        tdsQuarterlyReturnsObject.dateOfFilledReturns = selectedDateOfFiling;
-        _selectedDateOfFiling = DateFormat('dd-MMMM-yy').format(picked);
-      });
-    }
-  }
   
   
   
@@ -103,8 +83,12 @@ class _TDSQuarterly extends State<TDSQuarterly>{
                                 '$_selectedDateOfFiling',
                               ),
                               TextButton(
-                                onPressed: () {
-                                  selectDateTime(context);
+                                onPressed: () async{
+                                  selectedFilingDate = await DateChange.selectDateTime(context, 1, 1);
+                                  setState(() {
+                                    tdsQuarterlyReturnsObject.dateOfFilledReturns = DateFormat('dd-MM-yyyy').format(selectedFilingDate);
+                                    _selectedDateOfFiling = DateFormat('dd-MMMM-yy').format(selectedFilingDate);
+                                  });
                                 },
                                 child: Icon(Icons.date_range),
                               ),

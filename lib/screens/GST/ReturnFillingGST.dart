@@ -8,6 +8,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject.dart';
 import 'package:unified_reminder/services/QuarterlyReturnsRecordToDatabase.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 class GSTReturnFilling extends StatefulWidget {
@@ -28,25 +29,6 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 	DateTime selectedDate = DateTime.now();
 	File file;
 	String nameOfFile = "Select File";
-	
-	Future<Null> selectDateTime(BuildContext context) async{
-		final DateTime picked = await showDatePicker(
-			context: context,
-			initialDate: selectedDate,
-			firstDate: DateTime(DateTime.now().year-1),
-			lastDate: DateTime(DateTime.now().year+1),
-		);
-		
-		if(picked != null && picked != selectedDate){
-			setState(() {
-				selectedDate= picked;
-				selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-				gstReturnFillingsObject.dateOfFilledReturns = selectedDateDB;
-				selectedDateDB = DateFormat('dd-MM-yy').format(picked);
-			});
-		}
-	}
-	
 	
 	
 	@override
@@ -98,8 +80,12 @@ class _GSTReturnFillingState extends State<GSTReturnFilling> {
 																	'$selectedDateDB',
 																),
 																TextButton(
-																	onPressed: () {
-																		selectDateTime(context);
+																	onPressed: () async{
+																		selectedDate = await DateChange.selectDateTime(context, 1, 1);
+																		setState(() {
+																			gstReturnFillingsObject.dateOfFilledReturns = DateFormat('dd-MM-yyyy').format(selectedDate);
+																			selectedDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
+																		});
 																	},
 																	child: Icon(Icons.date_range),
 																),
