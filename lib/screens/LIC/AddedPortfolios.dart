@@ -11,14 +11,13 @@ class AddedPortfolios extends StatefulWidget {
   final Client client;
 
   const AddedPortfolios({this.client});
+
   @override
   _ComplianceHistoryForTDSState createState() =>
       _ComplianceHistoryForTDSState();
 }
 
 class _ComplianceHistoryForTDSState extends State<AddedPortfolios> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +40,9 @@ class _ComplianceHistoryForTDSState extends State<AddedPortfolios> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return TextButton(
-                          onPressed: (){
-                            if(snapshot.data[index].date != 'No history founded'){
+                          onPressed: () {
+                            if (snapshot.data[index].date !=
+                                'No history founded') {
                               _getHistoryDetails(snapshot.data[index].key);
                             }
                           },
@@ -52,7 +52,9 @@ class _ComplianceHistoryForTDSState extends State<AddedPortfolios> {
                             child: ListTile(
                               title: Text(snapshot.data[index].date),
                               subtitle: Text(snapshot.data[index].type),
-                              trailing: Text("\u{20B9} ${snapshot.data[index].amount}" ?? ""),
+                              trailing: Text(
+                                  "\u{20B9} ${snapshot.data[index].amount}" ??
+                                      ""),
                             ),
                           ),
                         );
@@ -74,8 +76,9 @@ class _ComplianceHistoryForTDSState extends State<AddedPortfolios> {
                 },
               ),
             ),
-  
-            SizedBox(height: 70,),
+            SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),
@@ -88,7 +91,7 @@ class _ComplianceHistoryForTDSState extends State<AddedPortfolios> {
 
       licPaymentObject = await SingleHistoryDatabaseHelper()
           .getLICHistoryDetails(widget.client, key);
-      
+
       if (licPaymentObject != null) {
         Navigator.push(
           context,
@@ -99,9 +102,8 @@ class _ComplianceHistoryForTDSState extends State<AddedPortfolios> {
               keyDB: key,
             ),
           ),
-        ).then((value){
-          setState(() {
-          });
+        ).then((value) {
+          setState(() {});
         });
       }
     }

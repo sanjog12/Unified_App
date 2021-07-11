@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 class DateChange{
 	
 	static int day ,month , year;
@@ -23,6 +25,19 @@ class DateChange{
 		return finalDate;
 
 	}
-	
+
+
+	static Future<DateTime> selectDateTime(BuildContext context, int startDate, int endDate) async {
+		DateTime selectedDate = DateTime.now();
+		final DateTime pickedDate = await showDatePicker(
+			context: context,
+			initialDate: selectedDate,
+			firstDate: DateTime(DateTime.now().year - startDate),
+			lastDate: DateTime(DateTime.now().year + endDate),
+		);
+
+		FocusScope.of(context).requestFocus(new FocusNode());
+		return pickedDate;
+	}
 	
 }

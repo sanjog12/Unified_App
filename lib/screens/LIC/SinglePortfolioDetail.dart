@@ -67,25 +67,19 @@ class _SinglePortfolioViewState extends State<SinglePortfolioView> {
 
     if (picked != null && picked != selectedDatePremiumDate && i == 0) {
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDatePremiumDate = picked;
-        print(picked);
         selectedDatePremiumDateDB = DateFormat('dd/MM/yyyy').format(picked);
         _licPaymentObject.premiumDueDate = selectedDatePremiumDateDB;
       });
     } else if (picked != null && picked != selectedDateCommencement && i == 1) {
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDateCommencement = picked;
-        print(picked);
         selectedDateCommencementDB = DateFormat('dd-MM-yyyy').format(picked);
         _licPaymentObject.dateOfCommencement = selectedDateCommencementDB;
       });
     } else if (picked != null && picked != selectedDateMaturityDate && i == 2) {
       setState(() {
-        print('Checking ' + widget.client.company);
         selectedDateMaturityDate = picked;
-        print(picked);
         selectedDateMaturityDateDB = DateFormat('dd-MM-yyyy').format(picked);
         _licPaymentObject.dateOfCommencement = selectedDateMaturityDateDB;
       });
@@ -936,6 +930,28 @@ class _SinglePortfolioViewState extends State<SinglePortfolioView> {
           .child(widget.client.email)
           .child(widget.keyDB)
           .remove();
+
+      dbf
+          .child('complinces')
+          .child('LICUserUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(widget.client.email)
+          .orderByChild('id')
+          .equalTo(widget.keyDB.toString().replaceFirst('-', ''))
+          .once()
+          .then((DataSnapshot dataSnapshot) async {
+        Map map = await dataSnapshot.value;
+        map.forEach((key, value) {
+          print(key);
+          dbf
+              .child('complinces')
+              .child('LICUserUpcomingCompliances')
+              .child(firebaseUserId)
+              .child(widget.client.email)
+              .child(key)
+              .remove();
+        });
+      });
 
       NotificationServices().deleteNotification(widget.licPaymentObject.id);
       recordDeletedToast();

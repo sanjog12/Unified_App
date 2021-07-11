@@ -13,6 +13,7 @@ class ComplianceHistoryForIncomeTax extends StatefulWidget {
   final Client client;
 
   const ComplianceHistoryForIncomeTax({this.client});
+
   @override
   _ComplianceHistoryForIncomeTaxState createState() =>
       _ComplianceHistoryForIncomeTaxState();
@@ -20,7 +21,6 @@ class ComplianceHistoryForIncomeTax extends StatefulWidget {
 
 class _ComplianceHistoryForIncomeTaxState
     extends State<ComplianceHistoryForIncomeTax> {
-  
   @override
   void initState() {
     super.initState();
@@ -33,7 +33,8 @@ class _ComplianceHistoryForIncomeTaxState
       appBar: AppBar(
         title: Text("Income Tax History"),
         actions: [
-          helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
+          helpButtonActionBar(
+              "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
         ],
       ),
       body: Container(
@@ -49,7 +50,7 @@ class _ComplianceHistoryForIncomeTaxState
                     AsyncSnapshot<List<HistoryComplinceObjectForIncomeTax>>
                         snapshot) {
                   if (snapshot.hasData) {
-                    if(snapshot.data.length != 0) {
+                    if (snapshot.data.length != 0) {
                       return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -67,36 +68,41 @@ class _ComplianceHistoryForIncomeTaxState
                                     children: <Widget>[
                                       Text(snapshot.data[index].type),
                                       snapshot.data[index].type ==
-                                          'INCOME_TAX_Return' ?
-                                      Text("Tap to see uploaded challan if any",
-                                        style: TextStyle(
-                                            fontStyle: FontStyle.italic),) : Text(
-                                          ""),
+                                              'INCOME_TAX_Return'
+                                          ? Text(
+                                              "Tap to see uploaded challan if any",
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic),
+                                            )
+                                          : Text(""),
                                     ],
                                   ),
-                                  trailing:
-                                  Text(snapshot.data[index].type ==
-                                      'INCOME_TAX_Return'? " " :(snapshot.data[index].date=='Record Not found'?" ":"INR ${snapshot
-                                      .data[index].amount}")),
+                                  trailing: Text(snapshot.data[index].type ==
+                                          'INCOME_TAX_Return'
+                                      ? " "
+                                      : (snapshot.data[index].date ==
+                                              'Record Not found'
+                                          ? " "
+                                          : "INR ${snapshot.data[index].amount}")),
                                   onTap: () {
                                     if (snapshot.data[index].type ==
                                         'INCOME_TAX') {
-                                      _getHistoryDetails(snapshot.data[index].key);
-                                    }
-                                    else
-                                      if (snapshot.data[index].type ==
+                                      _getHistoryDetails(
+                                          snapshot.data[index].key);
+                                    } else if (snapshot.data[index].type ==
                                         'INCOME_TAX_Return') {
-                                      if (snapshot.data[index].amount != 'null') {
-                                        Navigator.push(context,
+                                      if (snapshot.data[index].amount !=
+                                          'null') {
+                                        Navigator.push(
+                                            context,
                                             MaterialPageRoute(
                                                 builder: (context) => PDFViewer(
-                                                      pdf: snapshot.data[index].amount,
-                                                    )
-                                            )
-                                        );
-                                      }
-                                      else {
-                                        flutterToast(message: "No File Were Uploaded");
+                                                      pdf: snapshot
+                                                          .data[index].amount,
+                                                    )));
+                                      } else {
+                                        flutterToast(
+                                            message: "No File Were Uploaded");
                                       }
                                     }
                                   },
@@ -106,8 +112,7 @@ class _ComplianceHistoryForIncomeTaxState
                           );
                         },
                       );
-                    }
-                    else{
+                    } else {
                       return Container(
                         height: 50,
                         padding: EdgeInsets.all(15),
@@ -137,7 +142,9 @@ class _ComplianceHistoryForIncomeTaxState
                 },
               ),
             ),
-            SizedBox(height: 70,),
+            SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),
@@ -160,10 +167,12 @@ class _ComplianceHistoryForIncomeTaxState
                 IncomeTaxPaymentRecordRecordHistoryDetailsView(
               client: widget.client,
               incomeTaxPaymentObject: incomeTaxPaymentObject,
-                  keyDB: key,
+              keyDB: key,
             ),
           ),
-        );
+        ).then((value) {
+          setState(() {});
+        });
       }
     }
   }

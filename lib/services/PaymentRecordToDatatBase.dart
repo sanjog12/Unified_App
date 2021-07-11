@@ -27,7 +27,7 @@ import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
-import 'package:unified_reminder/utils/DateChange.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 
 import 'GeneralServices/SharedPrefs.dart';
@@ -93,7 +93,6 @@ class PaymentRecordToDataBase {
           month: todayDateData[1],
           day: todayDateData[0]);
 
-//      String section = tdsPaymentObject.section.replaceFirst(' ', '_');
 
       dbf
           .child('usersUpcomingCompliances')
@@ -158,13 +157,21 @@ class PaymentRecordToDataBase {
           .child(clientEmail)
           .push()
           .set(incomeTaxPayment);
+      List<String> todayDateData =
+      incomeTaxPaymentObject.dateOfPayment.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[2],
+          month: todayDateData[1],
+          day: todayDateData[0]);
 
       dbf
           .child('usersUpcomingCompliances')
           .child(firebaseUserId)
           .child(clientEmail)
           .child(DateTime.now().year.toString())
-          .child(DateTime.now().month.toString())
+          .child(todayDateObject.month)
           .child('INCOME_TAX')
           .child('ADVANCE_TAX')
           .set('done');
@@ -289,8 +296,8 @@ class PaymentRecordToDataBase {
     return false;
   }
 
-  Future<bool> addMonthlyContributionPayment(
-      EPFMonthlyContributionObject epfMonthlyContributionObejct,
+  Future<bool> addEPFMonthlyContribution(
+      EPFMonthlyContributionObject epfMonthlyContributionObject,
       Client client,
       File attachmentFile) async {
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
@@ -304,17 +311,17 @@ class PaymentRecordToDataBase {
       if (attachmentFile != null) {
         String fileName = await uploadFile(attachmentFile);
         monthlyContributionPayment = {
-          'dateOfFilling': epfMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': epfMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': epfMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': epfMonthlyContributionObject.dateOfFilling,
+          'challanNumber': epfMonthlyContributionObject.challanNumber,
+          'amountOfPayment': epfMonthlyContributionObject.amountOfPayment,
           'addAttachment': fileName,
           'type': 'm'
         };
       } else {
         monthlyContributionPayment = {
-          'dateOfFilling': epfMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': epfMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': epfMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': epfMonthlyContributionObject.dateOfFilling,
+          'challanNumber': epfMonthlyContributionObject.challanNumber,
+          'amountOfPayment': epfMonthlyContributionObject.amountOfPayment,
           'addAttachment': "null",
           'type': 'm'
         };
@@ -326,6 +333,26 @@ class PaymentRecordToDataBase {
           .child(clientEmail)
           .push()
           .set(monthlyContributionPayment);
+
+      List<String> todayDateData =
+      epfMonthlyContributionObject.dateOfFilling.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[0],
+          month: todayDateData[1],
+          day: todayDateData[2]);
+      dbf
+          .child('usersUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(clientEmail)
+          .child(DateTime.now().year.toString())
+          .child(todayDateObject.month)
+          .child('EPF')
+          .child('Monthly_Contribution')
+          .set('done');
+
+
 
       return true;
     } on PlatformException catch (e) {
@@ -379,6 +406,24 @@ class PaymentRecordToDataBase {
           .push()
           .set(monthlyContributionPayment);
 
+      List<String> todayDateData =
+      epfDetailsOfContributionObject.dateOfFilling.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[0],
+          month: todayDateData[1],
+          day: todayDateData[2]);
+      dbf
+          .child('usersUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(clientEmail)
+          .child(DateTime.now().year.toString())
+          .child(todayDateObject.month)
+          .child('EPF')
+          .child('Details_Contribution')
+          .set('done');
+
       return true;
     } on PlatformException catch (e) {
       flutterToast(message: e.message);
@@ -394,7 +439,7 @@ class PaymentRecordToDataBase {
   }
 
   Future<bool> addESIMonthlyContributionPayment(
-      ESIMonthlyContributionObejct esiMonthlyContributionObejct,
+      ESIMonthlyContributionObejct esiMonthlyContributionObject,
       Client client,
       File attachmentFile) async {
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
@@ -408,16 +453,16 @@ class PaymentRecordToDataBase {
         String fileName = await uploadFile(attachmentFile);
 
         eSIMonthlyContributionPayment = {
-          'dateOfFilling': esiMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': esiMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': esiMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': esiMonthlyContributionObject.dateOfFilling,
+          'challanNumber': esiMonthlyContributionObject.challanNumber,
+          'amountOfPayment': esiMonthlyContributionObject.amountOfPayment,
           'addAttachment': fileName
         };
       } else {
         eSIMonthlyContributionPayment = {
-          'dateOfFilling': esiMonthlyContributionObejct.dateOfFilling,
-          'challanNumber': esiMonthlyContributionObejct.challanNumber,
-          'amountOfPayment': esiMonthlyContributionObejct.amountOfPayment,
+          'dateOfFilling': esiMonthlyContributionObject.dateOfFilling,
+          'challanNumber': esiMonthlyContributionObject.challanNumber,
+          'amountOfPayment': esiMonthlyContributionObject.amountOfPayment,
           'addAttachment': "null",
         };
       }
@@ -429,13 +474,25 @@ class PaymentRecordToDataBase {
           .push()
           .set(eSIMonthlyContributionPayment);
 
-      Fluttertoast.showToast(
-          msg: "Record has been saved in database",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Color(0xff666666),
-          textColor: Colors.white,
-          fontSize: 16.0);
+      List<String> todayDateData =
+      esiMonthlyContributionObject.dateOfFilling.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[0],
+          month: todayDateData[1],
+          day: todayDateData[2]);
+      dbf
+          .child('usersUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(clientEmail)
+          .child(DateTime.now().year.toString())
+          .child(todayDateObject.month)
+          .child('ESI')
+          .child('Monthly_payment')
+          .set('done');
+
+      flutterToast(message: "Record has been saved in database");
 
       return true;
     } on PlatformException catch (e) {
@@ -485,6 +542,7 @@ class PaymentRecordToDataBase {
       flutterToast(message: e.message);
       print(e.message);
     }
+    return false;
   }
 
   Future<bool> addFDRecord(FDRecordObject fdRecordObject, Client client) async {
@@ -558,22 +616,22 @@ class PaymentRecordToDataBase {
             .child("-$id")
             .set({
           'id': id,
-          'comanyName': licPaymentIObject.companyName ?? "",
-          'policyName': licPaymentIObject.policyName ?? "",
-          'policyNo': licPaymentIObject.policyNo ?? "",
-          'premiumDueDate': licPaymentIObject.premiumDueDate ?? "",
-          'premiumAmount': licPaymentIObject.premiumAmount ?? "",
-          'frequancey': licPaymentIObject.frequency ?? "",
-          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ?? "",
-          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ?? "",
-          'policyTerm': licPaymentIObject.policyTerm ?? "",
-          'branch': licPaymentIObject.branch ?? "",
-          'agenName': licPaymentIObject.agentName ?? "",
-          'agentContactNumber': licPaymentIObject.agentContactNumber ?? "",
-          'attachement': licPaymentIObject.agentContactNumber ?? "",
-          'nomineeName': licPaymentIObject.nomineeName ?? "",
-          'maturityDate': licPaymentIObject.maturityDate ?? "",
-          'attachment': "null" ?? ""
+          'comanyName': licPaymentIObject.companyName,
+          'policyName': licPaymentIObject.policyName ,
+          'policyNo': licPaymentIObject.policyNo ,
+          'premiumDueDate': licPaymentIObject.premiumDueDate,
+          'premiumAmount': licPaymentIObject.premiumAmount ,
+          'frequancey': licPaymentIObject.frequency ,
+          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ,
+          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ,
+          'policyTerm': licPaymentIObject.policyTerm ,
+          'branch': licPaymentIObject.branch ,
+          'agenName': licPaymentIObject.agentName,
+          'agentContactNumber': licPaymentIObject.agentContactNumber,
+          'attachement': licPaymentIObject.agentContactNumber ,
+          'nomineeName': licPaymentIObject.nomineeName ,
+          'maturityDate': licPaymentIObject.maturityDate,
+          'attachment': "null"
         });
       } else {
         String fileName = await uploadFile(file);
@@ -585,22 +643,22 @@ class PaymentRecordToDataBase {
             .child('-$id')
             .set({
           'id': id ?? "",
-          'comanyName': licPaymentIObject.companyName ?? "",
-          'policyName': licPaymentIObject.policyName ?? "",
-          'policyNo': licPaymentIObject.policyNo ?? "",
-          'premiumDueDate': licPaymentIObject.premiumDueDate ?? "",
-          'premiumAmount': licPaymentIObject.premiumAmount ?? "",
-          'frequancey': licPaymentIObject.frequency ?? "",
-          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ?? "",
-          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ?? "",
-          'policyTerm': licPaymentIObject.policyTerm ?? "",
-          'branch': licPaymentIObject.branch ?? "",
-          'agenName': licPaymentIObject.agentName ?? "",
-          'agentContactNumber': licPaymentIObject.agentContactNumber ?? "",
-          'attachement': licPaymentIObject.agentContactNumber ?? "",
-          'nomineeName': licPaymentIObject.nomineeName ?? "",
-          'maturityDate': licPaymentIObject.maturityDate ?? "",
-          'attachment': fileName ?? "",
+          'comanyName': licPaymentIObject.companyName ,
+          'policyName': licPaymentIObject.policyName ,
+          'policyNo': licPaymentIObject.policyNo ,
+          'premiumDueDate': licPaymentIObject.premiumDueDate ,
+          'premiumAmount': licPaymentIObject.premiumAmount ,
+          'frequancey': licPaymentIObject.frequency ,
+          'dateOfCommoncement': licPaymentIObject.dateOfCommencement ,
+          'premiumPayingTerm': licPaymentIObject.premiumPayingTerm ,
+          'policyTerm': licPaymentIObject.policyTerm ,
+          'branch': licPaymentIObject.branch ,
+          'agenName': licPaymentIObject.agentName ,
+          'agentContactNumber': licPaymentIObject.agentContactNumber,
+          'attachement': licPaymentIObject.agentContactNumber ,
+          'nomineeName': licPaymentIObject.nomineeName ,
+          'maturityDate': licPaymentIObject.maturityDate,
+          'attachment': fileName ,
         });
       }
       String premiumDate = licPaymentIObject.dateOfCommencement;
@@ -634,14 +692,13 @@ class PaymentRecordToDataBase {
             .child('LICUserUpcomingCompliances')
             .child(firebaseUserId)
             .child(clientEmail)
-            .child(premiumDate.split('-')[2])
-            .child(premiumDate.split('-')[1])
             .push()
             .set({
-          'id': id ?? "",
-          'date': licPaymentIObject.premiumDueDate.split('-')[0] ?? "",
-          'label': 'Payment due' ?? "",
-          'type': '${licPaymentIObject.policyName}' ?? "",
+          'id': id ,
+          'due': licPaymentIObject.premiumDueDate.split(" ")[0],
+          'date': scheduleDate.toString(),
+          'label': 'Payment due' ,
+          'type': '${licPaymentIObject.policyName}' ,
         });
 
         if (licPaymentIObject.frequency == 'monthly') {
@@ -696,7 +753,6 @@ class PaymentRecordToDataBase {
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase.reference();
 
-//    mutualFundRecordObject.mutualFundDetailObject.date;
     String clientEmail = client.email.replaceAll('.', ',');
     String id = randomNumeric(8);
 
@@ -708,14 +764,14 @@ class PaymentRecordToDataBase {
       );
       Map<String, String> mFRecordData = {
         'id':id,
-        'sipFrequency': mutualFundRecordObject.sipFrequency??"",
-        'type': mutualFundRecordObject.type ?? "",
-        'No of Installment': mutualFundRecordObject.frequency ?? "",
-        'amount': mutualFundRecordObject.amount ?? "",
-        'name': mutualFundRecordObject.mutualFundObject.name ?? "",
-        'code': mutualFundRecordObject.mutualFundObject.code ?? "",
-        'date': mutualFundRecordObject.mutualFundDetailObject.date ?? "",
-        'nav': mutualFundRecordObject.mutualFundDetailObject.nav ?? "",
+        'sipFrequency': mutualFundRecordObject.sipFrequency,
+        'type': mutualFundRecordObject.type ,
+        'No of Installment': mutualFundRecordObject.frequency ,
+        'amount': mutualFundRecordObject.amount ,
+        'name': mutualFundRecordObject.mutualFundObject.name ,
+        'code': mutualFundRecordObject.mutualFundObject.code ,
+        'date': mutualFundRecordObject.mutualFundDetailObject.date ,
+        'nav': mutualFundRecordObject.mutualFundDetailObject.nav,
         'keyDate': key ?? ""
       };
 

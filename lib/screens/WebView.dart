@@ -1,11 +1,12 @@
-import 'package:easy_web_view/easy_web_view.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class WebView extends StatelessWidget {
+class WebViewPage extends StatelessWidget {
   final String label, link;
 
-  const WebView({this.label, this.link});
+  const WebViewPage({this.label, this.link});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,11 +14,8 @@ class WebView extends StatelessWidget {
         title: Text(label),
       ),
       body: Container(
-        child: EasyWebView(
-          onLoaded: (){},
-          src: link,
-          isHtml: false, // Use Html syntax
-          isMarkdown: false, // Use markdown syntax
+        child:WebView(
+          initialUrl: 'https://flutter.dev',
         ),
       ),
     );

@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/Client.dart';
-import 'package:unified_reminder/models/DoneComplianceObject.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
@@ -12,7 +11,6 @@ class UpComingCompliancesScreenForLIC extends StatefulWidget {
   final Client client;
 
   const UpComingCompliancesScreenForLIC({this.client});
-  
 
   @override
   _UpComingCompliancesScreenForLICState createState() =>
@@ -33,35 +31,14 @@ class _UpComingCompliancesScreenForLICState
   List<String> todayDateData = fullDate.toString().split('-');
   TodayDateObject todayDateObject;
 
-  
-  
-
-  bool getSingleDone(List<DoneComplianceObject> done, String subKey) {
-    print(done[0].key);
-    if (done[0].key != null) {
-      DoneComplianceObject singleDone;
-      done.forEach((element) {
-        print(element.key);
-        if (subKey == element.key) {
-          singleDone = element;
-        }
-      });
-
-      if (singleDone != null && singleDone.value == 'done') {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("LIC Upcoming Premium Date"),
         actions: <Widget>[
-          helpButtonActionBar('https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20LIC'),
+          helpButtonActionBar(
+              'https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20LIC'),
         ],
       ),
       body: Container(
@@ -71,38 +48,47 @@ class _UpComingCompliancesScreenForLICState
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<UpComingComplianceObject>>(
-                future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfLIC(widget.client),
-                builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
+                future: UpComingComplianceDatabaseHelper()
+                    .getUpComingCompliancesForMonthOfLIC(widget.client),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
                   if (snapshot.hasData) {
+                    print("in widget");
+                    print(snapshot.data);
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         print(snapshot.data);
                         return GestureDetector(
-                          onTap: () {
-                          },
+                          onTap: () {},
                           child: Column(
                             children: [
-                              snapshot.data[index].notMissed?Container(
-                                decoration: roundedCornerButton,
-                                margin: EdgeInsets.symmetric(vertical: 10.0),
-                                child: ListTile(
-                                  title: Text(
-                                      '${snapshot.data[index].label} for ${snapshot.data[index].name} '
-                                          '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
-                                ),
-                              ):Container(),
-  
-                              !snapshot.data[index].notMissed?Container(
-                                decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
-                                margin: EdgeInsets.symmetric(vertical: 10.0),
-                                child: ListTile(
-                                  title: Text(
-                                      '${snapshot.data[index].label} for ${snapshot.data[index].name} '
-                                          '${snapshot.data[index].date} ${snapshot.data[index].date != ''?DateFormat('MMMM').format(DateTime.now()):''}'),
-                                  subtitle: Text("Missed Compliances"),
-                                ),
-                              ):Container(),
+                              snapshot.data[index].notMissed
+                                  ? Container(
+                                      decoration: roundedCornerButton,
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10.0),
+                                      child: ListTile(
+                                        title: Text(
+                                            '${snapshot.data[index].label} for ${snapshot.data[index].name} '
+                                            '${snapshot.data[index].date} ${snapshot.data[index].date != '' ? DateFormat('MMMM').format(DateTime.now()) : ''}'),
+                                      ),
+                                    )
+                                  : Container(),
+                              !snapshot.data[index].notMissed
+                                  ? Container(
+                                      decoration: roundedCornerButton.copyWith(
+                                          color: Colors.redAccent),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10.0),
+                                      child: ListTile(
+                                        title: Text(
+                                            '${snapshot.data[index].label} for ${snapshot.data[index].name} '
+                                            '${snapshot.data[index].date} ${snapshot.data[index].date != '' ? DateFormat('MMMM').format(DateTime.now()) : ''}'),
+                                        subtitle: Text("Missed Compliances"),
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           ),
                         );
@@ -125,7 +111,9 @@ class _UpComingCompliancesScreenForLICState
                 },
               ),
             ),
-            SizedBox(height: 70,),
+            SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),

@@ -2,15 +2,17 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
 import 'package:unified_reminder/models/TodayDateObject.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/GSTReturnFillingsObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/IncomeTaxReturnFillingObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/TDSQuarterlyReturnsObject.dart';
+import 'package:unified_reminder/models/quarterlyReturns/ESIReturnFillingObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
+import 'package:unified_reminder/utils/ToastMessages.dart';
 
-import 'GeneralServices/SharedPrefs.dart';
 
 class QuarterlyReturnsRecordToDatabase {
   final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
@@ -60,18 +62,19 @@ class QuarterlyReturnsRecordToDatabase {
           .set('done');
 
       return true;
-    } catch (e) {
-      // Fluttertoast.showToast(
-      //     msg: e.message.toString(),
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.BOTTOM,
-      //     backgroundColor: Color(0xff666666),
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
+    } on PlatformException catch (e) {
       print("Here");
       print(e);
-      return false;
+      flutterToast(message: e.message);
+    } on FirebaseException catch (e){
+      print("error " + e.message.toString());
+      print(e.stackTrace);
+      flutterToast(message: e.message);
+    } catch(e){
+      print(e);
+      print(e.stack);
     }
+    return false;
   }
   
   
@@ -197,6 +200,67 @@ class QuarterlyReturnsRecordToDatabase {
           .child(todayDateObject.month)
           .child('GST')
           .child('GSTR_1_QUARTERLY')
+          .set('done');
+      return true;
+    } catch (e) {
+      print("Here");
+      print(e);
+      return false;
+    }
+  }
+
+
+  Future<bool> addESIReturnFillings(ESIReturnFillingObject esiReturnFilling, Client client, File file) async {
+
+    String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
+    dbf = firebaseDatabase.reference();
+    String clientEmail = client.email.replaceAll('.', ',');
+
+    try {
+      if(file == null) {
+        Map<String, String> gstReturnFillings = {
+          'dateOfFilledReturns': esiReturnFilling.dateOfFilledReturns,
+          'attachment': 'null',
+        };
+        dbf
+            .child('complinces')
+            .child('ESIQuarterlyFillings')
+            .child(firebaseUserId)
+            .child(clientEmail)
+            .push()
+            .set(gstReturnFillings);
+      }
+      else{
+        String fileName = await PaymentRecordToDataBase().uploadFile(file);
+        Map<String, String> gstReturnFillings = {
+          'dateOfFilledReturns': esiReturnFilling.dateOfFilledReturns,
+          'attachment': fileName,
+        };
+        dbf
+            .child('complinces')
+            .child('ESIQuarterlyFillings')
+            .child(firebaseUserId)
+            .child(clientEmail)
+            .push()
+            .set(gstReturnFillings);
+      }
+
+      List<String> todayDateData =
+      esiReturnFilling.dateOfFilledReturns.toString().split('-');
+      TodayDateObject todayDateObject;
+
+      todayDateObject = TodayDateObject(
+          year: todayDateData[0],
+          month: todayDateData[1],
+          day: todayDateData[2]);
+      dbf
+          .child('usersUpcomingCompliances')
+          .child(firebaseUserId)
+          .child(clientEmail)
+          .child(DateTime.now().year.toString())
+          .child(todayDateObject.month)
+          .child('ESI')
+          .child('Quarterly_Return')
           .set('done');
       return true;
     } catch (e) {

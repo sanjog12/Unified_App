@@ -9,16 +9,16 @@ import 'package:unified_reminder/models/payment/IncomeTaxPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
-
-
 
 class IncomeTaxPayment extends StatefulWidget {
   final Client client;
 
   const IncomeTaxPayment({this.client});
+
   @override
   _IncomeTaxPaymentState createState() => _IncomeTaxPaymentState();
 }
@@ -30,35 +30,11 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
   IncomeTaxPaymentObject incomeTaxPaymentObject = IncomeTaxPaymentObject();
   FirebaseStorage firebaseStorage;
 
-
-
   String nameOfFile = 'Select File';
   File file;
 
   String selectedDateDB = "Select Date";
   DateTime selectedDate = DateTime.now();
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(DateTime.now().year-1),
-      lastDate: DateTime(DateTime.now().year+1),
-    );
-  
-    if(picked != null && picked != selectedDate){
-      setState(() {
-        print('Checking ' + widget.client.company);
-        selectedDate= picked;
-        print(picked);
-        selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
-        incomeTaxPaymentObject.dateOfPayment = selectedDateDB;
-        selectedDateDB = DateFormat('dd-MM-yy').format(picked);
-      });
-    }
-  }
-  
-  
 
   @override
   Widget build(BuildContext context) {
@@ -142,8 +118,9 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                             height: 10.0,
                           ),
                           TextFormField(
-                            decoration:
-                                buildCustomInput(hintText: "Amount of Payment" , prefixText: "\u{20B9}"),
+                            decoration: buildCustomInput(
+                                hintText: "Amount of Payment",
+                                prefixText: "\u{20B9}"),
                             onSaved: (value) =>
                                 incomeTaxPaymentObject.amountOfPayment = value,
                           ),
@@ -169,8 +146,17 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                                   '$selectedDateDB',
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    selectDateTime(context);
+                                  onPressed: () async {
+                                    selectedDate =
+                                        await DateChange.selectDateTime(
+                                            context, 1, 1);
+                                    setState(() {
+                                      incomeTaxPaymentObject.dateOfPayment =
+                                          DateFormat('dd-MM-yyyy')
+                                              .format(selectedDate);
+                                      selectedDateDB = DateFormat('dd-MM-yy')
+                                          .format(selectedDate);
+                                    });
                                   },
                                   child: Icon(Icons.date_range),
                                 ),
@@ -182,39 +168,42 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                       SizedBox(
                         height: 30.0,
                       ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Text('Add Attachment'),
-                      SizedBox(height: 10,),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadiusDirectional.circular(10),
-                          color: buttonColor,
-                        ),
-                        height: 50,
-                        child: TextButton(
-                          onPressed: () async{
-                            FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
-                            file = File(filePickerResult.files.single.path);
-                            List<String> temp = file.path.split('/');
-                            print(temp.last);
-                            setState(() {
-                              nameOfFile = temp.last;
-                            });
-                          },
-          
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.attach_file),
-                              SizedBox(width: 6),
-                              Text(nameOfFile),
-                            ],
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text('Add Attachment'),
+                          SizedBox(
+                            height: 10,
                           ),
-                        ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadiusDirectional.circular(10),
+                              color: buttonColor,
+                            ),
+                            height: 50,
+                            child: TextButton(
+                              onPressed: () async {
+                                FilePickerResult filePickerResult =
+                                    await FilePicker.platform.pickFiles();
+                                file = File(filePickerResult.files.single.path);
+                                List<String> temp = file.path.split('/');
+                                print(temp.last);
+                                setState(() {
+                                  nameOfFile = temp.last;
+                                });
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(Icons.attach_file),
+                                  SizedBox(width: 6),
+                                  Text(nameOfFile),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
                       SizedBox(
                         height: 50.0,
                       ),
@@ -242,11 +231,13 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
                           onPressed: () {
                             paymentIncomeTax();
                           },
-                          
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      helpButtonBelow(
+                          "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
                       SizedBox(
                         height: 30.0,
                       ),
@@ -268,8 +259,8 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
           buttonLoading = true;
         });
 
-        bool done = await PaymentRecordToDataBase().addIncomeTaxPayment(
-            incomeTaxPaymentObject, widget.client, file);
+        bool done = await PaymentRecordToDataBase()
+            .addIncomeTaxPayment(incomeTaxPaymentObject, widget.client, file);
 
         if (done) {
           Navigator.pop(context);
@@ -277,7 +268,6 @@ class _IncomeTaxPaymentState extends State<IncomeTaxPayment> {
       }
 
       flutterToast(message: "Successfully Saved");
-      
     } on PlatformException catch (e) {
       print(e.message);
       flutterToast(message: e.message);

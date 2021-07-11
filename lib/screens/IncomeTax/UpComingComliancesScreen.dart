@@ -94,7 +94,8 @@ class _UpComingCompliancesScreenForIncomeTaxState
       appBar: AppBar(
         title: Text("Income Tax Upcoming Compliances"),
         actions: <Widget>[
-          helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
+          helpButtonActionBar(
+              "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
         ],
       ),
       body: Container(
@@ -109,7 +110,7 @@ class _UpComingCompliancesScreenForIncomeTaxState
                 builder: (BuildContext context,
                     AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
                   if (snapshot.hasData) {
-                    if(snapshot.data.length ==0){
+                    if (snapshot.data.length == 0) {
                       return ListView(
                         children: <Widget>[
                           Container(
@@ -127,34 +128,38 @@ class _UpComingCompliancesScreenForIncomeTaxState
                         print(snapshot.data);
                         return GestureDetector(
                           onTap: () {
-                            if (snapshot.data[index].key !=
-                                'INCOME_TAX_RETURNS') {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => IncomeTaxPayment(
-                                    client: widget.client,
+                            if (snapshot.data[index].key != 'nothing') {
+                              if (snapshot.data[index].key !=
+                                  'INCOME_TAX_RETURNS') {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => IncomeTaxPayment(
+                                      client: widget.client,
+                                    ),
                                   ),
-                                ),
-                              );
-                            } else {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => IncomeTaxReturnFilling(
-                                    client: widget.client,
+                                );
+                              } else {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        IncomeTaxReturnFilling(
+                                      client: widget.client,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             }
                           },
                           child: Container(
                             margin: EdgeInsets.symmetric(vertical: 10.0),
                             decoration: roundedCornerButton,
                             child: ListTile(
-                              title: Text(snapshot.data[index].date != ' '?
-                                  '${snapshot.data[index].label} due on ${snapshot.data[index].date} ${DateFormat('MMMM').format(DateTime.now())}'
-                                :'${snapshot.data[index].label}',
+                              title: Text(
+                                snapshot.data[index].date != ' '
+                                    ? '${snapshot.data[index].label} due on ${snapshot.data[index].date} ${DateFormat('MMMM').format(DateTime.now())}'
+                                    : '${snapshot.data[index].label}',
                               ),
                             ),
                           ),
@@ -178,7 +183,9 @@ class _UpComingCompliancesScreenForIncomeTaxState
                 },
               ),
             ),
-            SizedBox(height: 70,),
+            SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),

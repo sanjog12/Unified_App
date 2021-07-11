@@ -1,7 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,22 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final initAds = MobileAds.instance.initialize();
   final adState = AdState(initAds);
+  await Firebase.initializeApp();
+
+  // FirebaseFirestore.instance.settings = const Settings(
+  //   host: '10.0.2.2:8060',
+  //   sslEnabled: false,
+  //   persistenceEnabled: false,
+  // );
+  //
+  // await FirebaseStorage.instance.useEmulator(host: 'localhost', port: 9000);
+  //
+  // await FirebaseAuth.instance.useEmulator("http://localhost:9099");
+  //
+  // FirebaseDatabase(
+  //     app: Firebase.app(),
+  //     databaseURL: '10.0.2.2:9000'
+  // );
 
   FirebaseMessaging.onBackgroundMessage(backGroundNotificationHandler);
   
@@ -50,17 +68,23 @@ class _BootstrapperState extends State<Bootstrapper>{
     try {
       // FirebaseDatabase.instance.setPersistenceCacheSizeBytes(cacheSize)
       // await MobileAds.instance.initialize();
-      await Firebase.initializeApp();
+
       // FirebaseFirestore.instance.settings = const Settings(
-      //   host: 'http://10.0.2.2:9000',
+      //   host: '10.0.2.2:8060',
       //   sslEnabled: false,
       //   persistenceEnabled: false,
       // );
       //
+      // await FirebaseStorage.instance.useEmulator(host: 'localhost', port: 9099);
+      //
+      // await FirebaseAuth.instance.useEmulator("localhost:9099");
+      //
       // FirebaseDatabase(
       //   app: Firebase.app(),
-      //   databaseURL: 'http://10.0.2.2:9000'
+      //   databaseURL: '10.0.2.2:9000'
       // );
+
+
       AwesomeNotifications().initialize(
           'resource://drawable/ic_stat_name',
           [

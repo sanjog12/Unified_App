@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/Client.dart';
@@ -10,14 +11,13 @@ import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/openWebView.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
-
 class TDSPayment extends StatefulWidget {
-  
-  final Client client ;
+  final Client client;
 
   const TDSPayment({Key key, this.client}) : super(key: key);
 
@@ -27,49 +27,26 @@ class TDSPayment extends StatefulWidget {
   }
 }
 
-class _TDSPaymentState extends State<TDSPayment>{
-  
+class _TDSPaymentState extends State<TDSPayment> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  
+
   bool loadingSave = false;
-  bool loadingPayment = false ;
-  
-  String sectionSelected ;
+  bool loadingPayment = false;
+
+  String sectionSelected;
+
   String name = ' ';
   String extension;
   String nameOfFile = "Attach File";
   String showDateOfPayment = ' ';
   String _showDateOfPayment = 'Select Date';
-  
+
   DateTime selectedDateOfPayment = DateTime.now();
-  
+
   TDSPaymentObject tDSPaymentObject = TDSPaymentObject();
-  
+
   File file;
 
-
-  Future<Null> selectDateTime(BuildContext context) async{
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDateOfPayment,
-        firstDate: DateTime(DateTime.now().year -1),
-        lastDate: DateTime(DateTime.now().year + 1),
-    );
-  
-    if(picked != null && picked != selectedDateOfPayment){
-      setState(() {
-        print('Checking ' + widget.client.company);
-        selectedDateOfPayment= picked;
-        print(picked);
-        showDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-        tDSPaymentObject.dateOfPayment = showDateOfPayment;
-        _showDateOfPayment = DateFormat('dd-MMMM-yy').format(picked);
-      });
-    }
-  }
-  
-  
-  
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
@@ -118,7 +95,7 @@ class _TDSPaymentState extends State<TDSPayment>{
                           height: 10.0,
                         ),
                         TextFormField(
-                          onSaved: (String value){
+                          onSaved: (String value) {
                             tDSPaymentObject.BSRcode = value;
                           },
                           decoration: buildCustomInput(hintText: "BSR Code"),
@@ -135,67 +112,63 @@ class _TDSPaymentState extends State<TDSPayment>{
                         SizedBox(
                           height: 10.0,
                         ),
-                        
                         DropdownButtonFormField(
                           isExpanded: true,
                           hint: Text('Select Form'),
-                          validator: (String value){
+                          validator: (String value) {
                             return requiredField(value, 'Section');
                           },
                           decoration: buildCustomInput(),
                           items: [
                             DropdownMenuItem(
-                              child: Text('Payment to contractor and sub-contractor 194D'),
-                              value: 'Payment to contractor and sub-contractor 194D',
+                              child: Text(
+                                  'Payment to contractor and sub-contractor 194D'),
+                              value:
+                                  'Payment to contractor and sub-contractor 194D',
                             ),
-      
                             DropdownMenuItem(
                               child: Text('Winning from horse race 194C'),
                               value: 'Winning from horse race 194C',
                             ),
-  
                             DropdownMenuItem(
-                              child: Text('Winning from lottery or crossword puzzle 194BB'),
-                              value: 'Winning from lottery or crossword puzzle 194BB',
+                              child: Text(
+                                  'Winning from lottery or crossword puzzle 194BB'),
+                              value:
+                                  'Winning from lottery or crossword puzzle 194BB',
                             ),
-  
                             DropdownMenuItem(
                               child: Text('Interest o security 194B'),
                               value: 'Interest o security 194B',
                             ),
-  
                             DropdownMenuItem(
                               child: Text('Interest other than'),
                               value: 'Interest other than',
                             ),
-  
                             DropdownMenuItem(
                               child: Text('Interest on Securities 194'),
                               value: 'Interest on Securities 194',
                             ),
-  
                             DropdownMenuItem(
                               child: Text('TDS on PF withdraw 193'),
                               value: 'TDS on PF withdraw 193',
                             ),
-  
                             DropdownMenuItem(
                               child: Text('192-Salary 192A'),
                               value: '192-Salary 192A',
                             ),
-  
                             DropdownMenuItem(
-                              child: Text('Payment in respect of life insurance policy 194E'),
-                              value: 'Payment in respect of life insurance policy 194E',
+                              child: Text(
+                                  'Payment in respect of life insurance policy 194E'),
+                              value:
+                                  'Payment in respect of life insurance policy 194E',
                             ),
-  
                             DropdownMenuItem(
                               child: Text('Insurance Commission 194DA'),
                               value: 'Insurance Commission 194DA',
                             ),
                           ],
                           value: sectionSelected,
-                          onChanged: (String value){
+                          onChanged: (String value) {
                             tDSPaymentObject.section = value;
                             setState(() {
                               sectionSelected = value;
@@ -234,12 +207,14 @@ class _TDSPaymentState extends State<TDSPayment>{
                           height: 10.0,
                         ),
                         TextFormField(
-                          onSaved: (String value){
+                          onSaved: (String value) {
                             tDSPaymentObject.amountOfPayment = value;
                           },
-                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                          decoration:
-                              buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          decoration: buildCustomInput(
+                              hintText: "Amount of Payment",
+                              prefixText: "\u{20B9}"),
                         ),
                       ],
                     ),
@@ -250,7 +225,6 @@ class _TDSPaymentState extends State<TDSPayment>{
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Text("Date of Payment"),
-                        
                         SizedBox(
                           height: 10.0,
                         ),
@@ -264,8 +238,18 @@ class _TDSPaymentState extends State<TDSPayment>{
                                 '$_showDateOfPayment',
                               ),
                               TextButton(
-                                onPressed: () {
-                                  selectDateTime(context);
+                                onPressed: () async {
+                                  selectedDateOfPayment =
+                                      await DateChange.selectDateTime(
+                                          context, 1, 1);
+                                  setState(() {
+                                    tDSPaymentObject.dateOfPayment =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(selectedDateOfPayment);
+                                    _showDateOfPayment =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(selectedDateOfPayment);
+                                  });
                                 },
                                 child: Icon(Icons.date_range),
                               ),
@@ -274,36 +258,34 @@ class _TDSPaymentState extends State<TDSPayment>{
                         ),
                       ],
                     ),
-                    
-                    
                     SizedBox(
                       height: 30.0,
                     ),
-                    
-                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        
-                        Text('Add Attachment',),
+                        Text(
+                          'Add Attachment',
+                        ),
                         SizedBox(height: 10),
                         Container(
                           height: 50,
                           child: TextButton(
-                            onPressed: () async{
-                              FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                            onPressed: () async {
+                              FilePickerResult filePickerResult =
+                                  await FilePicker.platform.pickFiles();
                               file = File(filePickerResult.files.single.path);
                               List<String> temp = file.path.split('/');
                               setState(() {
                                 nameOfFile = temp.last;
                               });
                             },
-                            
                             child: Row(
                               children: <Widget>[
                                 Icon(Icons.attach_file),
                                 SizedBox(width: 6),
-                                Text(nameOfFile,
+                                Text(
+                                  nameOfFile,
                                   maxLines: 1,
                                   overflow: TextOverflow.fade,
                                 ),
@@ -316,53 +298,54 @@ class _TDSPaymentState extends State<TDSPayment>{
                         ),
                       ],
                     ),
-                    
-                    
                     SizedBox(
                       height: 40.0,
                     ),
-                    
-                    
                     Container(
                       decoration: roundedCornerButton,
                       height: 50.0,
-                      child: loadingPayment?Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>
-                            (Colors.white70),
-                        ),
-                      ) :TextButton(
-                        child: Text("Make Payment"),
-                        onPressed: () {
-                          openWebView("Payment", 'https://onlineservices.tin.egov-nsdl.com/etaxnew/tdsnontds.jsp', context);
-                        },
-                        
-                      ),
+                      child: loadingPayment
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white70),
+                              ),
+                            )
+                          : TextButton(
+                              child: Text("Make Payment"),
+                              onPressed: () {
+                                openWebView(
+                                    "Payment",
+                                    'https://onlineservices.tin.egov-nsdl.com/etaxnew/tdsnontds.jsp',
+                                    context);
+                              },
+                            ),
                     ),
-                    
-                    
                     SizedBox(
                       height: 20.0,
                     ),
-                    
-                    
                     Container(
                       decoration: roundedCornerButton,
                       height: 50.0,
-                      child: loadingSave? Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>
-                            (Colors.white70),
-                        ),
-                      ):TextButton(
-                        child: Text("Save Record"),
-                        onPressed: () {
-                          savePayment();
-                        },
-                      ),
+                      child: loadingSave
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white70),
+                              ),
+                            )
+                          : TextButton(
+                              child: Text("Save Record"),
+                              onPressed: () {
+                                savePayment();
+                              },
+                            ),
                     ),
-                    SizedBox(height: 20,),
-                    helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20TDS"),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    helpButtonBelow(
+                        "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20TDS"),
                     SizedBox(
                       height: 30.0,
                     ),
@@ -375,10 +358,8 @@ class _TDSPaymentState extends State<TDSPayment>{
       ),
     );
   }
-  
-  
-  
-  Future<void> savePayment() async{
+
+  Future<void> savePayment() async {
     try {
       if (_key.currentState.validate()) {
         print('here at savePayment');
@@ -386,17 +367,16 @@ class _TDSPaymentState extends State<TDSPayment>{
         setState(() {
           loadingSave = true;
         });
-        await PaymentRecordToDataBase().addTDSPayment(
-            tDSPaymentObject, widget.client, file);
+        await PaymentRecordToDataBase()
+            .addTDSPayment(tDSPaymentObject, widget.client, file);
         Navigator.pop(context);
         flutterToast(message: "Data has been recorded");
-      }
-      else {
+      } else {
         print("error");
       }
-    }on PlatformException catch(e){
+    } on PlatformException catch (e) {
       flutterToast(message: e.message);
-    }catch(e){
+    } catch (e) {
       flutterToast(message: "Something Went Wrong");
     }
   }

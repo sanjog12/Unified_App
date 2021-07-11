@@ -11,17 +11,16 @@ import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/widgets/ListView.dart';
 
-
-
 class ApplicableCompliances extends StatefulWidget {
   final Client client;
+
   ApplicableCompliances({this.client});
+
   @override
   _ApplicableCompliancesState createState() => _ApplicableCompliancesState();
 }
 
 class _ApplicableCompliancesState extends State<ApplicableCompliances> {
-  
   FirestoreService fireStoreService = FirestoreService();
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
@@ -31,7 +30,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
   List<Compliance> listCompliances = [];
   bool loaded = false;
   GlobalKey<AnimatedListState> _myListKey = GlobalKey<AnimatedListState>();
-  
+
   BannerAd bannerAd;
 
   static final AdRequest request = AdRequest(
@@ -40,13 +39,13 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
     nonPersonalizedAds: true,
   );
 
-  final AdSize adSize = AdSize(width:300, height: 50);
+  final AdSize adSize = AdSize(width: 300, height: 50);
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final adState = Provider.of<AdState>(context);
-    adState.initialisation.then((status){
+    adState.initialisation.then((status) {
       setState(() {
         bannerAd = BannerAd(
           adUnitId: adState.bannerAdUnitId,
@@ -57,34 +56,30 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
       });
     });
   }
-  
+
   @override
   void initState() {
     super.initState();
     firebaseUserId = FirebaseAuth.instance.currentUser.uid;
-    _getUserCompliances().then((value) async{
-      
+    _getUserCompliances().then((value) async {
       listCompliances = value;
       setState(() {
         loaded = true;
       });
       await Future.delayed(Duration(milliseconds: 200));
-      for(int i =0 ; i< listCompliances.length;i++){
+      for (int i = 0; i < listCompliances.length; i++) {
         _myListKey.currentState.insertItem(i);
         await Future.delayed(Duration(milliseconds: 300));
       }
     });
     print(widget.client.toString());
   }
-  
-  
-  
-  
+
   Future<List<Compliance>> _getUserCompliances() async {
     List<Compliance> clientsData = [];
     String clientEmail = widget.client.email.replaceAll('.', ',');
 
-    if(!compliancesCache.containsKey(clientEmail)) {
+    if (!compliancesCache.containsKey(clientEmail)) {
       print("true");
       dbf = firebaseDatabase
           .reference()
@@ -92,7 +87,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
           .child(firebaseUserId)
           .child('compliances')
           .child(clientEmail);
-  
+
       await dbf.once().then((DataSnapshot snapshot) {
         Map<dynamic, dynamic> values = snapshot.value;
         values.forEach((key, values) {
@@ -105,15 +100,14 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
         });
       });
       compliancesCache[clientEmail] = clientsData;
-    }
-    else{
+    } else {
       print("false");
       print(compliancesCache[clientEmail]);
       clientsData = compliancesCache[clientEmail];
     }
     return clientsData;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
@@ -122,32 +116,37 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
         title: Text("Applicable Compliances"),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 24.0, right: 24, left: 24,),
+        padding: EdgeInsets.only(
+          top: 24.0,
+          right: 24,
+          left: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             widget.client == null
                 ? SizedBox()
                 : Text(
-              "${widget.client.name}".toUpperCase(),
-              style: _theme.textTheme.headline6.merge(
-                TextStyle(
-                  fontSize: 24.0,
-                ),
-              ),
-            ),
+                    "${widget.client.name}".toUpperCase(),
+                    style: _theme.textTheme.headline6.merge(
+                      TextStyle(
+                        fontSize: 24.0,
+                      ),
+                    ),
+                  ),
             SizedBox(
               height: 5.0,
             ),
             widget.client == null
                 ? SizedBox()
-                : Text("${widget.client.email}",
-              style: _theme.textTheme.bodyText2.merge(
-                TextStyle(
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ),
+                : Text(
+                    "${widget.client.email}",
+                    style: _theme.textTheme.bodyText2.merge(
+                      TextStyle(
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
             SizedBox(
               height: 30.0,
             ),
@@ -155,7 +154,8 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
               child: AnimatedList(
                   key: _myListKey,
                   initialItemCount: listCompliances.length,
-                  itemBuilder: (BuildContext context,int index,Animation animation){
+                  itemBuilder:
+                      (BuildContext context, int index, Animation animation) {
                     return SlideTransition(
                       position: Tween<Offset>(
                         begin: const Offset(1, 0),
@@ -166,21 +166,29 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
                         child: ExpansionTile(
                           title: Text(listCompliances[index].title),
                           children: <Widget>[
-                            listItem(listCompliances[index].title,widget.client,context)
+                            listItem(listCompliances[index].title,
+                                widget.client, context)
                           ],
                         ),
                       ),
                     );
                   }),
             ),
-            
-            !loaded?Container(
-              child: LinearProgressIndicator(),
-            ):Container(),
-                
+            !loaded
+                ? Container(
+                    child: LinearProgressIndicator(),
+                  )
+                : Container(),
             bannerAd == null
-                ?SizedBox(height: 10,)
-                :Container(height: 50, child: AdWidget(ad: bannerAd,),),
+                ? SizedBox(
+                    height: 10,
+                  )
+                : Container(
+                    height: 50,
+                    child: AdWidget(
+                      ad: bannerAd,
+                    ),
+                  ),
           ],
         ),
       ),

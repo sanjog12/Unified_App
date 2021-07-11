@@ -432,7 +432,7 @@ import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 													  client: client,
 												  )));
 						  	},
-						  	child: Text("Insurance Details"),
+						  	child: Text("Add Insurance Details"),
 						  ),
 						),
 					],

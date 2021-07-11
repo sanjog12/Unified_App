@@ -1,8 +1,8 @@
-# unified_reminder
+# Unified Tax Reminder
+    A application that reminds user about their upcoming compliances through a centralised notification system through this application user can also keep a record 
 
-A new Flutter project.
+## Technology Used
 
-## Getting Started
 
 This project is a starting point for a Flutter application.
 

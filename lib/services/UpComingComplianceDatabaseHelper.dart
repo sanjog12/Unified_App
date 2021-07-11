@@ -11,7 +11,8 @@ import 'GeneralServices/SharedPrefs.dart';
 
 
 class UpComingComplianceDatabaseHelper {
-  final FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+  final FirebaseDatabase firebaseDatabase = FirebaseDatabase();
+
   DatabaseReference dbf;
 
   static DateTime now = new DateTime.now();
@@ -31,6 +32,9 @@ class UpComingComplianceDatabaseHelper {
     List<DoneComplianceObject> clientDone = [];
 //    print('values1');
 
+    todayDateObject = TodayDateObject(
+        year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
+
     String firebaseUserId = FirebaseAuth.instance.currentUser.uid;
     dbf = firebaseDatabase
         .reference()
@@ -38,14 +42,13 @@ class UpComingComplianceDatabaseHelper {
         .child(firebaseUserId)
         .child(clientEmail)
         .child(DateTime.now().year.toString())
-        .child(DateTime.now().month.toString())
+        .child(todayDateObject.month)
         .child(snapshotKey);
 
     await dbf.once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       
       if (values != null) {
-
         values.forEach((key, value) {
           clientDone.add(DoneComplianceObject(key: key, value: value));
         });
@@ -87,29 +90,29 @@ class UpComingComplianceDatabaseHelper {
           
           if(registeredCompliancesData['title'] == 'LIC'){
             // print("LIC");
-            dbf = firebaseDatabase
+            await firebaseDatabase
                 .reference()
                 .child('complinces')
                 .child('LICUserUpcomingCompliances')
                 .child(firebaseUID)
-                .child(client.email.replaceAll('.', ","))
-                .child(todayDateObject.year)
-                .child(todayDateObject.month);
-
-            await dbf.once().then((DataSnapshot snapshot) {
-                Map<dynamic, dynamic> valuesDate = snapshot.value;
+                .child(client.email.replaceAll('.', ','))
+                .orderByChild('date')
+                .startAt('${todayDateObject.year}-${todayDateObject.month}-01')
+                .endAt('${todayDateObject.year}-${todayDateObject.month}-31')
+                .once().then((DataSnapshot snapshot) async{
+                Map<dynamic, dynamic> valuesDate = await snapshot.value;
                 if (valuesDate != null) {
-                  // print(valuesDate);
                   for(var v in valuesDate.entries){
-                    // print(v.key);
                     UpComingComplianceObject upComingComplianceObject =
                     UpComingComplianceObject(
                       key: "LIC",
                       name: client.name,
-                      date: v.value['date'].toString(),
-                      label: v.value['label'].toString(),
+                      date: v.value['due'].toString().split(' ')[0],
+                      label: 'LIC ' + v.value['label'].toString(),
                     );
-                    bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),int.parse(v.value['date'])));
+                    bool isPassedDueDate = DateTime.now().isAfter(
+                        DateTime(int.parse(todayDateObject.year),int.parse(todayDateObject.month),
+                            int.parse(v.value['due'].toString().split(' ')[0])));
                     if(!isPassedDueDate){
                       upComingComplianceObject.notMissed = true;
                       upComingComplianceData.add(upComingComplianceObject);
@@ -226,7 +229,7 @@ class UpComingComplianceDatabaseHelper {
                 .child('GST');
             
             await dbf.once().then((DataSnapshot snapshot) async{
-              Map<dynamic, dynamic> valuesDate = snapshot.value;
+              Map<dynamic, dynamic> valuesDate = await snapshot.value;
               
               if (valuesDate != null) {
                 for(var v in doneCompliances){
@@ -262,12 +265,12 @@ class UpComingComplianceDatabaseHelper {
                 .child('ROC')
                 .child(todayDateObject.month.toString());
             dbf.once().then((DataSnapshot snapshot) async{
-              Map<dynamic,dynamic> valuesData = snapshot.value;
+              Map<dynamic,dynamic> valuesData = await snapshot.value;
               if(valuesData != null){
-                valuesData.forEach((key, values){
+                for(var data in valuesData.entries){
                   UpComingComplianceObject upComingComplianceObject =UpComingComplianceObject(
                     name: client.name, key: "ROC",
-                    date: values['date'], label: values['label'], notMissed: true,
+                    date: data.value['date'], label: data.value['label'], notMissed: true,
                   );
                   bool isPassedDueDate = DateTime.now().isAfter(DateTime(int.parse(todayDateObject.year),
                       int.parse(todayDateObject.month),
@@ -280,7 +283,7 @@ class UpComingComplianceDatabaseHelper {
                     upComingComplianceObject.notMissed = false;
                     upComingComplianceData.add(upComingComplianceObject);
                   }
-                });
+                };
               }
             });
           }
@@ -300,8 +303,8 @@ class UpComingComplianceDatabaseHelper {
                 .child(todayDateObject.month.toString())
                 .child('EPF');
   
-            await dbf.once().then((DataSnapshot snapshot) {
-                Map<dynamic, dynamic> valuesDate = snapshot.value;
+            await dbf.once().then((DataSnapshot snapshot) async{
+                Map<dynamic, dynamic> valuesDate = await snapshot.value;
                 if (valuesDate != null) {
                   for(var compliances in doneCompliances){
                     valuesDate.remove(compliances.key);
@@ -460,6 +463,8 @@ class UpComingComplianceDatabaseHelper {
           todayDateObject, "TDS");
     }catch(e){print(e);}
 
+    print(doneCompliances.first.value);
+
     List<UpComingComplianceObject> upComingComplianceData = [];
 
     dbf = firebaseDatabase
@@ -568,52 +573,48 @@ class UpComingComplianceDatabaseHelper {
   
     List<UpComingComplianceObject> upComingComplianceData = [];
     
-    dbf = firebaseDatabase
+    await FirebaseDatabase.instance
         .reference()
         .child('complinces')
         .child('LICUserUpcomingCompliances')
         .child(firebaseUserId)
         .child(client.email)
-        .child(todayDateObject.year)
-        .child(todayDateObject.month);
-  
-    await dbf.once().then((DataSnapshot snapshot) {
-        Map<dynamic, dynamic> valuesDate = snapshot.value;
-        UpComingComplianceObject upComingComplianceObject;
-        if (valuesDate != null) {
+        .orderByChild('date')
+        .startAt('${todayDateObject.year}-${todayDateObject.month}-01')
+        .endAt('${todayDateObject.year}-${todayDateObject.month}-31').once()
+        .then((DataSnapshot snapshot) async{
+          Map<dynamic, dynamic> valuesDate = await snapshot.value;
+          UpComingComplianceObject upComingComplianceObject;
           print(valuesDate);
-          valuesDate.forEach((key, value){
-            print(key);
-            upComingComplianceObject =
-            UpComingComplianceObject(
-              name: value["type"] ?? '',
-              date: value["date"] ?? '',
-              label: value["label"] ?? '',
+          if (valuesDate != null) {
+          for(var compliance in valuesDate.entries) {
+            print(compliance);
+            upComingComplianceObject = UpComingComplianceObject(
+              name: compliance.value["type"] ?? '',
+              date: compliance.value["due"] ?? '',
+              label: compliance.value["label"] ?? '',
+              notMissed: true,
             );
+  
+            bool isPassedDueDate = DateTime.now().isAfter(
+                DateTime(int.parse(todayDateObject.year), int.parse(todayDateObject.month),
+                    int.parse(upComingComplianceObject.date.split(" ")[0])));
+  
+            if (isPassedDueDate) {
+              upComingComplianceObject.notMissed = false;
+            }
             upComingComplianceData.add(upComingComplianceObject);
-          });
+          }
+          
         }else {
           upComingComplianceObject =
-          UpComingComplianceObject(
-              date: 'this month of', label: 'No LIC Compliance',name: '');
+          UpComingComplianceObject(date: 'this month of', label: 'No LIC Compliance',name: '',notMissed: true);
   
-          upComingComplianceData.add(upComingComplianceObject);
-        }
-        bool isPassedDueDate = DateTime.now().isAfter(
-            DateTime(int.parse(todayDateObject.year),
-                int.parse(todayDateObject.month),
-                int.parse(upComingComplianceObject.date)));
-        print(isPassedDueDate);
-        if (!isPassedDueDate) {
-          upComingComplianceObject.notMissed = true;
-          upComingComplianceData.add(upComingComplianceObject);
-        }else{
-          upComingComplianceObject.notMissed = false;
           upComingComplianceData.add(upComingComplianceObject);
         }
       },
     );
-    print("returning");
+    
     return upComingComplianceData;
   }
   
@@ -681,8 +682,7 @@ class UpComingComplianceDatabaseHelper {
     todayDateObject = TodayDateObject(
         year: todayDateData[0], month: todayDateData[1], day: todayDateData[2]);
 
-    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email,
-        todayDateObject, "EPF");
+    List<DoneComplianceObject> doneCompliances = await UpComingComplianceDatabaseHelper().getClientDoneCompliances(client.email, todayDateObject, "EPF");
     List<UpComingComplianceObject> upComingComplianceData = [];
   
     dbf = firebaseDatabase
@@ -690,22 +690,20 @@ class UpComingComplianceDatabaseHelper {
         .child('upCommingComliances')
         .child(todayDateObject.month.toString())
         .child('EPF');
-    
-    
 
     await dbf.once().then(
           (DataSnapshot snapshot) async{
-        Map<dynamic, dynamic> valuesdate = await snapshot.value;
-        if (valuesdate == null) {
+        Map<dynamic, dynamic> valuesDate = await snapshot.value;
+        if (valuesDate == null) {
           UpComingComplianceObject upComingComplianceObject =
           UpComingComplianceObject(
               date: 'This Month', label: 'No EPF Payment this month');
           upComingComplianceData.add(upComingComplianceObject);
         }else {
           for(var v in doneCompliances){
-            valuesdate.remove(v.key);
+            valuesDate.remove(v.key);
           }
-          for(var v in valuesdate.entries){
+          for(var v in valuesDate.entries){
             print(v.value["date"]);
             UpComingComplianceObject upComingComplianceObject =
             UpComingComplianceObject(
