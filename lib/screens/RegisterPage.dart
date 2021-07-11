@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -30,19 +29,20 @@ class _RegisterPageState extends State<RegisterPage> {
   GlobalKey third = GlobalKey();
   GlobalKey fourth = GlobalKey();
   ScrollController controller = ScrollController();
-  
-  tutorial() async{
+
+  tutorial() async {
     try {
       String temp = await SharedPrefs.getStringPreference("registerTutorial");
       print(temp);
       if (temp != "done") {
-        await controller.animateTo(controller.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+        await controller.animateTo(controller.position.maxScrollExtent,
+            duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ShowCaseWidget.of(this.context).startShowCase([first, second]);
           SharedPrefs.setStringPreference("registerTutorial", "done");
         });
       }
-    }catch(e){
+    } catch (e) {
       debugPrint(e);
     }
   }
@@ -70,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                  Text(
+                Text(
                   "Create Account",
                   style: _theme.textTheme.headline6.merge(
                     TextStyle(
@@ -92,7 +92,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(
                   height: 50.0,
                 ),
-                
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -106,47 +105,41 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                             decoration: buildCustomInput(hintText: "Full Name"),
                             onSaved: (String value) =>
-                            _userBasic.fullName = value,
+                                _userBasic.fullName = value,
                             validator: (String value) {
                               return requiredField(value, "Full Name");
                             }),
                       ],
                     ),
-                    
                     SizedBox(
                       height: 30.0,
                     ),
-  
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Text("Mobile Number"),
-      
                         SizedBox(
                           height: 10.0,
                         ),
-      
                         TextFormField(
                           maxLength: 10,
                           validator: (String value) {
-                            if(value.length<10){
+                            if (value.length < 10) {
                               return "Invalid length";
                             }
                             return requiredField(value, "Mobile number");
-                            },
+                          },
                           onSaved: (String value) =>
-                          _userBasic.phoneNumber = value,
+                              _userBasic.phoneNumber = value,
                           decoration:
-                          buildCustomInput(hintText: "Mobile Number"),
+                              buildCustomInput(hintText: "Mobile Number"),
                           keyboardType: TextInputType.phone,
                         ),
                       ],
                     ),
-                    
                     SizedBox(
                       height: 30.0,
                     ),
-                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -157,9 +150,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextFormField(
                           validator: (String value) {
                             return validateEmail(value);
-                            },
+                          },
                           onSaved: (String value) => _userBasic.email = value,
-                          decoration: buildCustomInput(hintText: "Email Address"),
+                          decoration:
+                              buildCustomInput(hintText: "Email Address"),
                           keyboardType: TextInputType.emailAddress,
                         ),
                       ],
@@ -170,38 +164,41 @@ class _RegisterPageState extends State<RegisterPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Text("Password",),
-                        
+                        Text(
+                          "Password",
+                        ),
                         SizedBox(
                           height: 10.0,
                         ),
-                        
                         TextFormField(
                           validator: (String value) {
                             return validatePasswordLength(value);
-                            },
+                          },
                           onChanged: (String value) =>
-                          _userBasic.password = value,
+                              _userBasic.password = value,
                           obscureText: obscureText,
-                          decoration: buildCustomInput(hintText: "Password").copyWith(
+                          decoration:
+                              buildCustomInput(hintText: "Password").copyWith(
                             suffixIcon: GestureDetector(
-                              child: Icon(obscureText?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,),
-                              onTap: (){
+                              child: Icon(
+                                obscureText
+                                    ? Icons.remove_red_eye
+                                    : Icons.visibility_off,
+                                color: Colors.white,
+                              ),
+                              onTap: () {
                                 setState(() {
                                   obscureText = !obscureText;
                                 });
-                              },),
+                              },
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    
-                    
                     SizedBox(
                       height: 30.0,
                     ),
-                    
-                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -211,17 +208,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextFormField(
                           validator: (String value) {
-                            return validatePasswordMatch(value, _userBasic.password);},
+                            return validatePasswordMatch(
+                                value, _userBasic.password);
+                          },
                           obscureText: true,
-                          decoration: buildCustomInput(hintText: "Confirm Password"),
+                          decoration:
+                              buildCustomInput(hintText: "Confirm Password"),
                         ),
                       ],
                     ),
-  
                     SizedBox(
                       height: 50.0,
                     ),
-                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -230,15 +228,18 @@ class _RegisterPageState extends State<RegisterPage> {
                             backgroundColor: buttonColor,
                           ),
                           labelPadding: EdgeInsets.all(5),
-                          label: Text("Click to agree with T&C and Privacy Policy",style: _theme.textTheme.bodyText2,),
+                          label: Text(
+                            "Click to agree with T&C and Privacy Policy",
+                            style: _theme.textTheme.bodyText2,
+                          ),
                           selected: checkBox,
-                          onSelected: (temp){
+                          onSelected: (temp) {
                             setState(() {
                               checkBox = temp;
                             });
                           },
                         ),
-                        
+
                         // Row(
                         //   children: [
                         //     Checkbox(
@@ -252,20 +253,23 @@ class _RegisterPageState extends State<RegisterPage> {
                         //     Text("By clicking on the tab you agree with T&C and Privacy Policy of this app",overflow: TextOverflow.clip,),
                         //   ],
                         // ),
-                        
-                        
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             GestureDetector(
-                              child: Text("T&C",style: TextStyle(fontSize: 10, color: Colors.blue),),
-                              onTap: (){
-                                Navigator.push(context,
+                              child: Text(
+                                "T&C",
+                                style:
+                                    TextStyle(fontSize: 10, color: Colors.blue),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
                                   MaterialPageRoute(
-                                      builder: (context)=>PDFViewer(
-                                        pdf: "apptc.pdf",
-                                      )
-                                  ),
+                                      builder: (context) => PDFViewer(
+                                            pdf: "apptc.pdf",
+                                          )),
                                 );
                               },
                             ),
@@ -273,27 +277,31 @@ class _RegisterPageState extends State<RegisterPage> {
                               width: 20,
                             ),
                             GestureDetector(
-                              child: Text("Privacy Policy",style: _theme.textTheme.bodyText2.copyWith(fontSize: 10, color: Colors.blue),),
-                              onTap: (){
-                                Navigator.push(context,
+                              child: Text(
+                                "Privacy Policy",
+                                style: _theme.textTheme.bodyText2
+                                    .copyWith(fontSize: 10, color: Colors.blue),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
                                   MaterialPageRoute(
-                                      builder: (context)=>PDFViewer(
-                                        pdf: "privacypolicy.pdf",
-                                      )
-                                  ),
+                                      builder: (context) => PDFViewer(
+                                            pdf: "privacypolicy.pdf",
+                                          )),
                                 );
                               },
                             ),
-                            SizedBox(width: 30,),
+                            SizedBox(
+                              width: 30,
+                            ),
                           ],
                         )
                       ],
                     ),
-                    
                     SizedBox(
                       height: 50.0,
                     ),
-                    
                     Showcase(
                       key: first,
                       description: "Register your self using above fields",
@@ -321,25 +329,23 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                         ),
                       ),
-                      ),
-                      
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text("OR",textAlign: TextAlign.center),
-                      SizedBox(
-                        height: 20,
-                      ),
-  
-                      Showcase(
-                        showArrow: true,
-                        key: second,
-                        description: "Or register using Google",
-                        child: Container(
-                          decoration: roundedCornerButton,
-                          height: 50,
-                          child: TextButton(
-                            child: googleSignInButton
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text("OR", textAlign: TextAlign.center),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Showcase(
+                      showArrow: true,
+                      key: second,
+                      description: "Or register using Google",
+                      child: Container(
+                        decoration: roundedCornerButton,
+                        height: 50,
+                        child: TextButton(
+                          child: googleSignInButton
                               ? Container(
                                   height: 30.0,
                                   width: 30.0,
@@ -366,39 +372,37 @@ class _RegisterPageState extends State<RegisterPage> {
                                     ),
                                   ],
                                 ),
-                            onPressed: () {
-                              googleSignIn();
-                            },
-                          ),
+                          onPressed: () {
+                            googleSignIn();
+                          },
                         ),
                       ),
-                      
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Already have an account?",
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Already have an account?",
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.0,
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.0,
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: linkColor,
+                              fontWeight: FontWeight.bold,
                             ),
-                            child: Text(
-                              "Sign In",
-                              style: TextStyle(
-                                color: linkColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -406,6 +410,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
 //
 //  Widget dropDownForUserType() {
 //    return DropdownButtonFormField(
@@ -501,75 +506,78 @@ class _RegisterPageState extends State<RegisterPage> {
           submitButtonLoading = true;
         });
         AuthService _authService = AuthService();
-        
+
         print("1");
 
-        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.grey,
-          content: Text("An verification link will be sent to your provided email ",),
-          action: SnackBarAction(
-            label: "Ok",
-            onPressed: () {
-              },
-          ),
-        )).closed;
+        await ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(
+              backgroundColor: Colors.grey,
+              content: Text(
+                "An verification link will be sent to your provided email ",
+              ),
+              action: SnackBarAction(
+                label: "Ok",
+                onPressed: () {},
+              ),
+            ))
+            .closed;
         print("2");
         UserBasic user = await _authService.registerProUser(_userBasic);
-        
-    
+
         this.setState(() {
           submitButtonLoading = false;
         });
         if (user != null) {
-          await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.grey,
-            content: Text(
-                "Successfully register, login again with your registered credentials. "
+          await ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(
+                backgroundColor: Colors.grey,
+                content: Text(
+                    "Successfully register, login again with your registered credentials. "
                     "and ensure to verify your email before login."),
-            action: SnackBarAction(
-              label: "Ok",
-              onPressed: () {
-              },
-            ),
-          )).closed;
+                action: SnackBarAction(
+                  label: "Ok",
+                  onPressed: () {},
+                ),
+              ))
+              .closed;
           print(user);
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => ShowCaseWidget(
-              builder: Builder(
-                builder: (context) =>
-                    LoginPage(),),
-            ),
-          ));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ShowCaseWidget(
+                  builder: Builder(
+                    builder: (context) => LoginPage(),
+                  ),
+                ),
+              ));
         }
-      }
-      else{
+      } else {
         flutterToast(message: "Please agree with T&C and Privacy Policy");
       }
     }
   }
-  
-  Future<void>  googleSignIn() async {
+
+  Future<void> googleSignIn() async {
     if (checkBox) {
       this.setState(() {
         googleSignInButton = true;
       });
       AuthService _authService = AuthService();
-    
+
       _userBasic.userType = 'bus';
-    
-      UserBasic googleUser = await _authService.googleSignUp( _userBasic.userType);
+
+      UserBasic googleUser =
+          await _authService.googleSignUp(_userBasic.userType);
       this.setState(() {
         googleSignInButton = false;
       });
-    
-    
+
       if (googleUser != null) {
         flutterToast(message: "Login Successful");
         Navigator.pop(context);
       }
-    }
-    else{
+    } else {
       flutterToast(message: "Please agree with T&C and Privacy Policy");
     }
   }

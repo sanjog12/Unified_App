@@ -370,14 +370,17 @@ class _AddMFScreenState extends State<AddMFScreen> {
                                 ),
                               ],
                             ),
-  
-  
+
                             modeTypeSelected == 'SIP'
                                 ? Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       SizedBox(height: 30),
-                                      Text("SIP Frequency", textAlign: TextAlign.left,),
+                                      Text(
+                                        "SIP Frequency",
+                                        textAlign: TextAlign.left,
+                                      ),
                                       ListTile(
                                         title: Text("Monthly"),
                                         leading: Radio(

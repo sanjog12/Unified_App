@@ -17,6 +17,7 @@ class MonthlyContribution extends StatefulWidget {
   final Client client;
 
   const MonthlyContribution({this.client});
+
   @override
   _MonthlyContributionState createState() => _MonthlyContributionState();
 }
@@ -29,7 +30,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
       EPFMonthlyContributionObject();
 
   bool loadingSaveButton = false;
-  
+
   DateTime selectedDateOfPayment = DateTime.now();
 
   String nameOfFile = 'Attach File';
@@ -37,9 +38,6 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
   String showDateOfPayment = ' ';
 
   File file;
-  
-  
-  
 
   @override
   Widget build(BuildContext context) {
@@ -97,12 +95,18 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                                   '$_selectedDateOfPayment',
                                 ),
                                 TextButton(
-                                  onPressed: () async{
-                                    selectedDateOfPayment = await DateChange.selectDateTime(context, 1, 1);
+                                  onPressed: () async {
+                                    selectedDateOfPayment =
+                                        await DateChange.selectDateTime(
+                                            context, 1, 1);
                                     setState(() {
-                                      epfMonthlyContributionObject.dateOfFilling = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
-                                      _selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
-
+                                      epfMonthlyContributionObject
+                                              .dateOfFilling =
+                                          DateFormat('dd-MM-yyyy')
+                                              .format(selectedDateOfPayment);
+                                      _selectedDateOfPayment =
+                                          DateFormat('dd-MM-yyyy')
+                                              .format(selectedDateOfPayment);
                                     });
                                   },
                                   child: Icon(Icons.date_range),
@@ -115,7 +119,6 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                       SizedBox(
                         height: 30.0,
                       ),
-                      
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
@@ -124,8 +127,9 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                             height: 10.0,
                           ),
                           TextFormField(
-                            decoration:
-                                buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
+                            decoration: buildCustomInput(
+                                hintText: "Amount of Payment",
+                                prefixText: "\u{20B9}"),
                             onChanged: (value) => epfMonthlyContributionObject
                                 .amountOfPayment = value,
                           ),
@@ -134,7 +138,6 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                       SizedBox(
                         height: 30.0,
                       ),
-  
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
@@ -144,7 +147,7 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                           ),
                           TextFormField(
                             decoration:
-                            buildCustomInput(hintText: "Challan Number"),
+                                buildCustomInput(hintText: "Challan Number"),
                             onChanged: (value) => epfMonthlyContributionObject
                                 .challanNumber = value,
                           ),
@@ -156,23 +159,23 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-      
                           Text('Add Attachment'),
                           SizedBox(height: 10),
                           Container(
                             decoration: roundedCornerButton,
                             height: 50,
                             child: TextButton(
-                              onPressed: () async{
-                                FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                              onPressed: () async {
+                                FilePickerResult filePickerResult =
+                                    await FilePicker.platform.pickFiles();
                                 file = File(filePickerResult.files.single.path);
                                 List<String> temp = file.path.split('/');
-                                epfMonthlyContributionObject.addAttachment = temp.last;
+                                epfMonthlyContributionObject.addAttachment =
+                                    temp.last;
                                 setState(() {
                                   nameOfFile = temp.last;
                                 });
                               },
-          
                               child: Row(
                                 children: <Widget>[
                                   Icon(Icons.attach_file),
@@ -182,7 +185,8 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                               ),
                             ),
                           ),
-                        ],),
+                        ],
+                      ),
                       SizedBox(
                         height: 40.0,
                       ),
@@ -218,7 +222,9 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
                     ],
                   ),
                 ),
-                SizedBox(height: 70,),
+                SizedBox(
+                  height: 70,
+                ),
               ],
             ),
           ),
@@ -233,10 +239,9 @@ class _MonthlyContributionState extends State<MonthlyContribution> {
           buttonLoading = true;
         });
 
-        bool done = await PaymentRecordToDataBase()
-            .addEPFMonthlyContribution(
-                epfMonthlyContributionObject, widget.client, file);
-        
+        bool done = await PaymentRecordToDataBase().addEPFMonthlyContribution(
+            epfMonthlyContributionObject, widget.client, file);
+
         if (done) {
           flutterToast(message: "Recorded Saved");
           Navigator.pop(context);

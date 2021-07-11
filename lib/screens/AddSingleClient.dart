@@ -77,10 +77,12 @@ class _AddSingleClientState extends State<AddSingleClient> {
       Map<dynamic, dynamic> values = await snapshot.value;
       for (var v in values.entries) {
         appliedCompliance.add(v.value['title']);
-        _compliances.firstWhere((element) => element.title == v.value['title']).checked = true;
+        _compliances
+            .firstWhere((element) => element.title == v.value['title'])
+            .checked = true;
       }
     });
-    for(var v in appliedCompliance){
+    for (var v in appliedCompliance) {
       print(v);
     }
     setState(() {
@@ -115,7 +117,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
   }
 
   Future<bool> openCheckout() async {
-    if(_clientsFormKey.currentState.validate()) {
+    if (_clientsFormKey.currentState.validate()) {
       try {
         var options = {
           'key': 'rzp_test_YHXEshy02jkv2N',
@@ -131,8 +133,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
           }
         };
         _razorpay.open(options);
-        
-    
+
         return true;
       } catch (e) {
         debugPrint(e);
@@ -151,7 +152,6 @@ class _AddSingleClientState extends State<AddSingleClient> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    
     print(response.message.runtimeType);
   }
 
@@ -159,8 +159,6 @@ class _AddSingleClientState extends State<AddSingleClient> {
     flutterToast(message: response.walletName + " has some error.");
   }
 
-  
-  
   @override
   void initState() {
     super.initState();
@@ -168,7 +166,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
       _getUserCompliances();
       _client = widget.client;
     }
-    
+
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -231,8 +229,10 @@ class _AddSingleClientState extends State<AddSingleClient> {
                             ),
                             TextFormField(
                               initialValue: _client != null ? _client.name : "",
-                              validator: (value) => requiredField(value, "Client's Name"),
-                              decoration: buildCustomInput(hintText: "Client's Name"),
+                              validator: (value) =>
+                                  requiredField(value, "Client's Name"),
+                              decoration:
+                                  buildCustomInput(hintText: "Client's Name"),
                               onChanged: (value) => _client.name = value,
                             ),
                           ],
@@ -302,22 +302,24 @@ class _AddSingleClientState extends State<AddSingleClient> {
                               height: 10.0,
                             ),
                             TextFormField(
-                              initialValue: _client.email != "" ? _client.email : "",
+                              initialValue:
+                                  _client.email != "" ? _client.email : "",
                               enabled: _client.email != "" ? false : true,
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) => validateEmail(value),
                               onChanged: (value) => email = value,
                               // onEditingComplete: (value)=> ,
-                              decoration: buildCustomInput(hintText: "Client's Email Address"),
+                              decoration: buildCustomInput(
+                                  hintText: "Client's Email Address"),
                             ),
                             _client.email != ""
                                 ? Text(
-                              "You can't change this Email",
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.red),
-                            )
+                                    "You can't change this Email",
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.red),
+                                  )
                                 : Container()
                           ],
                         ),
@@ -360,11 +362,17 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[0].checked = value;
-                                      value?appliedCompliance.add("Income Tax"):appliedCompliance.remove("Income Tax");
+                                      value
+                                          ? appliedCompliance.add("Income Tax")
+                                          : appliedCompliance
+                                              .remove("Income Tax");
                                     });
-                                    subscribeTopic(_compliances[0].title, value);
+                                    subscribeTopic(
+                                        _compliances[0].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("Income Tax"):_compliances[0].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("Income Tax")
+                                      : _compliances[0].checked,
                                 ),
                                 Text(_compliances[0].title),
                               ],
@@ -376,11 +384,16 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[1].checked = value;
-                                      value?appliedCompliance.add("TDS"):appliedCompliance.remove("TDS");
+                                      value
+                                          ? appliedCompliance.add("TDS")
+                                          : appliedCompliance.remove("TDS");
                                     });
-                                    subscribeTopic(_compliances[1].title, value);
+                                    subscribeTopic(
+                                        _compliances[1].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("TDS"):_compliances[1].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("TDS")
+                                      : _compliances[1].checked,
                                 ),
                                 Text(_compliances[1].title),
                               ],
@@ -392,11 +405,16 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[2].checked = value;
-                                      value?appliedCompliance.add("GST"):appliedCompliance.remove("GST");
+                                      value
+                                          ? appliedCompliance.add("GST")
+                                          : appliedCompliance.remove("GST");
                                     });
-                                    subscribeTopic(_compliances[2].title, value);
+                                    subscribeTopic(
+                                        _compliances[2].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("GST"):_compliances[2].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("GST")
+                                      : _compliances[2].checked,
                                 ),
                                 Text(_compliances[2].title),
                               ],
@@ -408,11 +426,16 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[3].checked = value;
-                                      value?appliedCompliance.add("EPF"):appliedCompliance.remove("EPF");
+                                      value
+                                          ? appliedCompliance.add("EPF")
+                                          : appliedCompliance.remove("EPF");
                                     });
-                                    subscribeTopic(_compliances[3].title, value);
+                                    subscribeTopic(
+                                        _compliances[3].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("EPF"):_compliances[3].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("EPF")
+                                      : _compliances[3].checked,
                                 ),
                                 Text(_compliances[3].title),
                               ],
@@ -424,11 +447,17 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[4].checked = value;
-                                      value?appliedCompliance.add("MUTUAL FUND"):appliedCompliance.remove("MUTUAL FUND");
+                                      value
+                                          ? appliedCompliance.add("MUTUAL FUND")
+                                          : appliedCompliance
+                                              .remove("MUTUAL FUND");
                                     });
-                                    subscribeTopic(_compliances[4].title, value);
+                                    subscribeTopic(
+                                        _compliances[4].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("ESI"):_compliances[4].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("ESI")
+                                      : _compliances[4].checked,
                                 ),
                                 Text(_compliances[4].title),
                               ],
@@ -440,11 +469,16 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[5].checked = value;
-                                      value?appliedCompliance.add("ROC"):appliedCompliance.remove("ROC");
+                                      value
+                                          ? appliedCompliance.add("ROC")
+                                          : appliedCompliance.remove("ROC");
                                     });
-                                    subscribeTopic(_compliances[5].title, value);
+                                    subscribeTopic(
+                                        _compliances[5].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("ROC"):_compliances[5].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("ROC")
+                                      : _compliances[5].checked,
                                 ),
                                 Text(_compliances[5].title),
                               ],
@@ -456,11 +490,16 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[6].checked = value;
-                                      value?appliedCompliance.add("LIC"):appliedCompliance.remove("LIC");
+                                      value
+                                          ? appliedCompliance.add("LIC")
+                                          : appliedCompliance.remove("LIC");
                                     });
-                                    subscribeTopic(_compliances[6].title, value);
+                                    subscribeTopic(
+                                        _compliances[6].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("LIC"):_compliances[6].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("LIC")
+                                      : _compliances[6].checked,
                                 ),
                                 Text(_compliances[6].title),
                               ],
@@ -472,11 +511,16 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[7].checked = value;
-                                      value?appliedCompliance.add("PPF"):appliedCompliance.remove("PPF");
+                                      value
+                                          ? appliedCompliance.add("PPF")
+                                          : appliedCompliance.remove("PPF");
                                     });
-                                    subscribeTopic(_compliances[7].title, value);
+                                    subscribeTopic(
+                                        _compliances[7].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("PPF"):_compliances[7].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance.contains("PPF")
+                                      : _compliances[7].checked,
                                 ),
                                 Text(_compliances[7].title),
                               ],
@@ -488,11 +532,18 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[8].checked = value;
-                                      value?appliedCompliance.add("MUTUAL FUND"):appliedCompliance.remove("MUTUAL FUND");
+                                      value
+                                          ? appliedCompliance.add("MUTUAL FUND")
+                                          : appliedCompliance
+                                              .remove("MUTUAL FUND");
                                     });
-                                    subscribeTopic(_compliances[8].title, value);
+                                    subscribeTopic(
+                                        _compliances[8].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("MUTUAL FUND"):_compliances[8].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance
+                                          .contains("MUTUAL FUND")
+                                      : _compliances[8].checked,
                                 ),
                                 Text(_compliances[8].title),
                               ],
@@ -504,11 +555,19 @@ class _AddSingleClientState extends State<AddSingleClient> {
                                   onChanged: (bool value) {
                                     setState(() {
                                       _compliances[9].checked = value;
-                                      value?appliedCompliance.add("FIXED DEPOSIT"):appliedCompliance.remove("FIXED DEPOSIT");
+                                      value
+                                          ? appliedCompliance
+                                              .add("FIXED DEPOSIT")
+                                          : appliedCompliance
+                                              .remove("FIXED DEPOSIT");
                                     });
-                                    subscribeTopic(_compliances[9].title, value);
+                                    subscribeTopic(
+                                        _compliances[9].title, value);
                                   },
-                                  value: widget.client != null? appliedCompliance.contains("FIXED DEPOSIT"):_compliances[9].checked,
+                                  value: widget.client != null
+                                      ? appliedCompliance
+                                          .contains("FIXED DEPOSIT")
+                                      : _compliances[9].checked,
                                 ),
                                 Text(_compliances[9].title),
                               ],
@@ -548,7 +607,8 @@ class _AddSingleClientState extends State<AddSingleClient> {
                             setState(() {
                               buttonLoading = true;
                             });
-                            await FirestoreService().editClientData(_client, appliedCompliance, _compliances);
+                            await FirestoreService().editClientData(
+                                _client, appliedCompliance, _compliances);
                             await flutterToast(message: "Updated Successfully");
                             Navigator.pop(context);
                           }
@@ -585,11 +645,14 @@ class _AddSingleClientState extends State<AddSingleClient> {
         });
         if (savedClients) {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ShowCaseWidget(
-            builder: Builder(
-              builder: (context) => Dashboard(),
-            ),
-          )));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ShowCaseWidget(
+                        builder: Builder(
+                          builder: (context) => Dashboard(),
+                        ),
+                      )));
         }
       } catch (e, stack) {
         print(e);
@@ -601,5 +664,4 @@ class _AddSingleClientState extends State<AddSingleClient> {
       });
     }
   }
-  
 }

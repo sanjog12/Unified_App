@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unified_reminder/models/Client.dart';
@@ -7,7 +6,6 @@ import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 
 class ROCRecordHistoryDetailsView extends StatefulWidget {
-  
   final Client client;
   final ROCFormSubmission rocFormSubmission;
 
@@ -21,10 +19,8 @@ class ROCRecordHistoryDetailsView extends StatefulWidget {
       _ROCRecordHistoryDetailsViewState();
 }
 
+class _ROCRecordHistoryDetailsViewState extends State<ROCRecordHistoryDetailsView> {
 
-
-class _ROCRecordHistoryDetailsViewState
-    extends State<ROCRecordHistoryDetailsView> {
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
@@ -32,14 +28,12 @@ class _ROCRecordHistoryDetailsViewState
       appBar: AppBar(
         title: Text("ROC Record Details"),
       ),
-      
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              
               Text(
                 "${widget.client.name}\'s ROC Record Details",
                 style: _theme.textTheme.headline6.merge(
@@ -48,11 +42,9 @@ class _ROCRecordHistoryDetailsViewState
                   ),
                 ),
               ),
-              
               SizedBox(
                 height: 30.0,
               ),
-              
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -69,15 +61,12 @@ class _ROCRecordHistoryDetailsViewState
                       )
                     ],
                   ),
-                  
                   SizedBox(
                     height: 10.0,
                   ),
-                  
                   SizedBox(
                     height: 10.0,
                   ),
-                  
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
@@ -91,20 +80,16 @@ class _ROCRecordHistoryDetailsViewState
                       )
                     ],
                   ),
-                  
                   SizedBox(
                     height: 10.0,
                   ),
-                  
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Text("Date of AGM Conclusion"),
-                      
                       SizedBox(
                         height: 10.0,
                       ),
-                      
                       Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,
@@ -117,21 +102,16 @@ class _ROCRecordHistoryDetailsViewState
                       )
                     ],
                   ),
-                  
                   SizedBox(
                     height: 10.0,
                   ),
-                  
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      
                       Text("Date of Filling"),
-                      
                       SizedBox(
                         height: 10.0,
                       ),
-                      
                       Container(
                         padding: EdgeInsets.all(15),
                         decoration: fieldsDecoration,

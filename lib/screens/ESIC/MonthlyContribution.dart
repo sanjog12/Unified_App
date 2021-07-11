@@ -145,12 +145,16 @@ class _MonthlyContributionState extends State<MonthlyContributionESIC> {
                           ),
                           TextButton(
                             onPressed: () async {
-                              selectedDateOfPayment = await DateChange.selectDateTime(context, 1, 1);
+                              selectedDateOfPayment =
+                                  await DateChange.selectDateTime(
+                                      context, 1, 1);
                               setState(() {
                                 esiMonthlyContributionObejct.dateOfFilling =
-                                    DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
-                                  _selectedDateOfPayment =
-                                      DateFormat('dd-MM-yyyy').format(selectedDateOfPayment);
+                                    DateFormat('dd-MM-yyyy')
+                                        .format(selectedDateOfPayment);
+                                _selectedDateOfPayment =
+                                    DateFormat('dd-MM-yyyy')
+                                        .format(selectedDateOfPayment);
                               });
                             },
                             child: Icon(Icons.date_range),

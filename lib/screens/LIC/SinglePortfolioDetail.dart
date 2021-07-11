@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:unified_reminder/services/GeneralServices/PDFView.dart';
 import 'package:unified_reminder/services/NotificationWork.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
@@ -931,23 +930,28 @@ class _SinglePortfolioViewState extends State<SinglePortfolioView> {
           .child(widget.client.email)
           .child(widget.keyDB)
           .remove();
-      
+
       dbf
           .child('complinces')
           .child('LICUserUpcomingCompliances')
-          .child(firebaseUserId).child(widget.client.email)
+          .child(firebaseUserId)
+          .child(widget.client.email)
           .orderByChild('id')
           .equalTo(widget.keyDB.toString().replaceFirst('-', ''))
           .once()
-          .then((DataSnapshot dataSnapshot) async{
-            Map map = await dataSnapshot.value;
-            map.forEach((key, value) {
-              print(key);
-              dbf.child('complinces').child('LICUserUpcomingCompliances')
-                  .child(firebaseUserId).child(widget.client.email)
-                  .child(key).remove();
-            });
-          });
+          .then((DataSnapshot dataSnapshot) async {
+        Map map = await dataSnapshot.value;
+        map.forEach((key, value) {
+          print(key);
+          dbf
+              .child('complinces')
+              .child('LICUserUpcomingCompliances')
+              .child(firebaseUserId)
+              .child(widget.client.email)
+              .child(key)
+              .remove();
+        });
+      });
 
       NotificationServices().deleteNotification(widget.licPaymentObject.id);
       recordDeletedToast();

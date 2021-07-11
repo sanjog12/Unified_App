@@ -14,11 +14,11 @@ import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
 
 class Clients extends StatefulWidget {
-  
   final UserBasic userBasic;
   final List<Client> listClient;
 
-  const Clients({Key key, this.userBasic,this.listClient}) : super(key: key);
+  const Clients({Key key, this.userBasic, this.listClient}) : super(key: key);
+
   @override
   _ClientsState createState() => _ClientsState();
 }
@@ -27,7 +27,7 @@ class _ClientsState extends State<Clients> {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   DatabaseReference dbf;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  List<Client> listClient =[];
+  List<Client> listClient = [];
 
   StreamController _userController;
 
@@ -37,9 +37,8 @@ class _ClientsState extends State<Clients> {
   //     return res;
   //   });
   // }
-  
+
   String firebaseUserId;
-  
 
   @override
   void initState() {
@@ -94,15 +93,19 @@ class _ClientsState extends State<Clients> {
             Expanded(
               child: Container(
                 child: StreamBuilder(
-                  stream: firebaseDatabase.reference().child(FsUserClients).child(firebaseUserId).child('clients').onValue,
+                  stream: firebaseDatabase
+                      .reference()
+                      .child(FsUserClients)
+                      .child(firebaseUserId)
+                      .child('clients')
+                      .onValue,
                   builder: (context, AsyncSnapshot<Event> snapshot) {
                     if (snapshot.hasData) {
-                      
                       print(snapshot.data.snapshot.value);
-                      Map<dynamic,dynamic> map = snapshot.data.snapshot.value;
-                      for(var data in map.entries){
-                        listClient.add(
-                            Client(data.value["name"],
+                      Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
+                      for (var data in map.entries) {
+                        listClient.add(Client(
+                            data.value["name"],
                             data.value["constitution"],
                             data.value["company"],
                             data.value["natureOfBusiness"],
@@ -110,12 +113,13 @@ class _ClientsState extends State<Clients> {
                             data.value["phone"],
                             data.key));
                       }
-                      if(map == null){
+                      if (map == null) {
                         return CircularProgressIndicator();
                       }
                       print(listClient.first.name);
                       return Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                         child: ListView.builder(
                             itemCount: map.length,
                             scrollDirection: Axis.vertical,
@@ -131,40 +135,57 @@ class _ClientsState extends State<Clients> {
                                 margin: EdgeInsets.symmetric(vertical: 10.0),
                                 child: ListTile(
                                   title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      
                                       Container(
-                                        width: MediaQuery.of(context).size.width/4,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                4,
                                         child: Text(
                                           listClient[index].name,
                                           style: TextStyle(color: whiteColor),
                                         ),
                                       ),
-                                      
-                                      SizedBox(width: 90,),
-                                      GestureDetector(child: Icon(Icons.edit),onTap: (){
-                                        print(listClient[index].constitution);
-                                        Navigator.push(context,
-                                          MaterialPageRoute(
-                                            builder: (context)=>AddSingleClient(
-                                              client: listClient[index],
-                                              userBasic: widget.userBasic,
-                                            )
-                                          )
-                                        );
-                                      },),
-                                      GestureDetector(child: Icon(Icons.delete,color: Colors.red,),onTap: () async{
-                                        bool confirm = false;
-                                        confirm = await showConfirmationDialog(context);
-                                        if(confirm){
-                                          deleteClient(listClient[index].key,listClient[index].email);
-                                        }
-                                      },),
+                                      SizedBox(
+                                        width: 90,
+                                      ),
+                                      GestureDetector(
+                                        child: Icon(Icons.edit),
+                                        onTap: () {
+                                          print(listClient[index].constitution);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddSingleClient(
+                                                        client:
+                                                            listClient[index],
+                                                        userBasic:
+                                                            widget.userBasic,
+                                                      )));
+                                        },
+                                      ),
+                                      GestureDetector(
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        onTap: () async {
+                                          bool confirm = false;
+                                          confirm =
+                                              await showConfirmationDialog(
+                                                  context);
+                                          if (confirm) {
+                                            deleteClient(listClient[index].key,
+                                                listClient[index].email);
+                                          }
+                                        },
+                                      ),
                                     ],
                                   ),
-                                  onTap: (){
-                                    showDetails(context,listClient[index]);
+                                  onTap: () {
+                                    showDetails(context, listClient[index]);
                                   },
                                 ),
                               );
@@ -176,7 +197,8 @@ class _ClientsState extends State<Clients> {
                           width: 50.0,
                           height: 50.0,
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         ),
                       );
@@ -191,11 +213,11 @@ class _ClientsState extends State<Clients> {
     );
   }
 
-  Future<void> showDetails(BuildContext context,details) async{
+  Future<void> showDetails(BuildContext context, details) async {
     var clientEdit = details;
     return showDialog<void>(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -203,7 +225,9 @@ class _ClientsState extends State<Clients> {
             title: Column(
               children: <Widget>[
                 Text("Details"),
-                Divider(thickness: 1.0,)
+                Divider(
+                  thickness: 1.0,
+                )
               ],
             ),
             content: SingleChildScrollView(
@@ -216,9 +240,11 @@ class _ClientsState extends State<Clients> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Name:-"),
-                        Text('${details.name}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip),
+                        Text('${details.name}',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                            ),
+                            overflow: TextOverflow.clip),
                       ],
                     ),
                     // SizedBox(height: 5,),
@@ -231,14 +257,18 @@ class _ClientsState extends State<Clients> {
                     //     ),)
                     //   ],
                     // ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Email:-"),
-                        Text('${details.email}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip)
+                        Text('${details.email}',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                            ),
+                            overflow: TextOverflow.clip)
                       ],
                     ),
                     // SizedBox(height: 5,),
@@ -251,14 +281,18 @@ class _ClientsState extends State<Clients> {
                     //     ),overflow: TextOverflow.clip)
                     //   ],
                     // ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Constitution:-"),
-                        Text('${details.constitution}',style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                        ),overflow: TextOverflow.clip)
+                        Text('${details.constitution}',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                            ),
+                            overflow: TextOverflow.clip)
                       ],
                     ),
                     // SizedBox(height: 5,),
@@ -276,56 +310,62 @@ class _ClientsState extends State<Clients> {
               ),
             ),
             actions: <Widget>[
-              TextButton(child: Text('Ok',textAlign: TextAlign.center,),onPressed: () async{
-                print(clientEdit.name);
-                Navigator.pop(context);
-              },)
+              TextButton(
+                child: Text(
+                  'Ok',
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: () async {
+                  print(clientEdit.name);
+                  Navigator.pop(context);
+                },
+              )
             ],
           );
-        }
-    );
+        });
   }
-  
-  Future<bool> deleteClient(String key,String email) async{
+
+  Future<bool> deleteClient(String key, String email) async {
     try {
-      try{
-      dbf = firebaseDatabase.reference();
-      await dbf
-          .child(FsUserClients)
-          .child(firebaseUserId)
-          .child('clients')
-          .child(key)
-          .remove();
-      } catch(e){
-        print(e);
-        flutterToast(message: "Something went wrong");
-          }
       try {
         dbf = firebaseDatabase.reference();
-        await dbf.child("user_compliances")
+        await dbf
+            .child(FsUserClients)
+            .child(firebaseUserId)
+            .child('clients')
+            .child(key)
+            .remove();
+      } catch (e) {
+        print(e);
+        flutterToast(message: "Something went wrong");
+      }
+      try {
+        dbf = firebaseDatabase.reference();
+        await dbf
+            .child("user_compliances")
             .child(firebaseUserId)
             .child('compliances')
             .child(email.replaceAll('.', ','))
             .remove();
-      }catch(e){
+      } catch (e) {
         print(e);
         flutterToast(message: "Something went wrong try latter");
       }
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>ShowCaseWidget(
-            builder: Builder(
-              builder: (context)=>Dashboard(),
-            ),
-          )
-      ));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ShowCaseWidget(
+                    builder: Builder(
+                      builder: (context) => Dashboard(),
+                    ),
+                  )));
       recordDeletedToast();
       return true;
-    }catch(e){
+    } catch (e) {
       flutterToast(message: "Something went wrong try latter");
       print(e);
       return false;
     }
   }
 }
-

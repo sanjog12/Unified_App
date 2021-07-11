@@ -30,8 +30,10 @@ class _HistoryForFDState extends State<HistoryForFD> {
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<HistoryComplinceObject>>(
-                future: HistoriesDatabaseHelper().getHistoryOfFDRecord(widget.client),
-                builder: (BuildContext context, AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
+                future: HistoriesDatabaseHelper()
+                    .getHistoryOfFDRecord(widget.client),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
                       itemCount: snapshot.data.length,
@@ -87,7 +89,8 @@ class _HistoryForFDState extends State<HistoryForFD> {
     if (key != null) {
       FDRecordObject fdRecordObject = FDRecordObject();
 
-      fdRecordObject = await SingleHistoryDatabaseHelper().getFDHistoryDetails(widget.client, key);
+      fdRecordObject = await SingleHistoryDatabaseHelper()
+          .getFDHistoryDetails(widget.client, key);
       // print(fdRecordObject.nomineeName);
       // print(fdRecordObject.dateOfInvestment);
       // print(fdRecordObject.secondHolderName);

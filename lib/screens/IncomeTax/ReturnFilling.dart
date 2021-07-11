@@ -13,6 +13,7 @@ class IncomeTaxReturnFilling extends StatefulWidget {
   final Client client;
 
   const IncomeTaxReturnFilling({this.client});
+
   @override
   _IncomeTaxReturnFillingState createState() => _IncomeTaxReturnFillingState();
 }
@@ -23,32 +24,30 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
 
   IncomeTaxReturnFillingsObject incomeTaxReturnFillingsObject =
       IncomeTaxReturnFillingsObject();
-  
+
   String selectedDateDB = "Select Date";
   DateTime selectedDate = DateTime.now();
   File file;
-  String nameOfFile="Select File";
+  String nameOfFile = "Select File";
 
-  Future<Null> selectDateTime(BuildContext context) async{
+  Future<Null> selectDateTime(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(DateTime.now().year-1),
-        lastDate: DateTime(DateTime.now().year+1),
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
     );
-  
-    if(picked != null && picked != selectedDate){
+
+    if (picked != null && picked != selectedDate) {
       setState(() {
-        selectedDate= picked;
+        selectedDate = picked;
         selectedDateDB = DateFormat('dd-MM-yyyy').format(picked);
         incomeTaxReturnFillingsObject.dateOfFilledReturns = selectedDateDB;
         selectedDateDB = DateFormat('dd-MM-yy').format(picked);
       });
     }
   }
-  
-  
-  
+
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
@@ -115,13 +114,16 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Text('Add Attachment'),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Container(
                             decoration: roundedCornerButton,
                             height: 50,
                             child: TextButton(
-                              onPressed: () async{
-                                FilePickerResult filePickerResult = await FilePicker.platform.pickFiles();
+                              onPressed: () async {
+                                FilePickerResult filePickerResult =
+                                    await FilePicker.platform.pickFiles();
                                 file = File(filePickerResult.files.single.path);
                                 List<String> temp = file.path.split('/');
                                 print(temp.last);
@@ -129,7 +131,6 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                                   nameOfFile = temp.last;
                                 });
                               },
-          
                               child: Row(
                                 children: <Widget>[
                                   Icon(Icons.attach_file),
@@ -154,15 +155,20 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
                           },
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      helpButtonBelow(
+                          "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20Incometax"),
                       SizedBox(
                         height: 30.0,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 70,),
+                SizedBox(
+                  height: 70,
+                ),
               ],
             ),
           ),
@@ -179,7 +185,7 @@ class _IncomeTaxReturnFillingState extends State<IncomeTaxReturnFilling> {
 
         bool done = await QuarterlyReturnsRecordToDatabase()
             .addIncomeTaxReturnFillings(
-                incomeTaxReturnFillingsObject, widget.client,file);
+                incomeTaxReturnFillingsObject, widget.client, file);
 
         if (done) {
           flutterToast(message: "Successfully Recorded");

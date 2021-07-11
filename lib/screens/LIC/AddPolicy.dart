@@ -126,13 +126,13 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                       ],
                     ),
-                    
+
                     SizedBox(
                       height: 30.0,
                     ),
-                    
+
                     dropDownForFrequency(),
-  
+
                     SizedBox(
                       height: 30.0,
                     ),
@@ -166,10 +166,13 @@ class _LICPaymentState extends State<LICPayment> {
                               TextButton(
                                 onPressed: () async {
                                   DateTime selectedDate =
-                                      await DateChange.selectDateTime(context,10,10);
+                                      await DateChange.selectDateTime(
+                                          context, 10, 10);
                                   setState(() {
-                                    selectedDatePremiumDateDB = "${DateFormat('dd').format(selectedDate)} - of every "
-                                    + licPaymentIObject.frequency??"" + " month";
+                                    selectedDatePremiumDateDB =
+                                        "${DateFormat('dd').format(selectedDate)} - of every " +
+                                                licPaymentIObject.frequency ??
+                                            "" + " month";
                                     licPaymentIObject.premiumDueDate =
                                         selectedDatePremiumDateDB;
                                   });
@@ -205,7 +208,7 @@ class _LICPaymentState extends State<LICPayment> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -236,7 +239,8 @@ class _LICPaymentState extends State<LICPayment> {
                               TextButton(
                                 onPressed: () async {
                                   DateTime selectedDate =
-                                      await await DateChange.selectDateTime(context,10,10);
+                                      await await DateChange.selectDateTime(
+                                          context, 10, 10);
                                   setState(() {
                                     selectedDateCommencementDB =
                                         DateFormat('dd-MM-yyyy')
@@ -276,14 +280,16 @@ class _LICPaymentState extends State<LICPayment> {
                     SizedBox(
                       height: 30.0,
                     ),
-  
+
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Row(
                           children: [
                             Text("Maturity Date"),
-                            SizedBox(width: 5,),
+                            SizedBox(
+                              width: 5,
+                            ),
                             Text(
                               "*",
                               style: TextStyle(color: Colors.red, fontSize: 22),
@@ -303,14 +309,23 @@ class _LICPaymentState extends State<LICPayment> {
                                 '$selectedDateMaturityDateDB',
                               ),
                               TextButton(
-                                onPressed: () async{
-                                  DateTime selectedDate = await DateChange.selectDateTime(context,10,10);
-                                  if(licPaymentIObject.dateOfCommencement == DateFormat('dd-MM-yyyy').format(selectedDate)){
-                                    flutterToast(message: "Maturity date can't be same as commencement date. Please check again");
+                                onPressed: () async {
+                                  DateTime selectedDate =
+                                      await DateChange.selectDateTime(
+                                          context, 10, 10);
+                                  if (licPaymentIObject.dateOfCommencement ==
+                                      DateFormat('dd-MM-yyyy')
+                                          .format(selectedDate)) {
+                                    flutterToast(
+                                        message:
+                                            "Maturity date can't be same as commencement date. Please check again");
                                   }
                                   setState(() {
-                                    selectedDateMaturityDateDB = DateFormat('dd-MM-yyyy').format(selectedDate);
-                                    licPaymentIObject.maturityDate = selectedDateMaturityDateDB;
+                                    selectedDateMaturityDateDB =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(selectedDate);
+                                    licPaymentIObject.maturityDate =
+                                        selectedDateMaturityDateDB;
                                   });
                                 },
                                 child: Icon(Icons.date_range),
@@ -320,7 +335,7 @@ class _LICPaymentState extends State<LICPayment> {
                         ),
                       ],
                     ),
-                    
+
                     SizedBox(
                       height: 30,
                     ),
@@ -641,9 +656,11 @@ class _LICPaymentState extends State<LICPayment> {
           throw PlatformException(
               code: '1001', message: 'Please select Policy Commencement Date');
         }
-        if(licPaymentIObject.dateOfCommencement == selectedDateMaturityDateDB){
+        if (licPaymentIObject.dateOfCommencement ==
+            selectedDateMaturityDateDB) {
           throw PlatformException(
-              code: '1001', message:"Maturity date can't be same as commencement date");
+              code: '1001',
+              message: "Maturity date can't be same as commencement date");
         }
 
         if (_companyName != null) {

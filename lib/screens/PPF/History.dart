@@ -11,6 +11,7 @@ class HistoryForPPF extends StatefulWidget {
   final Client client;
 
   const HistoryForPPF({this.client});
+
   @override
   _HistoryForPPFState createState() => _HistoryForPPFState();
 }
@@ -46,8 +47,9 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
                             child: ListTile(
                               title: Text(snapshot.data[index].date),
                               subtitle: Text(snapshot.data[index].type),
-                              trailing:
-                                  Text(snapshot.data[index].amount != "0"?"INR ${snapshot.data[index].amount}":" "),
+                              trailing: Text(snapshot.data[index].amount != "0"
+                                  ? "INR ${snapshot.data[index].amount}"
+                                  : " "),
                             ),
                           ),
                         );
@@ -69,7 +71,6 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
                 },
               ),
             ),
-            
             SizedBox(height: 70),
           ],
         ),
@@ -94,7 +95,9 @@ class _HistoryForPPFState extends State<HistoryForPPF> {
               keyDB: key,
             ),
           ),
-        ).whenComplete((){setState(() {});});
+        ).whenComplete(() {
+          setState(() {});
+        });
       }
     }
   }

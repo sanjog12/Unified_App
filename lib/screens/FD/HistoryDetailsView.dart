@@ -40,22 +40,6 @@ class _FDPaymentRecordHistoryDetailsViewState
   DateTime selectedDateOfInvestment = DateTime.now();
   String selectedDateOfPayment;
 
-  Future<void> selectDateTime(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDateOfInvestment,
-        firstDate: DateTime(DateTime.now().year - 1),
-        lastDate: DateTime(DateTime.now().year));
-
-    if (picked != null && picked != selectedDateOfInvestment) {
-      setState(() {
-        selectedDateOfInvestment = picked;
-        selectedDateOfPayment = DateFormat('dd/MMMM/yyyy').format(picked);
-        _fdRecordObject.dateOfInvestment = selectedDateOfPayment;
-      });
-    }
-  }
-
   fireUser() async {
     firebaseUserId = FirebaseAuth.instance.currentUser.uid;
   }
@@ -237,8 +221,12 @@ class _FDPaymentRecordHistoryDetailsViewState
                                     '$selectedDateOfPayment',
                                   ),
                                   TextButton(
-                                    onPressed: () {
-                                      selectDateTime(context);
+                                    onPressed: () async{
+                                      selectedDateOfInvestment = await DateChange.selectDateTime(context, 1, 1);
+                                      setState(() {
+                                        selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDateOfInvestment);
+                                        _fdRecordObject.dateOfInvestment = selectedDateOfPayment;
+                                      });
                                     },
                                     child: Icon(Icons.date_range),
                                   ),
@@ -577,14 +565,13 @@ class _FDPaymentRecordHistoryDetailsViewState
       NotificationServices().deleteNotification(widget.fdRecordObject.id);
       Navigator.pop(context);
       Navigator.pop(context);
-
     } on PlatformException catch (e) {
       print(e.message);
       flutterToast(message: e.message);
     } on FirebaseException catch (e) {
       print(e);
       flutterToast(message: e.message);
-    } catch(e){
+    } catch (e) {
       print(e);
       flutterToast(message: "Something went wrong");
     }

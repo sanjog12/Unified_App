@@ -13,15 +13,13 @@ class ComplianceHistoryForEPF extends StatefulWidget {
   final Client client;
 
   const ComplianceHistoryForEPF({this.client});
+
   @override
   _ComplianceHistoryForEPFState createState() =>
       _ComplianceHistoryForEPFState();
 }
 
-
-
 class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +35,8 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
               child: FutureBuilder<List<HistoryComplinceObject>>(
                 future: HistoriesDatabaseHelper()
                     .getCompliancesHistoryOfEPF(widget.client),
-                builder: (BuildContext context, AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
                   if (snapshot.hasData) {
                     print(snapshot.data.first.date);
                     return ListView.builder(
@@ -45,10 +44,11 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
                       itemBuilder: (BuildContext context, int index) {
                         return TextButton(
                           onPressed: () {
-                            if(snapshot.data[index].type == 'Monthly Contribution') {
+                            if (snapshot.data[index].type ==
+                                'Monthly Contribution') {
                               _getHistoryDetails(snapshot.data[index].key);
-                            }
-                            else if(snapshot.data[index].type == 'Details of Contribution'){
+                            } else if (snapshot.data[index].type ==
+                                'Details of Contribution') {
                               _getHistoryDetails2(snapshot.data[index].key);
                             }
                           },
@@ -58,8 +58,9 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
                             child: ListTile(
                               title: Text(snapshot.data[index].date),
                               subtitle: Text(snapshot.data[index].type),
-                              trailing:
-                              snapshot.data[index].amount != ''?Text("INR ${snapshot.data[index].amount}"):Text(" "),
+                              trailing: snapshot.data[index].amount != ''
+                                  ? Text("INR ${snapshot.data[index].amount}")
+                                  : Text(" "),
                             ),
                           ),
                         );
@@ -81,7 +82,9 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
                 },
               ),
             ),
-            SizedBox(height: 70,),
+            SizedBox(
+              height: 70,
+            ),
           ],
         ),
       ),
@@ -106,7 +109,9 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
               keyDB: key,
             ),
           ),
-        ).whenComplete((){setState(() {});});
+        ).whenComplete(() {
+          setState(() {});
+        });
       }
     }
   }
@@ -114,12 +119,12 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
   Future<void> _getHistoryDetails2(String key) async {
     if (key != null) {
       EPFDetailsOfContributionObject epfDetailsOfContributionObject =
-      EPFDetailsOfContributionObject();
-    
+          EPFDetailsOfContributionObject();
+
       epfDetailsOfContributionObject = await SingleHistoryDatabaseHelper()
           .getEPFDetailedOfContributionHistoryDetails(widget.client, key);
-    
-      if ( epfDetailsOfContributionObject != null) {
+
+      if (epfDetailsOfContributionObject != null) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -129,9 +134,10 @@ class _ComplianceHistoryForEPFState extends State<ComplianceHistoryForEPF> {
               keyDB: key,
             ),
           ),
-        ).whenComplete((){setState(() {});});
+        ).whenComplete(() {
+          setState(() {});
+        });
       }
     }
   }
-  
 }

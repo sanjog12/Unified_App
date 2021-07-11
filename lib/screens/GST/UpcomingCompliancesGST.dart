@@ -10,141 +10,164 @@ import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart'
 import 'package:unified_reminder/styles/styles.dart';
 
 class UpcomingCompliancesGST extends StatefulWidget {
-	
-	final Client client;
+  final Client client;
 
   const UpcomingCompliancesGST({Key key, this.client}) : super(key: key);
-	
+
   @override
   _UpcomingCompliancesGSTState createState() => _UpcomingCompliancesGSTState();
 }
 
 class _UpcomingCompliancesGSTState extends State<UpcomingCompliancesGST> {
-	
-	List<UpComingComplianceObject> t1 = [];
-	List<DoneComplianceObject> t2 = [];
-	
-	
+  List<UpComingComplianceObject> t1 = [];
+  List<DoneComplianceObject> t2 = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-	    appBar: AppBar(
-		    title: Text('GST Upcoming Compliances'),
-		    actions: <Widget>[
-		    	helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
-		    ],
-	    ),
-	    
-	    body: Container(
-			    padding: EdgeInsets.all(24),
-			    child: Column(
-				    crossAxisAlignment: CrossAxisAlignment.stretch,
-				    children: <Widget>[
-				    	Expanded(
-						    child: FutureBuilder<List<UpComingComplianceObject>>(
-							    future: UpComingComplianceDatabaseHelper().getUpComingCompliancesForMonthOfGST(widget.client),
-							    builder: (BuildContext context, AsyncSnapshot<List<UpComingComplianceObject>> snapshot){
-							    	if(snapshot.hasData){
-							    		print("lenght of list : " + snapshot.data.length.toString());
-							    		if(snapshot.data.length == 0){
-							    			return ListView(
-											    children: <Widget>[
-											    	Container(
-													    decoration: roundedCornerButton,
-													    child: ListTile(
-														    title: Text("No Upcoming Compliances"),
-													    ),
-												    )
-											    ],
-										    );
-									    }
-							    		return ListView.builder(
-										    itemCount: snapshot.data.length,
-											  itemBuilder: (BuildContext context, int index){
-										    	DateTime t = DateTime.now();
-											    DateTime t2 = DateTime(t.year,t.month,int.parse(snapshot.data[index].date));
-											    String date = DateFormat('dd MMMM').format(t2);
-										    	return Column(
-										    	  children: [
-										    	    snapshot.data[index].notMissed?Container(
-												        decoration: roundedCornerButton,
-												        margin: EdgeInsets.symmetric(vertical: 10.0),
-												        child: ListTile(
-													        title: Text('${snapshot.data[index].label} due on $date'),
-													        onTap: (){
-													        	print(snapshot.data[index].key);
-													        	if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
-													        		Navigator.push(context, MaterialPageRoute(builder: (context)=> GSTReturnFilling(
-																				    client: widget.client,
-															        ),
-															        ));
-													        	}
-													        	else {
-													        		Navigator.push(context,
-																	        MaterialPageRoute(
-																			        builder: (context) =>
-																					        GSTPayment(upComingComplianceObject: snapshot.data[index],
-																						        client: widget.client,
-																					        )
-																	        )
-															        );
-													        	}
-													        	},
-												        ),
-											        ):Container(),
-												
-												      !snapshot.data[index].notMissed?Container(
-													      decoration: roundedCornerButton.copyWith(color: Colors.redAccent),
-													      margin: EdgeInsets.symmetric(vertical: 10.0),
-													      child: ListTile(
-														      title: Text('${snapshot.data[index].label} due on $date'),
-														      subtitle: Text("Missed Compliances"),
-														      onTap: (){
-															      print(snapshot.data[index].key);
-															      if(snapshot.data[index].key == 'GSTR_1_QUARTERLY'){
-																      Navigator.push(context, MaterialPageRoute(builder: (context)=> GSTReturnFilling(
-																	      client: widget.client,
-																      ),
-																      ));
-															      }
-															      else {
-																      Navigator.push(context,
-																		      MaterialPageRoute(
-																				      builder: (context) =>
-																						      GSTPayment(upComingComplianceObject: snapshot.data[index],
-																							      client: widget.client,
-																						      )
-																		      )
-																      );
-															      }
-														      },
-													      ),
-												      ):Container()
-										    	  ],
-										    	);
-											  },
-									    );
-								    }else{
-							    		return  Container(
-										    height: 30.0,
-										    width: 30.0,
-										    child: Center(
-											    child: CircularProgressIndicator(
-												    strokeWidth: 3.0,
-												    valueColor: AlwaysStoppedAnimation(
-													    Colors.white,
-												    ),
-											    ),
-										    ),
-									    );
-								    }
-							    },
-						    ),
-					    ),
-					    SizedBox(height: 70,),
-				    ],
-			    ),
-	    ),
+      appBar: AppBar(
+        title: Text('GST Upcoming Compliances'),
+        actions: <Widget>[
+          helpButtonActionBar(
+              "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20GST"),
+        ],
+      ),
+      body: Container(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: FutureBuilder<List<UpComingComplianceObject>>(
+                future: UpComingComplianceDatabaseHelper()
+                    .getUpComingCompliancesForMonthOfGST(widget.client),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<UpComingComplianceObject>> snapshot) {
+                  if (snapshot.hasData) {
+                    print(
+                        "lenght of list : " + snapshot.data.length.toString());
+                    if (snapshot.data.length == 0) {
+                      return ListView(
+                        children: <Widget>[
+                          Container(
+                            decoration: roundedCornerButton,
+                            child: ListTile(
+                              title: Text("No Upcoming Compliances"),
+                            ),
+                          )
+                        ],
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        DateTime t = DateTime.now();
+                        DateTime t2 = DateTime(t.year, t.month,
+                            int.parse(snapshot.data[index].date));
+                        String date = DateFormat('dd MMMM').format(t2);
+                        return Column(
+                          children: [
+                            snapshot.data[index].notMissed
+                                ? Container(
+                                    decoration: roundedCornerButton,
+                                    margin:
+                                        EdgeInsets.symmetric(vertical: 10.0),
+                                    child: ListTile(
+                                      title: Text(
+                                          '${snapshot.data[index].label} due on $date'),
+                                      onTap: () {
+                                        print(snapshot.data[index].key);
+                                        if (snapshot.data[index].key ==
+                                            'GSTR_1_QUARTERLY') {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    GSTReturnFilling(
+                                                  client: widget.client,
+                                                ),
+                                              ));
+                                        } else {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      GSTPayment(
+                                                        upComingComplianceObject:
+                                                            snapshot
+                                                                .data[index],
+                                                        client: widget.client,
+                                                      )));
+                                        }
+                                      },
+                                    ),
+                                  )
+                                : Container(),
+                            !snapshot.data[index].notMissed
+                                ? Container(
+                                    decoration: roundedCornerButton.copyWith(
+                                        color: Colors.redAccent),
+                                    margin:
+                                        EdgeInsets.symmetric(vertical: 10.0),
+                                    child: ListTile(
+                                      title: Text(
+                                          '${snapshot.data[index].label} due on $date'),
+                                      subtitle: Text("Missed Compliances"),
+                                      onTap: () {
+                                        print(snapshot.data[index].key);
+                                        if (snapshot.data[index].key ==
+                                            'GSTR_1_QUARTERLY') {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    GSTReturnFilling(
+                                                  client: widget.client,
+                                                ),
+                                              ));
+                                        } else {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      GSTPayment(
+                                                        upComingComplianceObject:
+                                                            snapshot
+                                                                .data[index],
+                                                        client: widget.client,
+                                                      )));
+                                        }
+                                      },
+                                    ),
+                                  )
+                                : Container()
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    return Container(
+                      height: 30.0,
+                      width: 30.0,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                          valueColor: AlwaysStoppedAnimation(
+                            Colors.white,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+            SizedBox(
+              height: 70,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

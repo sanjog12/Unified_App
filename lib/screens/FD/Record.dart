@@ -27,22 +27,6 @@ class _FDRecordState extends State<FDRecord> {
   String selectedDateOfPayment = 'Select Date';
   DateTime selectedDateOfInvestment = DateTime.now();
 
-  Future<void> selectDateTime(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDateOfInvestment,
-        firstDate: DateTime(DateTime.now().year - 1),
-        lastDate: DateTime(DateTime.now().year + 1));
-
-    if (picked != null && picked != selectedDateOfInvestment) {
-      setState(() {
-        selectedDateOfInvestment = picked;
-        selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(picked);
-        fdRecordObject.dateOfInvestment = selectedDateOfPayment;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData _theme = Theme.of(context);
@@ -147,8 +131,12 @@ class _FDRecordState extends State<FDRecord> {
                                 '$selectedDateOfPayment',
                               ),
                               TextButton(
-                                onPressed: () {
-                                  selectDateTime(context);
+                                onPressed: () async {
+                                  selectedDateOfInvestment = await DateChange.selectDateTime(context, 1, 1);
+                                  setState(() {
+                                    selectedDateOfPayment = DateFormat('dd-MM-yyyy').format(selectedDateOfInvestment);
+                                    fdRecordObject.dateOfInvestment = selectedDateOfPayment;
+                                  });
                                 },
                                 child: Icon(Icons.date_range),
                               ),
@@ -210,9 +198,8 @@ class _FDRecordState extends State<FDRecord> {
                         ),
                         TextFormField(
                             decoration: buildCustomInput(
-                              hintText: "Term Of Investment",
-                              suffixText: "Months"
-                            ),
+                                hintText: "Term Of Investment",
+                                suffixText: "Months"),
                             onChanged: (value) {
                               fdRecordObject.termOfInvestment = value;
                               entered = true;
@@ -291,7 +278,9 @@ class _FDRecordState extends State<FDRecord> {
         setState(() {
           buttonLoading = true;
         });
-        fdRecordObject.maturityDate = DateChange.addMonthToDate(fdRecordObject.dateOfInvestment, int.parse(fdRecordObject.termOfInvestment));
+        fdRecordObject.maturityDate = DateChange.addMonthToDate(
+            fdRecordObject.dateOfInvestment,
+            int.parse(fdRecordObject.termOfInvestment));
         await PaymentRecordToDataBase()
             .addFDRecord(fdRecordObject, widget.client)
             .then((value) {

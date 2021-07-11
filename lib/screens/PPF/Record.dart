@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/Client.dart';
@@ -14,6 +15,7 @@ class PPFRecord extends StatefulWidget {
   final Client client;
 
   const PPFRecord({this.client});
+
   @override
   _PPFRecordState createState() => _PPFRecordState();
 }
@@ -24,12 +26,8 @@ class _PPFRecordState extends State<PPFRecord> {
 
   PPFRecordObject ppfRecordObject = PPFRecordObject();
 
-
-
   String _selectedDateOfPayment = 'Select date';
   DateTime selectedDateOfPayment = DateTime.now();
-  
-  
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,8 @@ class _PPFRecordState extends State<PPFRecord> {
         appBar: AppBar(
           title: Text("PPF Record"),
           actions: [
-            helpButtonActionBar("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20PF")
+            helpButtonActionBar(
+                "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20PF")
           ],
         ),
         body: Container(
@@ -71,8 +70,8 @@ class _PPFRecordState extends State<PPFRecord> {
                             height: 10.0,
                           ),
                           TextFormField(
-                            decoration: buildCustomInput(hintText: "Name Of Institution"),
-                            
+                            decoration: buildCustomInput(
+                                hintText: "Name Of Institution"),
                             onSaved: (value) =>
                                 ppfRecordObject.nameOfInstitution = value,
                           ),
@@ -107,9 +106,9 @@ class _PPFRecordState extends State<PPFRecord> {
                             height: 10.0,
                           ),
                           TextFormField(
-                            decoration:
-                                buildCustomInput(hintText: "Amount of Payment", prefixText: "\u{20B9}"),
-                            
+                            decoration: buildCustomInput(
+                                hintText: "Amount of Payment",
+                                prefixText: "\u{20B9}"),
                             onSaved: (value) => ppfRecordObject.amount = value,
                           ),
                         ],
@@ -134,11 +133,16 @@ class _PPFRecordState extends State<PPFRecord> {
                                   '$_selectedDateOfPayment',
                                 ),
                                 TextButton(
-                                  onPressed: () async{
-                                    selectedDateOfPayment = await DateChange.selectDateTime(context, 1, 1);
+                                  onPressed: () async {
+                                    selectedDateOfPayment =
+                                        await DateChange.selectDateTime(
+                                            context, 1, 1);
                                     setState(() {
-                                      _selectedDateOfPayment = DateFormat('dd/MM/yyyy').format(selectedDateOfPayment);
-                                      ppfRecordObject.dateOfInvestment = _selectedDateOfPayment;
+                                      _selectedDateOfPayment =
+                                          DateFormat('dd/MM/yyyy')
+                                              .format(selectedDateOfPayment);
+                                      ppfRecordObject.dateOfInvestment =
+                                          _selectedDateOfPayment;
                                     });
                                   },
                                   child: Icon(Icons.date_range),
@@ -161,16 +165,20 @@ class _PPFRecordState extends State<PPFRecord> {
                           },
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      helpButtonBelow("https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20PF"),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      helpButtonBelow(
+                          "https://api.whatsapp.com/send?phone=919331333692&text=Hi%20Need%20help%20regarding%20PF"),
                       SizedBox(
                         height: 30.0,
                       ),
                     ],
                   ),
                 ),
-  
-                SizedBox(height: 70,),
+                SizedBox(
+                  height: 70,
+                ),
               ],
             ),
           ),
