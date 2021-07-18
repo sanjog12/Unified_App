@@ -69,7 +69,7 @@ class _ApplicableCompliancesState extends State<ApplicableCompliances> {
       await Future.delayed(Duration(milliseconds: 200));
       for (int i = 0; i < listCompliances.length; i++) {
         _myListKey.currentState.insertItem(i);
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(Duration(milliseconds: 100));
       }
     });
     print(widget.client.toString());
