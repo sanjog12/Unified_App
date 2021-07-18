@@ -4,12 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
-import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
-import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
 import 'package:unified_reminder/utils/validators.dart';
