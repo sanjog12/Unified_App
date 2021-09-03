@@ -9,6 +9,7 @@ import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/Compliance.dart';
 import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
+import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/services/GeneralServices/DocumentPaths.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
 import 'package:unified_reminder/services/PaymentRecordToDatatBase.dart';
@@ -591,17 +592,19 @@ class _AddSingleClientState extends State<AddSingleClient> {
                               ),
                             )
                           : widget.clientList != null
-                              ? (widget.clientList.length >= 5
+                              ? ((widget.clientList.length >= 2 && userBasic.userType == 1 )
                                   ? Text("Pay and Save")
                                   : Text("Save"))
                               : Text("Update"),
                       onPressed: () async {
                         if (widget.client == null) {
                           _client.email = email;
-                          if (widget.clientList.length >= 5)
+                          if (widget.clientList.length >= 2 && userBasic.userType == 1) {
                             await openCheckout();
-                          else
+                          }
+                          else {
                             saveClients(_client, _compliances);
+                          }
                         } else {
                           if (_clientsFormKey.currentState.validate()) {
                             setState(() {
@@ -637,6 +640,7 @@ class _AddSingleClientState extends State<AddSingleClient> {
         this.setState(() {
           buttonLoading = true;
         });
+
         bool savedClients = await fireStoreService.addClient(
             clients, compliances, successFulCode);
 

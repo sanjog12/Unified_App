@@ -12,7 +12,7 @@ import 'package:unified_reminder/models/MutualFundDetailObject.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/history/HistoryMF.dart';
 import 'package:unified_reminder/services/MutualFundHelper.dart';
-import 'package:unified_reminder/services/NotificationWork.dart';
+import 'package:unified_reminder/services/GeneralServices/NotificationWork.dart';
 import 'package:unified_reminder/services/SingleHistoryDatabaseHelper.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';

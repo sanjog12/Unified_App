@@ -25,7 +25,7 @@ import 'package:unified_reminder/models/payment/PPFRecordObject.dart';
 import 'package:unified_reminder/models/payment/ROCPaymentObject.dart';
 import 'package:unified_reminder/models/payment/TDSPaymentObject.dart';
 import 'package:unified_reminder/models/quarterlyReturns/EPFDetailsOfContributionObject.dart';
-import 'package:unified_reminder/services/NotificationWork.dart';
+import 'package:unified_reminder/services/GeneralServices/NotificationWork.dart';
 import 'package:unified_reminder/services/UpComingComplianceDatabaseHelper.dart';
 import 'package:unified_reminder/utils/DateRelated.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';

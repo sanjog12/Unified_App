@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
+import 'package:unified_reminder/screens/NotificationPage.dart';
 import 'package:unified_reminder/models/UpComingComplianceObject.dart';
 import 'package:unified_reminder/models/Client.dart';
 import 'package:unified_reminder/models/userbasic.dart';
@@ -194,6 +195,17 @@ class _DashboardState extends State<Dashboard> {
           style: _theme.textTheme.headline6
               .merge(TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
         ),
+        // actions: [
+        //   TextButton(
+        //       onPressed: () {
+        //         print("pressed");
+        //         Navigator.push(
+        //             context,
+        //             MaterialPageRoute(
+        //                 builder: (context) => NotificationPage()));
+        //       },
+        //       child: Icon(Icons.notifications))
+        // ],
       ),
       floatingActionButton: Showcase(
         key: first,

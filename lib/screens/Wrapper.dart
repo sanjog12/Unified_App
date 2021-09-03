@@ -1,10 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:unified_reminder/LoadingScreen.dart';
+import 'package:unified_reminder/models/userbasic.dart';
 import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/LoginPage.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/NotificationWork.dart';
+import 'package:unified_reminder/services/GeneralServices/NotificationWork.dart';
+
+
+UserBasic userBasic;
 
 class Wrapper extends StatefulWidget {
   @override
@@ -38,9 +43,12 @@ class _WrapperState extends State<Wrapper> {
         : StreamBuilder(
             stream: firestoreService.getUserDetails(firebaseUserId),
             builder: (BuildContext context, snapshot) {
-              NotificationServices.firebaseMessagingFCM();
               if (snapshot.hasData) {
-                print("hash data");
+                userBasic = UserBasic(
+                  fullName: snapshot.data['fullname']??" ",
+                  phoneNumber: snapshot.data['phone']??" ",
+                  userType: snapshot.data['progress']??1,
+                );
                 return ShowCaseWidget(
                   builder: Builder(
                     builder: (context) => Dashboard(),
@@ -49,7 +57,7 @@ class _WrapperState extends State<Wrapper> {
               }
               return ShowCaseWidget(
                 builder: Builder(
-                  builder: (context) => Dashboard(),
+                  builder: (context) => LoadingScreen(),
                 ),
               );
             },

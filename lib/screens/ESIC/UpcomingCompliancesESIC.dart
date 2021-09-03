@@ -71,8 +71,7 @@ class _UpcomingCompliancesESIState extends State<UpcomingCompliancesESI> {
                                           '${snapshot.data[index].label} due on $date'),
                                       onTap: () {
                                         print(snapshot.data[index].key);
-                                        if (snapshot.data[index].key !=
-                                            'Monthly_payment') {
+                                        if (snapshot.data[index].key != 'Monthly_payment') {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(

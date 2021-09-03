@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:random_string/random_string.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:unified_reminder/models/userauth.dart';
 import 'package:unified_reminder/models/userbasic.dart';
@@ -7,7 +8,7 @@ import 'package:unified_reminder/screens/Dashboard.dart';
 import 'package:unified_reminder/screens/RegisterPage.dart';
 import 'package:unified_reminder/services/AuthRelated/AuthService.dart';
 import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
-import 'package:unified_reminder/services/NotificationWork.dart';
+import 'package:unified_reminder/services/GeneralServices/NotificationWork.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:unified_reminder/styles/styles.dart';
 import 'package:unified_reminder/utils/ToastMessages.dart';
@@ -268,8 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                               });
                               UserBasic userBasic = await _auth.googleLogIn();
                               if (userBasic != null) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text(
                                     "Login Successful, Welcome ${userBasic.fullName ?? "User"}",
                                     textAlign: TextAlign.center,
@@ -326,7 +326,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ShowCaseWidget(
-                                                builder: Builder(
+                                            builder: Builder(
                                               builder: (context) =>
                                                   RegisterPage(),
                                             ))));
@@ -425,7 +425,7 @@ class _LoginPageState extends State<LoginPage> {
         });
 
         UserBasic userBasic = await _auth.loginUser(authDetails, context);
-        if (userBasic != null) {
+        if (userBasic != null && userBasic.email != "not verified") {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
               "Login Successful, Welcome ${userBasic.fullName ?? "User"}",
@@ -444,7 +444,25 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ));
-        } else {}
+        } else if(userBasic.email == "not verified"){
+          int random =randomBetween(1, 3);
+          if(random ==1){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                "We have sent a verification link to your registered Email id please verify yourself before you again login",
+                textAlign: TextAlign.center,
+              ),
+              duration: Duration(seconds: 7),
+            ));
+          }
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "Please Verify your email first",
+              textAlign: TextAlign.center,
+            ),
+            duration: Duration(seconds: 7),
+          ));
+        }
       }
     } on PlatformException catch (e) {
       flutterToast(message: e.message);

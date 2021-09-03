@@ -43,8 +43,6 @@ class _HistoryGSTState extends State<HistoryGST> {
                 builder: (BuildContext context,
                     AsyncSnapshot<List<HistoryComplinceObject>> snapshot) {
                   if (snapshot.hasData) {
-                    print("length of snapshot " +
-                        snapshot.data.length.toString());
                     if (snapshot.data.length != 0) {
                       return ListView.builder(
                           itemCount: snapshot.data.length,
@@ -66,10 +64,8 @@ class _HistoryGSTState extends State<HistoryGST> {
                                     Text(snapshot.data[index].type != null
                                         ? snapshot.data[index].type
                                         : ' '),
-                                    snapshot.data[index].type ==
-                                            'GSTR_1_QUARTERLY'
-                                        ? Text(
-                                            "Tap to see challan if any",
+                                    snapshot.data[index].type == 'GSTR_1_QUARTERLY'
+                                        ? Text("Tap to see challan if any",
                                             style: TextStyle(
                                                 fontStyle: FontStyle.italic,
                                                 fontSize: 10),
@@ -77,27 +73,19 @@ class _HistoryGSTState extends State<HistoryGST> {
                                         : Text(""),
                                   ],
                                 ),
-                                trailing: snapshot.data[index].type ==
-                                        'GSTR_1_QUARTERLY'
+                                trailing: snapshot.data[index].type == 'GSTR_1_QUARTERLY'
                                     ? Text('')
-                                    : Text(snapshot.data[index].amount != null
-                                        ? "\u{20B9} " +
-                                            snapshot.data[index].amount
-                                        : ' '),
+                                    : Text(snapshot.data[index].amount != "" ? "\u{20B9} " + snapshot.data[index].amount : ' '),
                                 onTap: () {
-                                  if (snapshot.data[index].type ==
-                                      'GSTR_1_QUARTERLY') {
+                                  if (snapshot.data[index].type == 'GSTR_1_QUARTERLY') {
                                     if (snapshot.data[index].amount != 'null') {
-                                      Navigator.push(
-                                          context,
+                                      Navigator.push(context,
                                           MaterialPageRoute(
                                               builder: (context) => PDFViewer(
-                                                    pdf: snapshot
-                                                        .data[index].amount,
+                                                    pdf: snapshot.data[index].amount,
                                                   )));
                                     } else {
-                                      flutterToast(
-                                          message: "No File Were Uploaded");
+                                      flutterToast(message: "No File Were Uploaded");
                                     }
                                   } else {
                                     detailedView(snapshot.data[index].key);

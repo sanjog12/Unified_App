@@ -6,12 +6,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:unified_reminder/Bloc/AdsProvider.dart';
 import 'package:unified_reminder/Bloc/DashboardProvider.dart';
 import 'package:unified_reminder/screens/Wrapper.dart';
 import 'package:unified_reminder/services/FirestoreService.dart';
-import 'package:unified_reminder/services/NotificationWork.dart';
+import 'package:unified_reminder/services/GeneralServices/NotificationWork.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 import 'package:unified_reminder/styles/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -83,7 +85,9 @@ class _BootstrapperState extends State<Bootstrapper>{
       //   app: Firebase.app(),
       //   databaseURL: '10.0.2.2:9000'
       // );
-
+      if(FirebaseAuth.instance.currentUser != null) {
+        NotificationServices.firebaseMessagingFCM();
+      }
 
       AwesomeNotifications().initialize(
           'resource://drawable/ic_stat_name',
@@ -117,6 +121,15 @@ class _BootstrapperState extends State<Bootstrapper>{
   void initState() {
     initializeFlutterFire();
     AwesomeNotifications().actionStream.forEach((element) {print(element.buttonKeyPressed);});
+    List<String> list = [];
+    list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + "Test message" );
+    list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + "Test message" );
+    list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + "Test message" );
+    list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + "Test message" );
+    list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + "Test message" );
+    list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + "Test message" );
+    SharedPrefs.setListStringPreference('notification', list);
+    print("added in the list");
     super.initState();
   }
   

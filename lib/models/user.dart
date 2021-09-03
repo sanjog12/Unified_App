@@ -4,7 +4,7 @@ class User extends ChangeNotifier {
   final String email;
   final String name;
   final String constitution;
-  final String coompanyName;
+  final String companyName;
   final String natureOfBusiness;
   final String mobileNumber;
   final bool isVerified;
@@ -15,6 +15,6 @@ class User extends ChangeNotifier {
       this.constitution,
       this.natureOfBusiness,
       this.mobileNumber,
-      this.coompanyName,
+      this.companyName,
       this.isVerified});
 }

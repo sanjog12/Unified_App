@@ -211,9 +211,7 @@ class StateGSTRPayment extends State<GSTPayment> {
                           ),
                           TextButton(
                             onPressed: () async {
-                              selectedDateOfPayment =
-                                  await DateChange.selectDateTime(
-                                      context, 2, 2);
+                              selectedDateOfPayment = await DateChange.selectDateTime(context, 2, 2);
                               setState(() {
                                 gstPaymentObject.dueDate =
                                     DateFormat('dd-MM-yyyy')
@@ -306,8 +304,7 @@ class StateGSTRPayment extends State<GSTPayment> {
           loadingSave = true;
         });
         print('3');
-        await PaymentRecordToDataBase()
-            .addGSTPayment(gstPaymentObject, widget.client, file);
+        await PaymentRecordToDataBase().addGSTPayment(gstPaymentObject, widget.client, file);
         Navigator.pop(context);
         flutterToast(message: "Date has Been Recorded");
       } else {

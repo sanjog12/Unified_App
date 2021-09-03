@@ -77,13 +77,16 @@ class AuthService {
       UserCredential newUser = await _auth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
       DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
       await newUser.user.sendEmailVerification();
+
       await Future.delayed(Duration(seconds: 1));
       _firestore.collection(FsUsersPath).doc(newUser.user.uid).set({
         "fullname": user.fullName,
         "phone": user.phoneNumber,
         "password": user.password,
         "progress": 1,
+        "type":"normal"
       });
       
       UserCredential loginUser = await _auth.signInWithEmailAndPassword(
@@ -140,10 +143,25 @@ class AuthService {
       "fullname": loginUser.user.displayName,
       "phone": loginUser.user.phoneNumber,
       "password": "gooogle user",
-      "progress": 1,
+      "progress": 1
     });
-    
-    SharedPrefs.setStringPreference("uid", loginUser.user.uid);
+
+    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    dbf = firebaseDatabase.reference();
+    AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+    await firebaseMessaging.getToken().then(( String value){
+      String uid = FirebaseAuth.instance.currentUser.uid?? null;
+      if(uid != "null") {
+        dbf = firebaseDatabase.reference();
+        dbf
+            .child("FCMTokens")
+            .child(uid)
+            .child("-${androidDeviceInfo.androidId.substring(0, 10)}")
+            .set(value);
+      }
+    });
+
     return UserBasic(
       email: loginUser.user.email,
       uid: loginUser.user.uid,
@@ -167,16 +185,21 @@ class AuthService {
 
   Future<UserBasic> loginUser(UserAuth authDetails, BuildContext context) async {
     try {
-      UserCredential user = await _auth.signInWithEmailAndPassword(
-          email: authDetails.email, password: authDetails.password);
+      UserCredential user = await _auth.signInWithEmailAndPassword( email: authDetails.email, password: authDetails.password);
       bool temp = user.user.emailVerified;
-      
-      // user.user.sendEmailVerification();
-      
-      return UserBasic(
-        email: user.user.email,
-        uid: user.user.uid,
-      );
+
+      if(temp) {
+        return UserBasic(
+          email: user.user.email,
+          uid: user.user.uid,
+        );
+      }else{
+        _auth.signOut();
+        return UserBasic(
+          email: "not verified",
+          uid: "not verified"
+        );
+      }
     } on FirebaseAuthException catch(e){
       flutterToast(message: e.message);
     } on PlatformException catch (e) {
@@ -208,7 +231,7 @@ class AuthService {
           "fullname": loginUser.user.displayName,
           "phone": loginUser.user.phoneNumber,
           "password": "gooogle user",
-          "progress": 1,
+          "progress": 1
         });
       }
       

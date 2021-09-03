@@ -509,8 +509,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
         print("1");
 
-        await ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(
+        await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.grey,
               content: Text(
                 "An verification link will be sent to your provided email ",
@@ -565,10 +564,8 @@ class _RegisterPageState extends State<RegisterPage> {
       });
       AuthService _authService = AuthService();
 
-      _userBasic.userType = 'bus';
 
-      UserBasic googleUser =
-          await _authService.googleSignUp(_userBasic.userType);
+      UserBasic googleUser = await _authService.googleSignUp(_userBasic.userType);
       this.setState(() {
         googleSignInButton = false;
       });

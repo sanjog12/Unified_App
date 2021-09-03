@@ -5,8 +5,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'package:unified_reminder/main.dart';
+import 'package:unified_reminder/services/GeneralServices/SharedPrefs.dart';
 
 class NotificationServices {
   static firebaseMessagingFCM() async {
@@ -69,7 +71,10 @@ class NotificationServices {
           .set(element);
     });
 
-    FirebaseMessaging.onMessage.forEach((element) {
+    FirebaseMessaging.onMessage.first.then((element) async{
+      List<String> list = await SharedPrefs.getListStringPreference('notification');
+      list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + element.data['body'].toString() );
+      SharedPrefs.setListStringPreference('notification', list);
       return showDialog(
           barrierColor: Colors.black.withOpacity(0.5),
           context: navigatorKey.currentContext,
@@ -145,9 +150,12 @@ class NotificationServices {
 
 Future<void> backGroundNotificationHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  SharedPrefs.setStringPreference('newNotification', 'true');
+  List<String> list = await SharedPrefs.getListStringPreference('notification');
+  // list.add( DateFormat.yMd().add_jm().format(DateTime.now()) + ',' + message.data['body'].toString() );
+  // SharedPrefs.setListStringPreference('notification', list);
   AwesomeNotifications().createNotification(
     content: NotificationContent(
-      
       id: int.parse(randomNumeric(3)),
       channelKey: 'grouped',
       title: message.data['title'],

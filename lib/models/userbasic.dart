@@ -4,9 +4,8 @@ class UserBasic {
   String fullName;
   String uid;
   String phoneNumber;
-  String userType;
-//  String userConstitution;
-//  String companyName;
+  int userType;
+
   UserBasic({
     this.email,
     this.uid,
