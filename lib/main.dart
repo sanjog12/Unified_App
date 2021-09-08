@@ -68,23 +68,6 @@ class _BootstrapperState extends State<Bootstrapper>{
   // Define an async function to initialize FlutterFire
   void initializeFlutterFire() async {
     try {
-      // FirebaseDatabase.instance.setPersistenceCacheSizeBytes(cacheSize)
-      // await MobileAds.instance.initialize();
-
-      // FirebaseFirestore.instance.settings = const Settings(
-      //   host: '10.0.2.2:8060',
-      //   sslEnabled: false,
-      //   persistenceEnabled: false,
-      // );
-      //
-      // await FirebaseStorage.instance.useEmulator(host: 'localhost', port: 9099);
-      //
-      // await FirebaseAuth.instance.useEmulator("localhost:9099");
-      //
-      // FirebaseDatabase(
-      //   app: Firebase.app(),
-      //   databaseURL: '10.0.2.2:9000'
-      // );
       if(FirebaseAuth.instance.currentUser != null) {
         NotificationServices.firebaseMessagingFCM();
       }
